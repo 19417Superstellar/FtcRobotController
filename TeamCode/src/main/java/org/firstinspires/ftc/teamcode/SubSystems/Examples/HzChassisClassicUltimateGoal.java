@@ -52,10 +52,10 @@ public class HzChassisClassicUltimateGoal {
      */
     public HzChassisClassicUltimateGoal(HardwareMap hardwareMap) {
         //Map DCMotors from configuration
-        frontLeft = hardwareMap.dcMotor.get("flmotor");
-        frontRight = hardwareMap.dcMotor.get("frmotor");
-        backLeft = hardwareMap.dcMotor.get("blmotor");
-        backRight = hardwareMap.dcMotor.get("brmotor");
+        //frontLeft = hardwareMap.dcMotor.get("flmotor");
+        //frontRight = hardwareMap.dcMotor.get("frmotor");
+        //backLeft = hardwareMap.dcMotor.get("blmotor");
+        //backRight = hardwareMap.dcMotor.get("brmotor");
 
         //Configure Robot to dimensions and modified for wheel type
         configureRobot();

@@ -192,9 +192,9 @@ public class HzVuforiaUltimateGoal {
          * Retrieve the camera we are to use.
          */
         if (activeWebcam == ACTIVE_WEBCAM.LEFT){
-            webcamName = hardwareMap.get(WebcamName.class, "Webcam_l");
+            //webcamName = hardwareMap.get(WebcamName.class, "Webcam_l");
         } else {
-            webcamName = hardwareMap.get(WebcamName.class, "Webcam_r");
+            //webcamName = hardwareMap.get(WebcamName.class, "Webcam_r");
         }
 
         /*

@@ -42,8 +42,8 @@ public class HzLauncherUltimateGoal {
 
     public HzLauncherUltimateGoal(HardwareMap hardwareMap) {
         //Parameter Initialization
-        launcherRingPlungerServo = hardwareMap.servo.get("launch_servo");
-        launcherFlyWheelMotor = hardwareMap.get(DcMotorEx.class, "launch_backenc");
+        //launcherRingPlungerServo = hardwareMap.servo.get("launch_servo");
+        //launcherFlyWheelMotor = hardwareMap.get(DcMotorEx.class, "launch_backenc");
 
         launcherFlyWheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 

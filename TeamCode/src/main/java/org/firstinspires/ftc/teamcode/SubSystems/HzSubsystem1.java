@@ -47,8 +47,8 @@ public class HzSubsystem1 {
     public SUBSYSTEM1_BUTTON_STATE subsystem1ButtonState;
 
     public HzSubsystem1(HardwareMap hardwareMap) {
-        subsystem1Motor = hardwareMap.dcMotor.get("intake_rightenc");
-        subsystem1Servo = hardwareMap.servo.get("intake_release_servo");
+        subsystem1Motor = hardwareMap.dcMotor.get("frmotor");
+        subsystem1Servo = hardwareMap.servo.get("servotest");
     }
 
     public void initSubsystem1(){

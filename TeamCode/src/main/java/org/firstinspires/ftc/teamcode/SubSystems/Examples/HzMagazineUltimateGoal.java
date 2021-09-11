@@ -44,9 +44,9 @@ public class HzMagazineUltimateGoal {
     }
 
     public HzMagazineUltimateGoal(HardwareMap hardwareMap) {
-        magazineServo = hardwareMap.crservo.get("mgz_servo");
-            magazineLaunchTouchSensor = hardwareMap.touchSensor.get("mgz_launch_ts");
-        magazineCollectTouchSensor = hardwareMap.touchSensor.get("mgz_collect_ts");
+       // magazineServo = hardwareMap.crservo.get("mgz_servo");
+       // magazineLaunchTouchSensor = hardwareMap.touchSensor.get("mgz_launch_ts");
+       // magazineCollectTouchSensor = hardwareMap.touchSensor.get("mgz_collect_ts");
 
     }
 

@@ -67,8 +67,8 @@ public class HzArmUltimateGoal {
     public GRIP_SERVO_STATE gripServoState = GRIP_SERVO_STATE.OPENED ;
 
     public HzArmUltimateGoal(HardwareMap hardwareMap) {
-        armMotor = hardwareMap.get(DcMotorEx.class, "arm_rotate");
-        armGripServo = hardwareMap.servo.get("arm_grip");
+        //armMotor = hardwareMap.get(DcMotorEx.class, "arm_rotate");
+        //armGripServo = hardwareMap.servo.get("arm_grip");
     }
 
     LinearOpMode opModepassed;

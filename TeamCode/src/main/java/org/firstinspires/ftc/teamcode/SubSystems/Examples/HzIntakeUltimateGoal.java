@@ -54,8 +54,8 @@ public class HzIntakeUltimateGoal {
 
 
     public HzIntakeUltimateGoal(HardwareMap hardwareMap) {
-        intakeMotor = hardwareMap.dcMotor.get("intake_rightenc");
-        intakeRelease = hardwareMap.servo.get("intake_release_servo");
+        //intakeMotor = hardwareMap.dcMotor.get("intake_rightenc");
+        //intakeRelease = hardwareMap.servo.get("intake_release_servo");
     }
 
     public void initIntake(){

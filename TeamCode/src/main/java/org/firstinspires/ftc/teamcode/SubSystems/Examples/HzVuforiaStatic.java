@@ -185,9 +185,9 @@ public class HzVuforiaStatic {
          */
         //if (HzGameField.playingAlliance == HzGameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
         if (activeWebcam == HzVuforiaStatic.ACTIVE_WEBCAM.LEFT){
-            webcamName = hardwareMap.get(WebcamName.class, "Webcam_l");
+            //webcamName = hardwareMap.get(WebcamName.class, "Webcam_l");
         } else {
-            webcamName = hardwareMap.get(WebcamName.class, "Webcam_r");
+            //webcamName = hardwareMap.get(WebcamName.class, "Webcam_r");
         }
 
         /*
