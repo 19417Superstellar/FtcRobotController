@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestingOpModes.Examples;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.TestingOpModes.HzGamepadTestController;
  *
  */
 @TeleOp(name = "Test Subsystem1 Template", group = "Test")
+@Disabled
 public class Test_Subsystem1_Template extends LinearOpMode {
 
     public boolean HzDEBUG_FLAG = true;
