@@ -5,6 +5,7 @@ import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -33,6 +34,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.HzVision;
  * Camera on either side is used using Vuforia to determine target for Wobble Goal<BR>
  */
 @Autonomous(name = "Hazmat Platform Autonomous Template", group = "00-Autonomous" , preselectTeleOp = "Hazmat TeleOp")
+@Disabled
 public class HzAutonomous_Template extends LinearOpMode {
 
     public boolean HzDEBUG_FLAG = true;
