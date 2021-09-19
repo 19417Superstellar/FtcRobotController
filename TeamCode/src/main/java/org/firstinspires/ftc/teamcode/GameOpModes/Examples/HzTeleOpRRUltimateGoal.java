@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.GameOpModes.Examples;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Examples.HzMagazineUltimateGoal
  *
  */
 @TeleOp(name = "Hazmat TeleOp RR Ultimate Goal", group = "00-Teleop")
+@Disabled
 public class HzTeleOpRRUltimateGoal extends LinearOpMode {
 
     public boolean HzDEBUG_FLAG = true;
