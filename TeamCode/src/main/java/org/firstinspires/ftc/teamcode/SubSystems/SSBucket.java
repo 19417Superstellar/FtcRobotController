@@ -56,32 +56,33 @@ public class SSBucket {
      * set bucket position to collect
      */
     public void setToCollect() {
-        if (bucketServo.getPosition() != collectPosition) {
+        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION) {
             bucketServo.setPosition(collectPosition);
+
+            bucketServoState = BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION;
         }
 
-        bucketServoState = BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION;
     }
     /**
      * set bucket position to transport
      */
     public void setToTransport(){
-        if (bucketServo.getPosition() != transportPosition) {
+        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
             bucketServo.setPosition(transportPosition);
-        }
 
-        bucketServoState = BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION;
+            bucketServoState = BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION;
+        }
     }
 
     /**
      * set bucket position to drop
      */
     public void setToDrop(){
-        if (bucketServo.getPosition() != transportPosition) {
+        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_DROP_POSITION) {
             bucketServo.setPosition(transportPosition);
-        }
 
-        bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP_POSITION;
+            bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP_POSITION;
+        }
     }
     /**
      * returns servo state
