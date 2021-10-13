@@ -34,9 +34,9 @@ public class SSIntake {
          INTAKE_MOTOR_REVERSING
     }
 
-    public SSINTAKE_MOTOR_STATE intakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING;
+    public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING;
 
-    public double intakeMotorPower = 0.95;//0.9;
+    public double SSIntakeMotorPower = 0.95;//0.9;
 
     public enum SSINTAKE_BUTTON_STATE {
         ON,
@@ -55,56 +55,46 @@ public class SSIntake {
     /**
      * runIntakeMotor checks if the intake is not running and runs the intake
      */
-    /*public void startForwardSubsystem1Motor() {
-        if(subsystem1MotorState != SUBSYSTEM1_MOTOR_STATE.INTAKE_MOTOR_STOPPED) {
-            runSubsystem1Motor(DcMotor.Direction.REVERSE, intakeMotorPower1);
-            subsystem1MotorState = SUBSYSTEM1_MOTOR_STATE.STATE1;
+    public void startForwardSSIntakeMotor() {
+        if(SSIntakeMotorState == SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_STOPPED) {
+            runSSIntakeMotor(DcMotor.Direction.FORWARD,SSIntakeMotorPower);
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING;
         }
-    }*/
+    }
 
     /**
      * stopIntakeMotor checks if the intake has stopped and if its not, it sets the intake power to 0
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
-    /*public void stopSubsystem1Motor() {
-        if(subsystem1MotorState != SUBSYSTEM1_MOTOR_STATE.STATE2) {
-            runSubsystem1Motor(DcMotor.Direction.FORWARD, 0.0);
-            subsystem1MotorState = SUBSYSTEM1_MOTOR_STATE.STATE2;
+    public void stopSSIntakeMotor() {
+        if(SSIntakeMotorState == SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING) {
+            runSSIntakeMotor(DcMotor.Direction.FORWARD, 0.0);
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_STOPPED;
        }
-    }*/
+    }
 
     /**
      * reverseIntakeMotor checks if the intake is not reversing, and sets the intake motor to FORWARD, then also
      * ets intake motor state to REVERSING
      */
-    /*public void startReverseSubsystem1Motor() {
-        if(subsystem1MotorState != SUBSYSTEM1_MOTOR_STATE.STATE3) {
-            runSubsystem1Motor(DcMotor.Direction.FORWARD, subsystem1MotorPower2);
-            subsystem1MotorState = SUBSYSTEM1_MOTOR_STATE.STATE3;
+    public void startReverseSubsystem1Motor() {
+        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_REVERSING) {
+            runSSIntakeMotor(DcMotor.Direction.REVERSE, SSIntakeMotorPower);
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_REVERSING;
         }
-    }*/
+    }
 
-    /*private void runSubsystem1Motor(DcMotor.Direction direction, double power){
-        subsystem1Motor.setDirection(direction);
-        subsystem1Motor.setPower(power);
-    }*/
-
-    /**
-     * set Intake gripper position to hold.. to ensure intake is within robot dimensions at start
-     */
-
-
-
-    /**
-     * set Intake gripper position to release
-     */
+    private void runSSIntakeMotor(DcMotor.Direction direction, double power){
+        SSIntakeMotor.setDirection(direction);
+        SSIntakeMotor.setPower(power);
+    }
 
 
 
     /**
      * Returns Intake motor state
      */
-    /*public SUBSYSTEM1_MOTOR_STATE getSubsystemMotorState() {
-        return subsystem1MotorState;
-    }*/
+    public SSINTAKE_MOTOR_STATE getSubsystemMotorState() {
+        return SSIntakeMotorState;
+    }
 }
