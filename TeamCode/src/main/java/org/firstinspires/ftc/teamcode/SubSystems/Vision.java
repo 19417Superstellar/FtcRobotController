@@ -33,7 +33,6 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGR
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XZY;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
@@ -51,7 +50,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.GameOpModes.HzGameField;
+import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +96,7 @@ import java.util.List;
  */
 
 
-public class HzVision {
+public class Vision {
 
     public enum VISION_STATE {
         TFOD_INIT,
@@ -184,7 +183,7 @@ public class HzVision {
      *  FreightFrenzy_BC.tflite  0: Ball,  1: Cube
      *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
      */
-    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_DM.tflite";
+    private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     public static final String[] LABELS = {
             "Ball",
             "Cube",
@@ -193,6 +192,7 @@ public class HzVision {
     };
     public String targetLabel = LABELS[2]; // Default "Duck"
     public String detectedLabel = LABELS[2];
+    public float detectedLabelLeft, detectedLabelRight, detectedLabelTop, detectedLabelBottom;
     public static float[] targetPosition = {
             //TODO : Update values based on marker location identifier
             10,
@@ -202,12 +202,12 @@ public class HzVision {
 
     private TFObjectDetector tfod;
     private List<Recognition> recognitions;
-    public HzGameField.VISION_IDENTIFIED_TARGET targetLevelDetected = HzGameField.VISION_IDENTIFIED_TARGET.UNKNOWN;
+    public GameField.VISION_IDENTIFIED_TARGET targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.UNKNOWN;
 
     /**
      * Initialize the Vuforia localization engine.
      */
-    public HzVision(HardwareMap hardwareMap, ACTIVE_WEBCAM activeWebcam) {
+    public Vision(HardwareMap hardwareMap, ACTIVE_WEBCAM activeWebcam) {
         activeWebcam = ACTIVE_WEBCAM.WEBCAM1;
 
         if (activeWebcam == ACTIVE_WEBCAM.WEBCAM1){
@@ -253,9 +253,9 @@ public class HzVision {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
 
-        if (HzGameField.visionIdentifier == HzGameField.VISION_IDENTIFIER.MARKER){
+        if (GameField.visionIdentifier == GameField.VISION_IDENTIFIER.MARKER){
             targetLabel = LABELS[3]; //"Marker"
-        } else {//if (HzGameField.visionIdentifier == HzGameField.VISION_IDENTIFIER.DUCK)
+        } else {//if (GameField.visionIdentifier == GameField.VISION_IDENTIFIER.DUCK)
             targetLabel = LABELS[2];
         }
         visionState = VISION_STATE.TFOD_INIT;
@@ -294,7 +294,7 @@ public class HzVision {
      * This is to be run till the play button is pressed.. the last target zone identified is returned.
      * @return
      */
-    public HzGameField.VISION_IDENTIFIED_TARGET runVuforiaTensorFlow() {
+    public GameField.VISION_IDENTIFIED_TARGET runVuforiaTensorFlow() {
         visionState = VISION_STATE.TFOD_RUNNING;
 
         if (tfod != null) {
@@ -306,7 +306,7 @@ public class HzVision {
                 if (recognitions.size() == 0 ) {
                     // empty list.  no objects recognized.
                     detectedLabel = "None";
-                    targetLevelDetected = HzGameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                    targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
                 } else {
                     // list is not empty.
                     // step through the list of recognitions and display boundary info.
@@ -324,13 +324,17 @@ public class HzVision {
                     for (Recognition recognition : recognitions) {
                         // check label to see which target zone to go after.
                         detectedLabel = recognition.getLabel();
+                        detectedLabelLeft = recognition.getLeft();
+                        detectedLabelRight = recognition.getRight();
+                        detectedLabelTop = recognition.getTop();
+                        detectedLabelBottom = recognition.getBottom();
                         if (recognition.getLabel().equals(targetLabel)) {
                             if (recognition.getLeft() < targetPosition[0]) {
-                                targetLevelDetected = HzGameField.VISION_IDENTIFIED_TARGET.LEVEL1;
+                                targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
                             } else if (recognition.getLeft() < targetPosition[1]) {
-                                targetLevelDetected = HzGameField.VISION_IDENTIFIED_TARGET.LEVEL2;
+                                targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
                             } else {//if (recognition.getLeft() < targetPosition[2])
-                                targetLevelDetected = HzGameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                                targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
                             }
                         }
                     }
@@ -477,7 +481,7 @@ public class HzVision {
             vuforiaSecondAngle=rotation.secondAngle;
             vuforiaThirdAngle=rotation.thirdAngle;
             poseVuforia = (new Pose2d(translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle)).plus(vuforiaCameraCorrection);
-            /*if (HzGameField.playingAlliance == HzGameFieldUltimateGoal.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
+            /*if (GameField.playingAlliance == GameFieldUltimateGoal.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
                 poseVuforia = (new Pose2d(translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle)).plus(vuforiaLeftCameraCorrection);
             } else {
                 poseVuforia = (new Pose2d(translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, rotation.thirdAngle)).plus(vuforiaRightCameraCorrection);
