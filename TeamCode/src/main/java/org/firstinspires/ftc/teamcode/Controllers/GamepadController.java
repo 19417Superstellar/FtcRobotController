@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Controllers;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.GameOpModes.HzGameField;
-import org.firstinspires.ftc.teamcode.SubSystems.HzDrive;
-import org.firstinspires.ftc.teamcode.SubSystems.HzSubsystem1;
+import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 
 /**
  * Defenition of the HzGamepad Class <BR>
@@ -45,12 +45,12 @@ import org.firstinspires.ftc.teamcode.SubSystems.HzSubsystem1;
  *
  */
 
-public class HzGamepadController {
+public class GamepadController {
 
     //Create object reference to objects to systems passed from TeleOp
     public Gamepad hzGamepad1, hzGamepad2;
-    public HzDrive hzDrive;
-    public HzSubsystem1 hzSubsystem1;
+    public DriveTrain driveTrain;
+    public SubsystemTemplate subsystemTemplate;
     //TODO: Replace name of Subsystem1 and Declare more subsystems
 
     /**
@@ -58,14 +58,14 @@ public class HzGamepadController {
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
     //TODO: Replace name of Subsystem1 and Add more Subsystems in declaration
-    public HzGamepadController(Gamepad hzGamepad1,
-                               Gamepad hzGamepad2,
-                               HzDrive hzDrive,
-                               HzSubsystem1 hzSubsystem1) {
+    public GamepadController(Gamepad hzGamepad1,
+                             Gamepad hzGamepad2,
+                             DriveTrain driveTrain,
+                             SubsystemTemplate subsystemTemplate) {
         this.hzGamepad1 = hzGamepad1;
         this.hzGamepad2 = hzGamepad2;
-        this.hzDrive = hzDrive;
-        this.hzSubsystem1 = hzSubsystem1;
+        this.driveTrain = driveTrain;
+        this.subsystemTemplate = subsystemTemplate;
         //TODO: line to point object for more subsystems
     }
 
@@ -84,34 +84,34 @@ public class HzGamepadController {
     // RR Drive Train
     public void runDriveControl_byRRDriveModes() {
 
-        hzDrive.poseEstimate = hzDrive.getPoseEstimate();
+        driveTrain.poseEstimate = driveTrain.getPoseEstimate();
 
-        hzDrive.driveType = HzDrive.DriveType.ROBOT_CENTRIC;
+        driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
-        if (hzDrive.driveType == HzDrive.DriveType.ROBOT_CENTRIC){
-            hzDrive.gamepadInput = new Vector2d(
+        if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
+            driveTrain.gamepadInput = new Vector2d(
                     -gp1TurboMode(gp1GetLeftStickY()) ,
                     -gp1TurboMode(gp1GetLeftStickX())
             );
         };
 
-        if (hzDrive.driveType == HzDrive.DriveType.FIELD_CENTRIC){
+        if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
 
-            if (HzGameField.playingAlliance == HzGameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
-                hzDrive.gamepadInput = new Vector2d(
+            if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
+                driveTrain.gamepadInput = new Vector2d(
                         gp1TurboMode(gp1GetLeftStickX()),
                         -gp1TurboMode(gp1GetLeftStickY())
-                ).rotated(-hzDrive.poseEstimate.getHeading());
+                ).rotated(-driveTrain.poseEstimate.getHeading());
             };
 
-            if (HzGameField.playingAlliance == HzGameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) { // Blue Alliance
-                hzDrive.gamepadInput = new Vector2d(
+            if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) { // Blue Alliance
+                driveTrain.gamepadInput = new Vector2d(
                         -gp1TurboMode(gp1GetLeftStickX()),
                         gp1TurboMode(gp1GetLeftStickY())
-                ).rotated(-hzDrive.poseEstimate.getHeading());
+                ).rotated(-driveTrain.poseEstimate.getHeading());
             };
         }
-        hzDrive.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
+        driveTrain.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
 
         /*TODO: Code to implement slight left / right turn. Uncomment to use
         if (gp1GetButtonXPress()) {
@@ -123,7 +123,7 @@ public class HzGamepadController {
         }
         */
 
-        hzDrive.driveTrainPointFieldModes();
+        driveTrain.driveTrainPointFieldModes();
 
     }
 
@@ -135,31 +135,22 @@ public class HzGamepadController {
     public void runSubsystem1Control(){ //this function should be at LaunchController's place after order change
         //TODO: Add logic for state of Subsubsystem1 to be set when a key entry is made
         /* Example
-        //Run Intake motors - start when Dpad_down is pressed once, and stop when it is pressed again
-        if (getDpad_downPress()) {
-            if (gpHzIntakeUltimateGoal.getIntakeState() != HzIntakeUltimateGoal.INTAKE_MOTOR_STATE.RUNNING) {
-                gpHzLaunchSubControllerUltimateGoal.activateLaunchReadinessState = false;
-                gpHzLaunchSubControllerUltimateGoal.deactivateLaunchReadinessState = true;
+        if (getLeftTriggerPress()) {
+            gpHzArmUltimateGoal.moveArmByTrigger();
+        }
 
-                gpHzMagazineUltimateGoal.moveMagazineTo = HzMagazineUltimateGoal.MOVE_MAGAZINE_TO.COLLECT;
-                gpHzIntakeUltimateGoal.intakeButtonState = HzIntakeUltimateGoal.INTAKE_BUTTON_STATE.ON;
-                gpHzIntakeUltimateGoal.intakeReverseButtonState = HzIntakeUltimateGoal.INTAKE_REVERSE_BUTTON_STATE.OFF;
+        if (gpHzArmUltimateGoal.runArmToLevelState) {
+            gpHzArmUltimateGoal.runArmToLevel(gpHzArmUltimateGoal.motorPowerToRun);
+        }
 
-            } else if(gpHzIntakeUltimateGoal.getIntakeState() == HzIntakeUltimateGoal.INTAKE_MOTOR_STATE.RUNNING) {
-                gpHzIntakeUltimateGoal.intakeButtonState = HzIntakeUltimateGoal.INTAKE_BUTTON_STATE.OFF;
+        //Toggle Arm Grip actions
+        if (getLeftBumperPress()) {
+            if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.OPENED) {
+                gpHzArmUltimateGoal.closeGrip();
+            } else if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.CLOSED) {
+                gpHzArmUltimateGoal.openGrip();
             }
-        }
-        */
-
-        //Add logic for Subsystem1 run action to be taken when State is set
-        /* Exaample
-        if (gpHzIntakeUltimateGoal.intakeReverseButtonState == HzIntakeUltimateGoal.INTAKE_REVERSE_BUTTON_STATE.ON) {
-                gpHzIntakeUltimateGoal.reverseIntakeMotor();
-        } else if ((gpHzIntakeUltimateGoal.intakeReverseButtonState == HzIntakeUltimateGoal.INTAKE_REVERSE_BUTTON_STATE.OFF &&
-                gpHzIntakeUltimateGoal.getIntakeState() == HzIntakeUltimateGoal.INTAKE_MOTOR_STATE.REVERSING) ){
-            gpHzIntakeUltimateGoal.stopIntakeMotor();
-        }
-         */
+        }*/
 
 
     }
