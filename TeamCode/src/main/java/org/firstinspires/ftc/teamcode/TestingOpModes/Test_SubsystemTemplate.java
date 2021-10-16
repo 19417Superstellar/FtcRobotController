@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.teamcode.TestingOpModes.Examples;
+package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
-import org.firstinspires.ftc.teamcode.TestingOpModes.GamepadTestController;
 
 /**
  * Ultimate Goal TeleOp mode <BR>
@@ -16,17 +14,16 @@ import org.firstinspires.ftc.teamcode.TestingOpModes.GamepadTestController;
  *  *  This code defines the TeleOp mode is done by Hazmat Robot for Ultimate Goal.<BR>
  *
  */
-@TeleOp(name = "Test Subsystem1 Template", group = "Test")
-@Disabled
-public class Test_Subsystem1_Template extends LinearOpMode {
+@TeleOp(name = "Test Subsystem1", group = "Test")
+public class Test_SubsystemTemplate extends LinearOpMode {
 
-    public boolean HzDEBUG_FLAG = true;
+    public boolean DEBUG_FLAG = true;
 
     public GamepadTestController gamepadTestController;
     public DriveTrain driveTrain;
     public SubsystemTemplate subsystemTemplate;
 
-    //public HzVuforia hzVuforia1;
+    //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
 
     @Override
@@ -34,6 +31,7 @@ public class Test_Subsystem1_Template extends LinearOpMode {
 
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
+        //TODO: Declare subsystem to be tested
         subsystemTemplate = new SubsystemTemplate(hardwareMap);
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
@@ -50,7 +48,7 @@ public class Test_Subsystem1_Template extends LinearOpMode {
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
-            if(HzDEBUG_FLAG) {
+            if(DEBUG_FLAG) {
                 printDebugMessages();
                 telemetry.update();
             }
@@ -58,7 +56,7 @@ public class Test_Subsystem1_Template extends LinearOpMode {
             while (opModeIsActive()) {
                 gamepadTestController.runByGamepadControl();
 
-                //Add Test Code here
+                //TODO: Add Test Code here
                 if (gamepadTestController.getDpad_downPress()) {
                     if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE1) {
                         subsystemTemplate.startForwardSubsystem1Motor();
@@ -74,7 +72,7 @@ public class Test_Subsystem1_Template extends LinearOpMode {
                     subsystemTemplate.stopSubsystem1Motor();
                 }
 
-                if(HzDEBUG_FLAG) {
+                if(DEBUG_FLAG) {
                     printDebugMessages();
                     telemetry.update();
                 }
@@ -91,7 +89,7 @@ public class Test_Subsystem1_Template extends LinearOpMode {
      */
     public void printDebugMessages(){
         telemetry.setAutoClear(true);
-        telemetry.addData("HzDEBUG_FLAG is : ", HzDEBUG_FLAG);
+        telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
         telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
         telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
