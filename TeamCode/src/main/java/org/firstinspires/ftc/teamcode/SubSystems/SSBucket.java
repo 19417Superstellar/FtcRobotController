@@ -79,7 +79,7 @@ public class SSBucket {
      */
     public void setToDrop(){
         if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_DROP_POSITION) {
-            bucketServo.setPosition(transportPosition);
+            bucketServo.setPosition(dropPosition);
 
             bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP_POSITION;
         }
