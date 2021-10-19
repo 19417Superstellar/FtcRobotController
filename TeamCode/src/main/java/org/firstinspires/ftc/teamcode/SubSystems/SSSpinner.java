@@ -29,8 +29,8 @@ public class SSSpinner {
 
     public enum SSSPINNER_MOTOR_STATE {
         SPINNER_STOPPED,
-        SPINNER_FORWARD,
-        SPINNER_REVERSED
+        SPINNER_CLOCKWISE,
+        SPINNER_ANTICLOCKWISE
     }
 
     public SSSPINNER_MOTOR_STATE SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.SPINNER_STOPPED;
@@ -58,7 +58,7 @@ public class SSSpinner {
      * startForwardSSSPinnerMotor checks if the intake is not running and runs the spinner
      */
     public void startForwardSSSPinnerMotor() {
-        if (SSSpinnerMotorState == SSSPINNER_MOTOR_STATE.SPINNER_FORWARD) {
+        if (SSSpinnerMotorState == SSSPINNER_MOTOR_STATE.SPINNER_CLOCKWISE) {
             runSSSpinnerMotor(DcMotor.Direction.REVERSE, SSSpinnerMotorPower1);
             SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.SPINNER_STOPPED;
         }
@@ -69,7 +69,7 @@ public class SSSpinner {
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
     public void stopSubsystem1Motor() {
-        if (SSSpinnerMotorState == SSSPINNER_MOTOR_STATE.SPINNER_FORWARD) {
+        if (SSSpinnerMotorState == SSSPINNER_MOTOR_STATE.SPINNER_CLOCKWISE) {
             runSSSpinnerMotor(DcMotor.Direction.FORWARD, 0.0);
             SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.SPINNER_STOPPED;
         }
@@ -80,9 +80,9 @@ public class SSSpinner {
      * ets intake motor state to REVERSING
      */
     public void startReverseSubsystem1Motor() {
-        if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.SPINNER_REVERSED) {
+        if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.SPINNER_ANTICLOCKWISE) {
             runSSSpinnerMotor(DcMotor.Direction.REVERSE, SSSpinnerMotorPower1);
-            SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.SPINNER_REVERSED;
+            SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.SPINNER_ANTICLOCKWISE;
         }
     }
 
