@@ -37,12 +37,12 @@ public class SSElevator {
     public static double POWER_WITH_CARGO = 0.3;
 
     public ELEVATOR_POSITION currentPosition = ELEVATOR_POSITION.LEVEL_0;
-    public ELEVATOR_POSITION previousArmPosition = ELEVATOR_POSITION.LEVEL_1;
+    public ELEVATOR_POSITION previousPosition = ELEVATOR_POSITION.LEVEL_0;
 
 
 
     public SSElevator(HardwareMap hardwareMap) {
-       DcMotor SSElevatorMotor = hardwareMap.DcMotor.get("elevator_motor");
+       DcMotorEx SSElevatorMotor = hardwareMap.get(DcMotorEx.class,"elevator_motor");
 
     }
 
@@ -62,7 +62,7 @@ public class SSElevator {
     }
 
     /**
-     * Reset Arm Encoder
+     * Reset Elevator Encoder
      */
     public void resetElevator(){
         DcMotor.RunMode runMode = SSElevatorMotor.getMode();
@@ -94,8 +94,8 @@ public class SSElevator {
     /**
      * Method to run motor to set to the set position
      */
-    public void runArmToLevel(double power){
-        SSElevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public void runElevatorToLevel(double power){
+        SSElevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (runElevatorToLevelState == true || SSElevatorMotor.isBusy() == true){
             SSElevatorMotor.setPower(power);
             runElevatorToLevelState = false;
@@ -107,8 +107,10 @@ public class SSElevator {
     /**
      * Move Arm to Park Position
      */
-    public void moveArmParkedPosition() {
+    public void moveElevatorLevel0() {
         turnArmBrakeModeOff();
+        SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        SSElevator setDirectionReverse;
         SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount);
         motorPowerToRun = POWER_WITH_CARGO;
         runElevatorToLevelState = true;
