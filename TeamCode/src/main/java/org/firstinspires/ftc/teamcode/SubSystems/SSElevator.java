@@ -36,8 +36,8 @@ public class SSElevator {
     public static double POWER_NO_CARGO = 0.5;
     public static double POWER_WITH_CARGO = 0.3;
 
-    public ELEVATOR_POSITION currentPosition = ELEVATOR_POSITION.PARKED;
-    public ELEVATOR_POSITION previousArmPosition = ELEVATOR_POSITION.PARKED;
+    public ELEVATOR_POSITION currentPosition = ELEVATOR_POSITION.LEVEL_0;
+    public ELEVATOR_POSITION previousArmPosition = ELEVATOR_POSITION.LEVEL_1;
 
 
 
@@ -96,9 +96,9 @@ public class SSElevator {
      */
     public void runArmToLevel(double power){
         SSElevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (runArmToLevelState == true || SSElevatorMotor.isBusy() == true){
+        if (runElevatorToLevelState == true || SSElevatorMotor.isBusy() == true){
             SSElevatorMotor.setPower(power);
-            runArmToLevelState = false;
+            runElevatorToLevelState = false;
         } else {
             SSElevatorMotor.setPower(0.0);
         }
@@ -109,21 +109,21 @@ public class SSElevator {
      */
     public void moveArmParkedPosition() {
         turnArmBrakeModeOff();
-        SSElevatorMotor.setTargetPosition(ARM_PARKED_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_WITH_WOBBLEGOAL;
-        runArmToLevelState = true;
-        currentArmPosition = ARM_POSITION.PARKED;
+        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount);
+        motorPowerToRun = POWER_WITH_CARGO;
+        runElevatorToLevelState = true;
+        currentPosition = ELEVATOR_POSITION.LEVEL_0;
     }
 
     /**
      * Move Arm to Holding up position of Wobble and Ring in TeleOp Mode
      */
-    public void moveArmHoldUpWobbleRingPosition() {
+    public void moveElevatorHoldUpCargo() {
         turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ARM_HOLD_UP_WOBBLE_RING_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_WITH_WOBBLEGOAL;
-        runArmToLevelState = true;
-        currentArmPosition = ARM_POSITION.HOLD_UP_WOBBLE_RING;
+        SSElevatorMotor.setTargetPosition(ELEVATOR_HOLD_UP_CARGO_COUNT + baselineEncoderCount);
+        motorPowerToRun = POWER_WITH_CARGO;
+        runElevatorToLevelState = true;
+        currentElevatorPosition = ELEVATOR_POSITION.HOLD_UP_CARGO;
     }
 
 
@@ -133,8 +133,8 @@ public class SSElevator {
     public void moveArmDropWobbleRingPosition() {
         turnArmBrakeModeOn();
         SSElevatorMotor.setTargetPosition(ARM_DROP_WOBBLE_RING_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_WITH_WOBBLEGOAL;
-        runArmToLevelState = true;
+        motorPowerToRun = POWER_WITH_CARGO;
+        runElevatorToLevelState = true;
         currentArmPosition = ARM_POSITION.DROP_WOBBLE_RING;
     }
 
