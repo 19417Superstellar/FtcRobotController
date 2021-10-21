@@ -49,15 +49,15 @@ public class SSElevator {
     LinearOpMode opModepassed;
 
     /**
-     * Initialization for the Arm
+     * Initialization for the Elevator
      */
-    public void initArm(){
+    public void initElevator(){
 
         SSElevatorMotor.setPositionPIDFCoefficients(5.0);
         SSElevatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         SSElevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         resetElevator();
-        moveElevatorParkedPosition();
+        moveElevatorLevel0();
         turnElevatorBrakeModeOn();
     }
 
@@ -75,7 +75,7 @@ public class SSElevator {
      * To be used when arm is above groundlevel
      * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
      */
-    public void turnArmBrakeModeOn(){
+    public void turnElevatorBrakeModeOn(){
         SSElevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
@@ -84,8 +84,9 @@ public class SSElevator {
      * To be used when arm is on groundlevel or blockLevel[0]
      * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
      */
-    public void turnArmBrakeModeOff(){
-        SSElevatorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    public void turnElevatorBrakeModeOff(){
+
+        SSElevatorMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
     }
     
     public boolean runElevatorToLevelState = false;
@@ -108,11 +109,11 @@ public class SSElevator {
      * Move Elevator to level0 Position
      */
     public void moveElevatorLevel0() {
-        turnArmBrakeModeOff();
+        turnElevatorBrakeModeOff();
         SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        SSElevator setDirectionReverse;
+        SSElevatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_WITH_CARGO;
+        motorPowerToRun = POWER_NO_CARGO;
         runElevatorToLevelState = true;
         currentPosition = ELEVATOR_POSITION.LEVEL_0;
     }
@@ -122,153 +123,34 @@ public class SSElevator {
      */
 
     public void moveElevatorLevel1() {
-        turnArmBrakeModeOff();
+        turnElevatorBrakeModeOff();
         SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        SSElevator setDirectionReverse;
-        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount);
+        SSElevatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL1_POSITION_COUNT + baselineEncoderCount);
         motorPowerToRun = POWER_WITH_CARGO;
         runElevatorToLevelState = true;
-        currentPosition = ELEVATOR_POSITION.LEVEL_0;
+        currentPosition = ELEVATOR_POSITION.LEVEL_1;
     }
 
-    /**
-     * Move Arm to Holding up position of Wobble and Ring in TeleOp Mode
-     */
-    public void moveElevatorHoldUpCargo() {
-        turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ELEVATOR_HOLD_UP_CARGO_COUNT + baselineEncoderCount);
+    public void moveElevatorLevel2() {
+        turnElevatorBrakeModeOff();
+        SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        SSElevatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL2_POSITION_COUNT + baselineEncoderCount);
         motorPowerToRun = POWER_WITH_CARGO;
         runElevatorToLevelState = true;
-        currentElevatorPosition = ELEVATOR_POSITION.HOLD_UP_CARGO;
+        currentPosition = ELEVATOR_POSITION.LEVEL_2;
     }
 
-
-    /**
-     * Move Arm to Drop Wobble goal and Ring in TeleOp Mode
-     */
-    public void moveArmDropWobbleRingPosition() {
-        turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ARM_DROP_WOBBLE_RING_POSITION_COUNT + baselineEncoderCount);
+    public void moveElevatorLevel3() {
+        turnElevatorBrakeModeOff();
+        SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        SSElevatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL3_POSITION_COUNT + baselineEncoderCount);
         motorPowerToRun = POWER_WITH_CARGO;
         runElevatorToLevelState = true;
-        currentArmPosition = ARM_POSITION.DROP_WOBBLE_RING;
-    }
-
-    /**
-     * Move Arm to Drop Wobble Goal in autonomous
-     */
-    public void moveArmDropWobbleAutonomousPosition() {
-        turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ARM_DROP_WOBBLE_AUTONOMOUS_POSITION + baselineEncoderCount);
-        motorPowerToRun = POWER_WITH_WOBBLEGOAL;
-        runArmToLevelState = true;
-        currentArmPosition = ARM_POSITION.DROP_WOBBLE_AUTONOMOUS;
+        currentPosition = ELEVATOR_POSITION.LEVEL_3;
     }
 
 
-    /**
-     * Move arm to Pick Wobble Position
-     */
-    public void moveArmPickWobblePosition() {
-        turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ARM_PICK_WOBBLE_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_NO_WOBBLEGOAL;
-        runArmToLevelState = true;
-        currentArmPosition = ARM_POSITION.PICK_WOBBLE;
     }
-
-    /**
-     * Move Arm to Pick Ring Position
-     */
-    public void moveArmPickRingPosition() {
-        turnArmBrakeModeOn();
-        SSElevatorMotor.setTargetPosition(ARM_PICK_RING_POSITION_COUNT + baselineEncoderCount);
-        motorPowerToRun = POWER_NO_WOBBLEGOAL;
-        runArmToLevelState = true;
-        currentArmPosition = ARM_POSITION.PICK_RING;
-    }
-
-    /**
-     * Method for moving arm based on trigger inputs.
-     * Depending on the grip condition in the pick wobble goal position or the pic ring position
-     * the next motion is determined
-     */
-    public void moveArmByTrigger() {
-        if ((currentArmPosition== ARM_POSITION.PARKED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmPickWobblePosition();
-            openGrip();
-            return;
-        }
-
-        //To go to ring position, grip should be open and triggered again from pick position
-        if ((currentArmPosition== ARM_POSITION.PICK_WOBBLE)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.OPENED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmPickRingPosition();
-            return;
-        }
-
-        if ((currentArmPosition== ARM_POSITION.PICK_RING)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.OPENED)) {
-            previousArmPosition = currentArmPosition;
-            closeGrip();
-            moveArmParkedPosition();
-            return;
-        }
-
-        // After closing grip in pick wobble or ring position - assumes holding of wobble goal is done
-        if ((currentArmPosition== ARM_POSITION.PICK_WOBBLE)  &&
-                (previousArmPosition == ARM_POSITION.PARKED) &&
-                (getGripServoState() == GRIP_SERVO_STATE.CLOSED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmHoldUpWobbleRingPosition();
-            return;
-        }
-
-        // After closing grip in pick wobble or ring position - assumes holding of wobble goal is done
-        if ((currentArmPosition== ARM_POSITION.PICK_RING)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.CLOSED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmHoldUpWobbleRingPosition();
-            return;
-        }
-
-        if ((currentArmPosition== ARM_POSITION.HOLD_UP_WOBBLE_RING)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.CLOSED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmDropWobbleRingPosition();
-            return;
-        }
-
-        if ((currentArmPosition== ARM_POSITION.DROP_WOBBLE_RING)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.OPENED)) {
-            previousArmPosition = currentArmPosition;
-            closeGrip();
-            moveArmParkedPosition();
-            return;
-        }
-
-        if ((currentArmPosition== ARM_POSITION.DROP_WOBBLE_RING)  &&
-                (getGripServoState() == GRIP_SERVO_STATE.CLOSED)) {
-            previousArmPosition = currentArmPosition;
-            moveArmHoldUpWobbleRingPosition();
-            return;
-        }
-
-    }
-
-
-
-    /**
-
-
-
-    /**
-     * Return the current Arm Position
-     */
-    public ARM_POSITION getCurrentArmPosition() {
-        return currentArmPosition;
-    }
-
-    /**
