@@ -105,9 +105,23 @@ public class SSElevator {
     }
 
     /**
-     * Move Arm to Park Position
+     * Move Elevator to level0 Position
      */
     public void moveElevatorLevel0() {
+        turnArmBrakeModeOff();
+        SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        SSElevator setDirectionReverse;
+        SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount);
+        motorPowerToRun = POWER_WITH_CARGO;
+        runElevatorToLevelState = true;
+        currentPosition = ELEVATOR_POSITION.LEVEL_0;
+    }
+
+    /**
+     * Move Elevator to level1 Position
+     */
+
+    public void moveElevatorLevel1() {
         turnArmBrakeModeOff();
         SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         SSElevator setDirectionReverse;
