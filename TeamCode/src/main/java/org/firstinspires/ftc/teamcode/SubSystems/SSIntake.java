@@ -94,7 +94,7 @@ public class SSIntake {
     /**
      * Returns Intake motor state
      */
-    public SSINTAKE_MOTOR_STATE getSubsystemMotorState() {
+    public SSINTAKE_MOTOR_STATE getSSIntakeMotorState() {
         return SSIntakeMotorState;
     }
 }
