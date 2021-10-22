@@ -152,5 +152,7 @@ public class SSElevator {
         currentPosition = ELEVATOR_POSITION.LEVEL_3;
     }
 
-
+    public SSElevator.ELEVATOR_POSITION getElevatorPosition() {
+        return currentPosition;
+    }
     }
