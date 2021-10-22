@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
 import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 
 /**
@@ -14,14 +15,14 @@ import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
  *  *  This code defines the TeleOp mode is done by Hazmat Robot for Ultimate Goal.<BR>
  *
  */
-@TeleOp(name = "Test Subsystem1", group = "Test")
+@TeleOp(name = "SpinnerTest", group = "Test")
 public class TestSpinner extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
     public GamepadTestController gamepadTestController;
     public DriveTrain driveTrain;
-    public SubsystemTemplate subsystemTemplate;
+    public SSSpinner ssspinner;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -32,12 +33,12 @@ public class TestSpinner extends LinearOpMode {
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
         //TODO: Declare subsystem to be tested
-        subsystemTemplate = new SubsystemTemplate(hardwareMap);
+        ssspinner = new SSSpinner(hardwareMap);
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
 
         /* Set Initial State of any subsystem when TeleOp is to be started*/
-        subsystemTemplate.initSubsystem1();
+        ssspinner.initSSSpinner();
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -57,19 +58,19 @@ public class TestSpinner extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
-                if (gamepadTestController.getDpad_downPress()) {
-                    if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE1) {
-                        subsystemTemplate.startForwardSubsystem1Motor();
-                    } else if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE2) {
-                        subsystemTemplate.stopSubsystem1Motor();
+                if (gamepadTestController.getLeftBumperPress()) {
+                    if(ssspinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_STOPPED) {
+                        ssspinner.startForwardSSSPinnerMotor();
+                    } else if(ssspinner.getSSSpinnerMotorState()== SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_CLOCKWISE) {
+                        ssspinner.stopSSSpinnerMotor();
                     }
                 }
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getDpad_upPersistent()) {
-                    subsystemTemplate.startReverseSubsystem1Motor();
-                } else if (subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE3){
-                    subsystemTemplate.stopSubsystem1Motor();
+                if (gamepadTestController.getLeftBumperPersistant()) {
+                    ssspinner.startReverseSSSpinnerMotor();
+                } else if (ssspinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_ANTICLOCKWISE){
+                    ssspinner.stopSSSpinnerMotor();
                 }
 
                 if(DEBUG_FLAG) {
@@ -101,7 +102,7 @@ public class TestSpinner extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-        telemetry.addData("Subsystem1 State : ", subsystemTemplate.getSubsystemMotorState());
+        telemetry.addData("SSSpinner State : ",ssspinner.getSSSpinnerMotorState() );
 
         //Add logic for debug print Logic
 

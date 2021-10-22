@@ -229,6 +229,10 @@ public class GamepadTestController {
         return isPressedLeftBumper;
     }
 
+    public boolean getLeftBumperPersistant(){
+        return hzGamepad.left_bumper;
+    }
+
 
     /**
      * Method to track if Right Bumper was pressed
