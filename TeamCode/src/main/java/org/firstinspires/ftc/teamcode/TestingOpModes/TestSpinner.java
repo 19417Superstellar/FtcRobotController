@@ -57,10 +57,22 @@ public class TestSpinner extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
-                /* When gamepadTestController.getLeftBumperPress()
+                /*
+                When GameField.playingAlliance is GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE {
+                 if gamepadTestController.getLeftBumperPress(), then
+                  if spinner is stopped, start motor anticlockwise
+                  else if spinner is not stopped, stop motor
+
+                 if gamepadTestController.getLeftBumperPress() and startup button is pressed - gamepadTestController.getStartPersistent(), then
+                  if spinner is stopped, start motor clockwise
+                  else if spinner is not stopped, stop motor
+                }
+
+                Reverse the clockwise and anticlockwise logic for RED ALLiance
 
 
                  */
+
 
                 //Reverse Intake motors and run - in case of stuck state)
                 if (gamepadTestController.getLeftBumperPress()) {
