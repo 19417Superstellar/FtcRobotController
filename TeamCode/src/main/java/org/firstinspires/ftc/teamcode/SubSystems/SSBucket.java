@@ -37,6 +37,7 @@ public class SSBucket {
     }
 
     public BUCKET_SERVO_STATE bucketServoState = BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION;
+
     public enum BUCKET_BUTTON_STATE {
         ON,
         OFF
@@ -48,7 +49,9 @@ public class SSBucket {
     }
 
     public void initBucket(){
-
+        if(bucketServoState != BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION){
+            setToCollect();
+        }
     }
 
 
@@ -87,7 +90,7 @@ public class SSBucket {
     /**
      * returns servo state
      */
-    public BUCKET_SERVO_STATE getSubsystemServoState() {
+    public BUCKET_SERVO_STATE getBucketServoState() {
         return bucketServoState;
     }
 }

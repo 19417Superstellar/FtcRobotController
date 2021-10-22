@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 /**
  * Ultimate Goal TeleOp mode <BR>
  *
- *  *  This code defines the TeleOp mode is done by Hazmat Robot for Ultimate Goal.<BR>
+ *  *  This code defines the TeleOp mode is done by Superstellar Robot for Freight Frenzy.<BR>
  *
  */
 @TeleOp(name = "TestBucket", group = "Test")
@@ -22,7 +22,13 @@ public class TestBucket extends LinearOpMode {
 
     public GamepadTestController gamepadTestController;
     public DriveTrain driveTrain;
-    public SubsystemTemplate subsystemTemplate;
+    public SSBucket ssBucket;
+
+    boolean gp1ButtonALast = false;
+    boolean gp1ButtonBLast = false;
+    boolean gp1ButtonXLast = false;
+    boolean gp1ButtonYLast = false;
+    boolean gp1RightBumperLast = false;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -33,12 +39,12 @@ public class TestBucket extends LinearOpMode {
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
         //TODO: Declare subsystem to be tested
-        subsystemTemplate = new SubsystemTemplate(hardwareMap);
+        ssBucket = new SSBucket(hardwareMap);
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
 
         /* Set Initial State of any subsystem when TeleOp is to be started*/
-        subsystemTemplate.initSubsystem1();
+        ssBucket.initBucket();
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -49,7 +55,7 @@ public class TestBucket extends LinearOpMode {
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
-            if(DEBUG_FLAG) {
+            if (DEBUG_FLAG) {
                 printDebugMessages();
                 telemetry.update();
             }
@@ -58,31 +64,48 @@ public class TestBucket extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
-                if (gamepadTestController.getDpad_downPress()) {
-                    if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE1) {
-                        subsystemTemplate.startForwardSubsystem1Motor();
-                    } else if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE2) {
-                        subsystemTemplate.stopSubsystem1Motor();
+                if (gamepadTestController.getButtonAPress()) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION) {
+                        ssBucket.setToCollect();
+                    }
+
+                }
+                if (gamepadTestController.getButtonXPress()) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                        ssBucket.setToTransport();
                     }
                 }
-
-                //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getDpad_upPersistent()) {
-                    subsystemTemplate.startReverseSubsystem1Motor();
-                } else if (subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE3){
-                    subsystemTemplate.stopSubsystem1Motor();
+                if (gamepadTestController.getButtonYPress()) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                        ssBucket.setToTransport();
+                    }
                 }
-
-                if(DEBUG_FLAG) {
-                    printDebugMessages();
-                    telemetry.update();
+                if (gamepadTestController.getButtonBPress()) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                        ssBucket.setToTransport();
+                    }
                 }
+                if (gamepadTestController.getRightBumperPress()) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP_POSITION) {
+                        ssBucket.setToDrop();
+                    }
+                }
+            }
 
+            if (DEBUG_FLAG) {
+                printDebugMessages();
+                telemetry.update();
             }
 
         }
         GameField.poseSetInAutonomous = false;
+
     }
+
+
+
+
+
 
     /**
      * Method to add debug messages. Update as telemetry.addData.
@@ -102,7 +125,7 @@ public class TestBucket extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-        telemetry.addData("Subsystem1 State : ", subsystemTemplate.getSubsystemMotorState());
+        telemetry.addData("Subsystem1 State : ", ssBucket.getBucketServoState());
 
         //Add logic for debug print Logic
 
