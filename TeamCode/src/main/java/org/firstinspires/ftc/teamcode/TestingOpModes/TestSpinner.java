@@ -57,16 +57,13 @@ public class TestSpinner extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
-                if (gamepadTestController.getDpad_downPress()) {
-                    if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE1) {
-                        subsystemTemplate.startForwardSubsystem1Motor();
-                    } else if(subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE2) {
-                        subsystemTemplate.stopSubsystem1Motor();
-                    }
-                }
+                /* When gamepadTestController.getLeftBumperPress()
+
+
+                 */
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getDpad_upPersistent()) {
+                if (gamepadTestController.getLeftBumperPress()) {
                     subsystemTemplate.startReverseSubsystem1Motor();
                 } else if (subsystemTemplate.getSubsystemMotorState() == SubsystemTemplate.SUBSYSTEM1_MOTOR_STATE.STATE3){
                     subsystemTemplate.stopSubsystem1Motor();
