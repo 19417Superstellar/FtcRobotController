@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
-import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 
 /**
  * Ultimate Goal TeleOp mode <BR>
@@ -22,7 +21,7 @@ public class TestSpinner extends LinearOpMode {
 
     public GamepadTestController gamepadTestController;
     public DriveTrain driveTrain;
-    public SSSpinner ssspinner;
+    public SSSpinner ssSpinner;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -33,12 +32,12 @@ public class TestSpinner extends LinearOpMode {
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
         //TODO: Declare subsystem to be tested
-        ssspinner = new SSSpinner(hardwareMap);
+        ssSpinner = new SSSpinner(hardwareMap);
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
 
         /* Set Initial State of any subsystem when TeleOp is to be started*/
-        ssspinner.initSSSpinner();
+        //ssSpinner.init();
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -58,20 +57,37 @@ public class TestSpinner extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
+                /* lOGIC AS FOLLOWS:
+                When GameField.playingAlliance is GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE {
+                 if gamepadTestController.getLeftBumperPress(), then
+                  if spinner is stopped, start motor anticlockwise
+                  else if spinner is not stopped, stop motor
+                 if gamepadTestController.getLeftBumperPress() and startup button is pressed - gamepadTestController.getStartPersistent(), then
+                  if spinner is stopped, start motor clockwise
+                  else if spinner is not stopped, stop motor
+                }
+                Reverse the clockwise and anticlockwise logic for RED ALLiance
+                 */
+
+                //* TODO : Add logic for checking alliance color
                 if (gamepadTestController.getLeftBumperPress()) {
-                    if(ssspinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_STOPPED) {
-                        ssspinner.startForwardSSSPinnerMotor();
-                    } else if(ssspinner.getSSSpinnerMotorState()== SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_CLOCKWISE) {
-                        ssspinner.stopSSSpinnerMotor();
+                    if(ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
+                        ssSpinner.startAntiClockwiseSubsystem1Motor();
+                    } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
+                        ssSpinner.stopSSSPinnerMotor();
                     }
                 }
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getLeftBumperPersistant()) {
-                    ssspinner.startReverseSSSpinnerMotor();
-                } else if (ssspinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.SPINNER_ANTICLOCKWISE){
-                    ssspinner.stopSSSpinnerMotor();
+                if (gamepadTestController.getLeftBumperPress() /* TODO: And StartPersistent */) {
+                    if(ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
+                        ssSpinner.startClockwiseSSSPinnerMotor();
+                    } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
+                        ssSpinner.stopSSSPinnerMotor();
+                    }
                 }
+
+                //TODO: Add code for other alliance color
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
@@ -102,7 +118,7 @@ public class TestSpinner extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-        telemetry.addData("SSSpinner State : ",ssspinner.getSSSpinnerMotorState() );
+        telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
 
         //Add logic for debug print Logic
 
