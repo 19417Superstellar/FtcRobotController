@@ -83,6 +83,9 @@ public class TestElevator extends LinearOpMode {
                     }
                 }
 
+                if (ssElevator.runElevatorToLevelState) {
+                    ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
+                }
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
@@ -113,7 +116,7 @@ public class TestElevator extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-        telemetry.addData("Subsystem1 State : ", subsystemTemplate.getSubsystemMotorState());
+        telemetry.addData("Elevator State : ", ssElevator.getElevatorPosition());
 
         //Add logic for debug print Logic
 
