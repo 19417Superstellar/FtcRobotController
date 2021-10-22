@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
+import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 
 /**
  * Ultimate Goal TeleOp mode <BR>
@@ -14,14 +15,14 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
  *  *  This code defines the TeleOp mode is done by Hazmat Robot for Ultimate Goal.<BR>
  *
  */
-@TeleOp(name = "Test Intake", group = "Test")
-public class TestIntake extends LinearOpMode {
+@TeleOp(name = "Test Elevator", group = "Test")
+public class TestElevator extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
     public GamepadTestController gamepadTestController;
     public DriveTrain driveTrain;
-    public SSIntake ssIntake;
+    public SSElevator ssElevator;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -32,12 +33,13 @@ public class TestIntake extends LinearOpMode {
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
         //TODO: Declare subsystem to be tested
-        ssIntake = new SSIntake(hardwareMap);
+        ssElevator = new SSElevator(hardwareMap);
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
 
         /* Set Initial State of any subsystem when TeleOp is to be started*/
-        ssIntake.initSSIntake();
+        ssElevator.initElevator();
+
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -57,20 +59,30 @@ public class TestIntake extends LinearOpMode {
                 gamepadTestController.runByGamepadControl();
 
                 //TODO: Add Test Code here
-                if (gamepadTestController.getDpad_downPress()) {
-                    if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-                        ssIntake.startForwardSSIntakeMotor();
-                    } else if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.RUNNING) {
-                        ssIntake.stopSSIntakeMotor();
+                if (gamepadTestController.getButtonAPress()) {
+                    if(ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                        ssElevator.moveElevatorLevel0();
                     }
                 }
 
-                //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getDpad_upPress()) {
-                    ssIntake.startReverseSubsystem1Motor();
-                } else if (ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.REVERSING){
-                    ssIntake.stopSSIntakeMotor();
+                if (gamepadTestController.getButtonXPress()) {
+                    if(ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_1) {
+                        ssElevator.moveElevatorLevel1();
+                    }
                 }
+
+                if (gamepadTestController.getButtonBPress()) {
+                    if(ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_2) {
+                        ssElevator.moveElevatorLevel2();
+                    }
+                }
+
+                if (gamepadTestController.getButtonYPress()) {
+                    if(ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_3) {
+                        ssElevator.moveElevatorLevel3();
+                    }
+                }
+
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
@@ -101,7 +113,7 @@ public class TestIntake extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-        telemetry.addData("Subsystem1 State : ", ssIntake.getSSIntakeMotorState());
+        telemetry.addData("Subsystem1 State : ", subsystemTemplate.getSubsystemMotorState());
 
         //Add logic for debug print Logic
 
