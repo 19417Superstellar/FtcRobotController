@@ -58,17 +58,17 @@ public class TestIntake extends LinearOpMode {
 
                 //TODO: Add Test Code here
                 if (gamepadTestController.getDpad_downPress()) {
-                    if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_STOPPED) {
+                    if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
                         ssIntake.startForwardSSIntakeMotor();
-                    } else if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING) {
+                    } else if(ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.RUNNING) {
                         ssIntake.stopSSIntakeMotor();
                     }
                 }
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getDpad_upPersistent()) {
+                if (gamepadTestController.getDpad_upPress()) {
                     ssIntake.startReverseSubsystem1Motor();
-                } else if (ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING){
+                } else if (ssIntake.getSSIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.REVERSING){
                     ssIntake.stopSSIntakeMotor();
                 }
 

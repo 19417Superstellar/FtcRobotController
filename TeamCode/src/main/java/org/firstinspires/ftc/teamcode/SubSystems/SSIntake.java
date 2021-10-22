@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Definition of HzIntake Class <BR>
@@ -22,19 +21,16 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class SSIntake {
 
-    //TODO: Update code as needed for Subsystem1
-
-
     public DcMotor SSIntakeMotor=null;
 
 
     public enum SSINTAKE_MOTOR_STATE {
-         INTAKE_MOTOR_RUNNING,
-         INTAKE_MOTOR_STOPPED,
-         INTAKE_MOTOR_REVERSING
+        RUNNING,
+        STOPPED,
+        REVERSING
     }
 
-    public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING;
+    public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
 
     public double SSIntakeMotorPower = 0.95;//0.9;
 
@@ -56,9 +52,9 @@ public class SSIntake {
      * runIntakeMotor checks if the intake is not running and runs the intake
      */
     public void startForwardSSIntakeMotor() {
-        if(SSIntakeMotorState == SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_STOPPED) {
+        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.RUNNING) {
             runSSIntakeMotor(DcMotor.Direction.FORWARD,SSIntakeMotorPower);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING;
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
         }
     }
 
@@ -67,9 +63,9 @@ public class SSIntake {
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
     public void stopSSIntakeMotor() {
-        if(SSIntakeMotorState == SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_RUNNING) {
+        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.STOPPED) {
             runSSIntakeMotor(DcMotor.Direction.FORWARD, 0.0);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_STOPPED;
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
        }
     }
 
@@ -78,9 +74,9 @@ public class SSIntake {
      * ets intake motor state to REVERSING
      */
     public void startReverseSubsystem1Motor() {
-        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_REVERSING) {
+        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.REVERSING) {
             runSSIntakeMotor(DcMotor.Direction.REVERSE, SSIntakeMotorPower);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.INTAKE_MOTOR_REVERSING;
+            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.REVERSING;
         }
     }
 

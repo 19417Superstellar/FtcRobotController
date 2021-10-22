@@ -96,7 +96,7 @@ public class SSElevator {
      * Method to run motor to set to the set position
      */
     public void runElevatorToLevel(double power){
-        SSElevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         if (runElevatorToLevelState == true || SSElevatorMotor.isBusy() == true){
             SSElevatorMotor.setPower(power);
             runElevatorToLevelState = false;
@@ -125,7 +125,7 @@ public class SSElevator {
     public void moveElevatorLevel1() {
         turnElevatorBrakeModeOff();
         SSElevatorMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        SSElevatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        SSElevatorMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         SSElevatorMotor.setTargetPosition(ELEVATOR_LEVEL1_POSITION_COUNT + baselineEncoderCount);
         motorPowerToRun = POWER_WITH_CARGO;
         runElevatorToLevelState = true;
