@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -31,12 +30,12 @@ public class SSBucket {
     public static final double dropPosition = 9;
 
     public enum BUCKET_SERVO_STATE {
-        BUCKET_COLLECT_POSITION,
-        BUCKET_TRANSPORT_POSITION,
-        BUCKET_DROP_POSITION
+        COLLECT_POSITION,
+        TRANSPORT_POSITION,
+        DROP_POSITION
     }
 
-    public BUCKET_SERVO_STATE bucketServoState = BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION;
+    public BUCKET_SERVO_STATE bucketServoState = BUCKET_SERVO_STATE.COLLECT_POSITION;
 
     public enum BUCKET_BUTTON_STATE {
         ON,
@@ -49,7 +48,8 @@ public class SSBucket {
     }
 
     public void initBucket(){
-        if(bucketServoState != BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION){
+        //TODO : Correct this to be default at Transport Position, not collect position
+        if(bucketServoState != BUCKET_SERVO_STATE.COLLECT_POSITION){
             setToCollect();
         }
     }
@@ -59,10 +59,10 @@ public class SSBucket {
      * set bucket position to collect
      */
     public void setToCollect() {
-        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION) {
+        if (bucketServoState != BUCKET_SERVO_STATE.COLLECT_POSITION) {
             bucketServo.setPosition(collectPosition);
 
-            bucketServoState = BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION;
+            bucketServoState = BUCKET_SERVO_STATE.COLLECT_POSITION;
         }
 
     }
@@ -70,10 +70,10 @@ public class SSBucket {
      * set bucket position to transport
      */
     public void setToTransport(){
-        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+        if (bucketServoState != BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
             bucketServo.setPosition(transportPosition);
 
-            bucketServoState = BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION;
+            bucketServoState = BUCKET_SERVO_STATE.TRANSPORT_POSITION;
         }
     }
 
@@ -81,10 +81,10 @@ public class SSBucket {
      * set bucket position to drop
      */
     public void setToDrop(){
-        if (bucketServoState != BUCKET_SERVO_STATE.BUCKET_DROP_POSITION) {
+        if (bucketServoState != BUCKET_SERVO_STATE.DROP_POSITION) {
             bucketServo.setPosition(dropPosition);
 
-            bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP_POSITION;
+            bucketServoState = BUCKET_SERVO_STATE.DROP_POSITION;
         }
     }
     /**

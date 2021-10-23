@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
-import org.firstinspires.ftc.teamcode.SubSystems.SubsystemTemplate;
 
 /**
  * Ultimate Goal TeleOp mode <BR>
@@ -65,23 +64,23 @@ public class TestBucket extends LinearOpMode {
 
                 //TODO: Add Test Code here
                 if (gamepadTestController.getButtonAPress()) {
-                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_COLLECT_POSITION) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
                         ssBucket.setToCollect();
                     }
 
                 }
                 if (gamepadTestController.getButtonXPress()) {
-                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                         ssBucket.setToTransport();
                     }
                 }
                 if (gamepadTestController.getButtonYPress()) {
-                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                         ssBucket.setToTransport();
                     }
                 }
                 if (gamepadTestController.getButtonBPress()) {
-                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_TRANSPORT_POSITION) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                         ssBucket.setToTransport();
                     }
                 }
@@ -89,6 +88,7 @@ public class TestBucket extends LinearOpMode {
                     if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP_POSITION) {
                         ssBucket.setToDrop();
                     }
+                    //TODO: Add code to change from drop position to transport position if the bumper is pressed again.
                 }
             }
 
