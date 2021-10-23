@@ -85,7 +85,7 @@ public class SSSpinner {
         }
     }
 
-    private void runSSSpinnerMotor(DcMotor.Direction direction, double power) {
+    public void runSSSpinnerMotor(DcMotor.Direction direction, double power) {
         SSSpinnerMotor.setDirection(direction);
         SSSpinnerMotor.setPower(power);
     }
