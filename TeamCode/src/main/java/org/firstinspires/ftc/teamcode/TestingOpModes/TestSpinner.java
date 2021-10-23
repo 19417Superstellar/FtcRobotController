@@ -72,18 +72,18 @@ public class TestSpinner extends LinearOpMode {
                 //* TODO : Add logic for checking alliance color
                 if (gamepadTestController.getLeftBumperPress()) {
                     if(ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
-                        ssSpinner.startAntiClockwiseSubsystem1Motor();
-                    } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
-                        ssSpinner.stopSSSPinnerMotor();
+                        ssSpinner.startClockwiseSSSpinnerMotor();
+                    } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
+                        ssSpinner.stopSSSpinnerMotor();
                     }
                 }
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getLeftBumperPress() /* TODO: And StartPersistent */) {
-                    if(ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
-                        ssSpinner.startClockwiseSSSPinnerMotor();
+                if (gamepadTestController.getLeftBumperPersistant() /* TODO: And StartPersistent */) {
+                    if(ssSpinner.getSSSpinnerMotorState() !=SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                        ssSpinner.startAntiClockwiseSSSpinnerMotor();
                     } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
-                        ssSpinner.stopSSSPinnerMotor();
+                        ssSpinner.stopSSSpinnerMotor();
                     }
                 }
 
