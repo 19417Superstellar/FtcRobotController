@@ -79,7 +79,7 @@ public class TestSpinner extends LinearOpMode {
                 }
 
                 //Reverse Intake motors and run - in case of stuck state)
-                if (gamepadTestController.getLeftBumperPress() /* TODO: And StartPersistent */) {
+                if (gamepadTestController.getLeftBumperPress() && gamepadTestController.getStartPersistent()) {
                     if(ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
                         ssSpinner.startClockwiseSSSPinnerMotor();
                     } else if(ssSpinner.getSSSpinnerMotorState()!= SSSpinner.SSSPINNER_MOTOR_STATE.STOPPED) {
