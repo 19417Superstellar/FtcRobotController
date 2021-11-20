@@ -302,7 +302,6 @@ public class GamepadController {
         //spinner to spin forward
 
         if (!gp2GetStart()) {
-
                 if (gp2GetLeftBumperPress()) {
                     if ((ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) ||
                             (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE)) {
@@ -337,9 +336,6 @@ public class GamepadController {
                     }
                 }
         }
-
-
-
 
 
     }//end of runspinner
