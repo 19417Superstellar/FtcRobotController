@@ -303,12 +303,6 @@ public class GamepadController {
 
         if (!gp2GetStart()) {
 
-
-                //TODO_SS
-                //if spinner motor is  running clockwise or anticlockwise, stop the spinner motor
-
-                //else start spinner motor clockwise or anti clockwise based on the alliance color
-
                 if (gp2GetLeftBumperPress()) {
                     if ((ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) ||
                             (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE)) {
@@ -330,8 +324,7 @@ public class GamepadController {
                     if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
                             ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
                         ssSpinner.stopSSSpinnerMotor();
-                    }
-                } else {
+                    } else {
                     if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
                         if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
                             ssSpinner.startAntiClockwiseSSSpinnerMotor();
@@ -340,6 +333,7 @@ public class GamepadController {
                                 ssSpinner.startClockwiseSSSPinnerMotor();
                             }
                         }
+                    }
                     }
                 }
         }
