@@ -317,10 +317,10 @@ public class GamepadController {
                         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
                             if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
                                 ssSpinner.startClockwiseSSSPinnerMotor();
-                            }
-                        } else {
-                            if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
-                                ssSpinner.startAntiClockwiseSSSpinnerMotor();
+                            } else {
+                                if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                                    ssSpinner.startAntiClockwiseSSSpinnerMotor();
+                                }
                             }
                         }
                     }
@@ -335,10 +335,10 @@ public class GamepadController {
                     if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
                         if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
                             ssSpinner.startAntiClockwiseSSSpinnerMotor();
-                        }
-                    } else {
-                        if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
-                            ssSpinner.startClockwiseSSSPinnerMotor();
+                        } else {
+                            if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
+                                ssSpinner.startClockwiseSSSPinnerMotor();
+                            }
                         }
                     }
                 }
