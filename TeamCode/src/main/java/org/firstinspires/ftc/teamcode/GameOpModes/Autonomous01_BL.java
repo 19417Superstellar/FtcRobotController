@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.GameOpModes;
 
-import android.telecom.Call;
-
-import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
@@ -19,6 +15,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
 import org.firstinspires.ftc.teamcode.SubSystems.Vision;
+
+import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
 
 /**
@@ -39,7 +37,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Vision;
  */
 //TODO: Copy and Rename Autonomous Mode
 @Autonomous(name = "Autonomous01_RL", group = "00-Autonomous" , preselectTeleOp = "TeleOp Template")
-public class Autonomous01_RL extends LinearOpMode {
+public class Autonomous01_BL extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
@@ -89,6 +87,7 @@ public class Autonomous01_RL extends LinearOpMode {
 
         // Initiate Camera on Init.
         vision.activateVuforiaTensorFlow();
+
 
         driveTrain.getLocalizer().setPoseEstimate(startPose);
 
@@ -202,22 +201,33 @@ public class Autonomous01_RL extends LinearOpMode {
 
         //Step 3: Call roadrunner function to move to duck position
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineToConstantHeading(new Vector2d(60, af * 10), Math.toRadians(af * 180))
-                .splineToConstantHeading(new Vector2d(32, af * -36), Math.toRadians(af * 90))
+                .splineToConstantHeading(new Vector2d(-60, af * 12), Math.toRadians(af * 0))
+                .splineToConstantHeading(new Vector2d(-48, af * 12), Math.toRadians(af * 0))
                 .build();
         //Step 4: Set bucket to collect
         autonomousController.autoBucketSetToCollect();
         //Step 5: Call drive function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineToConstantHeading(new Vector2d(32, af * -36), Math.toRadians(af * 90))
-                .splineToConstantHeading(new Vector2d(40, af * -16), Math.toRadians(af * 90))
+                .splineToConstantHeading(new Vector2d(-48, af * 12), Math.toRadians(af * 0))
+                .splineToConstantHeading(new Vector2d(-40, af * -6), Math.toRadians(af * 0))
                 .build();
         //Step 6: Call bucket function to drop duck in respective level
-
+        /*switch(targetZone) {
+            case 1:
+                autonomousController.autoMoveElevatorLevel1();
+                break;
+            case 2:
+                autonomousController.autoMoveElevatorLevel2();
+                break;
+            case 3:
+                autonomousController.autoMoveElevatorLevel3();
+                break;
+        }
+         */
         //Step 7: Call roadrunner function to move to parking position
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineToConstantHeading(new Vector2d(40, af * -16), Math.toRadians(af * 180))
-                .splineToConstantHeading(new Vector2d(36, af * -60), Math.toRadians(af * 90))
+                .splineToConstantHeading(new Vector2d(-40, af * -6), Math.toRadians(af * 0))
+                .splineToConstantHeading(new Vector2d(-36, af * 36), Math.toRadians(af * 90))
                 .build();
     }
 
