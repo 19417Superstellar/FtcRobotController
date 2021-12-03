@@ -26,7 +26,7 @@ public class SSBucket {
 
     public static final double BUCKET_SERVO_COLLECT_POSITION = 0.87;
     public static final double BUCKET_SERVO_TRANSPORT_POSITION = 0.7;
-    public static final double BUCKET_SERVO_DROP_POSITION = 0.45;
+    public static final double BUCKET_SERVO_DROP_POSITION = 0.55;
 
     public enum BUCKET_SERVO_STATE {
         COLLECT_POSITION,
