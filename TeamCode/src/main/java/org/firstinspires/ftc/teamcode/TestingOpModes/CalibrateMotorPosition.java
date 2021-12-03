@@ -178,6 +178,8 @@ public class CalibrateMotorPosition extends LinearOpMode {
         telemetry.addData("Motor Power : ", motorToCalibrate.getPower());
         telemetry.addData("Motor Position Set : ", motorPositionCount);
         telemetry.addData("Motor Position Actual : ", motorToCalibrate.getTargetPosition());
+        telemetry.addData("Motor Position Actual : ", motorToCalibrate.getTargetPosition());
+
         //Add logic for debug print Logic
 
         telemetry.update();
