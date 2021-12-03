@@ -213,7 +213,18 @@ public class Autonomous01_RL extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(40, af * -16), Math.toRadians(af * 90))
                 .build();
         //Step 6: Call bucket function to drop duck in respective level
+        switch (targetZone) {
+            case LEVEL1:
+                autonomousController.autoMoveElevatorLevel1();
 
+                break;
+            case LEVEL2:
+                autonomousController.autoMoveElevatorLevel2();
+                break;
+            case LEVEL3:
+                autonomousController.autoMoveElevatorLevel3();
+                break;
+        }
         //Step 7: Call roadrunner function to move to parking position
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                 .splineToConstantHeading(new Vector2d(40, af * -16), Math.toRadians(af * 180))
