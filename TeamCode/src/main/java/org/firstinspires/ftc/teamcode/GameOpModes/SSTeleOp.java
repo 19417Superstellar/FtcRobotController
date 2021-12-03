@@ -123,7 +123,9 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Elevator Encoder Current :", ssElevator.elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator Encoder Target:", ssElevator.elevatorMotor.getTargetPosition());
         telemetry.addData("Bucket State : ", ssBucket.getBucketServoState());
+        telemetry.addData("Bucket State : ", ssBucket.bucketServo.getPosition());
         telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
+
 
 
 

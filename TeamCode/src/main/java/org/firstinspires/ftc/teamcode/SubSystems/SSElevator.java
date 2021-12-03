@@ -29,7 +29,7 @@ public class SSElevator {
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
-    public static int ELEVATOR_LEVEL0_POSITION_COUNT = 100;
+    public static int ELEVATOR_LEVEL0_POSITION_COUNT = 0;
     public static int ELEVATOR_LEVEL1_POSITION_COUNT = 400;//  TODO : Determine by experimentation
     public static int ELEVATOR_LEVEL2_POSITION_COUNT = 1050;//  TODO : Determine by experimentation
     public static int ELEVATOR_LEVEL3_POSITION_COUNT = 1800;//  TODO : Determine by experimentation
