@@ -30,8 +30,8 @@ public class SSElevator {
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
     public static int ELEVATOR_LEVEL0_POSITION_COUNT = 0;
-    public static int ELEVATOR_LEVEL1_POSITION_COUNT = 400;//  TODO : Determine by experimentation
-    public static int ELEVATOR_LEVEL2_POSITION_COUNT = 1050;//  TODO : Determine by experimentation
+    public static int ELEVATOR_LEVEL1_POSITION_COUNT = 500;//  TODO : Determine by experimentation
+    public static int ELEVATOR_LEVEL2_POSITION_COUNT = 1150;//  TODO : Determine by experimentation
     public static int ELEVATOR_LEVEL3_POSITION_COUNT = 1800;//  TODO : Determine by experimentation
     //MAX 2200
     public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 100;
