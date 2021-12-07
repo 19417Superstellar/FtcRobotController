@@ -12,10 +12,6 @@ import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-//TODO: Comment and uncomment Include files for Drive Encoder vs Dead wheel encoder
-// When using Dead Wheel Encoders in RoadRunner
-//import org.firstinspires.ftc.teamcode.SubSystems.DriveEncoders.drive.DriveConstantsDeadWheelEncoder;
-//import org.firstinspires.ftc.teamcode.SubSystems.DriveEncoders.drive.MecanumDriveDeadWheelsEncoder;
 
 /**
  * Drive Class that implements Mecanum drive using roadrunner using Drive Encoders

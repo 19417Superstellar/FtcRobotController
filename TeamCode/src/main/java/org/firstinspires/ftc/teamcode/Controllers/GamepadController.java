@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 /**
  * Defenition of the HzGamepad Class <BR>
@@ -57,20 +58,11 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
-    //TODO: Replace name of Subsystem1 and Declare more subsystems
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
-    //TODO: Replace name of Subsystem1 and Add more Subsystems in declaration
-
-    public GamepadController(Gamepad  ssGamepad1,
-                             Gamepad  ssGamepad2,
-                             DriveTrain driveTrain){
-
-    }//To be deleted once autonomous controller is coded 6 Nov 2021-Vaishnavi
-
     public GamepadController(Gamepad  ssGamepad1,
                              Gamepad  ssGamepad2,
                              DriveTrain driveTrain,
@@ -86,28 +78,23 @@ public class GamepadController {
         this.ssElevator = ssElevator;
         this.ssBucket = ssBucket;
         this.ssSpinner = ssSpinner;
-
-
-        //TODO: line to point object for more subsystems
     }
 
     /**
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-        //runSubsystem1Control();
         runIntake();
         runElevator();
         runBucket();
         runSpinner();
-        //TODO: Add run functions for more Subsystems added
         runDriveControl_byRRDriveModes();
     }
 
     /**
      * runByGamepadRRDriveModes sets modes for Road Runner such as ROBOT and FIELD Centric Modes. <BR>
+     *     RR Drive Train
      */
-    // RR Drive Train
     public void runDriveControl_byRRDriveModes() {
 
         driveTrain.poseEstimate = driveTrain.getPoseEstimate();
@@ -115,10 +102,16 @@ public class GamepadController {
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
         if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
-            driveTrain.gamepadInput = new Vector2d(
-                    -gp1TurboMode(gp1GetLeftStickY()) ,
-                    -gp1TurboMode(gp1GetLeftStickX())
-            );
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                driveTrain.gamepadInput = new Vector2d(
+                        -gp1TurboMode(gp1GetLeftStickY()),
+                        -gp1TurboMode(gp1GetLeftStickX()));
+            } else {
+                // Avoid using Turbo when elevator is at Level 0
+                driveTrain.gamepadInput = new Vector2d(
+                        -limitStick(gp1GetLeftStickY()),
+                        -limitStick(gp1GetLeftStickX()));
+            }
         }
 
         if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
@@ -139,56 +132,17 @@ public class GamepadController {
         }
         driveTrain.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
 
-        //TODO: Code to implement slight left / right turn. Uncomment to use
-        /*if (gp1GetButtonXPress()) {
-            hzDrive.augmentedControl = HzDrive.AugmentedControl.TURN_DELTA_LEFT;
-        }
-
-        if (gp1GetButtonBPress()) {
-            hzDrive.augmentedControl = HzDrive.AugmentedControl.TURN_DELTA_RIGHT;
-        }
-        */
-
         driveTrain.driveTrainPointFieldModes();
-
     }
+
 
 
     /**
-     * runIntakeControl sets the differnt intake controls, if intake should take in rings(Dpad_downPress) or the intake should run the opposite
-     * direction in order for a stuck ring to be out of intake. <BR>
-     */
-    public void runSubsystem1Control(){ //this function should be at LaunchController's place after order change
-        //TODO: Add logic for state of Subsubsystem1 to be set when a key entry is made
-        /* Example
-        if (getLeftTriggerPress()) {
-            gpHzArmUltimateGoal.moveArmByTrigger();
-        }
-
-        if (gpHzArmUltimateGoal.runArmToLevelState) {
-            gpHzArmUltimateGoal.runArmToLevel(gpHzArmUltimateGoal.motorPowerToRun);
-        }
-
-        //Toggle Arm Grip actions
-        if (getLeftBumperPress()) {
-            if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.OPENED) {
-                gpHzArmUltimateGoal.closeGrip();
-            } else if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.CLOSED) {
-                gpHzArmUltimateGoal.openGrip();
-            }
-        }*/
-
-
-    }
-
-    /*function for intake function on Dpad
-    Dpad_UP is spin out the cargo
-    Dpad_Down is spin in the cargo
+     * function for intake function on Dpad
+     * Dpad_UP is spin out the cargo
+     * Dpad_Down is spin in the cargo
      */
     public void runIntake() {
-
-
-
         if (gp2GetDpad_upPress()) {
 
             //if intake motor is not running and if elevator leve is zero
@@ -213,15 +167,12 @@ public class GamepadController {
                 ssIntake.stopSSIntakeMotor();
             }
         }
-    }
-    //runIntake() ends here
+    } //runIntake() ends here
 
-    /*
-    Elevator function mapped to the gamepad buttons
+    /**
+     * Elevator function mapped to the gamepad buttons
      */
-
     public void runElevator() {
-
         if (gp2GetButtonAPress()) {
             if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_0) {
                 ssElevator.moveElevatorLevel0();
@@ -287,18 +238,12 @@ public class GamepadController {
         if (ssElevator.runElevatorToLevelState) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
-    }
+    } // End of runElevator function
 
-    /*
-        End of runElevator function
-     */
-
-    /*
-    Start of runSpinner
+    /**
+     * Start of runSpinner
      */
     public void runSpinner() {
-
-
         //spinner to spin forward
 
         if (!gp2GetStart()) {
@@ -319,11 +264,11 @@ public class GamepadController {
                     }
                 }
         }else {
-                if (gp2GetLeftBumperPress()) {
-                    if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
-                            ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
-                        ssSpinner.stopSSSpinnerMotor();
-                    } else {
+            if (gp2GetLeftBumperPress()) {
+                if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
+                        ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                    ssSpinner.stopSSSpinnerMotor();
+                } else {
                     if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
                         if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
                             ssSpinner.startAntiClockwiseSSSpinnerMotor();
@@ -333,21 +278,16 @@ public class GamepadController {
                             }
                         }
                     }
-                    }
                 }
+            }
         }
-
-
     }//end of runspinner
 
-    /*
-        run function for bucket Gamepad 2 Right bumper
+    /**
+     * run function for bucket Gamepad 2 Right bumper
      */
     public void runBucket() {
-
         if (gp2GetRightBumperPress()) {
-
-
             /*
              * for level0, if right bumper is pressed,
              * change the bucket from transport to collect if bucket state is transport
@@ -358,7 +298,6 @@ public class GamepadController {
              * change the bucket from drop to transport if the bucket is in drop
              *
              */
-            //TODO_SS
             if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
                 if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                     ssBucket.setToCollect();
@@ -379,11 +318,7 @@ public class GamepadController {
 
 
         }
-    }
-    /*
-        end of runBucket function
-     */
-    //TODO: Add controller code for more subsystems as above
+    } // end of runBucket function
 
 
     //*********** KEY PAD MODIFIERS BELOW ***********

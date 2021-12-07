@@ -23,7 +23,6 @@ public class SSIntake {
 
     public DcMotor inakeMotor=null;
 
-
     public enum SSINTAKE_MOTOR_STATE {
         RUNNING,
         STOPPED,
@@ -81,7 +80,10 @@ public class SSIntake {
         }
     }
 
-    private void runSSIntakeMotor(DcMotor.Direction direction, double power){
+    /**
+     * Run SS Intake motor
+     */
+    public void runSSIntakeMotor(DcMotor.Direction direction, double power){
         inakeMotor.setDirection(direction);
         inakeMotor.setPower(power);
     }

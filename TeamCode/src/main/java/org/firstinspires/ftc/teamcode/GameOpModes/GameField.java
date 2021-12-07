@@ -16,17 +16,7 @@ public class GameField {
     public static final Vector2d ORIGIN = new Vector2d(0,0);
     public static final Pose2d ORIGINPOSE = new Pose2d(0,0,Math.toRadians(0));
 
-    // Declare and assign starting pose of robot
-    //TODO: Update start position correctly.
-    public static final Pose2d BLUE_STARTPOS_1 =  new Pose2d(-57,26,Math.toRadians(90));
-    public static final Pose2d BLUE_STARTPOS_2 =  new Pose2d(-57,44,Math.toRadians(-90));
-    public static final Pose2d RED_STARTPOS_1 =  new Pose2d(-57,-26,Math.toRadians(-90)); //y=-26
-    public static final Pose2d RED_STARTPOS_2 =  new Pose2d(-57,-47,Math.toRadians(90));
-
-    //Declare locations of key positions on field
-    //Example - public static final Vector2d BLUE_TOWER_GOAL = new Vector2d(72,42);
-
-    //Define and declare Playing Alliance
+   //Define and declare Playing Alliance
     public enum PLAYING_ALLIANCE{
         RED_ALLIANCE,
         BLUE_ALLIANCE,
@@ -37,11 +27,16 @@ public class GameField {
 
     //Define and declare Robot Starting Locations
     public enum START_POSITION{
-        STARTPOS_1,
-        STARTPOS_2
-        //TODO: Update names for Startpos
+        WAREHOUSE,
+        STORAGE,
+        ORIGIN
     }
-    public static START_POSITION startPosition = START_POSITION.STARTPOS_1;
+    public static START_POSITION startPosition = START_POSITION.WAREHOUSE;
+
+    public enum PARKING_LOCATION{
+        WAREHOUSE,
+        STORAGE
+    }
 
     //Define targets for Vision to determine Autonomous mode action based on camera detection
     public enum VISION_IDENTIFIED_TARGET {

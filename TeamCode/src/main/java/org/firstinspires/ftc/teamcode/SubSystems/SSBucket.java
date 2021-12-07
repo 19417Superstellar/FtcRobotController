@@ -23,7 +23,6 @@ public class SSBucket {
 
     public Servo bucketServo = null;
 
-
     public static final double BUCKET_SERVO_COLLECT_POSITION = 0.87;
     public static final double BUCKET_SERVO_TRANSPORT_POSITION = 0.7;
     public static final double BUCKET_SERVO_DROP_POSITION = 0.40;
@@ -63,6 +62,7 @@ public class SSBucket {
         }
 
     }
+
     /**
      * set bucket position to transport
      */

@@ -33,7 +33,6 @@ public class SSSpinner {
 
     public double SSSpinnerMotorPower1 = 0.6;//0.9;
 
-
     public enum SSSPINNER_BUTTON_STATE {
         ON,
         OFF
@@ -81,15 +80,19 @@ public class SSSpinner {
         }
     }
 
+    /**
+     * Run SS Spinner Motor
+     */
     public void runSSSpinnerMotor(DcMotor.Direction direction, double power) {
         SSSpinnerMotor.setDirection(direction);
         SSSpinnerMotor.setPower(power);
     }
 
-    //Returns the state of the Spinner Motor
+    /**
+     * Returns the state of the Spinner Motor
+     */
     public SSSPINNER_MOTOR_STATE getSSSpinnerMotorState() {
         return SSSpinnerMotorState;
     }
-
 
 }
