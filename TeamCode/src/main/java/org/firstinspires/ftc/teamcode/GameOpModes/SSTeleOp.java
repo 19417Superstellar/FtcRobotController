@@ -119,19 +119,19 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Battery Power", driveTrain.getBatteryVoltage(hardwareMap));
 
         telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
+        telemetry.addData("Intake Motor Power : ", ssIntake.intakeMotor.getPower());
+
         telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());
         telemetry.addData("Elevator Encoder Current :", ssElevator.elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator Encoder Target:", ssElevator.elevatorMotor.getTargetPosition());
+
         telemetry.addData("Bucket State : ", ssBucket.getBucketServoState());
-        telemetry.addData("Bucket State : ", ssBucket.bucketServo.getPosition());
+        telemetry.addData("Bucket Servo Position : ", ssBucket.bucketServo.getPosition());
+        telemetry.addData("Bucket Color Sensor State  : ", ssBucket.bucketColorSensorState);
+        telemetry.addData("Bucket Color Sensor Distance  : ", ssBucket.getBucketColorSensorDistance());
+
         telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
 
-
-
-
-        //TODO: Add logic for debug print Logic
-
         telemetry.update();
-
     }
 }

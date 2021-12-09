@@ -172,10 +172,11 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         // 4.	Call arm function to pick up duck / Team Marker
         //TODO: Arm function
         //moveMajorArmToParkingAfterClosingClaw();
+        safeWait(1000);
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(47, 13, Math.toRadians(-60)))
+                .lineToLinearHeading(new Pose2d(36, 6, Math.toRadians(60)))
                 .build();
         driveTrain.followTrajectory(traj);
 

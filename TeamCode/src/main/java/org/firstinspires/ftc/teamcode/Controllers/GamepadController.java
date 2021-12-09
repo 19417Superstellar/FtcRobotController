@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
@@ -283,6 +284,13 @@ public class GamepadController {
         }
     }//end of runspinner
 
+
+    public enum AUTO_bucket {
+        ON,
+        OFF
+    }
+    public AUTO_bucket autobucket = AUTO_bucket.ON;
+    
     /**
      * run function for bucket Gamepad 2 Right bumper
      */
@@ -313,6 +321,36 @@ public class GamepadController {
 
                 } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.DROP_POSITION) {
                     ssBucket.setToTransport();
+                }
+            }
+
+            if (gp1GetStart() && gp1GetRightTriggerPress()) {
+                if (autobucket == AUTO_bucket.ON) {
+                    autobucket = AUTO_bucket.OFF;
+                } else {
+                    autobucket = AUTO_bucket.ON;
+                }
+            }
+
+            if (ssBucket.bucketColorSensor instanceof SwitchableLight) {
+                if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0 &&
+                        ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.EMPTY) {
+                    ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(true);
+                } else {
+                    ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(false);
+                }
+            }
+
+
+            if (autobucket == AUTO_bucket.ON) {
+                if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                    if (ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.LOADED) {
+                        if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+                            ssBucket.setToTransport();
+                            ssElevator.moveElevatorLevel1();
+                            ssIntake.stopSSIntakeMotor();
+                        }
+                    }
                 }
             }
 

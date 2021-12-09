@@ -176,6 +176,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         // 4.	Call arm function to pick up duck / Team Marker
         //TODO: Arm function
         //moveMajorArmToParkingAfterClosingClaw();
+        safeWait(1000);
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
@@ -203,7 +204,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 12.	Call roadrunner function to move to parking position in storage area
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(36, -65, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-36, -65, Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
     }

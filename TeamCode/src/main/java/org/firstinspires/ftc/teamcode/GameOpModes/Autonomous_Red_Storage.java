@@ -177,6 +177,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         // 4.	Call arm function to pick up duck / Team Marker
         //TODO: Arm function
         //moveMajorArmToParkingAfterClosingClaw();
+        safeWait(1000);
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
