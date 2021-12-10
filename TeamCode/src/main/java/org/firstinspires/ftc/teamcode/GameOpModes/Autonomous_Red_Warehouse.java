@@ -191,8 +191,8 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         // 10.	Call roadrunner function to move to parking position in storage area through gap
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineTo(new Vector2d(-60, 12), Math.toRadians(90))
-                .splineTo(new Vector2d(-60, 42), Math.toRadians(90))
+                .splineTo(new Vector2d(60, 12), Math.toRadians(90))
+                .splineTo(new Vector2d(60, 52), Math.toRadians(90))
                 .build();
         driveTrain.followTrajectory(traj);
     }

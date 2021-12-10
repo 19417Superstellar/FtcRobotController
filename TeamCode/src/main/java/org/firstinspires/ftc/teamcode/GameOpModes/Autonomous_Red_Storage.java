@@ -181,7 +181,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(57.5, -61.5, Math.toRadians(-60)))
+                .lineToLinearHeading(new Pose2d(59.5, -57.5, Math.toRadians(-30)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -190,7 +190,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(36, -21, Math.toRadians(-45)))
+                .lineToLinearHeading(new Pose2d(38, -23, Math.toRadians(-45)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -205,7 +205,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 12.	Call roadrunner function to move to parking position in storage area
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(36, -65, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(34, -62, Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 

@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 /**
  * Defenition of the HzGamepad Class <BR>
@@ -285,11 +284,11 @@ public class GamepadController {
     }//end of runspinner
 
 
-    public enum AUTO_bucket {
+    public enum AUTO_BUCKET {
         ON,
         OFF
     }
-    public AUTO_bucket autobucket = AUTO_bucket.ON;
+    public AUTO_BUCKET autoBucket = AUTO_BUCKET.ON;
     
     /**
      * run function for bucket Gamepad 2 Right bumper
@@ -325,10 +324,10 @@ public class GamepadController {
             }
 
             if (gp1GetStart() && gp1GetRightTriggerPress()) {
-                if (autobucket == AUTO_bucket.ON) {
-                    autobucket = AUTO_bucket.OFF;
+                if (autoBucket == AUTO_BUCKET.ON) {
+                    autoBucket = AUTO_BUCKET.OFF;
                 } else {
-                    autobucket = AUTO_bucket.ON;
+                    autoBucket = AUTO_BUCKET.ON;
                 }
             }
 
@@ -342,7 +341,7 @@ public class GamepadController {
             }
 
 
-            if (autobucket == AUTO_bucket.ON) {
+            if (autoBucket == AUTO_BUCKET.ON) {
                 if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
                     if (ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.LOADED) {
                         if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
