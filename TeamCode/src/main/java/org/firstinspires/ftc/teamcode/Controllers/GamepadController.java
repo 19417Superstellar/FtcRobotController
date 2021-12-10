@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -57,6 +58,7 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
+    public SSArm ssArm;
     //TODO: Replace name of Subsystem1 and Declare more subsystems
 
     /**
@@ -383,6 +385,39 @@ public class GamepadController {
     /*
         end of runBucket function
      */
+    /*
+    Start of runArm function
+     */
+    public void runArm() {
+        if(gp1GetButtonXPress()) {
+            if(ssArm.getArmPosition()!= SSArm.ARM_POSITION.ARM_PICKUP) {
+                ssArm.moveArmPickup();
+            }
+        }
+        if(gp1GetButtonYPress()) {
+            if(ssArm.getArmPosition()!= SSArm.ARM_POSITION.ARM_DROP) {
+                ssArm.moveArmDrop();
+            }
+        }
+        if(gp1GetButtonAPress()) {
+            if(ssArm.getArmPosition()!= SSArm.ARM_POSITION.ARM_PARKED) {
+                ssArm.moveArmParked();
+            }
+        }
+        if(gp1GetButtonBPress()) {
+            if(ssArm.getArmPosition()!= SSArm.ARM_POSITION.ARM_DROPDOWN) {
+                ssArm.dropBelowCapstone();
+            }
+        }
+        if(gp1GetRightBumperPress()) {
+            if(ssArm.getGripServoState() != SSArm.GRIP_SERVO_STATE.GRIP_CLOSE) {
+                ssArm.setGripClose();
+            } else if(ssArm.getGripServoState() != SSArm.GRIP_SERVO_STATE.GRIP_OPEN) {
+                ssArm.setGripOpen();
+            }
+
+        }
+    }
     //TODO: Add controller code for more subsystems as above
 
 
