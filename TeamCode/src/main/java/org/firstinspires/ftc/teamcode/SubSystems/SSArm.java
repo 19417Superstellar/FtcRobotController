@@ -36,17 +36,17 @@ public class SSArm {
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
     public static int ARM_BASELINE_POSITION_COUNT = 0;
-    public static int ARM_PICKUP_POSITION_COUNT = -700;//  TODO : Determine by experimentation
-    public static int ARM_CAPSTONE_POSITION_COUNT = -450;//  TODO : Determine by experimentation
+    public static int ARM_PICKUP_POSITION_COUNT = 300;//  TODO : Determine by experimentation
+    public static int ARM_CAPSTONE_POSITION_COUNT = 180;//  TODO : Determine by experimentation
     public static int ARM_PARKED_POSITION_COUNT = 0;//  TODO : Determine by experimentation
     //MAX 2200
 
 
-    public static double POWER_ARM_UP = 0.5;
+    public static double POWER_ARM_UP = 0.2;
     public static double POWER_CAPSTONE_UP = 0.5;
     public static double POWER_PARK_UP = 0;
-    public static double GRIP_OPEN_POSITION = 1.0;
-    public static double GRIP_CLOSE_POSITION = 0;
+    public static double GRIP_OPEN_POSITION = 0.5;
+    public static double GRIP_CLOSE_POSITION = 0.78;
 
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_PARKED;
@@ -59,20 +59,22 @@ public class SSArm {
 
     public SSArm(HardwareMap hardwareMap) {
         armMotor = hardwareMap.get(DcMotorEx.class,"arm_motor");
-        gripServo = hardwareMap.get(Servo.class,"grip_motor");
-
+        gripServo = hardwareMap.get(Servo.class,"grip_servo");
+        initArm();
     }
 
     /**
      * Initialization for the Arm
      */
     public void initArm(){
+        resetArm();
+        turnArmBrakeModeOff();
         armMotor.setPositionPIDFCoefficients(5.0); //  TODO : Determine by experimentation
+        armMotor.setTargetPosition(ARM_PARKED_POSITION_COUNT);
         armMotor.setDirection(DcMotorSimple.Direction.FORWARD);  //TODO : Determine by experimentation
-        //armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //resetArm();
-        moveArmPickup();
-        turnArmBrakeModeOn();
+        gripServo.setPosition(GRIP_CLOSE_POSITION);
+        gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
+        armPosition = ARM_POSITION.ARM_PARKED;
     }
 
     /**
@@ -111,7 +113,7 @@ public class SSArm {
     public void runArmToLevel(double power){
         //elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (runArmToLevelState || armMotor.isBusy() ){
+        if (runArmToLevelState /*|| armMotor.isBusy()*/ ){
             armMotor.setPower(power);
             runArmToLevelState = false;
         } else {
@@ -124,8 +126,7 @@ public class SSArm {
      * Move Elevator to level0 Position
      */
     public void moveArmPickup() {
-        turnArmBrakeModeOff();
-
+        turnArmBrakeModeOn();
         armPositionCount = ARM_PICKUP_POSITION_COUNT + baselineEncoderCount;
         armMotor.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -139,7 +140,6 @@ public class SSArm {
 
     public void moveArmDrop() {
         turnArmBrakeModeOn();
-
         armPositionCount = ARM_CAPSTONE_POSITION_COUNT + baselineEncoderCount;
         armMotor.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -148,8 +148,7 @@ public class SSArm {
     }
 
     public void moveArmParked() {
-        turnArmBrakeModeOn();
-
+        turnArmBrakeModeOff();
         armPositionCount = ARM_PARKED_POSITION_COUNT + baselineEncoderCount;
         armMotor.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -160,7 +159,7 @@ public class SSArm {
     public void dropBelowCapstone() {
         turnArmBrakeModeOn();
 
-        armPositionCount = ARM_CAPSTONE_POSITION_COUNT + baselineEncoderCount - 50;
+        armPositionCount = ARM_CAPSTONE_POSITION_COUNT + baselineEncoderCount + 20;
         armMotor.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;

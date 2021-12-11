@@ -42,6 +42,7 @@ public class SSSpinner {
 
     public SSSpinner(HardwareMap hardwareMap) {
         SSSpinnerMotor = hardwareMap.dcMotor.get("spmotor");
+        initSSSpinner();
     }
 
     public void initSSSpinner() {

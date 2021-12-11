@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Controllers.AutonomousController;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -44,9 +45,7 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
     public SSBucket ssBucket;
     public SSElevator ssElevator;
     public SSIntake ssIntake;
-    //public SSArm ssArm;
-
-    //TODO: Replace name of Subsystem1 and Declare more subsystems
+    public SSArm ssArm;
 
     public Vision vision;
     public static final Pose2d RED_WAREHOUSE_STARTPOS =  new Pose2d(61,7,Math.toRadians(0));
@@ -71,10 +70,11 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         ssBucket = new SSBucket(hardwareMap);
         ssElevator = new SSElevator(hardwareMap);
         ssIntake = new SSIntake(hardwareMap);
+        ssArm = new SSArm(hardwareMap);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1,gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner);
-        autonomousController = new AutonomousController(driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner);
+        gamepadController = new GamepadController(gamepad1,gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
+        autonomousController = new AutonomousController(driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
 
         //Key Pay inputs to select Game Plan;
         vision = new Vision(hardwareMap, activeWebcam);
@@ -144,8 +144,7 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         // 3.	Call roadrunner function to move to duck/Team Marker position
         //Move arm to Pickup Capstone level and open Grip
-        //TODO: Arm function
-        //moveMajorArmToPickupAndOpenClaw();
+        moveMajorArmToPickupAndOpenClaw();
         safeWait(2000);
 
         //Move forward to Capstone Pickup Position
@@ -170,8 +169,7 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         driveTrain.followTrajectory(traj);
 
         // 4.	Call arm function to pick up duck / Team Marker
-        //TODO: Arm function
-        //moveMajorArmToParkingAfterClosingClaw();
+        moveMajorArmToParkingAfterClosingClaw();
         safeWait(1000);
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
@@ -209,20 +207,6 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         }
     }
 
-    //TODO: Arm function
-    /*public void moveMajorArmToPickupAndOpenClaw(){
-        autonomousController.moveAutoMajorArmPickup();
-        safeWait(1000);
-        autonomousController.openAutoMajorClaw();
-    }*/
-
-    //TODO: Arm function
-    /*public void moveMajorArmToParkingAfterClosingClaw(){
-        autonomousController.closeAutoMajorClaw();
-        safeWait(1000);
-        autonomousController.moveAutoMajorArmPark();
-        safeWait(1000);
-    }*/
 
     public void rotateCarousal() {
         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
@@ -280,6 +264,24 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
     }
 
     /**
+     * Hybrid Commands For Autonomous OpMode
+     */
+
+    public void moveMajorArmToParkingAfterClosingClaw(){
+        autonomousController.autoSSGripSetToClose();
+        safeWait(1000);
+        autonomousController.autoSSArmSetToPark();
+        safeWait(1000);
+    }
+
+
+    public void moveMajorArmToPickupAndOpenClaw(){
+        autonomousController.autoSSArmSetToPickup();
+        safeWait(1000);
+        autonomousController.autoSSGripSetToOpen();
+    }
+
+    /**
      * Method to add debug messages. Update as telemetry.addData.
      * Use public attributes or methods if needs to be called here.
      */
@@ -311,6 +313,8 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         telemetry.addData("Bucket State : ", ssBucket.getBucketServoState());
         telemetry.addData("Bucket State : ", ssBucket.bucketServo.getPosition());
         telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
+        telemetry.addData("Arm Position : ",ssArm.getArmPosition());
+        telemetry.addData("Arm Grip State : ",ssArm.getGripServoState());
 
         telemetry.update();
 

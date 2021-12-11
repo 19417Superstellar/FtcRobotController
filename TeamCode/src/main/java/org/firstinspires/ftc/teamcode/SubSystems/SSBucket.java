@@ -57,14 +57,15 @@ public class SSBucket {
     public SSBucket(HardwareMap hardwareMap) {
         bucketServo = hardwareMap.servo.get("bucket_servo");
         bucketColorSensor = hardwareMap.get(NormalizedColorSensor.class, "bucket_sensor");
+        initBucket();
     }
 
     public void initBucket(){
-        if(bucketServoState != BUCKET_SERVO_STATE.COLLECT_POSITION){
-            setToCollect();
-        }
         if (bucketColorSensor instanceof SwitchableLight) {
             ((SwitchableLight)bucketColorSensor).enableLight(true);
+        }
+        if(bucketServoState != BUCKET_SERVO_STATE.COLLECT_POSITION){
+            setToCollect();
         }
     }
 

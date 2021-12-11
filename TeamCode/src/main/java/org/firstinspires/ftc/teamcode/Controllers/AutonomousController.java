@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -25,6 +26,7 @@ public class AutonomousController {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
+    public SSArm ssArm;
 
     public Pose2d startPose = GameField.ORIGINPOSE;
 
@@ -37,12 +39,14 @@ public class AutonomousController {
                                 SSIntake ssIntake,
                                 SSElevator ssElevator,
                                 SSBucket ssBucket,
-                                SSSpinner ssSpinner) {
+                                SSSpinner ssSpinner,
+                                SSArm ssArm) {
         this.driveTrain = driveTrain;
         this.ssIntake = ssIntake;
         this.ssElevator = ssElevator;
         this.ssBucket = ssBucket;
         this.ssSpinner = ssSpinner;
+        this.ssArm = ssArm;
     }
 
 
@@ -56,7 +60,7 @@ public class AutonomousController {
             runAutoSSElevator();
             runAutoSSBucket();
             runAutoSSSpinner();
-            //runAutoSSArm();
+            runAutoSSArm();
             counter++;
         }
     }
@@ -242,4 +246,58 @@ public class AutonomousController {
         return autoSSSpinnerState;
     }
     /***   END of   Autocontrol State and function for SSSPinner  ****/
+
+    /**
+     * runAutoArm() function
+     */
+    enum AUTO_SSARM_STATE {
+        PICKUP,
+        PARKED,
+    }
+    AUTO_SSARM_STATE autoSSArmState = AUTO_SSARM_STATE.PARKED;
+
+    public void autoSSArmSetToPickup(){
+        autoSSArmState = AUTO_SSARM_STATE.PICKUP;
+        runAutoControl();
+    }
+
+    public void autoSSArmSetToPark(){
+        autoSSArmState = AUTO_SSARM_STATE.PARKED;
+        runAutoControl();
+    }
+    public enum AUTO_SSGRIP_STATE {
+        OPEN,
+        CLOSED,
+    }
+    AUTO_SSGRIP_STATE autoSSGripState = AUTO_SSGRIP_STATE.CLOSED;
+
+    public void autoSSGripSetToOpen(){
+        autoSSGripState = AUTO_SSGRIP_STATE.OPEN;
+        runAutoControl();
+    }
+
+    public void autoSSGripSetToClose(){
+        autoSSGripState = AUTO_SSGRIP_STATE.CLOSED;
+        runAutoControl();
+    }
+
+    public void runAutoSSArm() {
+        if(autoSSArmState == AUTO_SSARM_STATE.PARKED){
+            ssArm.moveArmParked();
+        } else {
+            ssArm.moveArmPickup();
+        }
+
+        if (ssArm.runArmToLevelState) {
+            ssArm.runArmToLevel(ssArm.POWER_ARM_UP);
+        }
+
+        if(autoSSGripState == AUTO_SSGRIP_STATE.OPEN){
+            ssArm.setGripOpen();
+        } else{
+            ssArm.setGripClose();
+        }
+
+    }
+
 }

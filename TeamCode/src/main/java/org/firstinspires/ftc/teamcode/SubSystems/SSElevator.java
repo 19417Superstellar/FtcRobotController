@@ -50,6 +50,7 @@ public class SSElevator {
 
     public SSElevator(HardwareMap hardwareMap) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class,"elevator_motor");
+        initElevator();
     }
 
     /**

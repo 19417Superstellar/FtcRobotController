@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -58,6 +59,7 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
+    public SSArm ssArm;
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
@@ -69,8 +71,8 @@ public class GamepadController {
                              SSIntake ssIntake,
                              SSElevator ssElevator,
                              SSBucket ssBucket,
-                             SSSpinner ssSpinner
-    ) {
+                             SSSpinner ssSpinner,
+                             SSArm ssArm    ) {
         this. ssGamepad1 =  ssGamepad1;
         this. ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
@@ -78,6 +80,7 @@ public class GamepadController {
         this.ssElevator = ssElevator;
         this.ssBucket = ssBucket;
         this.ssSpinner = ssSpinner;
+        this.ssArm = ssArm;
     }
 
     /**
@@ -88,6 +91,7 @@ public class GamepadController {
         runElevator();
         runBucket();
         runSpinner();
+        runArm();
         runDriveControl_byRRDriveModes();
     }
 
@@ -240,6 +244,78 @@ public class GamepadController {
         }
     } // End of runElevator function
 
+    public enum AUTO_BUCKET {
+        ON,
+        OFF
+    }
+    public AUTO_BUCKET autoBucket = AUTO_BUCKET.ON;
+
+    /**
+     * run function for bucket Gamepad 2 Right bumper
+     */
+    public void runBucket() {
+        if (gp2GetRightBumperPress()) {
+            //To toggle automation to off or on if needed
+            if (gp2GetStart()) {
+                if (autoBucket == AUTO_BUCKET.ON) {
+                    autoBucket = AUTO_BUCKET.OFF;
+                } else {
+                    autoBucket = AUTO_BUCKET.ON;
+                }
+            }
+
+            /*
+             * for level0, if right bumper is pressed,
+             * change the bucket from transport to collect if bucket state is transport
+             * change from collect to collect to transport if bucket state is collect
+             *
+             * for level1, level2 and level3,if right bumper is pressed,
+             * change the state of bucket from transport to drop if bucket is in transport
+             * change the bucket from drop to transport if the bucket is in drop
+             *
+             */
+            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+                    ssBucket.setToCollect();
+                } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
+                    ssIntake.stopSSIntakeMotor();
+                    ssBucket.setToTransport();
+                }
+            } else if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_1 ||
+                    ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_2 ||
+                    ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_3) {
+
+                if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.DROP_POSITION) {
+                    ssBucket.setToDrop();
+
+                } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.DROP_POSITION) {
+                    ssBucket.setToTransport();
+                }
+            }
+        }
+
+        if (ssBucket.bucketColorSensor instanceof SwitchableLight) {
+            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0 &&
+                 ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.EMPTY) {
+                ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(true);
+            } else {
+                ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(false);
+                }
+            }
+
+        if (autoBucket == AUTO_BUCKET.ON) {
+            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                if (ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.LOADED) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+                        ssBucket.setToTransport();
+                        ssElevator.moveElevatorLevel1();
+                        ssIntake.stopSSIntakeMotor();
+                    }
+                }
+            }
+        }
+    } // end of runBucket function
+
     /**
      * Start of runSpinner
      */
@@ -284,78 +360,38 @@ public class GamepadController {
     }//end of runspinner
 
 
-    public enum AUTO_BUCKET {
-        ON,
-        OFF
-    }
-    public AUTO_BUCKET autoBucket = AUTO_BUCKET.ON;
-    
+
+
     /**
-     * run function for bucket Gamepad 2 Right bumper
-     */
-    public void runBucket() {
-        if (gp2GetRightBumperPress()) {
-            /*
-             * for level0, if right bumper is pressed,
-             * change the bucket from transport to collect if bucket state is transport
-             * change from collect to collect to transport if bucket state is collect
-             *
-             * for level1, level2 and level3,if right bumper is pressed,
-             * change the state of bucket from transport to drop if bucket is in transport
-             * change the bucket from drop to transport if the bucket is in drop
-             *
-             */
-            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
-                if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
-                    ssBucket.setToCollect();
-                } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
-                    ssBucket.setToTransport();
-                }
-            } else if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_1 ||
-                    ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_2 ||
-                    ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_3) {
+     * Start of runArm function
+     * */
+    public void runArm() {
+        if(gp1GetButtonXPress()) {
+            ssArm.moveArmPickup();
+        }
+        if(gp1GetButtonYPress()) {
+            ssArm.moveArmDrop();
+        }
+        if(gp1GetButtonAPress()) {
+            ssArm.moveArmParked();
+        }
+        if(gp1GetButtonBPress()) {
+            ssArm.dropBelowCapstone();
+        }
 
-                if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.DROP_POSITION) {
-                    ssBucket.setToDrop();
+        if (ssArm.runArmToLevelState) {
+            ssArm.runArmToLevel(ssArm.POWER_ARM_UP);
+        }
 
-                } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.DROP_POSITION) {
-                    ssBucket.setToTransport();
-                }
+        if(gp1GetRightBumperPress()) {
+            if(ssArm.getGripServoState() != SSArm.GRIP_SERVO_STATE.GRIP_CLOSE) {
+                ssArm.setGripClose();
+            } else if (ssArm.armPosition != SSArm.ARM_POSITION.ARM_PARKED){
+                ssArm.setGripOpen();
             }
-
-            if (gp1GetStart() && gp1GetRightTriggerPress()) {
-                if (autoBucket == AUTO_BUCKET.ON) {
-                    autoBucket = AUTO_BUCKET.OFF;
-                } else {
-                    autoBucket = AUTO_BUCKET.ON;
-                }
-            }
-
-            if (ssBucket.bucketColorSensor instanceof SwitchableLight) {
-                if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0 &&
-                        ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.EMPTY) {
-                    ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(true);
-                } else {
-                    ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(false);
-                }
-            }
-
-
-            if (autoBucket == AUTO_BUCKET.ON) {
-                if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
-                    if (ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.LOADED) {
-                        if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
-                            ssBucket.setToTransport();
-                            ssElevator.moveElevatorLevel1();
-                            ssIntake.stopSSIntakeMotor();
-                        }
-                    }
-                }
-            }
-
 
         }
-    } // end of runBucket function
+    } //End of runArm function
 
 
     //*********** KEY PAD MODIFIERS BELOW ***********
