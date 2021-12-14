@@ -31,7 +31,7 @@ public class SSSpinner {
 
     public SSSPINNER_MOTOR_STATE SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.STOPPED;
 
-    public double SSSpinnerMotorPower1 = 0.6;//0.9;
+    public double SSSpinnerMotorPower1 = 0.7;//0.9;
 
     public enum SSSPINNER_BUTTON_STATE {
         ON,

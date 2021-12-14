@@ -193,6 +193,8 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
                 .splineTo(new Vector2d(60, 52), Math.toRadians(90))
                 .build();
         driveTrain.followTrajectory(traj);
+
+        moveElevatorToLevel0();
     }
 
     /**
@@ -261,6 +263,9 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
     public void moveElevatorToLevel1(){
         autonomousController.autoSSElevatorSetToLevel1();
+    }
+    public void moveElevatorToLevel0(){
+        autonomousController.autoSSElevatorSetToLevel0();
     }
 
     /**

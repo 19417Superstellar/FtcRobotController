@@ -205,6 +205,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
                 .build();
         driveTrain.followTrajectory(traj);
 
+        moveElevatorToLevel0();
     }
 
     /**
@@ -272,6 +273,9 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
     public void moveElevatorToLevel1(){
         autonomousController.autoSSElevatorSetToLevel1();
+    }
+    public void moveElevatorToLevel0(){
+        autonomousController.autoSSElevatorSetToLevel0();
     }
 
     /**

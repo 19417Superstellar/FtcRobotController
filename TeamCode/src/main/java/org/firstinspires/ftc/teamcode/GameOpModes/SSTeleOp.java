@@ -120,7 +120,7 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Bucket Servo Position : ", ssBucket.bucketServo.getPosition());
         telemetry.addData("Bucket Automation : ", gamepadController.autoBucket);
         telemetry.addData("Bucket Color Sensor State  : ", ssBucket.bucketColorSensorState);
-        telemetry.addData("Bucket Color Sensor Distance  : ", ssBucket.getBucketColorSensorDistance());
+        telemetry.addData("Bucket Color Sensor Distance  : ", "%.3f",ssBucket.getBucketColorSensorDistance());
 
         telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
 

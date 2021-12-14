@@ -36,8 +36,8 @@ public class SSArm {
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
     public static int ARM_BASELINE_POSITION_COUNT = 0;
-    public static int ARM_PICKUP_POSITION_COUNT = 300;//  TODO : Determine by experimentation
-    public static int ARM_CAPSTONE_POSITION_COUNT = 180;//  TODO : Determine by experimentation
+    public static int ARM_PICKUP_POSITION_COUNT = 650;//  TODO : Determine by experimentation
+    public static int ARM_CAPSTONE_POSITION_COUNT = 400;//  TODO : Determine by experimentation
     public static int ARM_PARKED_POSITION_COUNT = 0;//  TODO : Determine by experimentation
     //MAX 2200
 
@@ -69,9 +69,9 @@ public class SSArm {
     public void initArm(){
         resetArm();
         turnArmBrakeModeOff();
-        armMotor.setPositionPIDFCoefficients(5.0); //  TODO : Determine by experimentation
+        armMotor.setPositionPIDFCoefficients(5.0);
         armMotor.setTargetPosition(ARM_PARKED_POSITION_COUNT);
-        armMotor.setDirection(DcMotorSimple.Direction.FORWARD);  //TODO : Determine by experimentation
+        armMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         gripServo.setPosition(GRIP_CLOSE_POSITION);
         gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
         armPosition = ARM_POSITION.ARM_PARKED;

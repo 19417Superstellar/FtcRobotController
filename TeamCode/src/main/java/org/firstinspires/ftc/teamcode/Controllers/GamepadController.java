@@ -278,7 +278,7 @@ public class GamepadController {
                 if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                     ssBucket.setToCollect();
                 } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
-                    ssIntake.stopSSIntakeMotor();
+                    //ssIntake.stopSSIntakeMotor();
                     ssBucket.setToTransport();
                 }
             } else if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_1 ||

@@ -112,7 +112,7 @@ public class SSBucket {
             bucketColorSensorDistance =  ((DistanceSensor) bucketColorSensor).getDistance(DistanceUnit.CM);
         }
 
-        if (bucketColorSensorDistance < 3.0) {
+        if (bucketColorSensorDistance < 1.0) {
             bucketColorSensorState = BUCKET_COLOR_SENSOR_STATE.LOADED;
         } else {
             bucketColorSensorState = BUCKET_COLOR_SENSOR_STATE.EMPTY;

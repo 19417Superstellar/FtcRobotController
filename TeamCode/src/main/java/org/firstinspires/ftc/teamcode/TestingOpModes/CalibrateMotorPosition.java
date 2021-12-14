@@ -66,11 +66,11 @@ public class CalibrateMotorPosition extends LinearOpMode {
                 }
 
                 if (gamepadTestController.getRightBumperPress()){
-                    motorPositionCount +=50;
+                    motorPositionCount +=20;
                 }
 
                 if (gamepadTestController.getLeftBumperPress()){
-                    motorPositionCount -=50;
+                    motorPositionCount -=20;
                 }
 
                 moveMotorLevelToPosition(motorPositionCount);

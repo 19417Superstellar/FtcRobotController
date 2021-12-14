@@ -207,6 +207,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                 .lineToLinearHeading(new Pose2d(-36, -65, Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
+        moveElevatorToLevel0();
     }
 
     /**
@@ -274,6 +275,9 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
     public void moveElevatorToLevel1(){
         autonomousController.autoSSElevatorSetToLevel1();
+    }
+    public void moveElevatorToLevel0(){
+        autonomousController.autoSSElevatorSetToLevel0();
     }
 
     /**
