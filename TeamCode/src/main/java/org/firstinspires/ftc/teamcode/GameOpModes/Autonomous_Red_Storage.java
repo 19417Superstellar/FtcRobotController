@@ -145,6 +145,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         //Logic for waiting
         safeWait(100);
 
+
         // 3.	Call roadrunner function to move to duck/Team Marker position
         //Move arm to Pickup Capstone level and open Grip
         moveMajorArmToPickupAndOpenClaw();
@@ -154,18 +155,30 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(49,-39, Math.toRadians(0)))
+                        .lineToLinearHeading(new Pose2d(55,-37, Math.toRadians(0)))
+                        .build();
+                driveTrain.followTrajectory(traj);
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(49,-37, Math.toRadians(0)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(49,-31, Math.toRadians(0)))
+                        .lineToLinearHeading(new Pose2d(55,-28, Math.toRadians(0)))
+                        .build();
+                driveTrain.followTrajectory(traj);
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(49,-28, Math.toRadians(0)))
                         .build();
                 break;
             case LEVEL3:
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(45.5, -23, Math.toRadians(0)))
+                        .lineToLinearHeading(new Pose2d(55, -21, Math.toRadians(0)))
+                        .build();
+                driveTrain.followTrajectory(traj);
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(47, -21, Math.toRadians(0)))
                         .build();
                 break;
         }
@@ -177,7 +190,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(59.5, -57.5, Math.toRadians(-30)))
+                .lineToLinearHeading(new Pose2d(57, -60, Math.toRadians(-30)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -186,7 +199,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(38, -23, Math.toRadians(-45)))
+                .lineToLinearHeading(new Pose2d(31, -24, Math.toRadians(-60)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -201,7 +214,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
         // 12.	Call roadrunner function to move to parking position in storage area
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(34, -62, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(29, -62, Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -222,9 +235,9 @@ public class Autonomous_Red_Storage extends LinearOpMode {
 
     public void rotateCarousal() {
         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
-            autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.CLOCKWISE;
-        } else {
             autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.ANTICLOCKWISE;
+        } else {
+            autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.CLOCKWISE;
         }
         autonomousController.runAutoControl();
         safeWait(4000);

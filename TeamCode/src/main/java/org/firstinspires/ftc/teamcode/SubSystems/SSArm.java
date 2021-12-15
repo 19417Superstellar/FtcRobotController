@@ -37,7 +37,7 @@ public class SSArm {
     public static int baselineEncoderCount = 0;
     public static int ARM_BASELINE_POSITION_COUNT = 0;
     public static int ARM_PICKUP_POSITION_COUNT = 650;//  TODO : Determine by experimentation
-    public static int ARM_CAPSTONE_POSITION_COUNT = 400;//  TODO : Determine by experimentation
+    public static int ARM_CAPSTONE_POSITION_COUNT = 300;//  TODO : Determine by experimentation
     public static int ARM_PARKED_POSITION_COUNT = 0;//  TODO : Determine by experimentation
     //MAX 2200
 
