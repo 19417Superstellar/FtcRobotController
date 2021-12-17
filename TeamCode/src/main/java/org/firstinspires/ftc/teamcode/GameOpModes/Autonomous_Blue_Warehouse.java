@@ -75,6 +75,8 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         gamepadController = new GamepadController(gamepad1,gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
         autonomousController = new AutonomousController(driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
 
+        GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
+
         //Key Pay inputs to select Game Plan;
         vision = new Vision(hardwareMap, activeWebcam);
         af = GameField.ALLIANCE_FACTOR;

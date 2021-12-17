@@ -80,6 +80,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         gamepadController = new GamepadController(gamepad1,gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
         autonomousController = new AutonomousController(driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
 
+        GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
         //Key Pay inputs to select Game Plan;
         vision = new Vision(hardwareMap, activeWebcam);
         af = GameField.ALLIANCE_FACTOR;
@@ -157,18 +158,30 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -33, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-55, -25, Math.toRadians(180)))
+                        .build();
+                driveTrain.followTrajectory(traj);
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(-49, -25, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -41, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-55, -28, Math.toRadians(180)))
+                        .build();
+                driveTrain.followTrajectory(traj);
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(-49, -28, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(-55, -37, Math.toRadians(180)))
+                        .build();
+                driveTrain.followTrajectory(traj);
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -49, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -37, Math.toRadians(180)))
                         .build();
                 break;
         }
@@ -180,7 +193,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-65, -61, Math.toRadians(-155)))
+                .lineToLinearHeading(new Pose2d(-57, -60, Math.toRadians(-120)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -189,7 +202,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-33.5, -21.5 , Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-32, -28 , Math.toRadians(-120)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -204,7 +217,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 12.	Call roadrunner function to move to parking position in storage area
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-36, -65, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-33, -65, Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
         moveElevatorToLevel0();
