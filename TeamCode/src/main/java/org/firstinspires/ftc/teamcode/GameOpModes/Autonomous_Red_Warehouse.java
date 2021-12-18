@@ -152,18 +152,18 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(49, 9, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(50, 8, Math.toRadians(0)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(48, 11, Math.toRadians(-30)))
+                        .lineToLinearHeading(new Pose2d(51, 15, Math.toRadians(-10)))
                         .build();
                 break;
             case LEVEL3:
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(47, 10, Math.toRadians(-60)))
+                        .lineToLinearHeading(new Pose2d(51, 17, Math.toRadians(-30)))
                         .build();
                 break;
         }
@@ -175,7 +175,7 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(33, 0, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(32, 2, Math.toRadians(45)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -190,13 +190,17 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         // 10.	Call roadrunner function to move to parking position in storage area through gap
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineTo(new Vector2d(60, 12), Math.toRadians(90))
-                .splineTo(new Vector2d(60, 52), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(64, 8 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(54, 52, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(64, 52 , Math.toRadians(90)))
+                .build();
+        driveTrain.followTrajectory(traj);
+
+        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                .lineToLinearHeading(new Pose2d(61, 52 , Math.toRadians(120)))
                 .build();
         driveTrain.followTrajectory(traj);
 
