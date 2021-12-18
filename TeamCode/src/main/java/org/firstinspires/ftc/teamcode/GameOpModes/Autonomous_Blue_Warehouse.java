@@ -156,18 +156,18 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -14, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, 10, Math.toRadians(170)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, 6, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-48, 6, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, 11, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-48, -2, Math.toRadians(180)))
                         .build();
                 break;
         }
@@ -179,7 +179,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-36, 6 , Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(-28, -2 , Math.toRadians(135)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -194,10 +194,15 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
 
         // 10.	Call roadrunner function to move to parking position in storage area through gap
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .splineTo(new Vector2d(-60, 12), Math.toRadians(90))
-                .splineTo(new Vector2d(-60, 42), Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(-64, 8 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
+
+        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                .lineToLinearHeading(new Pose2d(-64, 52 , Math.toRadians(90)))
+                .build();
+        driveTrain.followTrajectory(traj);
+
 
         moveElevatorToLevel0();
     }
@@ -239,7 +244,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel2();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -248,7 +253,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel3();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -260,7 +265,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         autonomousController.autoSSElevatorSetToLevel1();
         safeWait(1000);
         autonomousController.autoBucketSetToDrop();
-        safeWait(1000);
+        safeWait(2000);
         autonomousController.autoBucketSetToCollect();
         safeWait(1000);
     }
@@ -315,6 +320,9 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         telemetry.addData("Target Right : ", vision.detectedLabelRight);
         telemetry.addData("Target Top : ", vision.detectedLabelTop);
         telemetry.addData("Target Bottom : ", vision.detectedLabelBottom);
+        telemetry.addData("Vision targetLevelDetected : ", vision.targetLevelDetected);
+        telemetry.addData("Vision detectedLabel", vision.detectedLabel);
+        telemetry.addData("Vision detectedLabelLeft :", vision.detectedLabelLeft);
 
         telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
         telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());

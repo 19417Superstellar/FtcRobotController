@@ -260,7 +260,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel2();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -269,7 +269,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel3();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -281,7 +281,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         autonomousController.autoSSElevatorSetToLevel1();
         safeWait(1000);
         autonomousController.autoBucketSetToDrop();
-        safeWait(1000);
+        safeWait(2000);
         autonomousController.autoBucketSetToCollect();
         safeWait(1000);
     }
@@ -336,6 +336,9 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         telemetry.addData("Target Right : ", vision.detectedLabelRight);
         telemetry.addData("Target Top : ", vision.detectedLabelTop);
         telemetry.addData("Target Bottom : ", vision.detectedLabelBottom);
+        telemetry.addData("Vision targetLevelDetected : ", vision.targetLevelDetected);
+        telemetry.addData("Vision detectedLabel", vision.detectedLabel);
+        telemetry.addData("Vision detectedLabelLeft :", vision.detectedLabelLeft);
 
         telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
         telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());

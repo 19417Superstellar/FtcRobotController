@@ -158,30 +158,30 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-55, -25, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-55, -32, Math.toRadians(180)))
                         .build();
                 driveTrain.followTrajectory(traj);
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -25, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -32, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-55, -28, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-55, -40, Math.toRadians(180)))
                         .build();
                 driveTrain.followTrajectory(traj);
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -28, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -40, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-55, -37, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-55, -48, Math.toRadians(180)))
                         .build();
                 driveTrain.followTrajectory(traj);
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -37, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -48, Math.toRadians(180)))
                         .build();
                 break;
         }
@@ -193,7 +193,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 5.	Call roadrunner function to move to Spinner
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-57, -60, Math.toRadians(-120)))
+                .lineToLinearHeading(new Pose2d(-56, -59, Math.toRadians(-120)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -202,7 +202,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-32, -28 , Math.toRadians(-120)))
+                .lineToLinearHeading(new Pose2d(-28, -26 , Math.toRadians(-120)))
                 .build();
         driveTrain.followTrajectory(traj);
 
@@ -260,7 +260,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel2();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -269,7 +269,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                 autonomousController.autoSSElevatorSetToLevel3();
                 safeWait(1000);
                 autonomousController.autoBucketSetToDrop();
-                safeWait(1000);
+                safeWait(2000);
                 autonomousController.autoBucketSetToCollect();
                 safeWait(1000);
                 break;
@@ -281,7 +281,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         autonomousController.autoSSElevatorSetToLevel1();
         safeWait(1000);
         autonomousController.autoBucketSetToDrop();
-        safeWait(1000);
+        safeWait(2000);
         autonomousController.autoBucketSetToCollect();
         safeWait(1000);
     }
@@ -324,6 +324,8 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         telemetry.addData("GameField.currentPose : ", GameField.currentPose);
         telemetry.addData("startPose : ", startPose);
 
+
+
         //****** Drive debug ******
         telemetry.addData("Drive Mode : ", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
@@ -335,6 +337,10 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
         telemetry.addData("Target Right : ", vision.detectedLabelRight);
         telemetry.addData("Target Top : ", vision.detectedLabelTop);
         telemetry.addData("Target Bottom : ", vision.detectedLabelBottom);
+        telemetry.addData("Vision targetLevelDetected : ", vision.targetLevelDetected);
+        telemetry.addData("Vision detectedLabel", vision.detectedLabel);
+        telemetry.addData("Vision detectedLabelLeft :", vision.detectedLabelLeft);
+
 
         telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
         telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());

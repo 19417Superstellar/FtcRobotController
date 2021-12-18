@@ -161,18 +161,22 @@ public class Vision {
      *  FreightFrenzy_DM.tflite  0: Duck,  1: Marker
      */
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
+    //private static final String TFOD_MODEL_ASSET = "SuperStellar1.tflite";
     public static final String[] LABELS = {
             "Ball",
             "Cube",
             "Duck",
-            "Marker"
+            "Marker",
+            "SS1"
     };
-    public String targetLabel = LABELS[2]; // Default "Duck"
-    public String detectedLabel = LABELS[2];
+
+    public String targetLabel1 = LABELS[2]; // Default "Duck"
+    public String targetLabel2 = LABELS[3]; // "Marker" //TODO Adjust to correct one
+    public String detectedLabel = "None";
     public float detectedLabelLeft, detectedLabelRight, detectedLabelTop, detectedLabelBottom;
     public static float[] targetPosition = {
             //TODO : Update values based on marker location identifier
-            340,
+            250,
             600,
             1000
     };
@@ -230,11 +234,11 @@ public class Vision {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
 
-        if (GameField.visionIdentifier == GameField.VISION_IDENTIFIER.MARKER){
-            targetLabel = LABELS[3]; //"Marker"
+        /*if (GameField.visionIdentifier == GameField.VISION_IDENTIFIER.MARKER){
+            targetLabel2 = LABELS[3]; //"Marker"
         } else {//if (GameField.visionIdentifier == GameField.VISION_IDENTIFIER.DUCK)
-            targetLabel = LABELS[2];
-        }
+            targetLabel2 = LABELS[2];
+        }*/
         visionState = VISION_STATE.TFOD_INIT;
 
     }
@@ -261,7 +265,7 @@ public class Vision {
 
             // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
             //tfod.setZoom(1.75, 16.0/9.0);
-            tfod.setZoom(1.1, 16.0/9.0);
+            tfod.setZoom(1.0, 16.0/9.0);
             recognitions = tfod.getUpdatedRecognitions();
         }
     }
@@ -283,7 +287,11 @@ public class Vision {
                 if (recognitions.size() == 0 ) {
                     // empty list.  no objects recognized.
                     detectedLabel = "None";
-                    targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
+                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                    } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
+                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
+                    }
                 } else {
                     // list is not empty.
                     // step through the list of recognitions and display boundary info.
@@ -300,12 +308,20 @@ public class Vision {
 
                     for (Recognition recognition : recognitions) {
                         // check label to see which target zone to go after.
-                        detectedLabel = recognition.getLabel();
+                        /*detectedLabel = recognition.getLabel();
                         detectedLabelLeft = recognition.getLeft();
                         detectedLabelRight = recognition.getRight();
                         detectedLabelTop = recognition.getTop();
-                        detectedLabelBottom = recognition.getBottom();
-                        if (recognition.getLabel().equals(targetLabel)) {
+                        detectedLabelBottom = recognition.getBottom();*/
+                        if (recognition.getLabel().equals(LABELS[0]) || recognition.getLabel().equals(LABELS[1]) ||
+                                recognition.getLabel().equals(LABELS[2]) || recognition.getLabel().equals(LABELS[3]) ||
+                                recognition.getLabel().equals(LABELS[4])) {
+                            detectedLabel = recognition.getLabel();
+                            detectedLabelLeft = recognition.getLeft();
+                            detectedLabelRight = recognition.getRight();
+                            detectedLabelTop = recognition.getTop();
+                            detectedLabelBottom = recognition.getBottom();
+
                             if (recognition.getLeft() < targetPosition[0]) {
                                 if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
                                     targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
@@ -317,12 +333,6 @@ public class Vision {
                                     targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
                                 } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
                                     targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
-                                }
-                            } else {//if (recognition.getLeft() < targetPosition[2])
-                                if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                                    targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
-                                } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                                    targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
                                 }
                             }
                         }
