@@ -236,11 +236,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
     }
 
     public void rotateCarousal() {
-        if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
-            autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.CLOCKWISE;
-        } else {
-            autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.ANTICLOCKWISE;
-        }
+        autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.CLOCKWISE;
         autonomousController.runAutoControl();
         safeWait(4000);
         autonomousController.autoSSSpinnerState = AutonomousController.AUTO_SSSPINNER_STATE.STOPPED;
