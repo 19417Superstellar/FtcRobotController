@@ -156,18 +156,18 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, 10, Math.toRadians(170)))
+                        .lineToLinearHeading(new Pose2d(-48, 10, Math.toRadians(-165)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-48, 6, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, 6, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-48, -2, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-51, 3, Math.toRadians(165)))
                         .build();
                 break;
         }
@@ -179,7 +179,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-28, -2 , Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(-32, 2 , Math.toRadians(135)))
                 .build();
         driveTrain.followTrajectory(traj);
 
