@@ -179,7 +179,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-32, 2 , Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(-33, 3 , Math.toRadians(135)))
                 .build();
         driveTrain.followTrajectory(traj);
 

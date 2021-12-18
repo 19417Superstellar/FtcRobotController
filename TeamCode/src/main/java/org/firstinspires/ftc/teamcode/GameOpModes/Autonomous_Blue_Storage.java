@@ -162,26 +162,26 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                         .build();
                 driveTrain.followTrajectory(traj);
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -32, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL2:
-                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                /*traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                         .lineToLinearHeading(new Pose2d(-55, -40, Math.toRadians(180)))
                         .build();
-                driveTrain.followTrajectory(traj);
+                driveTrain.followTrajectory(traj);*/
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -40, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-50, -40, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
+            case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                         .lineToLinearHeading(new Pose2d(-55, -48, Math.toRadians(180)))
                         .build();
                 driveTrain.followTrajectory(traj);
-            case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -48, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-50, -48, Math.toRadians(180)))
                         .build();
                 break;
         }
@@ -202,7 +202,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-28, -26 , Math.toRadians(-120)))
+                .lineToLinearHeading(new Pose2d(-29, -27 , Math.toRadians(-115)))
                 .build();
         driveTrain.followTrajectory(traj);
 
