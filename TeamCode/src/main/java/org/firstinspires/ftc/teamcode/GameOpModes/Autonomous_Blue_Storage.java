@@ -221,6 +221,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                 .build();
         driveTrain.followTrajectory(traj);
         moveElevatorToLevel0();
+        safeWait(1000);
     }
 
     /**

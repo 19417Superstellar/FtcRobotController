@@ -205,6 +205,7 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
 
 
         moveElevatorToLevel0();
+        safeWait(1000);
     }
 
     /**

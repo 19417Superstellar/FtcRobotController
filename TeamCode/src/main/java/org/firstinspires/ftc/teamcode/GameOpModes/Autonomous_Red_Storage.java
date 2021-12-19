@@ -221,6 +221,7 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         driveTrain.followTrajectory(traj);
 
         moveElevatorToLevel0();
+        safeWait(1000);
     }
 
     /**
