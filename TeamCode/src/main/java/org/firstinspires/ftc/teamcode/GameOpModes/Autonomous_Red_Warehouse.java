@@ -90,9 +90,9 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         //Robot starts with Elevator in Collect State, with preloaded box
         //On Init, Elevator moves to Level 1, Bucket moves to transport
-        autonomousController.autoSSElevatorSetToLevel1();
-        autonomousController.autoBucketSetToTransport();
-        autonomousController.runAutoControl();
+        //autonomousController.autoSSElevatorSetToLevel1();
+        //autonomousController.autoBucketSetToTransport();
+        //autonomousController.runAutoControl();
 
         telemetry.addData("Start Pose : ", "BLUE_WAREHOUSE_STARTPOS");
         telemetry.addData("Waiting for start to be pressed.","Robot is ready!");
@@ -140,9 +140,12 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         GameField.poseSetInAutonomous = true;    }
 
     public void runAutoRedWarehouse(){
-        //Logic for waiting
-        safeWait(100);
+        autonomousController.autoSSElevatorSetToLevel1();
+        autonomousController.autoBucketSetToTransport();
+        autonomousController.runAutoControl();
 
+        //Logic for waiting
+        safeWait(1000);
         // 3.	Call roadrunner function to move to duck/Team Marker position
         //Move arm to Pickup Capstone level and open Grip
         moveMajorArmToPickupAndOpenClaw();
