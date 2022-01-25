@@ -29,7 +29,7 @@ public class SSBucket {
     public Servo bucketServo = null;
     public NormalizedColorSensor bucketColorSensor;
 
-    public static final double BUCKET_SERVO_COLLECT_POSITION = 0.84;
+    public static final double BUCKET_SERVO_COLLECT_POSITION = 0.88;
     public static final double BUCKET_SERVO_TRANSPORT_POSITION = 0.7;
     public static final double BUCKET_SERVO_DROP_POSITION = 0.40;
 
