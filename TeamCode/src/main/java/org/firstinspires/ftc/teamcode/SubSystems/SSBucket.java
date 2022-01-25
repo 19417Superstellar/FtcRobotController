@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Definition of HzIntake Class <BR>
@@ -22,11 +27,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class SSBucket {
 
     public Servo bucketServo = null;
+    public NormalizedColorSensor bucketColorSensor;
 
-
-    public static final double BUCKET_SERVO_COLLECT_POSITION = 0.9;
+    public static final double BUCKET_SERVO_COLLECT_POSITION = 0.84;
     public static final double BUCKET_SERVO_TRANSPORT_POSITION = 0.7;
-    public static final double BUCKET_SERVO_DROP_POSITION = 0.45;
+    public static final double BUCKET_SERVO_DROP_POSITION = 0.40;
 
     public enum BUCKET_SERVO_STATE {
         COLLECT_POSITION,
@@ -42,11 +47,23 @@ public class SSBucket {
     }
     public BUCKET_BUTTON_STATE bucketButtonState;
 
+    public enum BUCKET_COLOR_SENSOR_STATE {
+        EMPTY,
+        LOADED
+    }
+    public BUCKET_COLOR_SENSOR_STATE bucketColorSensorState = BUCKET_COLOR_SENSOR_STATE.EMPTY;
+    public double bucketColorSensorDistance;
+
     public SSBucket(HardwareMap hardwareMap) {
         bucketServo = hardwareMap.servo.get("bucket_servo");
+        bucketColorSensor = hardwareMap.get(NormalizedColorSensor.class, "bucket_sensor");
+        initBucket();
     }
 
     public void initBucket(){
+        if (bucketColorSensor instanceof SwitchableLight) {
+            ((SwitchableLight)bucketColorSensor).enableLight(true);
+        }
         if(bucketServoState != BUCKET_SERVO_STATE.COLLECT_POSITION){
             setToCollect();
         }
@@ -63,6 +80,7 @@ public class SSBucket {
         }
 
     }
+
     /**
      * set bucket position to transport
      */
@@ -88,4 +106,22 @@ public class SSBucket {
     public BUCKET_SERVO_STATE getBucketServoState() {
         return bucketServoState;
     }
+
+    public BUCKET_COLOR_SENSOR_STATE getBucketColorSensorState(){
+        if (bucketColorSensor instanceof DistanceSensor) {
+            bucketColorSensorDistance =  ((DistanceSensor) bucketColorSensor).getDistance(DistanceUnit.CM);
+        }
+
+        if (bucketColorSensorDistance < 3.0) {
+            bucketColorSensorState = BUCKET_COLOR_SENSOR_STATE.LOADED;
+        } else {
+            bucketColorSensorState = BUCKET_COLOR_SENSOR_STATE.EMPTY;
+        }
+        return bucketColorSensorState;
+    }
+
+    public double getBucketColorSensorDistance(){
+        return bucketColorSensorDistance;
+    }
+
 }

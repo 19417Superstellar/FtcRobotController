@@ -29,17 +29,17 @@ public class SSElevator {
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
-    public static int ELEVATOR_LEVEL0_POSITION_COUNT = 100;
-    public static int ELEVATOR_LEVEL1_POSITION_COUNT = 400;//  TODO : Determine by experimentation
-    public static int ELEVATOR_LEVEL2_POSITION_COUNT = 1050;//  TODO : Determine by experimentation
-    public static int ELEVATOR_LEVEL3_POSITION_COUNT = 1800;//  TODO : Determine by experimentation
+    public static int ELEVATOR_LEVEL0_POSITION_COUNT = 0;
+    public static int ELEVATOR_LEVEL1_POSITION_COUNT = 750;//  TODO : Determine by experimentation
+    public static int ELEVATOR_LEVEL2_POSITION_COUNT = 1200;//  TODO : Determine by experimentation
+    public static int ELEVATOR_LEVEL3_POSITION_COUNT = 1900;//  TODO : Determine by experimentation
     //MAX 2200
-    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 100;
-    public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100;
+    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 40;
+    public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 40;
     public static int ELEVATOR_LEVELMAX_POSITION_COUNT = 2200;
 
-    public static double POWER_NO_CARGO = 0.4;
-    public static double POWER_WITH_CARGO = 0.4;
+    public static double POWER_NO_CARGO = 0.5;
+    public static double POWER_WITH_CARGO = 0.5;
 
     public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_0;
     public ELEVATOR_POSITION previousPosition = ELEVATOR_POSITION.LEVEL_0;
@@ -50,17 +50,17 @@ public class SSElevator {
 
     public SSElevator(HardwareMap hardwareMap) {
         elevatorMotor = hardwareMap.get(DcMotorEx.class,"elevator_motor");
-
+        initElevator();
     }
 
     /**
      * Initialization for the Elevator
      */
     public void initElevator(){
-        elevatorMotor.setPositionPIDFCoefficients(5.0); //  TODO : Determine by experimentation
-        elevatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);  //TODO : Determine by experimentation
-        //elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //resetElevator();
+        elevatorMotor.setPositionPIDFCoefficients(5.0);
+        elevatorMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        resetElevator();
         moveElevatorLevel0();
         turnElevatorBrakeModeOn();
     }
@@ -69,9 +69,7 @@ public class SSElevator {
      * Reset Elevator Encoder
      */
     public void resetElevator(){
-        //DcMotor.RunMode runMode = elevatorMotor.getMode();
         elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //elevatorMotor.setMode(runMode);
     }
 
     /**
@@ -99,7 +97,6 @@ public class SSElevator {
      * Method to run motor to set to the set position
      */
     public void runElevatorToLevel(double power){
-        //elevatorMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         elevatorMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         if (runElevatorToLevelState || elevatorMotor.isBusy() ){
             elevatorMotor.setPower(power);
@@ -115,7 +112,6 @@ public class SSElevator {
      */
     public void moveElevatorLevel0() {
         turnElevatorBrakeModeOff();
-
         elevatorPositionCount = ELEVATOR_LEVEL0_POSITION_COUNT + baselineEncoderCount;
         elevatorMotor.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_NO_CARGO;
@@ -126,7 +122,6 @@ public class SSElevator {
     /**
      * Move Elevator to level1 Position
      */
-
     public void moveElevatorLevel1() {
         turnElevatorBrakeModeOn();
 
@@ -137,9 +132,11 @@ public class SSElevator {
         elevatorPosition = ELEVATOR_POSITION.LEVEL_1;
     }
 
+    /**
+     * Move Elevator to level12 Position
+     */
     public void moveElevatorLevel2() {
         turnElevatorBrakeModeOn();
-
         elevatorPositionCount = ELEVATOR_LEVEL2_POSITION_COUNT + baselineEncoderCount;
         elevatorMotor.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_WITH_CARGO;
@@ -147,6 +144,9 @@ public class SSElevator {
         elevatorPosition = ELEVATOR_POSITION.LEVEL_2;
     }
 
+    /**
+     * Move Elevator to level3 Position
+     */
     public void moveElevatorLevel3() {
         turnElevatorBrakeModeOn();
 
@@ -156,17 +156,24 @@ public class SSElevator {
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_3;
     }
+
+    /**
+     * Move Elevator Slightly Down
+     */
     public void moveSSElevatorSlightlyDown() {
-        if ((elevatorPositionCount > ELEVATOR_LEVEL0_POSITION_COUNT) &&
-                elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) {
+        if ((elevatorPositionCount > ELEVATOR_LEVEL0_POSITION_COUNT + ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) &&
+                elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT ) {
             turnElevatorBrakeModeOn();
-            elevatorPositionCount = elevatorPositionCount + ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT;
+            elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
             elevatorMotor.setTargetPosition(elevatorPositionCount);
             motorPowerToRun = POWER_NO_CARGO;
             runElevatorToLevelState = true;
         }
     }
 
+    /**
+     * Move Elevator Slightly Up
+     */
     public void moveSSElevatorSlightlyUp(){
         if ((elevatorPositionCount > ELEVATOR_LEVEL0_POSITION_COUNT) &&
                 elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT - ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT){
@@ -180,13 +187,18 @@ public class SSElevator {
 
     //function to determinie POWER_WITH_CARGO or POWER_WITH_NO_CARGO
 
+    /**
+     * Return elevator state
+     */
     public ELEVATOR_POSITION getElevatorPosition() {
 
         return elevatorPosition;
     }
 
+    /**
+     * Return elevator current position
+     */
     public int currentEncoderValue(){
-
         return elevatorMotor.getCurrentPosition();
     }
 

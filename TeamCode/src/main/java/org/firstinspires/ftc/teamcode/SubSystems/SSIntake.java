@@ -21,8 +21,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class SSIntake {
 
-    public DcMotor inakeMotor=null;
-
+    public DcMotor intakeMotor =null;
 
     public enum SSINTAKE_MOTOR_STATE {
         RUNNING,
@@ -41,7 +40,8 @@ public class SSIntake {
     public SSINTAKE_BUTTON_STATE SSIntakeButtonState;
 
     public SSIntake(HardwareMap hardwareMap) {
-        inakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        initSSIntake();
     }
 
     public void initSSIntake(){
@@ -81,9 +81,12 @@ public class SSIntake {
         }
     }
 
-    private void runSSIntakeMotor(DcMotor.Direction direction, double power){
-        inakeMotor.setDirection(direction);
-        inakeMotor.setPower(power);
+    /**
+     * Run SS Intake motor
+     */
+    public void runSSIntakeMotor(DcMotor.Direction direction, double power){
+        intakeMotor.setDirection(direction);
+        intakeMotor.setPower(power);
     }
 
     /**

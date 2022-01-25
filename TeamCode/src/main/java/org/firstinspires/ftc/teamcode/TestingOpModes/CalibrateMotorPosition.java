@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TestingOpModes;
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
  *
  */
 @TeleOp(name = "Calibrate Motor Position", group = "Calibration")
+@Disabled
 public class CalibrateMotorPosition extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
@@ -34,7 +36,7 @@ public class CalibrateMotorPosition extends LinearOpMode {
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
 
-        motorToCalibrate =  hardwareMap.get(DcMotorEx.class, "elevator_motor");;
+        motorToCalibrate =  hardwareMap.get(DcMotorEx.class, "arm_motor");;
         /* Create Controllers */
         gamepadTestController = new GamepadTestController(gamepad1, driveTrain);
 
@@ -66,11 +68,11 @@ public class CalibrateMotorPosition extends LinearOpMode {
                 }
 
                 if (gamepadTestController.getRightBumperPress()){
-                    motorPositionCount +=50;
+                    motorPositionCount +=20;
                 }
 
                 if (gamepadTestController.getLeftBumperPress()){
-                    motorPositionCount -=50;
+                    motorPositionCount -=20;
                 }
 
                 moveMotorLevelToPosition(motorPositionCount);
@@ -178,6 +180,8 @@ public class CalibrateMotorPosition extends LinearOpMode {
         telemetry.addData("Motor Power : ", motorToCalibrate.getPower());
         telemetry.addData("Motor Position Set : ", motorPositionCount);
         telemetry.addData("Motor Position Actual : ", motorToCalibrate.getTargetPosition());
+        telemetry.addData("Motor Position Actual : ", motorToCalibrate.getTargetPosition());
+
         //Add logic for debug print Logic
 
         telemetry.update();

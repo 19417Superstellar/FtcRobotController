@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -18,7 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
  *
  */
 
-@TeleOp(name = "SSTeleOp ", group = "00-Teleop")
+@TeleOp(name = "SSTeleOp", group = "00-Teleop")
 public class SSTeleOp extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
@@ -31,8 +32,7 @@ public class SSTeleOp extends LinearOpMode {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
-    //TODO: SubsystemClassName subsystemObjectName;
-    //TODO: Declare Subsystem objects for all the subsystem classes
+    public SSArm ssArm;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -48,17 +48,11 @@ public class SSTeleOp extends LinearOpMode {
         ssElevator = new SSElevator(hardwareMap);
         ssBucket = new SSBucket (hardwareMap);
         ssSpinner = new SSSpinner(hardwareMap);
-
-
-
-
-        //TODO: subsystemObjectName = new SubSystemClassName(hardwareMap);
-        //TODO: Replace name of Subsystem1 and Declare more subsystems
+        ssArm = new SSArm(hardwareMap);
 
         /* Create Controllers */
-        //TODO_SS
-        //TODO: Add the subsystemObject names to the constructor
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner );
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake,
+                ssElevator, ssBucket, ssSpinner, ssArm );
 
         /* Get last position after Autonomous mode ended from static class set in Autonomous */
         if ( GameField.poseSetInAutonomous == true) {
@@ -66,11 +60,6 @@ public class SSTeleOp extends LinearOpMode {
         } else {
             driveTrain.getLocalizer().setPoseEstimate(startPose);
         }
-
-        /* Set Initial State of any subsystem when TeleOp is to be started*/
-        //TODO_SS
-        //TODO: Add code for any initial state
-        //Subsystem1.setIntakeReleaseOpen();
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -119,17 +108,24 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Battery Power", driveTrain.getBatteryVoltage(hardwareMap));
 
         telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
+        telemetry.addData("Intake Motor Power : ", ssIntake.intakeMotor.getPower());
+
         telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());
         telemetry.addData("Elevator Encoder Current :", ssElevator.elevatorMotor.getCurrentPosition());
         telemetry.addData("Elevator Encoder Target:", ssElevator.elevatorMotor.getTargetPosition());
+
         telemetry.addData("Bucket State : ", ssBucket.getBucketServoState());
+        telemetry.addData("Bucket Servo Position : ", ssBucket.bucketServo.getPosition());
+        telemetry.addData("Bucket Automation : ", gamepadController.autoBucket);
+        telemetry.addData("Bucket Color Sensor State  : ", ssBucket.bucketColorSensorState);
+        telemetry.addData("Bucket Color Sensor Distance  : ", "%.3f",ssBucket.getBucketColorSensorDistance());
+
         telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
 
-
-
-        //TODO: Add logic for debug print Logic
+        telemetry.addData("Arm Position : ",ssArm.getArmPosition());
+        telemetry.addData("Arm Position Value: ",ssArm.armMotor.getTargetPosition());
+        telemetry.addData("Arm Grip State : ",ssArm.getGripServoState());
 
         telemetry.update();
-
     }
 }

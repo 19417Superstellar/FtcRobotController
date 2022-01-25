@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -57,28 +59,20 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
     public SSSpinner ssSpinner;
-    //TODO: Replace name of Subsystem1 and Declare more subsystems
+    public SSArm ssArm;
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
-    //TODO: Replace name of Subsystem1 and Add more Subsystems in declaration
-
-    public GamepadController(Gamepad  ssGamepad1,
-                             Gamepad  ssGamepad2,
-                             DriveTrain driveTrain){
-
-    }//To be deleted once autonomous controller is coded 6 Nov 2021-Vaishnavi
-
     public GamepadController(Gamepad  ssGamepad1,
                              Gamepad  ssGamepad2,
                              DriveTrain driveTrain,
                              SSIntake ssIntake,
                              SSElevator ssElevator,
                              SSBucket ssBucket,
-                             SSSpinner ssSpinner
-    ) {
+                             SSSpinner ssSpinner,
+                             SSArm ssArm    ) {
         this. ssGamepad1 =  ssGamepad1;
         this. ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
@@ -86,28 +80,25 @@ public class GamepadController {
         this.ssElevator = ssElevator;
         this.ssBucket = ssBucket;
         this.ssSpinner = ssSpinner;
-
-
-        //TODO: line to point object for more subsystems
+        this.ssArm = ssArm;
     }
 
     /**
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-        //runSubsystem1Control();
         runIntake();
         runElevator();
         runBucket();
         runSpinner();
-        //TODO: Add run functions for more Subsystems added
+        runArm();
         runDriveControl_byRRDriveModes();
     }
 
     /**
      * runByGamepadRRDriveModes sets modes for Road Runner such as ROBOT and FIELD Centric Modes. <BR>
+     *     RR Drive Train
      */
-    // RR Drive Train
     public void runDriveControl_byRRDriveModes() {
 
         driveTrain.poseEstimate = driveTrain.getPoseEstimate();
@@ -115,10 +106,16 @@ public class GamepadController {
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
         if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
-            driveTrain.gamepadInput = new Vector2d(
-                    -gp1TurboMode(gp1GetLeftStickY()) ,
-                    -gp1TurboMode(gp1GetLeftStickX())
-            );
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                driveTrain.gamepadInput = new Vector2d(
+                        -gp1TurboMode(gp1GetLeftStickY()),
+                        -gp1TurboMode(gp1GetLeftStickX()));
+            } else {
+                // Avoid using Turbo when elevator is at Level 0
+                driveTrain.gamepadInput = new Vector2d(
+                        -limitStick(gp1GetLeftStickY()),
+                        -limitStick(gp1GetLeftStickX()));
+            }
         }
 
         if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
@@ -139,56 +136,17 @@ public class GamepadController {
         }
         driveTrain.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
 
-        //TODO: Code to implement slight left / right turn. Uncomment to use
-        /*if (gp1GetButtonXPress()) {
-            hzDrive.augmentedControl = HzDrive.AugmentedControl.TURN_DELTA_LEFT;
-        }
-
-        if (gp1GetButtonBPress()) {
-            hzDrive.augmentedControl = HzDrive.AugmentedControl.TURN_DELTA_RIGHT;
-        }
-        */
-
         driveTrain.driveTrainPointFieldModes();
-
     }
+
 
 
     /**
-     * runIntakeControl sets the differnt intake controls, if intake should take in rings(Dpad_downPress) or the intake should run the opposite
-     * direction in order for a stuck ring to be out of intake. <BR>
-     */
-    public void runSubsystem1Control(){ //this function should be at LaunchController's place after order change
-        //TODO: Add logic for state of Subsubsystem1 to be set when a key entry is made
-        /* Example
-        if (getLeftTriggerPress()) {
-            gpHzArmUltimateGoal.moveArmByTrigger();
-        }
-
-        if (gpHzArmUltimateGoal.runArmToLevelState) {
-            gpHzArmUltimateGoal.runArmToLevel(gpHzArmUltimateGoal.motorPowerToRun);
-        }
-
-        //Toggle Arm Grip actions
-        if (getLeftBumperPress()) {
-            if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.OPENED) {
-                gpHzArmUltimateGoal.closeGrip();
-            } else if(gpHzArmUltimateGoal.getGripServoState() == HzArmUltimateGoal.GRIP_SERVO_STATE.CLOSED) {
-                gpHzArmUltimateGoal.openGrip();
-            }
-        }*/
-
-
-    }
-
-    /*function for intake function on Dpad
-    Dpad_UP is spin out the cargo
-    Dpad_Down is spin in the cargo
+     * function for intake function on Dpad
+     * Dpad_UP is spin out the cargo
+     * Dpad_Down is spin in the cargo
      */
     public void runIntake() {
-
-
-
         if (gp2GetDpad_upPress()) {
 
             //if intake motor is not running and if elevator leve is zero
@@ -213,15 +171,12 @@ public class GamepadController {
                 ssIntake.stopSSIntakeMotor();
             }
         }
-    }
-    //runIntake() ends here
+    } //runIntake() ends here
 
-    /*
-    Elevator function mapped to the gamepad buttons
+    /**
+     * Elevator function mapped to the gamepad buttons
      */
-
     public void runElevator() {
-
         if (gp2GetButtonAPress()) {
             if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_0) {
                 ssElevator.moveElevatorLevel0();
@@ -274,89 +229,41 @@ public class GamepadController {
           left trigger in gamepad1 will move slightly up
          */
 
-        if (!gp1GetStart()) {
-            if (gp1GetLeftTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyDown();
+        if (!gp2GetStart()) {
+            if (gp2GetLeftTriggerPress()) {
+                ssElevator.moveSSElevatorSlightlyUp();
             }
         } else {
-            if (gp1GetLeftTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyUp();
+            if (gp2GetLeftTriggerPress()) {
+                ssElevator.moveSSElevatorSlightlyDown();
             }
         }
 
         if (ssElevator.runElevatorToLevelState) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
+
+    } // End of runElevator function
+
+    public enum AUTO_BUCKET {
+        ON,
+        OFF
     }
+    public AUTO_BUCKET autoBucket = AUTO_BUCKET.ON;
 
-    /*
-        End of runElevator function
-     */
-
-    /*
-    Start of runSpinner
-     */
-    public void runSpinner() {
-
-
-        //spinner to spin forward
-
-        if (!gp2GetStart()) {
-
-
-                //TODO_SS
-                //if spinner motor is  running clockwise or anticlockwise, stop the spinner motor
-
-                //else start spinner motor clockwise or anti clockwise based on the alliance color
-
-                if (gp2GetLeftBumperPress()) {
-                    if ((ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) ||
-                            (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE)) {
-                        ssSpinner.stopSSSpinnerMotor();
-                    } else {
-                        if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
-                            if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
-                                ssSpinner.startClockwiseSSSPinnerMotor();
-                            }
-                        } else {
-                            if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
-                                ssSpinner.startAntiClockwiseSSSpinnerMotor();
-                            }
-                        }
-                    }
-                }
-        }else {
-                if (gp2GetLeftBumperPress()) {
-                    if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
-                            ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
-                        ssSpinner.stopSSSpinnerMotor();
-                    }
-                } else {
-                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
-                        if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
-                            ssSpinner.startAntiClockwiseSSSpinnerMotor();
-                        }
-                    } else {
-                        if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
-                            ssSpinner.startClockwiseSSSPinnerMotor();
-                        }
-                    }
-                }
-        }
-
-
-
-
-
-    }//end of runspinner
-
-    /*
-        run function for bucket Gamepad 2 Right bumper
+    /**
+     * run function for bucket Gamepad 2 Right bumper
      */
     public void runBucket() {
-
         if (gp2GetRightBumperPress()) {
-
+            //To toggle automation to off or on if needed
+            if (gp2GetStart()) {
+                if (autoBucket == AUTO_BUCKET.ON) {
+                    autoBucket = AUTO_BUCKET.OFF;
+                } else {
+                    autoBucket = AUTO_BUCKET.ON;
+                }
+            }
 
             /*
              * for level0, if right bumper is pressed,
@@ -368,11 +275,11 @@ public class GamepadController {
              * change the bucket from drop to transport if the bucket is in drop
              *
              */
-            //TODO_SS
             if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
                 if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
                     ssBucket.setToCollect();
                 } else if (ssBucket.getBucketServoState() == SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
+                    //ssIntake.stopSSIntakeMotor();
                     ssBucket.setToTransport();
                 }
             } else if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_1 ||
@@ -386,14 +293,135 @@ public class GamepadController {
                     ssBucket.setToTransport();
                 }
             }
+        }
 
+        if (ssBucket.bucketColorSensor instanceof SwitchableLight) {
+            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0 &&
+                 ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.EMPTY) {
+                ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(true);
+            } else {
+                ((SwitchableLight) ssBucket.bucketColorSensor).enableLight(false);
+                }
+            }
+
+        if (autoBucket == AUTO_BUCKET.ON) {
+            if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
+                if (ssBucket.getBucketColorSensorState() == SSBucket.BUCKET_COLOR_SENSOR_STATE.LOADED) {
+                    if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+                        ssBucket.setToTransport();
+                        ssElevator.moveElevatorLevel1();
+                        ssIntake.stopSSIntakeMotor();
+                    }
+                }
+            }
+        }
+    } // end of runBucket function
+
+    /**
+     * Start of runSpinner
+     */
+    public void runSpinner() {
+
+        if (!gp2GetStart()) { //Normal condition, start not pressed
+            if (gp2GetLeftBumperPress()) {
+                //Spinner is running
+                if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
+                        ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                    ssSpinner.stopSSSpinnerMotor();
+                } else
+                    //Spinner not running
+                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
+                        //if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
+                            ssSpinner.startClockwiseSSSPinnerMotor();
+                        //}
+                    } else  if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE){
+                        //if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                            ssSpinner.startAntiClockwiseSSSpinnerMotor();
+                        //} {
+                    }
+            }
+        } else { //Alternate  condition, start pressed
+            if (gp2GetLeftBumperPress()) {
+                //Spinner is running
+                if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
+                        ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                    ssSpinner.stopSSSpinnerMotor();
+                } else
+                    //Spinner not running
+                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
+                        //if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                            ssSpinner.startAntiClockwiseSSSpinnerMotor();
+                        //}
+                    } else if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE){
+                        //if (ssSpinner.getSSSpinnerMotorState() != SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE) {
+                            ssSpinner.startClockwiseSSSPinnerMotor();
+                        //}
+                    }
+
+            }
+        }
+    }//end of runspinner
+
+    public void runSpinner2() {
+
+        if(gp2GetStart() && gp2GetLeftBumperPress()){
+
+            if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
+                    ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                ssSpinner.stopSSSpinnerMotor();
+            }else {
+                ssSpinner.startAntiClockwiseSSSpinnerMotor();
+            }
+        }
+
+
+        if(!(gp2GetStart()) && gp2GetLeftBumperPress()){
+
+            if (ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.CLOCKWISE ||
+                    ssSpinner.getSSSpinnerMotorState() == SSSpinner.SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+                ssSpinner.stopSSSpinnerMotor();
+            }else{
+                ssSpinner.startClockwiseSSSPinnerMotor();
+            }
 
         }
-    }
-    /*
-        end of runBucket function
-     */
-    //TODO: Add controller code for more subsystems as above
+
+
+    }//end of runspinner2
+
+
+
+
+    /**
+     * Start of runArm function
+     * */
+    public void runArm() {
+        if(gp1GetButtonXPress()) {
+            ssArm.moveArmPickup();
+        }
+        if(gp1GetButtonYPress()) {
+            ssArm.moveArmDrop();
+        }
+        if(gp1GetButtonAPress()) {
+            ssArm.moveArmParked();
+        }
+        if(gp1GetButtonBPress()) {
+            ssArm.dropBelowCapstone();
+        }
+
+        if (ssArm.runArmToLevelState) {
+            ssArm.runArmToLevel(ssArm.POWER_ARM_UP);
+        }
+
+        if(gp1GetRightBumperPress()) {
+            if(ssArm.getGripServoState() != SSArm.GRIP_SERVO_STATE.GRIP_CLOSE) {
+                ssArm.setGripClose();
+            } else if (ssArm.armPosition != SSArm.ARM_POSITION.ARM_PARKED){
+                ssArm.setGripOpen();
+            }
+
+        }
+    } //End of runArm function
 
 
     //*********** KEY PAD MODIFIERS BELOW ***********

@@ -31,8 +31,7 @@ public class SSSpinner {
 
     public SSSPINNER_MOTOR_STATE SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.STOPPED;
 
-    public double SSSpinnerMotorPower1 = 0.6;//0.9;
-
+    public double SSSpinnerMotorPower1 = 0.7;//0.9;
 
     public enum SSSPINNER_BUTTON_STATE {
         ON,
@@ -43,6 +42,7 @@ public class SSSpinner {
 
     public SSSpinner(HardwareMap hardwareMap) {
         SSSpinnerMotor = hardwareMap.dcMotor.get("spmotor");
+        initSSSpinner();
     }
 
     public void initSSSpinner() {
@@ -50,13 +50,13 @@ public class SSSpinner {
     }
 
     /**
-     * startForwardSSSPinnerMotor checks if the intake is not running and runs the spinner
+     * startForwardSSSPinnerMotor
      */
     public void startClockwiseSSSPinnerMotor() {
-        if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.CLOCKWISE) {
+        //if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.CLOCKWISE) {
             runSSSpinnerMotor(DcMotor.Direction.FORWARD, SSSpinnerMotorPower1);
             SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.CLOCKWISE;
-        }
+        //}
     }
 
     /**
@@ -64,10 +64,10 @@ public class SSSpinner {
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
     public void stopSSSpinnerMotor() {
-        if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.STOPPED) {
+        //if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.STOPPED) {
             runSSSpinnerMotor(DcMotor.Direction.FORWARD, 0.0);
             SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.STOPPED;
-        }
+        //}
     }
 
     /**
@@ -75,21 +75,25 @@ public class SSSpinner {
      * ets intake motor state to REVERSING
      */
     public void startAntiClockwiseSSSpinnerMotor() {
-        if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
+        //if (SSSpinnerMotorState != SSSPINNER_MOTOR_STATE.ANTICLOCKWISE) {
             runSSSpinnerMotor(DcMotor.Direction.REVERSE, SSSpinnerMotorPower1);
             SSSpinnerMotorState = SSSPINNER_MOTOR_STATE.ANTICLOCKWISE;
-        }
+        //}
     }
 
+    /**
+     * Run SS Spinner Motor
+     */
     public void runSSSpinnerMotor(DcMotor.Direction direction, double power) {
         SSSpinnerMotor.setDirection(direction);
         SSSpinnerMotor.setPower(power);
     }
 
-    //Returns the state of the Spinner Motor
+    /**
+     * Returns the state of the Spinner Motor
+     */
     public SSSPINNER_MOTOR_STATE getSSSpinnerMotorState() {
         return SSSpinnerMotorState;
     }
-
 
 }
