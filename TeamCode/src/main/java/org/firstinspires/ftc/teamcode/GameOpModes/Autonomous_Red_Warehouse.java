@@ -177,9 +177,18 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         safeWait(1000);
 
         // 5.	Call roadrunner function move to Alliance Shipping Hub
-        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(33.5, 3.5, Math.toRadians(45)))
-                .build();
+        switch (targetZone) {
+            case LEVEL1:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(33.5, 3.5, Math.toRadians(45)))
+                        .build();
+                break;
+            case LEVEL2:
+            case LEVEL3:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(31.5, 2, Math.toRadians(43)))
+                        .build();
+        }
         driveTrain.followTrajectory(traj);
 
         // 6.	Call elevator function to raise to correct level drop preloaded box

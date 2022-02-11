@@ -204,9 +204,19 @@ public class Autonomous_Red_Storage extends LinearOpMode {
         rotateCarousal();
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
-        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(27, -29, Math.toRadians(-65)))
-                .build();
+        switch (targetZone) {
+            case LEVEL1:
+            case LEVEL2:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(27, -29, Math.toRadians(-65)))
+                        .build();
+                break;
+            case LEVEL3:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(26, -28, Math.toRadians(-67)))
+                        .build();
+                break;
+        }
         driveTrain.followTrajectory(traj);
 
         // 8.	Call elevator function to raise to correct level drop preloaded box
