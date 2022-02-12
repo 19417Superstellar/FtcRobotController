@@ -155,12 +155,12 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(50, 7.5, Math.toRadians(0)))
+                        .lineToLinearHeading(new Pose2d(49.5, 7.5, Math.toRadians(0)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(50, 15, Math.toRadians(-10)))
+                        .lineToLinearHeading(new Pose2d(49, 14.5, Math.toRadians(-12)))
                         .build();
                 break;
             case LEVEL3:
@@ -184,6 +184,10 @@ public class Autonomous_Red_Warehouse extends LinearOpMode {
                         .build();
                 break;
             case LEVEL2:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(32.25, 2.25, Math.toRadians(45)))
+                        .build();
+                break;
             case LEVEL3:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                         .lineToLinearHeading(new Pose2d(31.5, 2, Math.toRadians(43)))
