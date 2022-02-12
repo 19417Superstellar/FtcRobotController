@@ -206,7 +206,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-30, -28 , Math.toRadians(-115)))
+                .lineToLinearHeading(new Pose2d(-31.5, -29.5 , Math.toRadians(-115)))
                 .build();
         driveTrain.followTrajectory(traj);
 
