@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Vision;
 
 
 /**
- * Path and actions for autonomous mode starting from Blue Warehouse position
+ * Path and actions for autonomous mode starting from Red Warehouse position
  * 1.	Robot starts position with bucket in transport state in Level 1 with pre-loaded box in it.
  * 2.	Call Vision function to detect duck/Team Marker position and set level to drop pre-loaded box
  * 3.	Call roadrunner function to move to duck/Team Marker position
@@ -32,8 +32,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.Vision;
  * 9.	Call elevator function to move to Level 1 position
  * 10.	Call roadrunner function to move to parking position in storage area through gap
  */
-@Autonomous(name = "Autonomous_Blue_Warehouse_Multiple", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
-public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
+@Autonomous(name = "Autonomous_Red_Warehouse_Multiple", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
+public class Autonomous_Red_Warehouse_Multiple extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
@@ -47,8 +47,8 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
     public SSArm ssArm;
 
     public Vision vision;
-    public static final Pose2d BLUE_WAREHOUSE_MULTIPLE_STARTPOS =  new Pose2d(-61,7,Math.toRadians(180));
-    public Pose2d startPose = BLUE_WAREHOUSE_MULTIPLE_STARTPOS;
+    public static final Pose2d RED_WAREHOUSE_MULTIPLE_STARTPOS =  new Pose2d(61,7,Math.toRadians(0));
+    public Pose2d startPose = RED_WAREHOUSE_MULTIPLE_STARTPOS;
 
     boolean parked = false ;
     boolean autonomousStarted = false;
@@ -75,8 +75,7 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
         gamepadController = new GamepadController(gamepad1,gamepad2, driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
         autonomousController = new AutonomousController(driveTrain, ssIntake, ssElevator, ssBucket, ssSpinner, ssArm);
 
-        GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
-
+        GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
         //Key Pay inputs to select Game Plan;
         vision = new Vision(hardwareMap, activeWebcam);
         af = GameField.ALLIANCE_FACTOR;
@@ -85,7 +84,7 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
         vision.activateVuforiaTensorFlow();
 
         // 1.	Robot starts position with bucket in transport state in Level 1 with pre-loaded box in it.
-        startPose = BLUE_WAREHOUSE_MULTIPLE_STARTPOS;
+        startPose = RED_WAREHOUSE_MULTIPLE_STARTPOS;
         driveTrain.getLocalizer().setPoseEstimate(startPose);
 
         //Robot starts with Elevator in Collect State, with preloaded box
@@ -118,13 +117,13 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
             while (opModeIsActive() && !isStopRequested() && !parked) {
 
                 vision.deactivateVuforiaTensorFlow();
-                runAutoBlueWarehouseMultiple();
+                runAutoRedWarehouseMultiple();
 
                 //Move to Launching Position
                 parked = true;
 
                 //Write last position to static class to be used as initial position in TeleOp
-                GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
+                GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
                 GameField.currentPose = driveTrain.getPoseEstimate();
                 GameField.poseSetInAutonomous = true;
 
@@ -138,20 +137,15 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
 
         //Write last position to static class to be used as initial position in TeleOp
         GameField.currentPose = driveTrain.getPoseEstimate();
-        GameField.poseSetInAutonomous = true;
+        GameField.poseSetInAutonomous = true;    }
 
-    }
-
-    /**
-     */
-    public void runAutoBlueWarehouseMultiple(){
+    public void runAutoRedWarehouseMultiple(){
         autonomousController.autoSSElevatorSetToLevel1();
         autonomousController.autoBucketSetToTransport();
         autonomousController.runAutoControl();
 
         //Logic for waiting
         safeWait(1000);
-
         // 3.	Call roadrunner function to move to duck/Team Marker position
         //Move arm to Pickup Capstone level and open Grip
         moveMajorArmToPickupAndOpenClaw();
@@ -161,18 +155,18 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
         switch (targetZone) {
             case LEVEL1:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-48, 10, Math.toRadians(-165)))
+                        .lineToLinearHeading(new Pose2d(49.5, 7.5, Math.toRadians(0)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, 6, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(49, 14.5, Math.toRadians(-12)))
                         .build();
                 break;
             case LEVEL3:
             case UNKNOWN:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-51, 3, Math.toRadians(165)))
+                        .lineToLinearHeading(new Pose2d(48, 17, Math.toRadians(-30)))
                         .build();
                 break;
         }
@@ -185,19 +179,20 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         switch (targetZone) {
             case LEVEL1:
-            case LEVEL3:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-32, 2, Math.toRadians(133)))
+                        .lineToLinearHeading(new Pose2d(33.5, 3.5, Math.toRadians(45)))
                         .build();
                 break;
             case LEVEL2:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-33, 3, Math.toRadians(133)))
+                        .lineToLinearHeading(new Pose2d(32.25, 2.25, Math.toRadians(45)))
                         .build();
                 break;
-
+            case LEVEL3:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(31.5, 2, Math.toRadians(43)))
+                        .build();
         }
-
         driveTrain.followTrajectory(traj);
 
         // 6.	Call elevator function to raise to correct level drop preloaded box
@@ -211,58 +206,25 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
 
         // 10.	Call roadrunner function to move to parking position in storage area through gap
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-64, 8 , Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(64, 8 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-64, 47 , Math.toRadians(90)))
-                .build();
-        driveTrain.followTrajectory(traj);
-
-        //Code added on 15 Feb for State
-        //11. Run Intake for a few seconds
-        autonomousController.runAutoSSIntake();
-        //12. Retrace back steps in 10
-        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(64, -8 , Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(64, 47 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(64, -47 , Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(61, 47 , Math.toRadians(120)))
                 .build();
         driveTrain.followTrajectory(traj);
-        //13. Repeat step 5 but only for level 3
-
-
-                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-32, 2, Math.toRadians(133)))
-                        .build();
-        driveTrain.followTrajectory(traj);
-
-        moveElevatorToLevel1();
-        dropBoxToLevel();
-
-        //14. Repeat step 9
-        safeWait(1000);
-        moveElevatorToLevel1();
-        //15. Repeat step 10
-        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-64, 8 , Math.toRadians(90)))
-                .build();
-        driveTrain.followTrajectory(traj);
-
-        traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-64, 47 , Math.toRadians(90)))
-                .build();
-        driveTrain.followTrajectory(traj);
-
-
 
         moveElevatorToLevel0();
         safeWait(1000);
     }
+
+
 
     /**
      * Safe method to wait so that stop button is also not missed
@@ -275,6 +237,7 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
             autonomousController.runAutoControl();
         }
     }
+
 
     public void rotateCarousal() {
         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) {
@@ -333,7 +296,6 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
     public void moveElevatorToLevel0(){
         autonomousController.autoSSElevatorSetToLevel0();
     }
-
 
     /**
      * Hybrid Commands For Autonomous OpMode
@@ -395,5 +357,4 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
 
     }
 }
-
 
