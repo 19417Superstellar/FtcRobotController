@@ -31,7 +31,7 @@ public class SSIntake {
 
     public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
 
-    public double SSIntakeMotorPower = 0.95;//0.9;
+    public double SSIntakeMotorPower = 0.85;//0.95;//0.9;
 
     public enum SSINTAKE_BUTTON_STATE {
         ON,

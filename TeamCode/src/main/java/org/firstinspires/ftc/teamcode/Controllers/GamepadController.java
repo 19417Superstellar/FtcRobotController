@@ -152,6 +152,7 @@ public class GamepadController {
             //if intake motor is not running and if elevator leve is zero
             //if bucket is not in collect set bucket to collect
             //and start intake motor forward
+            /*
             if((ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING) &&
                     (ssElevator.getElevatorPosition()==SSElevator.ELEVATOR_POSITION.LEVEL_0)) {
                 if(ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION){
@@ -160,16 +161,25 @@ public class GamepadController {
                 ssIntake.startForwardSSIntakeMotor();
             } else if(ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
                 ssIntake.stopSSIntakeMotor();
-            }
+            }*/
+            //move elevator to level 0
+           ssIntake.startForwardSSIntakeMotor();
         }
 
         //Reverse Intake motors and run - in case of stuck state)
         if (gp2GetDpad_downPress()) {
+            /*
             if(ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING) {
                 ssIntake.startReverseSSIntakeMotor();
             } else if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
                 ssIntake.stopSSIntakeMotor();
+
             }
+            */
+
+        ssElevator.moveElevatorLevel0();
+        ssBucket.setToCollect();
+        ssIntake.startReverseSSIntakeMotor();
         }
     } //runIntake() ends here
 
