@@ -225,12 +225,12 @@ public class Autonomous_Blue_Warehouse_Multiple extends LinearOpMode {
         autonomousController.runAutoSSIntake();
         //12. Retrace back steps in 10
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(64, -8 , Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-64, 8 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
 
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(64, -47 , Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-64, 47 , Math.toRadians(90)))
                 .build();
         driveTrain.followTrajectory(traj);
         //13. Repeat step 5 but only for level 3

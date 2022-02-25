@@ -166,7 +166,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                         .build();
                 driveTrain.followTrajectory(traj);
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -32, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL2:
