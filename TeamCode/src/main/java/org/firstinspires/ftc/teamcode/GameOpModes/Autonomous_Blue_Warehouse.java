@@ -184,6 +184,10 @@ public class Autonomous_Blue_Warehouse extends LinearOpMode {
         // 5.	Call roadrunner function move to Alliance Shipping Hub
         switch (targetZone) {
             case LEVEL1:
+                traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                        .lineToLinearHeading(new Pose2d(-34, 4, Math.toRadians(135)))
+                        .build();
+                break;
             case LEVEL3:
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                         .lineToLinearHeading(new Pose2d(-32, 2, Math.toRadians(133)))

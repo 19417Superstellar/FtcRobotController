@@ -166,7 +166,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                         .build();
                 driveTrain.followTrajectory(traj);
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-49, -32, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-48, -32, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL2:
@@ -175,7 +175,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
                         .build();
                 driveTrain.followTrajectory(traj);*/
                 traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(-50, -40, Math.toRadians(180)))
+                        .lineToLinearHeading(new Pose2d(-49, -40, Math.toRadians(180)))
                         .build();
                 break;
             case LEVEL3:
@@ -206,7 +206,7 @@ public class Autonomous_Blue_Storage extends LinearOpMode {
 
         // 7.	Call roadrunner function move to Alliance Shipping Hub
         traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                .lineToLinearHeading(new Pose2d(-31.5, -29.5 , Math.toRadians(-115)))
+                .lineToLinearHeading(new Pose2d(-31, -29 , Math.toRadians(-115)))
                 .build();
         driveTrain.followTrajectory(traj);
 
