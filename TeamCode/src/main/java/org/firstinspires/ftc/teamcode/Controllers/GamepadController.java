@@ -61,7 +61,7 @@ public class GamepadController {
      * Constructor for  ssGamepad1 class that extends gamepad.
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
-    public GamepadController(Gamepad  ssGamepad1,
+    public GamepadController(Gamepad ssGamepad1,
                              Gamepad  ssGamepad2,
                           ) {
         this. ssGamepad1 =  ssGamepad1;
