@@ -1,18 +1,14 @@
 package org.firstinspires.ftc.teamcode.Controllers;
 
-/*
-        import com.acmerobotics.roadrunner.geometry.Vector2d;
+
+        //import com.acmerobotics.roadrunner.geometry.Vector2d;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.SwitchableLight;
 
         import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
         import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-        import org.firstinspires.ftc.teamcode.SubSystems.SSArm;
-        import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
-        import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-        import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
-        import org.firstinspires.ftc.teamcode.SubSystems.SSSpinner;
-*/
+
+
 /**
  * Defenition of the HzGamepad Class <BR>
  *
@@ -62,7 +58,7 @@ public class GamepadController {
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
     public GamepadController(Gamepad ssGamepad1,
-                             Gamepad  ssGamepad2,
+                             Gamepad  ssGamepad2
                           ) {
         this. ssGamepad1 =  ssGamepad1;
         this. ssGamepad2 =  ssGamepad2;
