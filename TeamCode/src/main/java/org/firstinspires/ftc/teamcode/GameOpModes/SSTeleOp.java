@@ -4,12 +4,11 @@ package org.firstinspires.ftc.teamcode.GameOpModes;
         import com.acmerobotics.roadrunner.geometry.Pose2d;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-       import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
+        import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
         import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 /**
- * Freight Frenzy TeleOp mode <BR>
+ * Power Play TeleOp mode <BR>
  *
  *  *  This code defines the TeleOp mode is done by SuperStellar Robot for Freight Frenzy.<BR>
  *
@@ -24,6 +23,9 @@ public class SSTeleOp extends LinearOpMode {
     public DriveTrain driveTrain;
 
     //TODO_SS
+    // public SSClaw ssClaw;
+    //public SSArm ssArm;
+    //public SSElevator ssElevator;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -32,13 +34,23 @@ public class SSTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         /* Create Subsystem Objects*/
-
+        driveTrain = new DriveTrain(hardwareMap);
 
         //TODO_SS
-
+        //ssClaw = new SSClaw(hardwareMap);
+        //ssArm = new SSArm(hardwareMap);
+        //ssElevator = new SSElevator(hardwareMap);
 
         /* Create Controllers */
+        //gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssArm, ssElevator)
 
+
+        //Get last position after Autonomous mode ended from static class set in Autonomous
+        if (GameField.poseSetInAutonomous == true) {
+            driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
+        } else {
+                driveTrain.getLocalizer().setPoseEstimate(startPose);
+        }
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -76,7 +88,15 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.setAutoClear(true);
         telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
+        telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
+        telemetry.addData("GameField.poseSetInAutonomous :", GameField.poseSetInAutonomous);
+        telemetry.addData("GameField.currentPose :", GameField.currentPose);
+        telemetry.addData("startPose :", startPose);
 
+        telemetry.addData("Drive Mode :", driveTrain.driveMode);
+        telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
+        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+         //add for all subsytems
 
         telemetry.update();
     }
