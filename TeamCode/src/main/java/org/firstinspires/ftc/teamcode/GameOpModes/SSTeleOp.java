@@ -6,6 +6,9 @@ package org.firstinspires.ftc.teamcode.GameOpModes;
         import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
         import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
         import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 
 /**
  * Power Play TeleOp mode <BR>
@@ -23,9 +26,9 @@ public class SSTeleOp extends LinearOpMode {
     public DriveTrain driveTrain;
 
     //TODO_SS
-    // public SSClaw ssClaw;
-    //public SSArm ssArm;
-    //public SSElevator ssElevator;
+    public SSClaw ssClaw;
+    public SSArm ssArm;
+    public SSElevator ssElevator;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -37,12 +40,12 @@ public class SSTeleOp extends LinearOpMode {
         driveTrain = new DriveTrain(hardwareMap);
 
         //TODO_SS
-        //ssClaw = new SSClaw(hardwareMap);
-        //ssArm = new SSArm(hardwareMap);
-        //ssElevator = new SSElevator(hardwareMap);
+        ssClaw = new SSClaw(hardwareMap);
+        ssArm = new SSArm(hardwareMap);
+        ssElevator = new SSElevator(hardwareMap);
 
         /* Create Controllers */
-        //gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssArm, ssElevator)
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous

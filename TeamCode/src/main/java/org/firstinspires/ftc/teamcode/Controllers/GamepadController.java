@@ -7,6 +7,9 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
         import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
         import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+        import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 
 
 /**
@@ -51,6 +54,10 @@ public class GamepadController {
 
     //Create object reference to objects to systems passed from TeleOp
     public Gamepad  ssGamepad1,  ssGamepad2;
+    public DriveTrain driveTrain;
+    public SSClaw ssClaw;
+    public SSElevator ssElevator;
+    public SSArm ssArm;
 
 
     /**
@@ -58,10 +65,17 @@ public class GamepadController {
      * Assign the gamepad1 given in OpMode to the gamepad used here.
      */
     public GamepadController(Gamepad ssGamepad1,
-                             Gamepad  ssGamepad2
-                          ) {
+                             Gamepad  ssGamepad2,
+                             DriveTrain driveTrain,
+                             SSClaw ssClaw,
+                             SSElevator ssElevator,
+                             SSArm ssArm) {
         this. ssGamepad1 =  ssGamepad1;
         this. ssGamepad2 =  ssGamepad2;
+        this.driveTrain = driveTrain;
+        this.ssClaw = ssClaw;
+        this.ssElevator = ssElevator;
+        this.ssArm = ssArm;
 
     }
 
