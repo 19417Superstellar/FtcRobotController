@@ -140,49 +140,73 @@ public class GamepadController {
      * Elevator function mapped to the gamepad buttons
      */
     public void runElevator() {
+        if (gp2GetButtonAPress()) {
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_GROUND) {
+                ssElevator.moveElevatorLevelGround();
+            }
+            if (ssElevator.runElevatorToLevelState) {
+                ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
+            }
+           // if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
+            //    ssBucket.setToCollect();
+            //}
+        }
 
+        if (gp2GetButtonXPress()) {
+           // if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
+            //    ssIntake.stopSSIntakeMotor();
+          //  }
+           // if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+            //    ssBucket.setToTransport();
+           // }
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+                ssElevator.moveElevatorLevelLow();
 
+            }
+        }
 
+        if (gp2GetButtonBPress()) {
+        //    if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
+          //      ssIntake.stopSSIntakeMotor();
+        //    }
+         //   if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+       //         ssBucket.setToTransport();
+        //    }
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_MID) {
+                ssElevator.moveElevatorLevelMid();
+            }
+        }
 
-
-
+        if (gp2GetButtonYPress()) {
+           // if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
+           //     ssIntake.stopSSIntakeMotor();
+          //  }
+            //if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
+              //  ssBucket.setToTransport();
+            //}
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
+                ssElevator.moveElevatorLevelHigh();
+            }
+        }
         /*start+left trigger in gamepad1 will move slightly down
           left trigger in gamepad1 will move slightly up
          */
 
+        if (!gp2GetStart()) {
+            if (gp2GetLeftTriggerPress()) {
+                ssElevator.moveSSElevatorSlightlyUp();
+            }
+        } else {
+            if (gp2GetLeftTriggerPress()) {
+                ssElevator.moveSSElevatorSlightlyDown();
+            }
+        }
 
-
-
+        if (ssElevator.runElevatorToLevelState) {
+            ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
+        }
 
     } // End of runElevator function
-
-    public enum AUTO_BUCKET {
-        ON,
-        OFF
-    }
-    public AUTO_BUCKET autoBucket = AUTO_BUCKET.ON;
-
-
-
-            /*
-             * for level0, if right bumper is pressed,
-             * change the bucket from transport to collect if bucket state is transport
-             * change from collect to collect to transport if bucket state is collect
-             *
-             * for level1, level2 and level3,if right bumper is pressed,
-             * change the state of bucket from transport to drop if bucket is in transport
-             * change the bucket from drop to transport if the bucket is in drop
-             *
-             */
-
-
-
-
-
-
-
-
-
 
     /**
      * Start of runArm function
