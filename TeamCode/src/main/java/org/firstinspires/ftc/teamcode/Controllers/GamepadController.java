@@ -140,54 +140,20 @@ public class GamepadController {
      * Elevator function mapped to the gamepad buttons
      */
     public void runElevator() {
-        if (gp2GetButtonAPress()) {
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_GROUND) {
+        if (gp2GetDpad_downPress()) {
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
                 ssElevator.moveElevatorLevelGround();
             }
-            if (ssElevator.runElevatorToLevelState) {
-                ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
-            }
-           // if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
-            //    ssBucket.setToCollect();
-            //}
         }
 
-        if (gp2GetButtonXPress()) {
-           // if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-            //    ssIntake.stopSSIntakeMotor();
-          //  }
-           // if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
-            //    ssBucket.setToTransport();
-           // }
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
-                ssElevator.moveElevatorLevelLow();
-
-            }
-        }
-
-        if (gp2GetButtonBPress()) {
-        //    if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-          //      ssIntake.stopSSIntakeMotor();
-        //    }
-         //   if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
-       //         ssBucket.setToTransport();
-        //    }
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_MID) {
-                ssElevator.moveElevatorLevelMid();
-            }
-        }
-
-        if (gp2GetButtonYPress()) {
-           // if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-           //     ssIntake.stopSSIntakeMotor();
-          //  }
-            //if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.TRANSPORT_POSITION) {
-              //  ssBucket.setToTransport();
-            //}
+        if (gp2GetDpad_upPress()) {
             if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
                 ssElevator.moveElevatorLevelHigh();
+
             }
         }
+
+
         /*start+left trigger in gamepad1 will move slightly down
           left trigger in gamepad1 will move slightly up
          */
