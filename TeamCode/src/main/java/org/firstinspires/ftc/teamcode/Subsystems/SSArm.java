@@ -202,10 +202,17 @@ public class SSArm {
 
 
 
-    public int currentEncoderValue(){
+    public int currentEncoderValueLeft(){
 
         return armMotorLeft.getCurrentPosition();
-        return armMotorRight.getCurrentPosition()
+
+
+    }
+
+    public int currentEncoderValueRight(){
+
+        return armMotorRight.getCurrentPosition();
+
 
     }
 
