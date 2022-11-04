@@ -12,3 +12,5 @@ Driver Station
 Driver hub: 1.2.0
 Android version: 10
 Driver station: 8.0
+
+Android Gradle Plug In Version: 7.2.0
