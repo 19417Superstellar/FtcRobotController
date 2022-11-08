@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 
         //import com.acmerobotics.roadrunner.geometry.Vector2d;
-        import com.acmerobotics.roadrunner.geometry.Vector2d;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.SwitchableLight;
 
@@ -54,7 +53,7 @@ package org.firstinspires.ftc.teamcode.Controllers;
 public class GamepadController {
 
     //Create object reference to objects to systems passed from TeleOp
-    public Gamepad  ssGamepad1, ssGamepad2;
+    public Gamepad  ssGamepad1,  ssGamepad2;
     public DriveTrain driveTrain;
     public SSClaw ssClaw;
     public SSElevator ssElevator;
@@ -71,8 +70,8 @@ public class GamepadController {
                              SSClaw ssClaw,
                              SSElevator ssElevator,
                              SSArm ssArm) {
-        this.ssGamepad1 =  ssGamepad1;
-        this.ssGamepad2 =  ssGamepad2;
+        this. ssGamepad1 =  ssGamepad1;
+        this. ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
         this.ssClaw = ssClaw;
         this.ssElevator = ssElevator;
@@ -84,7 +83,8 @@ public class GamepadController {
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-        runDriveControl_byRRDriveModes();
+        runElevator();
+       // runArm();
     }
 
     /**
@@ -93,30 +93,8 @@ public class GamepadController {
      */
     public void runDriveControl_byRRDriveModes() {
 
-        driveTrain.poseEstimate = driveTrain.getPoseEstimate();
 
-        driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
-
-        if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
-            driveTrain.gamepadInput = new Vector2d(
-                    gp1TurboMode(gp1GetLeftStickX()),
-                    -gp1TurboMode(gp1GetLeftStickY())
-            ).rotated(-driveTrain.poseEstimate.getHeading());
         }
-
-        if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) { // Blue Alliance
-            driveTrain.gamepadInput = new Vector2d(
-                    -gp1TurboMode(gp1GetLeftStickX()),
-                    gp1TurboMode(gp1GetLeftStickY())
-            ).rotated(-driveTrain.poseEstimate.getHeading());
-        }
-
-        driveTrain.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
-
-        driveTrain.driveTrainPointFieldModes();
-    }
-
-
 
 
 

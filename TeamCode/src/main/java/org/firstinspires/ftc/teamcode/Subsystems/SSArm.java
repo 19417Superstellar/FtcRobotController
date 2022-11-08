@@ -31,7 +31,7 @@ public class SSArm {
     public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
    // public static int ARM_BASELINE_POSITION_COUNT = 0;
-    public static int ARM_PICKUP_POSITION_COUNT = 650;//  TODO : Determine by experimentation
+    public static int ARM_PICKUP_POSITION_COUNT = 325;//  TODO : Determine by experimentation
     //Use testarm teleop to verify if armMotorLeft and armMotorRight use the same encoder values
     //if not, add different constants for the two motors
     //public static int ARM_CUP_POSITION_COUNT = 375;//  TODO : Determine by experimentation

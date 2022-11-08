@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             public static double ENCODER_VALUE = 537.7;
             public static int baselineEncoderCount = 0;
             public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;//  TODO : Determine by experimentation
-            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 500;//  TODO : Determine by experimentation
+            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 1500;//  TODO : Determine by experimentation
             //MAX 2200
             public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 40;
             public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 40;
@@ -57,7 +57,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
                 elevatorMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
                 elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 elevatorMotorRight.setPositionPIDFCoefficients(5.0);
-                elevatorMotorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+                elevatorMotorRight.setDirection(DcMotorSimple.Direction.FORWARD);
                 elevatorMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 resetElevator();
                 moveElevatorLevelGround();
@@ -102,18 +102,15 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             public void runElevatorToLevel(double power){
                 elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                if (runElevatorToLevelState || elevatorMotorLeft.isBusy() ){
+                if (runElevatorToLevelState){
                     elevatorMotorLeft.setPower(power);
-                    runElevatorToLevelState = false;
-                } else {
-                    elevatorMotorLeft.setPower(0.0);
-                }
-                if (runElevatorToLevelState || elevatorMotorRight.isBusy() ){
                     elevatorMotorRight.setPower(power);
                     runElevatorToLevelState = false;
-                } else {
+                }
+                else {
                     elevatorMotorRight.setPower(0.0);
                 }
+
             }
 
 
@@ -122,7 +119,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
              */
             public void moveElevatorLevelGround() {
                 turnElevatorBrakeModeOff();
-                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT + baselineEncoderCount;
+                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ;
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_NO_CARGO;
@@ -151,6 +148,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
                 turnElevatorBrakeModeOn();
 
                 elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT + baselineEncoderCount;
+                //elevatorPositionCount_left =
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_WITH_CARGO;
