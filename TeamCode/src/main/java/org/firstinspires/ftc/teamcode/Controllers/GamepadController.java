@@ -179,9 +179,114 @@ public class GamepadController {
      * Start of runArm function
      * */
     public void runArm() {
+        if (gp2GetButtonAPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
+                ssArm.moveArmIntakeForward();
+            }
+        }
+
+        if (gp2GetRightTriggerPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
+                ssArm.moveArmIntakeRear();
+
+            }
+        }
+
+        if (gp2GetButtonYPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+                ssArm.moveArmLow();
+
+            }
+        }
+
+        if (gp2GetButtonBPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_MID) {
+                ssArm.moveArmMid();
+
+            }
+        }
+
+        if (gp2GetButtonXPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+                ssArm.moveArmHigh();
+
+            }
+        }
+
+
+        /*start+left trigger in gamepad1 will move slightly down
+          left trigger in gamepad1 will move slightly up
+         */
+
+        if (!gp2GetStart()) {
+            if (gp2GetButtonYPress()) {
+                ssArm.moveSSArmSlightlyUp();
+            }
+            if (gp2GetButtonBPress()) {
+                ssArm.moveSSArmSlightlyDown();
+            }
+        }
+
+        if (ssArm.runArmToLevelState) {
+            ssArm.runArmToLevel(ssArm.motorPowerToRun);
+        }
 
     } //End of runArm function
 
+    public void runClaw() {
+        if (gp2GetLeftTriggerPress()) {
+            if (ssClaw.getGripServoState() != SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE){
+                //ssClaw.moveClawGripClose();
+            }
+        }
+
+        if (gp2GetRightTriggerPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
+                ssArm.moveArmIntakeRear();
+
+            }
+        }
+
+        if (gp2GetButtonYPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+                ssArm.moveArmLow();
+
+            }
+        }
+
+        if (gp2GetButtonBPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_MID) {
+                ssArm.moveArmMid();
+
+            }
+        }
+
+        if (gp2GetButtonXPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+                ssArm.moveArmHigh();
+
+            }
+        }
+
+
+        /*start+left trigger in gamepad1 will move slightly down
+          left trigger in gamepad1 will move slightly up
+         */
+
+        if (!gp2GetStart()) {
+            if (gp2GetButtonYPress()) {
+                ssArm.moveSSArmSlightlyUp();
+            }
+            if (gp2GetButtonBPress()) {
+                ssArm.moveSSArmSlightlyDown();
+            }
+        }
+
+        if (ssArm.runArmToLevelState) {
+            ssArm.runArmToLevel(ssArm.motorPowerToRun);
+        }
+
+    }
 
     //*********** KEY PAD MODIFIERS BELOW ***********
 

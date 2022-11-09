@@ -15,8 +15,8 @@ public class SSArm {
 
 
     public enum ARM_POSITION {
-       ARM_POSITION_INTAKE,
-        ARM_POSITION_GROUND,
+       ARM_POSITION_INTAKE_FORWARD,
+        ARM_POSITION_INTAKE_REAR,
         ARM_POSITION_MID,
         ARM_POSITION_LOW,
         ARM_POSITION_HIGH
@@ -28,19 +28,19 @@ public class SSArm {
     //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
     //Encoder Resolution: 537.7 PPR at the Output Shaft
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-    public static double ENCODER_VALUE = 537.7;
+    //public static double ENCODER_VALUE = 537.7;
     public static int baselineEncoderCount = 0;
    // public static int ARM_BASELINE_POSITION_COUNT = 0;
-    public static int ARM_PICKUP_POSITION_COUNT = 325;//  TODO : Determine by experimentation
     //Use testarm teleop to verify if armMotorLeft and armMotorRight use the same encoder values
     //if not, add different constants for the two motors
     //public static int ARM_CUP_POSITION_COUNT = 375;//  TODO : Determine by experimentation
-    public static int ARM_PARKED_POSITION_COUNT = 0;//  TODO : Determine by experimentation
-    public static int ARM_LOW_POSITION_COUNT=0;
-    public static int ARM_MID_POSITION_COUNT=0;
-    public static int ARM_HIGH_POSITION_COUNT=0;
-    public static int ARM_INTAKE_POSITION_COUNT=0;
-    public static int ARM_GROUND_POSITION_COUNT=0;
+    public static int ARM_LOW_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_MID_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_HIGH_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_FORWARD_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_REAR_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT=40; //TODO : Determine by experimentation
+    public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT=40; //TODO : Determine by experimentation
     //add count positions for different junctions
     //MAX 2200
 
@@ -48,11 +48,11 @@ public class SSArm {
     public static double POWER_ARM_UP = 0.2;
 
 
-    public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE;
-    public ARM_POSITION previousPosition = ARM_POSITION.ARM_POSITION_INTAKE;
+    public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
+    //public ARM_POSITION previousPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
 
 
-    public int armPositionCount = ARM_PICKUP_POSITION_COUNT;
+    public int armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT;
 
 
 
@@ -69,12 +69,12 @@ public class SSArm {
         resetArm();
         turnArmBrakeModeOff();
         armMotorLeft.setPositionPIDFCoefficients(5.0);
-        armMotorLeft.setTargetPosition(ARM_PARKED_POSITION_COUNT);
+        armMotorLeft.setTargetPosition(ARM_FORWARD_INTAKE_POSITION_COUNT);
         armMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         armMotorRight.setPositionPIDFCoefficients(5.0);
-        armMotorRight.setTargetPosition(ARM_PARKED_POSITION_COUNT);
+        armMotorRight.setTargetPosition(ARM_FORWARD_INTAKE_POSITION_COUNT);
         armMotorRight.setDirection(DcMotorSimple.Direction.FORWARD);
-        armPosition = ARM_POSITION.ARM_POSITION_INTAKE;
+        armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
 
@@ -137,15 +137,26 @@ public class SSArm {
     /**
      * Move Elevator to level0 Position
      */
-    public void moveArmIntake() {
+    public void moveArmIntakeForward() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_PICKUP_POSITION_COUNT + baselineEncoderCount;
+        armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT + baselineEncoderCount;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
-        armPosition = ARM_POSITION.ARM_POSITION_INTAKE;
+        armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
+
+    public void moveArmIntakeRear() {
+        turnArmBrakeModeOn();
+        armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT + baselineEncoderCount;
+        armMotorLeft.setTargetPosition(armPositionCount);
+        armMotorRight.setTargetPosition(armPositionCount);
+        motorPowerToRun = POWER_ARM_UP;
+        runArmToLevelState = true;
+        armPosition = ARM_POSITION.ARM_POSITION_INTAKE_REAR;
+    }
+
 
     public void moveArmLow() {
         turnArmBrakeModeOn();
@@ -157,15 +168,6 @@ public class SSArm {
         armPosition = ARM_POSITION.ARM_POSITION_LOW;
     }
 
-    public void moveArmGround() {
-        turnArmBrakeModeOff();
-        armPositionCount = ARM_PARKED_POSITION_COUNT + baselineEncoderCount;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-        motorPowerToRun = POWER_ARM_UP;
-        runArmToLevelState = true;
-        armPosition = ARM_POSITION.ARM_POSITION_GROUND;
-    }
 
     public void moveArmMid() {
         turnArmBrakeModeOn();
@@ -186,6 +188,24 @@ public class SSArm {
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
         armPosition = ARM_POSITION.ARM_POSITION_HIGH;
+    }
+
+    public void moveSSArmSlightlyDown() {
+            turnArmBrakeModeOn();
+            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+            armMotorLeft.setTargetPosition(armPositionCount);
+            armMotorRight.setTargetPosition(armPositionCount);
+            runArmToLevelState = true;
+            armPositionCount = ARM_LOW_POSITION_COUNT;
+    }
+
+    public void moveSSArmSlightlyUp() {
+        turnArmBrakeModeOn();
+        armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT;
+        armMotorLeft.setTargetPosition(armPositionCount);
+        armMotorRight.setTargetPosition(armPositionCount);
+        runArmToLevelState = true;
+        armPositionCount = ARM_HIGH_POSITION_COUNT;
     }
 
 
