@@ -160,16 +160,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
              * Move Elevator Slightly Down
              */
             public void moveSSElevatorSlightlyDown() {
-                if ((elevatorPositionCount > ELEVATOR_LEVEL_LOW_POSITION_COUNT + ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) &&
-                        elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT ) {
                     turnElevatorBrakeModeOn();
                     elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
                     elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                     elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                     motorPowerToRun = POWER_NO_CARGO;
                     runElevatorToLevelState = true;
+                    elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ;
                 }
-            }
 
             /**
              * Move Elevator Slightly Up
