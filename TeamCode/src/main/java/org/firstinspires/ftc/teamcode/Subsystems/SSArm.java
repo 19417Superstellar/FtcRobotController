@@ -35,9 +35,9 @@ public class SSArm {
     //if not, add different constants for the two motors
     //public static int ARM_CUP_POSITION_COUNT = 375;//  TODO : Determine by experimentation
     public static int ARM_LOW_POSITION_COUNT=0; //TODO : Determine by experimentation
-    public static int ARM_MID_POSITION_COUNT=0; //TODO : Determine by experimentation
-    public static int ARM_HIGH_POSITION_COUNT=0; //TODO : Determine by experimentation
-    public static int ARM_FORWARD_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation
+    public static int ARM_MID_POSITION_COUNT=200; //TODO : Determine by experimentation
+    public static int ARM_HIGH_POSITION_COUNT=450; //TODO : Determine by experimentation
+    public static int ARM_FORWARD_INTAKE_POSITION_COUNT=800; //TODO : Determine by experimentation
     public static int ARM_REAR_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation
     public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT=40; //TODO : Determine by experimentation
     public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT=40; //TODO : Determine by experimentation
@@ -117,19 +117,16 @@ public class SSArm {
     public void runArmToLevel(double power){
         armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (runArmToLevelState /*|| armMotorLeft.isBusy()*/ ){
-            armMotorLeft.setPower(power);
-            runArmToLevelState = false;
-        } else {
-            armMotorLeft.setPower(0.0);
-        }
         armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (runArmToLevelState /*|| armMotorRight.isBusy()*/ ){
+        if (runArmToLevelState /*|| armMotorLeft.isBusy()*/ ){
+            armMotorLeft.setPower(power);
             armMotorRight.setPower(power);
             runArmToLevelState = false;
         } else {
+            armMotorLeft.setPower(0.0);
             armMotorRight.setPower(0.0);
+
         }
     }
 

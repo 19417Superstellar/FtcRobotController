@@ -84,7 +84,7 @@ public class GamepadController {
      */
     public void runByGamepadControl(){
         runElevator();
-       // runArm();
+       runArm();
     }
 
     /**

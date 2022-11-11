@@ -30,8 +30,8 @@ public class SSClaw {
 
 
     public SSClaw(HardwareMap hardwareMap) {
-        gripServoRight = hardwareMap.get(Servo.class,"grip_servo");
-        gripServoLeft = hardwareMap.get(Servo.class,"grip_servo");
+        gripServoRight = hardwareMap.get(Servo.class,"grip_servo_right");
+        gripServoLeft = hardwareMap.get(Servo.class,"grip_servo_left");
 
         initGrip();
     }
