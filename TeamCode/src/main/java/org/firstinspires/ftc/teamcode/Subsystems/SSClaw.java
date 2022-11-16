@@ -25,8 +25,12 @@ public class SSClaw {
 
     //MAX 2200
 
-    public static double GRIP_OPEN_POSITION = 0.5;
-    public static double GRIP_CLOSE_POSITION = 0.78;
+    public static double GRIP_OPEN_POSITION_LEFT = 0;
+    public static double GRIP_CLOSE_POSITION_LEFT = 0.25;
+
+    public static double GRIP_OPEN_POSITION_RIGHT = 1.0;
+    public static double GRIP_CLOSE_POSITION_RIGHT = 0.75;
+
 
 
     public SSClaw(HardwareMap hardwareMap) {
@@ -40,24 +44,24 @@ public class SSClaw {
      * Initialization for the Arm
      */
     public void initGrip(){
-        gripServoLeft.setPosition(GRIP_CLOSE_POSITION);
-        gripServoRight.setPosition(GRIP_CLOSE_POSITION);
+        gripServoLeft.setPosition(GRIP_CLOSE_POSITION_LEFT);
+        gripServoRight.setPosition(GRIP_CLOSE_POSITION_RIGHT);
         gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
     }
 
 
     public void setGripOpen() {
         if (gripServoState != GRIP_SERVO_STATE.GRIP_OPEN) {
-            gripServoRight.setPosition(GRIP_OPEN_POSITION);
-            gripServoLeft.setPosition(GRIP_OPEN_POSITION);
+            gripServoRight.setPosition(GRIP_OPEN_POSITION_RIGHT);
+            gripServoLeft.setPosition(GRIP_OPEN_POSITION_LEFT);
             gripServoState = GRIP_SERVO_STATE.GRIP_OPEN;
         }
     }
 
     public void setGripClose() {
         if (gripServoState != GRIP_SERVO_STATE.GRIP_CLOSE) {
-            gripServoRight.setPosition(GRIP_CLOSE_POSITION);
-            gripServoLeft.setPosition(GRIP_CLOSE_POSITION);
+            gripServoRight.setPosition(GRIP_CLOSE_POSITION_RIGHT);
+            gripServoLeft.setPosition(GRIP_CLOSE_POSITION_LEFT);
             gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
         }
     }

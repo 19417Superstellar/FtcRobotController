@@ -85,6 +85,7 @@ public class GamepadController {
     public void runByGamepadControl(){
         runElevator();
        runArm();
+       runClaw();
     }
 
     /**
@@ -233,11 +234,11 @@ public class GamepadController {
     } //End of runArm function
 
     public void runClaw() {
-        if (gp2GetLeftTriggerPress()) {
+        if (gp2GetLeftBumperPress()) {
             if (ssClaw.getGripServoState() != SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE){
-                ssClaw.setGripOpen();
-            } else {
                 ssClaw.setGripClose();
+            } else {
+                ssClaw.setGripOpen();
             }
         }
     }
