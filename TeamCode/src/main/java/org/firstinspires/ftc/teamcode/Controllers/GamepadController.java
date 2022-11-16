@@ -235,7 +235,9 @@ public class GamepadController {
     public void runClaw() {
         if (gp2GetLeftTriggerPress()) {
             if (ssClaw.getGripServoState() != SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE){
-                //ssClaw.moveClawGripClose();
+                ssClaw.setGripOpen();
+            } else {
+                ssClaw.setGripClose();
             }
         }
     }
