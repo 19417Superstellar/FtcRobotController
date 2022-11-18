@@ -164,7 +164,7 @@ public class GamepadController {
             if (gp2GetLeftTriggerPress()) {
                 ssElevator.moveSSElevatorSlightlyUp();
             }
-            if (gp2GetLeftTriggerPress()) {
+            if (gp2GetRightTriggerPress()) {
                 ssElevator.moveSSElevatorSlightlyDown();
             }
         }
@@ -193,7 +193,7 @@ public class GamepadController {
         }
 
         if (gp2GetButtonYPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
                 ssArm.moveArmLow();
 
             }
@@ -207,7 +207,7 @@ public class GamepadController {
         }
 
         if (gp2GetButtonXPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
                 ssArm.moveArmHigh();
 
             }
