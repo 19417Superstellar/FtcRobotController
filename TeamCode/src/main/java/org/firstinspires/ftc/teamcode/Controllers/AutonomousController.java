@@ -6,16 +6,10 @@ import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
 public class AutonomousController {
 
-/*import com.acmerobotics.roadrunner.geometry.Pose2d;
-
-import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
-import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
-import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
-import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
 
 
     /**
@@ -26,15 +20,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
      *
      */
 
- //   public class AutonomousController {
-
         //Create gamepad object reference to connect to gamepad1
-       // public DriveTrain DriveTrain;
+        public DriveTrain driveTrain;
         public SSElevator ssElevator;
         public SSArm ssArm;
-        public SSClaw ssClaw; }
+        public SSClaw ssClaw;
 
-//        public Pose2d startPose = GameField.ORIGINPOSE;
+        public Pose2d startPose = GameField.ORIGINPOSE;
 
         /**
          * Constructor for HzGamepad1 class that extends gamepad.
@@ -42,11 +34,11 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
          *
          */
 
-   /*     public AutonomousController(DriveTrain driveTrain,
+        public AutonomousController(DriveTrain driveTrain,
                                     SSElevator ssElevator,
                                     SSClaw ssClaw,
                                     SSArm ssArm) {
-            this.DriveTrain = driveTrain;
+            this.driveTrain = driveTrain;
             this.ssElevator = ssElevator;
             this.ssClaw = ssClaw;
             this.ssArm = ssArm;
@@ -56,7 +48,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
         /**
          * Main control function that calls the runs of each of the subsystems in sequence
          */
-     /*   public void runAutoControl(){
+        public void runAutoControl(){
             int counter = 0;
             while (counter < 5) {
                 runAutoSSElevator();
@@ -66,95 +58,37 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
             }
         }
 
-        /**
-         * intake class functions
-         */
-   /*     enum AUTO_SSINTAKE_STATE{
-            RUNNING,
-            STOPPED,
-        }
-        AUTO_SSINTAKE_STATE autoSSIntakeState = AUTO_SSINTAKE_STATE.STOPPED;
 
-        public void autoStartAutoSSIntake(){
-            autoSSIntakeState = AUTO_SSINTAKE_STATE.RUNNING;
-            runAutoControl();
-        }
 
-        public void autoStopSSIntake(){
-            autoSSIntakeState = AUTO_SSINTAKE_STATE.STOPPED;
-            runAutoControl();
-        }
-
-        public void runAutoSSIntake() {
-            if (autoSSIntakeState == AUTO_SSINTAKE_STATE.RUNNING &&
-                    ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0) {
-                if (ssBucket.bucketServoState != SSBucket.BUCKET_SERVO_STATE.COLLECT_POSITION) {
-                    ssBucket.setToCollect();
-                }
-                ssIntake.startForwardSSIntakeMotor();
-            } else { //autossIntakeState == AUTO_SSINTAKE_STATE.STOPPED
-                ssIntake.stopSSIntakeMotor();
-            }
-        }
-
-        public AUTO_SSINTAKE_STATE autoGetSSIntakeState() {
-            return autoSSIntakeState;
-        }
-
-    */
-        /***** End of Intake functions ****/
-
-        /**
+/**
          * elevator class functions
          */
-    /*    enum  AUTO_SSELEVATOR_STATE{
-            LEVEL_0,
-            LEVEL_1,
-            LEVEL_2,
-            LEVEL_3,
+        enum AUTO_SSELEVATOR_STATE{
+            LEVEL_LOW,
+            LEVEL_HIGH,
         }
-        AUTO_SSELEVATOR_STATE autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_0;
+        AUTO_SSELEVATOR_STATE autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_LOW;
 
-        public void autoSSElevatorSetToLevel0(){
-            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_0;
+        public void autoSSElevatorSetToLevelLow(){
+            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_LOW;
             runAutoControl();
         }
 
-        public void autoSSElevatorSetToLevel1(){
-            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_1;
-            runAutoControl();
-        }
-
-        public void autoSSElevatorSetToLevel2(){
-            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_2;
-            runAutoControl();
-        }
-
-        public void autoSSElevatorSetToLevel3(){
-            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_3;
+        public void autoSSElevatorSetToLevelHigh(){
+            autoSSElevatorState = AUTO_SSELEVATOR_STATE.LEVEL_HIGH;
             runAutoControl();
         }
 
         public void runAutoSSElevator() {
-            if (autoSSElevatorState == AUTO_SSELEVATOR_STATE.LEVEL_0){
-                ssElevator.moveElevatorLevel0();
-                autoSSBucketState = AUTO_SSBUCKET_STATE.COLLECT;
-
-            } else {
-                autoSSIntakeState = AUTO_SSINTAKE_STATE.STOPPED;
-                //autoMagazineState = AUTO_MAGAZINE_STATE.TRANSPORT;
-                switch (autoSSElevatorState){
-                    case LEVEL_1:
-                        ssElevator.moveElevatorLevel1();
-                        break;
-                    case LEVEL_2:
-                        ssElevator.moveElevatorLevel2();
-                        break;
-                    case LEVEL_3:
-                        ssElevator.moveElevatorLevel3();
-                        break;
-                }
+            switch (autoSSElevatorState) {
+                case LEVEL_LOW:
+                    ssElevator.moveElevatorLevelLow();
+                    break;
+                case LEVEL_HIGH:
+                    ssElevator.moveElevatorLevelHigh();
+                    break;
             }
+
 
             if (ssElevator.runElevatorToLevelState){
                 ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
@@ -164,146 +98,98 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw; */
         public AUTO_SSELEVATOR_STATE autoGetSSElevatorState() {
             return autoSSElevatorState;
         }
+
         /**** End of Elevator functions ***/
 
-        /****
-         * Bucket functions
-         */
-        /*enum AUTO_SSBUCKET_STATE{
-            COLLECT,
-            TRANSPORT,
-            DROP,
-        }
-        AUTO_SSBUCKET_STATE autoSSBucketState = AUTO_SSBUCKET_STATE.COLLECT;
-
-        public void autoBucketSetToDrop() {
-            autoSSBucketState = AUTO_SSBUCKET_STATE.DROP;
-            runAutoControl();
-        }
-
-        public void autoBucketSetToCollect() {
-            autoSSBucketState = AUTO_SSBUCKET_STATE.COLLECT;
-            runAutoControl();
-        }
-
-        public void autoBucketSetToTransport() {
-            autoSSBucketState = AUTO_SSBUCKET_STATE.TRANSPORT;
-            runAutoControl();
-        }
-
-        public void runAutoSSBucket() {
-       /*if (ssBucket.magazineColorSensor instanceof SwitchableLight) {
-           if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_0 &&
-                   ssBucket.getMagazineColorSensorState() == SSBucket.MAGAZINE_COLOR_SENSOR_STATE.EMPTY) {
-               ((SwitchableLight) ssBucket.magazineColorSensor).enableLight(true);
-           } else {
-               ((SwitchableLight) ssBucket.magazineColorSensor).enableLight(false);
-           }
-       }*/
-
-        /*    switch (autoSSBucketState){
-                case TRANSPORT:
-                    ssBucket.setToTransport();
-                    break;
-                case DROP :
-                    ssBucket.setToDrop();
-                    break;
-                case COLLECT:
-                    ssBucket.setToCollect();
-                    break;
-            }
-        }
-
-        public AUTO_SSBUCKET_STATE autoGetSSBucketState() {
-            return autoSSBucketState;
-        }
-        /**** End of Bucket functions ***/
-
-        /**
-         * spinner class function
-         */
-
-      /*  public enum AUTO_SSSPINNER_STATE {
-            CLOCKWISE,
-            ANTICLOCKWISE,
-            STOPPED,
-        }
-
-        public AUTO_SSSPINNER_STATE autoSSSpinnerState = AUTO_SSSPINNER_STATE.STOPPED;
-
-        public void runAutoSSSpinner() {
-            switch (autoSSSpinnerState) {
-                case ANTICLOCKWISE:
-                    ssSpinner.startAntiClockwiseSSSpinnerMotor();
-                    break;
-                case CLOCKWISE:
-                    ssSpinner.startClockwiseSSSPinnerMotor();
-                    break;
-                case STOPPED:
-                    ssSpinner.stopSSSpinnerMotor();
-                    break;
-            }
-        }
-
-        public AUTO_SSSPINNER_STATE autoGetSSSpinnerState() {
-            return autoSSSpinnerState;
-        }
-        /***   END of   Autocontrol State and function for SSSPinner  ****/
 
         /**
          * runAutoArm() function
          */
-      /*  enum AUTO_SSARM_STATE {
-            PICKUP,
-            PARKED,
-        }
-        AUTO_SSARM_STATE autoSSArmState = AUTO_SSARM_STATE.PARKED;
 
-        public void autoSSArmSetToPickup(){
-            autoSSArmState = AUTO_SSARM_STATE.PICKUP;
+        enum AUTO_CLAW_POSITION {
+        OPEN,
+        CLOSED,
+        }
+
+        AUTO_CLAW_POSITION autoSSClawState = AUTO_CLAW_POSITION.CLOSED;
+
+        public void autoSSClawSetToOpen(){
+            autoSSClawState = AUTO_CLAW_POSITION.OPEN;
             runAutoControl();
         }
 
-        public void autoSSArmSetToPark(){
-            autoSSArmState = AUTO_SSARM_STATE.PARKED;
-            runAutoControl();
-        }
-        public enum AUTO_SSGRIP_STATE {
-            OPEN,
-            CLOSED,
-        }
-        AUTO_SSGRIP_STATE autoSSGripState = AUTO_SSGRIP_STATE.CLOSED;
-
-        public void autoSSGripSetToOpen(){
-            autoSSGripState = AUTO_SSGRIP_STATE.OPEN;
+        public void autoSSClawSetToClose(){
+            autoSSClawState = AUTO_CLAW_POSITION.CLOSED;
             runAutoControl();
         }
 
-        public void autoSSGripSetToClose(){
-            autoSSGripState = AUTO_SSGRIP_STATE.CLOSED;
+
+        enum AUTO_ARM_POSITION {
+            ARM_POSITION_INTAKE_FORWARD,
+            ARM_POSITION_INTAKE_REAR,
+            ARM_POSITION_MID,
+            ARM_POSITION_LOW,
+            ARM_POSITION_HIGH,
+            ARM_POSITION_GROUND,
+        }
+
+        AUTO_ARM_POSITION autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
+
+        public void autoSSArmSetToIntakeForward(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
             runAutoControl();
+        }
+
+        public void autoSSArmSetToGround(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_GROUND;
+            runAutoControl();
+        }
+
+        public void autoSSArmSetToIntakeRear(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_INTAKE_REAR;
+            runAutoControl();
+        }
+
+        public void autoSSArmSetToMid(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_MID;
+            runAutoControl();
+        }
+
+        public void autoSSArmSetToLow(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_LOW;
+            runAutoControl();
+        }
+
+        public void autoSSArmSetToHigh(){
+            autoSSArmPosition = AUTO_ARM_POSITION.ARM_POSITION_HIGH;
+            runAutoControl();
+        }
+
+        public void runAutoSSClaw() {
+            if(autoSSClawState == AUTO_CLAW_POSITION.CLOSED){
+                ssClaw.setGripOpen();
+            } else {
+                ssClaw.setGripClose();
+            }
         }
 
         public void runAutoSSArm() {
-            if(autoSSArmState == AUTO_SSARM_STATE.PARKED){
-                ssArm.moveArmParked();
+            if(autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
+                ssArm.moveArmIntakeForward();
+            } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_INTAKE_REAR){
+                ssArm.moveArmIntakeRear();
+            } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_LOW){
+                ssArm.moveArmLow();
+            } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_MID){
+                ssArm.moveArmMid();
             } else {
-                ssArm.moveArmPickup();
+                ssArm.moveArmHigh();
             }
 
             if (ssArm.runArmToLevelState) {
                 ssArm.runArmToLevel(ssArm.POWER_ARM_UP);
             }
 
-            if(autoSSGripState == AUTO_SSGRIP_STATE.OPEN){
-                ssArm.setGripOpen();
-            } else{
-                ssArm.setGripClose();
-            }
-
         }
 
     }
-
-
-} */
