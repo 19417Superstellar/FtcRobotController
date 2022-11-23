@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 
         //import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import com.acmerobotics.roadrunner.geometry.Vector2d;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.SwitchableLight;
 
@@ -93,9 +94,43 @@ public class GamepadController {
      *     RR Drive Train
      */
     public void runDriveControl_byRRDriveModes() {
+        driveTrain.poseEstimate = driveTrain.getPoseEstimate();
 
+        driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
+        if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+                driveTrain.gamepadInput = new Vector2d(
+                        -gp1TurboMode(gp1GetLeftStickY()),
+                        -gp1TurboMode(gp1GetLeftStickX()));
+            } else {
+                // Avoid using Turbo when elevator is at Level 0
+                driveTrain.gamepadInput = new Vector2d(
+                        -limitStick(gp1GetLeftStickY()),
+                        -limitStick(gp1GetLeftStickX()));
+            }
         }
+
+        if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
+
+            if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
+                driveTrain.gamepadInput = new Vector2d(
+                        gp1TurboMode(gp1GetLeftStickX()),
+                        -gp1TurboMode(gp1GetLeftStickY())
+                ).rotated(-driveTrain.poseEstimate.getHeading());
+            }
+
+            if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE) { // Blue Alliance
+                driveTrain.gamepadInput = new Vector2d(
+                        -gp1TurboMode(gp1GetLeftStickX()),
+                        gp1TurboMode(gp1GetLeftStickY())
+                ).rotated(-driveTrain.poseEstimate.getHeading());
+            }
+        }
+        driveTrain.gamepadInputTurn = -gp1TurboMode(gp1GetRightStickX());
+
+        driveTrain.driveTrainPointFieldModes();
+    }
 
 
 
