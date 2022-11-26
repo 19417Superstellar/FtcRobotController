@@ -8,11 +8,9 @@ import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 
-public class Autonomous_RR_Forward {
+import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
-//import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
-
-/*import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,6 +22,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
 //import org.firstinspires.ftc.teamcode.Subsystems.Vision;
+
+public class Autonomous_RR_Forward {
 
 
     /**
@@ -39,17 +39,18 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
      * 9.  Call elevator function to move to Level 1 position
      * 10. Call roadrunner function to move to parking position in storage area through gap
      */
-    /*@Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
+    @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
     public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         public boolean DEBUG_FLAG = true;
 
         public GamepadController gamepadController;
         public AutonomousController autonomousController;
-        public DriveTrain;
+        public DriveTrain driveTrain;
         public SSElevator SSElevator;
         public SSArm SSArm;
         public SSClaw SSClaw;
+
 
         //public Vision vision;
         public static final Pose2d RED_WAREHOUSE_STARTPOS =  new Pose2d(61,7,Math.toRadians(0));
@@ -69,13 +70,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
         @Override
         public void runOpMode() throws InterruptedException {
             /* Create Subsystem Objects*/
-          /*  driveTrain = new org.firstinspires.ftc.teamcode.SubSystems.DriveTrain(hardwareMap);
+          driveTrain = new org.firstinspires.ftc.teamcode.SubSystems.DriveTrain(hardwareMap);
             SSElevator = new SSElevator(hardwareMap);
             SSArm = new SSArm(hardwareMap);
 
 
-            gamepadController = new GamepadController(ssGamepad1, ssGamepad2, driveTrain, SSElevator, SSArm, SSClaw);
-            autonomousController = new AutonomousController(driveTrain, SSElevator, SSArm, SSClaw);
+            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm);
+            autonomousController = new AutonomousController(driveTrain, SSElevator, SSClaw, SSArm);
 
             GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
             //Key Pay inputs to select Game Plan;
@@ -85,7 +86,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
             // Initiate Camera on Init.
             vision.activateVuforiaTensorFlow();
 
-            // 1.  Robot starts position with bucket in transport state in Level 1 with pre-loaded box in it.
+            // 1.  Robot starts position with arm at Level Intake Front with pre-loaded cone in claw.
             startPose = RED_WAREHOUSE_STARTPOS;
             driveTrain.getLocalizer().setPoseEstimate(startPose);
 
@@ -95,14 +96,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
             //autonomousController.autoBucketSetToTransport();
             //autonomousController.runAutoControl();
 
-            telemetry.addData("Start Pose : ", "BLUE_WAREHOUSE_STARTPOS");
+            telemetry.addData("Start Pose : ", "Red Right Forward");
             telemetry.addData("Waiting for start to be pressed.","Robot is ready!");
             telemetry.update();
 
-            if (isStopRequested()) return;
+   /*         if (isStopRequested()) return;
 
             while (!isStopRequested()) {
-                // 2.  Call Vision function to detect duck/Team Marker position and set level to drop pre-loaded box
+                // 2.  Call Vision function to detect Team Element position and set parking position
                 //Run Vuforia Tensor Flow
                 targetZone = vision.runVuforiaTensorFlow();
 
@@ -346,7 +347,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
             telemetry.update();
             */
 
-        }
+        } */
 
 
 
