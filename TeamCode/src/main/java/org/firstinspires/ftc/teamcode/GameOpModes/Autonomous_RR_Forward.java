@@ -39,7 +39,7 @@ public class Autonomous_RR_Forward {
      * 9.  Call elevator function to move to Level 1 position
      * 10. Call roadrunner function to move to parking position in storage area through gap
      */
-    @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
+   /* @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
     public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         public boolean DEBUG_FLAG = true;
@@ -70,7 +70,7 @@ public class Autonomous_RR_Forward {
         @Override
         public void runOpMode() throws InterruptedException {
             /* Create Subsystem Objects*/
-          driveTrain = new org.firstinspires.ftc.teamcode.SubSystems.DriveTrain(hardwareMap);
+ /*         driveTrain = new org.firstinspires.ftc.teamcode.SubSystems.DriveTrain(hardwareMap);
             SSElevator = new SSElevator(hardwareMap);
             SSArm = new SSArm(hardwareMap);
 
@@ -347,7 +347,7 @@ public class Autonomous_RR_Forward {
             telemetry.update();
             */
 
-        } */
+        }
 
 
 
