@@ -93,7 +93,7 @@ public class GamepadController {
      * runByGamepadRRDriveModes sets modes for Road Runner such as ROBOT and FIELD Centric Modes. <BR>
      *     RR Drive Train
      */
-    public void runDriveControl_byRRDriveModes() {
+   /* public void runDriveControl_byRRDriveModes() {
         driveTrain.poseEstimate = driveTrain.getPoseEstimate();
 
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
@@ -131,7 +131,7 @@ public class GamepadController {
 
         driveTrain.driveTrainPointFieldModes();
     }
-
+*/
 
 
 
