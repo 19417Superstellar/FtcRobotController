@@ -71,8 +71,8 @@ public class GamepadController {
                              SSClaw ssClaw,
                              SSElevator ssElevator,
                              SSArm ssArm) {
-        this. ssGamepad1 =  ssGamepad1;
-        this. ssGamepad2 =  ssGamepad2;
+        this.ssGamepad1 =  ssGamepad1;
+        this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
         this.ssClaw = ssClaw;
         this.ssElevator = ssElevator;
@@ -164,10 +164,10 @@ public class GamepadController {
          */
 
         if (gp2GetStart()) {
-            if (gp2GetLeftTriggerPress()) {
+            if (gp2GetLeftTriggerPress()) { //TODO Amjad : There is no reason for Slightly UP functionaly
                 ssElevator.moveSSElevatorSlightlyUp();
             }
-            if (gp2GetRightTriggerPress()) {
+            if (gp2GetRightTriggerPress()) { //TODO Amjad : This is to be used for reseting the robot to elevator being fully down.
                 ssElevator.moveSSElevatorSlightlyDown();
             }
         }
@@ -221,7 +221,7 @@ public class GamepadController {
           left trigger in gamepad1 will move slightly up
          */
 
-        if (gp2GetStart()) {
+        if (gp2GetStart()) { //TODO Amjad : Instead of using start button and then Y, use dpad_upPress for up and down of motor. Easier for drivers.
             if (gp2GetButtonYPress()) {
                 ssArm.moveSSArmSlightlyUp();
             }
