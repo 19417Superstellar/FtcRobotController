@@ -202,10 +202,11 @@ public class SSArm {
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         runArmToLevelState = true;
-        armPositionCount = ARM_HIGH_POSITION_COUNT; //TODO Amjad : State shouldbe set here to RANDOM, not count
+        armPositionCount = ARM_HIGH_POSITION_COUNT; //TODO Amjad : State should be set here to RANDOM, not count
     }
 
 
+        //TODO Amjad : Create a reset function for the arm, where slightly down equalent functionality is done, but at the end of it resetArm() is called.
 
 
 
