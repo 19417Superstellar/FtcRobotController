@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-        import com.qualcomm.robotcore.hardware.DcMotor;
+        import com.qualcomm.robotcore.hardware.DcMotor; //TODO Amjad : Remove DCMotor class only use DCMotorEx class. 
         import com.qualcomm.robotcore.hardware.DcMotorEx;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple;
+        import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMotorSimple class only use DCMotorEx class. 
         import com.qualcomm.robotcore.hardware.HardwareMap;
 public class SSArm {
 
