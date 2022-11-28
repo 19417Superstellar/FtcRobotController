@@ -45,8 +45,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
 
             public int elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
 
-                //TODO Amjad : Need to add a touch sensor to determine that the arm is at the lowest position atleast. To ensure the motor is not trying to go lower than the physical low position.
-
 
             public SSElevator(HardwareMap hardwareMap) {
                 elevatorMotorLeft = hardwareMap.get(DcMotorEx.class,"elevator_motor_left");
@@ -172,6 +170,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
                     motorPowerToRun = POWER_NO_CARGO;
                     runElevatorToLevelState = true;
                     elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
+                    //TODO : Add the code for runElevatorToLevel here, and once done call resetElevator().
                 }
 
             /**
