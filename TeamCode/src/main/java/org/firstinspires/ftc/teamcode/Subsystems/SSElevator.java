@@ -2,9 +2,9 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotor; //TODO Amjad : Remove DCMotor class only use DCMotorEx class. 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMotorSimple class only use DCMotorEx class. 
 
         public class SSElevator {
 
@@ -24,13 +24,17 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
             //Encoder Resolution: 537.7 PPR at the Output Shaft
             //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-            public static double ENCODER_VALUE = 537.7;
-            public static int baselineEncoderCount = 0;
+            
+                // TODO : Amjad The motor used is a 1150 rpm motor
+            //    https://www.gobilda.com/5202-series-yellow-jacket-planetary-gear-motor-5-2-1-ratio-24mm-length-6mm-d-shaft-1150-rpm-36mm-gearbox-3-3-5v-encoder/
+                
+            public static double ENCODER_VALUE = 537.7; //TODO Amjad : The motor being used is 1150 Rpm motor with step of 145.1
+            public static int baselineEncoderCount = 0; //TODO Amjad : Can remove as it is not used
             public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;//  TODO : Determine by experimentation
             public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 1500;//  TODO : Determine by experimentation
             //MAX 2200
-            public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 40;
-            public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 40;
+            public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 40; //TODO Amjad : THere is no need for delta up here. you only have 2 position
+            public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 40; //TODO Amjad : This is needed only to lower elevator to reset if needed.
             public static int ELEVATOR_LEVELMAX_POSITION_COUNT = 2200;
 
             public static double POWER_NO_CARGO = 0.5;
@@ -41,6 +45,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
             public int elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
 
+                //TODO Amjad : Need to add a touch sensor to determine that the arm is at the lowest position atleast. To ensure the motor is not trying to go lower than the physical low position.
 
 
             public SSElevator(HardwareMap hardwareMap) {
@@ -61,7 +66,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
                 elevatorMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 resetElevator();
                 moveElevatorLevelGround();
-                turnElevatorBrakeModeOn();
+                turnElevatorBrakeModeOn(); //TODO Amjad : Brake should be off when the elevator is on low. Turn it on only when it is high.
             }
 
             /**
@@ -94,14 +99,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             }
 
             public boolean runElevatorToLevelState = false;
-            public double motorPowerToRun = POWER_NO_CARGO;
+            public double motorPowerToRun = POWER_NO_CARGO; //TODO Amjad : There is no way to determine CARGO here. Keep it only as POWER 
 
             /**
              * Method to run motor to set to the set position
              */
             public void runElevatorToLevel(double power){
-                elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
+                elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
                 if (runElevatorToLevelState){
                     elevatorMotorLeft.setPower(power);
                     elevatorMotorRight.setPower(power);
@@ -133,7 +138,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             public void moveElevatorLevelLow() {
                 turnElevatorBrakeModeOn();
 
-                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT + baselineEncoderCount;
+                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT + baselineEncoderCount; ////TODO Amjad : Remove baseline count
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_WITH_CARGO;
@@ -147,8 +152,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             public void moveElevatorLevelHigh() {
                 turnElevatorBrakeModeOn();
 
-                elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT + baselineEncoderCount;
-                //elevatorPositionCount_left =
+                elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT + baselineEncoderCount; //TODO Amjad : Remove baseline Encoder count
+                //elevatorPositionCount_left = 
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_WITH_CARGO;
@@ -159,20 +164,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
             /**
              * Move Elevator Slightly Down
              */
-            public void moveSSElevatorSlightlyDown() {
+            public void moveSSElevatorSlightlyDown() { // TODO Amjad : This function is to be used only in the reset code, which stops when a touch sensor is pressed. 
                     turnElevatorBrakeModeOn();
                     elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
                     elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                     elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                     motorPowerToRun = POWER_NO_CARGO;
                     runElevatorToLevelState = true;
-                    elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ;
+                    elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
                 }
 
             /**
              * Move Elevator Slightly Up
              */
-            public void moveSSElevatorSlightlyUp(){
+            public void moveSSElevatorSlightlyUp(){ // TODO Amjad : No need for this function.
                 if ((elevatorPositionCount > ELEVATOR_LEVEL_LOW_POSITION_COUNT) &&
                         elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT - ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT){
                     turnElevatorBrakeModeOn();
