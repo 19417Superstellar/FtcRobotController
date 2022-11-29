@@ -64,8 +64,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
                 elevatorMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 resetElevator();
                 moveElevatorLevelGround();
-                turnElevatorBrakeModeOn(); //TODO Amjad : Brake should be off when the elevator is on low. Turn it on only when it is high.
+                if (getElevatorPosition() == elevatorPosition.LEVEL_LOW) {
+                    turnElevatorBrakeModeOff();
+                } else if (getElevatorPosition() == elevatorPosition.LEVEL_HIGH) {
+                    turnElevatorBrakeModeOn();
+                    //TODO Amjad : Brake should be off when the elevator is on low. Turn it on only when it is high.
+                }
             }
+
 
             /**
              * Reset Elevator Encoder
@@ -103,9 +109,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              * Method to run motor to set to the set position
              */
             public void runElevatorToLevel(double power){
-                elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
-                elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
                 if (runElevatorToLevelState){
+                    elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
+                    elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
                     elevatorMotorLeft.setPower(power);
                     elevatorMotorRight.setPower(power);
                     runElevatorToLevelState = false;
@@ -136,7 +142,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
             public void moveElevatorLevelLow() {
                 turnElevatorBrakeModeOn();
 
-                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT + baselineEncoderCount; ////TODO Amjad : Remove baseline count
+                elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT; ////TODO Amjad : Remove baseline count
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_WITH_CARGO;
@@ -150,7 +156,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
             public void moveElevatorLevelHigh() {
                 turnElevatorBrakeModeOn();
 
-                elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT + baselineEncoderCount; //TODO Amjad : Remove baseline Encoder count
+                elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT; //TODO Amjad : Remove baseline Encoder count
                 //elevatorPositionCount_left = 
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
@@ -162,16 +168,22 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
             /**
              * Move Elevator Slightly Down
              */
-            public void moveSSElevatorSlightlyDown() { // TODO Amjad : This function is to be used only in the reset code, which stops when a touch sensor is pressed. 
+           public void moveSSElevatorSlightlyDown() { // TODO Amjad : This function is to be used only in the reset code, which stops when a touch sensor is pressed.
                     turnElevatorBrakeModeOn();
                     elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
                     elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                     elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                     motorPowerToRun = POWER_NO_CARGO;
                     runElevatorToLevelState = true;
-                    elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
+                   // elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
+                   runElevatorToLevel(motorPowerToRun);
+                   resetElevator();
+
                     //TODO : Add the code for runElevatorToLevel here, and once done call resetElevator().
-                }
+
+
+
+
 
             /**
              * Move Elevator Slightly Up

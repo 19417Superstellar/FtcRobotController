@@ -182,7 +182,7 @@ public class GamepadController {
      * Start of runArm function
      * */
     public void runArm() {
-        if (gp2GetButtonAPress()) { //TODO Amjad : Code it as (!gp2GetStart() && gp2GetButtonAPress()) to avoid the function being executed when trying to initiatize joystick with start + A
+        if (!gp2GetStart() && gp2GetButtonAPress()) { //TODO Amjad : Code it as (!gp2GetStart() && gp2GetButtonAPress()) to avoid the function being executed when trying to initiatize joystick with start + A
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
                 ssArm.moveArmIntakeForward();
             }
@@ -202,7 +202,7 @@ public class GamepadController {
             }
         }
 
-        if (gp2GetButtonBPress()) { //TODO Amjad : Code it as (!gp2GetStart() && gp2GetButtonBPress()) to avoid the function being executed when trying to initiatize joystick with start + A
+        if (!gp2GetStart() && gp2GetButtonBPress()) { //TODO Amjad : Code it as (!gp2GetStart() && gp2GetButtonBPress()) to avoid the function being executed when trying to initiatize joystick with start + A
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_MID) {
                 ssArm.moveArmMid();
 
@@ -235,7 +235,9 @@ public class GamepadController {
         }
             
             //TODO Amjad : Add code for reseting Arm here. Use start + dpad down button.
-
+            if (gp2GetStart() && gp2GetDpad_down()) {
+                ssArm.resetArm();
+            }
     } //End of runArm function
 
     public void runClaw() {
