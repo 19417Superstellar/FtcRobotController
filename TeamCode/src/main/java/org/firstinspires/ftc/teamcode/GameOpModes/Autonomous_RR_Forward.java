@@ -39,7 +39,7 @@ public class Autonomous_RR_Forward {
      * 9.  Call elevator function to move to Level 1 position
      * 10. Call roadrunner function to move to parking position in storage area through gap
      */
-   /* @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous" , preselectTeleOp = "SSTeleOp")
+    @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
     public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         public boolean DEBUG_FLAG = true;
@@ -53,10 +53,11 @@ public class Autonomous_RR_Forward {
 
 
         //public Vision vision;
-        public static final Pose2d RED_WAREHOUSE_STARTPOS =  new Pose2d(61,7,Math.toRadians(0));
+        public final Pose2d RED_WAREHOUSE_STARTPOS = new Pose2d(61, 7, Math.toRadians(0));
         public Pose2d startPose = RED_WAREHOUSE_STARTPOS;
 
-        boolean parked = false ;
+
+        boolean parked = false;
         boolean autonomousStarted = false;
 
         //public Vision.ACTIVE_WEBCAM activeWebcam = Vision.ACTIVE_WEBCAM.WEBCAM1;
@@ -70,7 +71,7 @@ public class Autonomous_RR_Forward {
         @Override
         public void runOpMode() throws InterruptedException {
             /* Create Subsystem Objects*/
- /*         driveTrain = new org.firstinspires.ftc.teamcode.SubSystems.DriveTrain(hardwareMap);
+            driveTrain = new org.firstinspires.ftc.teamcode.Subsystems.DriveTrain(hardwareMap);
             SSElevator = new SSElevator(hardwareMap);
             SSArm = new SSArm(hardwareMap);
 
@@ -80,11 +81,11 @@ public class Autonomous_RR_Forward {
 
             GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
             //Key Pay inputs to select Game Plan;
-            vision = new Vision(hardwareMap, activeWebcam);
+            //  vision = new Vision(hardwareMap, activeWebcam);
             af = GameField.ALLIANCE_FACTOR;
 
             // Initiate Camera on Init.
-            vision.activateVuforiaTensorFlow();
+            //  vision.activateVuforiaTensorFlow();
 
             // 1.  Robot starts position with arm at Level Intake Front with pre-loaded cone in claw.
             startPose = RED_WAREHOUSE_STARTPOS;
@@ -97,17 +98,17 @@ public class Autonomous_RR_Forward {
             //autonomousController.runAutoControl();
 
             telemetry.addData("Start Pose : ", "Red Right Forward");
-            telemetry.addData("Waiting for start to be pressed.","Robot is ready!");
+            telemetry.addData("Waiting for start to be pressed.", "Robot is ready!");
             telemetry.update();
 
-   /*         if (isStopRequested()) return;
+            if (isStopRequested()) return;
 
             while (!isStopRequested()) {
                 // 2.  Call Vision function to detect Team Element position and set parking position
                 //Run Vuforia Tensor Flow
-                targetZone = vision.runVuforiaTensorFlow();
+                //  targetZone = vision.runVuforiaTensorFlow();
 
-                if (!parked){
+                if (!parked) {
                     autonomousController.runAutoControl();
                 }
 
@@ -119,15 +120,15 @@ public class Autonomous_RR_Forward {
                 //Game Play is pressed
                 while (opModeIsActive() && !isStopRequested() && !parked) {
 
-                    vision.deactivateVuforiaTensorFlow();
-                    runAutoRedWarehouse();
+                    //  vision.deactivateVuforiaTensorFlow();
+                    runAutoRedRightForward();
 
                     //Move to Launching Position
                     parked = true;
 
                     //Write last position to static class to be used as initial position in TeleOp
                     GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
-                    GameField.currentPose = DriveTrain.getPoseEstimate();
+                    GameField.currentPose = driveTrain.getPoseEstimate();
                     GameField.poseSetInAutonomous = true;
 
                     if (DEBUG_FLAG) {
@@ -139,178 +140,94 @@ public class Autonomous_RR_Forward {
             }
 
             //Write last position to static class to be used as initial position in TeleOp
-            GameField.currentPose = DriveTrain.getPoseEstimate();
-            GameField.poseSetInAutonomous = true;    }
+            GameField.currentPose = driveTrain.getPoseEstimate();
+            GameField.poseSetInAutonomous = true;
+        }
 
-        public void runAutoRedWarehouse(){
-            autonomousController.autoSSElevatorSetToLevel1();
-            autonomousController.autoBucketSetToTransport();
+        public void runAutoRedRightForward() {
+            autonomousController.autoSSArmSetToIntakeForward();
+            autonomousController.autoSSElevatorSetToLevelLow();
+            autonomousController.autoSSClawSetToClose();
             autonomousController.runAutoControl();
 
             //Logic for waiting
             safeWait(1000);
-            // 3.  Call roadrunner function to move to duck/Team Marker position
-            //Move arm to Pickup Capstone level and open Grip
-            moveMajorArmToPickupAndOpenClaw();
-            safeWait(2000);
+            // 3.  Call roadrunner function to move to high junction 4
 
-            //Move forward to Capstone Pickup Position
+            traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    .lineToLinearHeading(new Pose2d(12, 30, Math.toRadians(225)))
+                    .build();
+
+            driveTrain.followTrajectory(traj);
+
+            // 4.  Call arm function to move to arm level high
+            autonomousController.autoSSArmSetToHigh();
+            safeWait(1000);
+
+            // 5.  Call claw function to open claw
+            autonomousController.autoSSClawSetToOpen();
+
+            // 10. Call roadrunner function to park in detected position
             switch (targetZone) {
                 case LEVEL1:
-                    traj = DriveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                             .lineToLinearHeading(new Pose2d(49.5, 7.5, Math.toRadians(0)))
                             .build();
                     break;
                 case LEVEL2:
-                    traj = DriveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                             .lineToLinearHeading(new Pose2d(49, 14.5, Math.toRadians(-12)))
                             .build();
                     break;
                 case LEVEL3:
                 case UNKNOWN:
-                    traj = DriveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                             .lineToLinearHeading(new Pose2d(48, 17, Math.toRadians(-30)))
                             .build();
                     break;
             }
-            DriveTrain.followTrajectory(traj);
-
-            // 4.  Call arm function to pick up duck / Team Marker
-            moveMajorArmToParkingAfterClosingClaw();
-            safeWait(1000);
-
-            // 5.  Call roadrunner function move to Alliance Shipping Hub
-            switch (targetZone) {
-                case LEVEL1:
-                    traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(33.5, 3.5, Math.toRadians(45)))
-                            .build();
-                    break;
-                case LEVEL2:
-                    traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(32.25, 2.25, Math.toRadians(45)))
-                            .build();
-                    break;
-                case LEVEL3:
-                    traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(31.5, 2, Math.toRadians(43)))
-                            .build();
-            }
-            DriveTrain.followTrajectory(traj);
-
-            // 6.  Call elevator function to raise to correct level drop preloaded box
-            // 7.  Call bucket function to drop preloaded box
-            // 8.  Call bucket function to change to transport state
-            dropBoxToLevel();
-
-            // 9.  Call elevator function to move to Level 1 position
-            safeWait(1000);
-            moveElevatorToLevel1();
-
-            // 10. Call roadrunner function to move to parking position in storage area through gap
-            traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                    .lineToLinearHeading(new Pose2d(64, 8 , Math.toRadians(90)))
-                    .build();
-            DriveTrain.followTrajectory(traj);
-
-            traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                    .lineToLinearHeading(new Pose2d(64, 47 , Math.toRadians(90)))
-                    .build();
-            DriveTrain.followTrajectory(traj);
-
-            traj = DriveTrain.trajectoryBuilder(DriveTrain.getPoseEstimate())
-                    .lineToLinearHeading(new Pose2d(61, 47 , Math.toRadians(120)))
-                    .build();
-            DriveTrain.followTrajectory(traj);
-
-            moveElevatorToLevel0();
+            autonomousController.autoSSArmSetToIntakeForward();
             safeWait(1000);
         }
 
         /**
          * Safe method to wait so that stop button is also not missed
+         *
          * @param time time in ms to wait
          */
-    /*
-        public void safeWait(double time){
+
+        public void safeWait(double time) {
             ElapsedTime timer = new ElapsedTime(MILLISECONDS);
             timer.reset();
-            while (!isStopRequested() && timer.time() < time){
+            while (!isStopRequested() && timer.time() < time) {
                 autonomousController.runAutoControl();
             }
         }
 
 
+        /*       public void dropFreightLevel1(){
+                   autonomousController.autoSSElevatorSetToLevel1();
+                   safeWait(1000);
+                   autonomousController.autoBucketSetToCollect();
+                   safeWait(1000);
+               }
 
-        //Drops pre-loaded box at the correct level determined by capstone position
-        //TODO: Update code to use autoController instead of accessing the subsystems directly
-        public void dropBoxToLevel(){
-            switch(targetZone) {
-                case LEVEL1:
-                    //If Capstone on Level 1, Drops Pre-Loaded Box on Level 1
-                    dropFreightLevel1();
-                    break;
-                case LEVEL2:
-                    //If Capstone on Level 1, Drops Pre-Loaded Box on Level 2
-                    autonomousController.autoSSElevatorSetToLevel2();
-                    safeWait(1000);
-                    autonomousController.autoBucketSetToDrop();
-                    safeWait(2000);
-                    autonomousController.autoBucketSetToCollect();
-                    safeWait(1000);
-                    break;
-                case LEVEL3:
-                    //If Capstone on Level 1, Drops Pre-Loaded Box on Level 3
-                    autonomousController.autoSSElevatorSetToLevel3();
-                    safeWait(1000);
-                    autonomousController.autoBucketSetToDrop();
-                    safeWait(2000);
-                    autonomousController.autoBucketSetToCollect();
-                    safeWait(1000);
-                    break;
-            }
-
-        }
-
-        public void dropFreightLevel1(){
-            autonomousController.autoSSElevatorSetToLevel1();
-            safeWait(1000);
-            autonomousController.autoBucketSetToDrop();
-            safeWait(2000);
-            autonomousController.autoBucketSetToCollect();
-            safeWait(1000);
-        }
-
-        public void moveElevatorToLevel1(){
-            autonomousController.autoSSElevatorSetToLevel1();
-        }
-        public void moveElevatorToLevel0(){
-            autonomousController.autoSSElevatorSetToLevel0();
-        }
-
-        /**
-         * Hybrid Commands For Autonomous OpMode
-         */
-
-    /*    public void moveMajorArmToParkingAfterClosingClaw(){
-            autonomousController.autoSSGripSetToClose();
-            safeWait(1000);
-            autonomousController.autoSSArmSetToPark();
-            safeWait(1000);
-        }
+               public void moveElevatorToLevel1(){
+                   autonomousController.autoSSElevatorSetToLevel1();
+               }
+               public void moveElevatorToLevel0(){
+                   autonomousController.autoSSElevatorSetToLevel0();
+               }
 
 
-        public void moveMajorArmToPickupAndOpenClaw(){
-            autonomousController.autoSSArmSetToPickup();
-            safeWait(1000);
-            autonomousController.autoSSGripSetToOpen();
-        }
+                // Hybrid Commands For Autonomous OpMode
 
-        /**
-         * Method to add debug messages. Update as telemetry.addData.
-         * Use public attributes or methods if needs to be called here.
-         */
-     /*   public void printDebugMessages(){
+
+               /**
+                * Method to add debug messages. Update as telemetry.addData.
+                * Use public attributes or methods if needs to be called here.
+                */
+        public void printDebugMessages() {
             telemetry.setAutoClear(true);
             telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
@@ -325,7 +242,7 @@ public class Autonomous_RR_Forward {
             telemetry.addData("Battery Power", driveTrain.getBatteryVoltage(hardwareMap));
 
             //****** Vision Debug *****
-            telemetry.addData("Target Label : ", vision.detectedLabel);
+/*            telemetry.addData("Target Label : ", vision.detectedLabel);
             telemetry.addData("Target Left : ", vision.detectedLabelLeft);
             telemetry.addData("Target Right : ", vision.detectedLabelRight);
             telemetry.addData("Target Top : ", vision.detectedLabelTop);
@@ -333,24 +250,18 @@ public class Autonomous_RR_Forward {
             telemetry.addData("Vision targetLevelDetected : ", vision.targetLevelDetected);
             telemetry.addData("Vision detectedLabel", vision.detectedLabel);
             telemetry.addData("Vision detectedLabelLeft :", vision.detectedLabelLeft);
-
-            telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState());
-            telemetry.addData("Elevator level value : ", ssElevator.getElevatorPosition());
-            telemetry.addData("Elevator Encoder Current :", ssElevator.elevatorMotor.getCurrentPosition());
-            telemetry.addData("Elevator Encoder Target:", ssElevator.elevatorMotor.getTargetPosition());
-            telemetry.addData("Bucket State : ", ssBucket.getBucketServoState());
-            telemetry.addData("Bucket State : ", ssBucket.bucketServo.getPosition());
-            telemetry.addData("SSSpinner State : ", ssSpinner.getSSSpinnerMotorState() );
-            telemetry.addData("Arm Position : ",ssArm.getArmPosition());
-            telemetry.addData("Arm Grip State : ",ssArm.getGripServoState());
+            */
+            telemetry.addData("Elevator level value : ", SSElevator.getElevatorPosition());
+            telemetry.addData("Elevator Encoder Current :", SSElevator.elevatorMotorLeft.getCurrentPosition());
+            telemetry.addData("Elevator Encoder Current :", SSElevator.elevatorMotorRight.getCurrentPosition());
+            telemetry.addData("Elevator Encoder Target:", SSElevator.elevatorMotorLeft.getTargetPosition());
+            telemetry.addData("Elevator Encoder Target:", SSElevator.elevatorMotorRight.getTargetPosition());
+            telemetry.addData("Arm Position : ", SSArm.getArmPosition());
+            telemetry.addData("Arm Grip State : ", SSClaw.getGripServoState());
 
             telemetry.update();
-            */
+
 
         }
-
-
-
-
-
-
+    }
+}
