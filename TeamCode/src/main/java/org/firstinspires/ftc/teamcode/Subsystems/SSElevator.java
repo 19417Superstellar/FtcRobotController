@@ -169,20 +169,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              * Move Elevator Slightly Down
              */
            public void moveSSElevatorSlightlyDown() { // TODO Amjad : This function is to be used only in the reset code, which stops when a touch sensor is pressed.
-                    turnElevatorBrakeModeOn();
-                    elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
-                    elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
-                    elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-                    motorPowerToRun = POWER_NO_CARGO;
-                    runElevatorToLevelState = true;
-                   // elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
-                   runElevatorToLevel(motorPowerToRun);
-                   resetElevator();
+               turnElevatorBrakeModeOn();
+               elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+               elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+               elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+               motorPowerToRun = POWER_NO_CARGO;
+               runElevatorToLevelState = true;
+               // elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT ; //TODO Amjad : Why is this position being set?
+               runElevatorToLevel(motorPowerToRun);
+               resetElevator();
 
-                    //TODO : Add the code for runElevatorToLevel here, and once done call resetElevator().
+               //TODO : Add the code for runElevatorToLevel here, and once done call resetElevator().
 
 
-
+           }
 
 
             /**
