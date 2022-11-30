@@ -51,19 +51,15 @@ public class SSClaw {
 
 
     public void setGripOpen() {
-      //  if (gripServoState != GRIP_SERVO_STATE.GRIP_OPEN) { //TODO Amjad : if condition is not needed.
             gripServoRight.setPosition(GRIP_OPEN_POSITION_RIGHT);
             gripServoLeft.setPosition(GRIP_OPEN_POSITION_LEFT);
           gripServoState = GRIP_SERVO_STATE.GRIP_OPEN;
-       // }
     }
 
     public void setGripClose() {
-      //  if (gripServoState != GRIP_SERVO_STATE.GRIP_CLOSE) { //TODO Amjad : if condition is not needed.
             gripServoRight.setPosition(GRIP_CLOSE_POSITION_RIGHT);
             gripServoLeft.setPosition(GRIP_CLOSE_POSITION_LEFT);
             gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
-      //  }
     }
 
     //function to determinie POWER_WITH_CARGO or POWER_WITH_NO_CARGO
