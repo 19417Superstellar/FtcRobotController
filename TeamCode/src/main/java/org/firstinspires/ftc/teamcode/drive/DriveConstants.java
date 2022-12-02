@@ -36,7 +36,7 @@ public class DriveConstants {
      */
     public static final boolean RUN_USING_ENCODER = true;
     //public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 5, 12.985670076515115);
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
     //public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 10, 14.71880);
 
     /*
@@ -54,9 +54,9 @@ public class DriveConstants {
     //Main Robot Calibration Parameters
     public static double WHEEL_RADIUS = 1.88976;// in
     //EDIT THIS FOR STRAIGHT TEST
-    public static double GEAR_RATIO = 1.01;//1;// output (wheel) speed / input (motor) speed
+    public static double GEAR_RATIO = 1.0;//1;// output (wheel) speed / input (motor) speed
     //EDIT THIS FOR TRACK WIDTH TUNER TEST
-    public static double TRACK_WIDTH = 12.4;//11.5;// in
+    public static double TRACK_WIDTH = 14.0;//11.5;// in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
