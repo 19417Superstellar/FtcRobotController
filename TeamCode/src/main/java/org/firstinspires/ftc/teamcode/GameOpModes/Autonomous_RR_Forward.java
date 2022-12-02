@@ -81,7 +81,7 @@ public class Autonomous_RR_Forward {
 
             GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
             //Key Pay inputs to select Game Plan;
-            //  vision = new Vision(hardwareMap, activeWebcam);
+              //vision = new Vision(hardwareMap, activeWebcam);
             af = GameField.ALLIANCE_FACTOR;
 
             // Initiate Camera on Init.
@@ -93,9 +93,8 @@ public class Autonomous_RR_Forward {
 
             //Robot starts with Elevator in Collect State, with preloaded box
             //On Init, Elevator moves to Level 1, Bucket moves to transport
-            //autonomousController.autoSSElevatorSetToLevel1();
-            //autonomousController.autoBucketSetToTransport();
-            //autonomousController.runAutoControl();
+
+            autonomousController.runAutoControl();
 
             telemetry.addData("Start Pose : ", "Red Right Forward");
             telemetry.addData("Waiting for start to be pressed.", "Robot is ready!");
@@ -141,19 +140,15 @@ public class Autonomous_RR_Forward {
 
             //Write last position to static class to be used as initial position in TeleOp
             GameField.currentPose = driveTrain.getPoseEstimate();
-            GameField.poseSetInAutonomous = true;
-        }
-
-        public void runAutoRedRightForward() {
-            autonomousController.autoSSArmSetToIntakeForward();
+            GameField.poseSetInAutonomous = true;            autonomousController.autoSSArmSetToIntakeForward();
             autonomousController.autoSSElevatorSetToLevelLow();
             autonomousController.autoSSClawSetToClose();
             autonomousController.runAutoControl();
 
             //Logic for waiting
             safeWait(1000);
-            // 3.  Call roadrunner function to move to high junction 4
 
+            // 3.  Call roadrunner function to move to high junction 4
             traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
                     .lineToLinearHeading(new Pose2d(12, 30, Math.toRadians(225)))
                     .build();
@@ -167,27 +162,73 @@ public class Autonomous_RR_Forward {
             // 5.  Call claw function to open claw
             autonomousController.autoSSClawSetToOpen();
 
-            // 10. Call roadrunner function to park in detected position
+            //6
+            traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    .lineToLinearHeading(new Pose2d(14, 56, Math.toRadians(90)))
+                    .build();
+
+            driveTrain.followTrajectory(traj);
+
+
+            //7. Call arm to pick up cone, claw to close, arm to carrying position
+            autonomousController.autoSSArmSetToIntakeForward();
+            autonomousController.autoSSClawSetToClose();
+
+
+            // 8.  Call roadrunner function to move to high junction 4
+            traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    .lineToLinearHeading(new Pose2d(12, 30, Math.toRadians(225)))
+                    .build();
+
+            driveTrain.followTrajectory(traj);
+
+
+            // 9.  Call arm function to move to arm level high
+            autonomousController.autoSSArmSetToHigh();
+            safeWait(1000);
+
+            // 10.  Call claw function to open claw
+            autonomousController.autoSSClawSetToOpen();
+
+            // 11. Pick up a cone to store
+            traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
+                    .lineToLinearHeading(new Pose2d(14, 56, Math.toRadians(90)))
+                    .build();
+
+            driveTrain.followTrajectory(traj);
+
+
+            // 12. Call arm to pick up cone, claw to close, arm to carrying position
+            autonomousController.autoSSArmSetToIntakeForward();
+            autonomousController.autoSSClawSetToClose();
+
+
+
+            // 13. Call roadrunner function to park in detected position
             switch (targetZone) {
                 case LEVEL1:
                     traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(49.5, 7.5, Math.toRadians(0)))
+                            .lineToLinearHeading(new Pose2d(36 , 60, Math.toRadians(180)))
                             .build();
                     break;
                 case LEVEL2:
                     traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(49, 14.5, Math.toRadians(-12)))
+                            .lineToLinearHeading(new Pose2d(36, 36, Math.toRadians(180)))
                             .build();
                     break;
                 case LEVEL3:
                 case UNKNOWN:
                     traj = driveTrain.trajectoryBuilder(driveTrain.getPoseEstimate())
-                            .lineToLinearHeading(new Pose2d(48, 17, Math.toRadians(-30)))
+                            .lineToLinearHeading(new Pose2d(36, 12, Math.toRadians(180)))
                             .build();
                     break;
             }
             autonomousController.autoSSArmSetToIntakeForward();
             safeWait(1000);
+
+        }
+
+        public void runAutoRedRightForward() {
         }
 
         /**
@@ -242,7 +283,7 @@ public class Autonomous_RR_Forward {
             telemetry.addData("Battery Power", driveTrain.getBatteryVoltage(hardwareMap));
 
             //****** Vision Debug *****
-/*            telemetry.addData("Target Label : ", vision.detectedLabel);
+/*          telemetry.addData("Target Label : ", vision.detectedLabel);
             telemetry.addData("Target Left : ", vision.detectedLabelLeft);
             telemetry.addData("Target Right : ", vision.detectedLabelRight);
             telemetry.addData("Target Top : ", vision.detectedLabelTop);
