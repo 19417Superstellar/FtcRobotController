@@ -27,9 +27,9 @@ public class TeleOp_Elevator extends LinearOpMode {
     public DriveTrain driveTrain;
 
     //TODO_SS
-    public SSClaw ssClaw;
-    public SSArm ssArm;
     public SSElevator ssElevator;
+    public SSArm ssArm;
+    public SSClaw ssClaw;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -41,9 +41,9 @@ public class TeleOp_Elevator extends LinearOpMode {
         driveTrain = new DriveTrain(hardwareMap);
 
         //TODO_SS
+        ssElevator = new SSElevator(hardwareMap);
         ssClaw = new SSClaw(hardwareMap);
         ssArm = new SSArm(hardwareMap);
-        ssElevator = new SSElevator(hardwareMap);
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
@@ -102,11 +102,6 @@ public class TeleOp_Elevator extends LinearOpMode {
         telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
-        telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
-        telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
-        telemetry.addData("grip_position",ssClaw.getGripServoState());
-        telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
-        telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
 
         //add for all subsytems
 

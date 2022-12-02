@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-        import com.qualcomm.robotcore.hardware.DcMotor; //TODO Amjad : Remove DCMotor class only use DCMotorEx class. 
         import com.qualcomm.robotcore.hardware.DcMotorEx;
-        import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMotorSimple class only use DCMotorEx class. 
         import com.qualcomm.robotcore.hardware.HardwareMap;
 public class SSArm {
 
@@ -20,7 +18,6 @@ public class SSArm {
         ARM_POSITION_MID,
         ARM_POSITION_LOW,
         ARM_POSITION_HIGH
-//TODO : Amjad Add a RANDOM state to be used for slightly high or low situations
     }
 
 
@@ -29,7 +26,6 @@ public class SSArm {
     //Encoder Resolution: 537.7 PPR at the Output Shaft
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
     //public static double ENCODER_VALUE = 537.7;
-    public static int baselineEncoderCount = 0; //TODO : Amjad Can removbe this, not used.
    // public static int ARM_BASELINE_POSITION_COUNT = 0;
     //Use testarm teleop to verify if armMotorLeft and armMotorRight use the same encoder values
     //if not, add different constants for the two motors
@@ -45,7 +41,7 @@ public class SSArm {
     //MAX 2200
 
 
-    public static double POWER_ARM_UP = 0.2; //TODO : Amjad Power may be too less to operate this. Keep around 0.5 to 0.8
+    public static double POWER_ARM_UP = 0.6;
 
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
@@ -69,19 +65,17 @@ public class SSArm {
         resetArm();
         turnArmBrakeModeOff();
         armMotorLeft.setPositionPIDFCoefficients(5.0);
-        armMotorLeft.setTargetPosition(ARM_FORWARD_INTAKE_POSITION_COUNT); //TODO : Amjad You cannot set position right at init. It will swing the arm when setPower is called. Remove statement
-        armMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        armMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
         armMotorRight.setPositionPIDFCoefficients(5.0);
-        armMotorRight.setTargetPosition(ARM_FORWARD_INTAKE_POSITION_COUNT); //TODO : Amjad You cannot set position right at init. It will swing the arm when setPower is called. Remove statement
-        armMotorRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        armMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
 
     public void resetArm(){
-        //DcMotor.RunMode runMode = elevatorMotor.getMode();
-        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //DcMotorEx.RunMode runMode = elevatorMotor.getMode();
+        armMotorLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         //armMotor.setMode(runMode);
     }
@@ -89,18 +83,18 @@ public class SSArm {
     /**
      * Method to set Elevator brake mode to ON when Zero (0.0) power is applied. <BR>
      * To be used when arm is above groundlevel
-     * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+     * setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE)
      */
     public void turnArmBrakeModeOn(){
-        armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        armMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
     }
 
     /**
      * Method to set Elevator brake mode to OFF when Zero (0.0) power is applied. <BR>
      * To be used when arm is on groundlevel or blockLevel[0]
-     * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
+     * setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE)
      */
     public void turnArmBrakeModeOff(){
         armMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
@@ -115,14 +109,14 @@ public class SSArm {
      * Method to run motor to set to the set position
      */
     public void runArmToLevel(double power){
-        armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO: Amjad Move this to inside of the if condition with runArmToLevelState
-        armMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO: Amjad Move this to inside of the if condition with runArmToLevelState
+        armMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        armMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         if (runArmToLevelState /*|| armMotorLeft.isBusy()*/ ){
             armMotorLeft.setPower(power);
             armMotorRight.setPower(power);
             runArmToLevelState = false;
+            armMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            armMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         } else {
             armMotorLeft.setPower(0.0);
             armMotorRight.setPower(0.0);
@@ -136,7 +130,7 @@ public class SSArm {
      */
     public void moveArmIntakeForward() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT + baselineEncoderCount; //TODO: Amjad : Remove baselineEncoderCount as it is not determined
+        armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -146,7 +140,7 @@ public class SSArm {
 
     public void moveArmIntakeRear() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT + baselineEncoderCount;
+        armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -157,7 +151,7 @@ public class SSArm {
 
     public void moveArmLow() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_LOW_POSITION_COUNT + baselineEncoderCount;
+        armPositionCount = ARM_LOW_POSITION_COUNT;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -169,7 +163,7 @@ public class SSArm {
     public void moveArmMid() {
         turnArmBrakeModeOn();
 
-        armPositionCount = ARM_MID_POSITION_COUNT + baselineEncoderCount + 30;
+        armPositionCount = ARM_MID_POSITION_COUNT + 30;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -179,7 +173,7 @@ public class SSArm {
     public void moveArmHigh() {
         turnArmBrakeModeOn();
 
-        armPositionCount = ARM_HIGH_POSITION_COUNT + baselineEncoderCount + 30;
+        armPositionCount = ARM_HIGH_POSITION_COUNT + 30;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         motorPowerToRun = POWER_ARM_UP;
@@ -188,12 +182,12 @@ public class SSArm {
     }
 
     public void moveSSArmSlightlyDown() {
-            turnArmBrakeModeOn();
-            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT; //TODO Amjad : Ensure it is wrapped in an if condition to check the position is not set below 0
-            armMotorLeft.setTargetPosition(armPositionCount);
-            armMotorRight.setTargetPosition(armPositionCount);
-            runArmToLevelState = true;
-            armPositionCount = ARM_LOW_POSITION_COUNT; //TODO Amjad : State shouldbe set here to RANDOM, not count
+        turnArmBrakeModeOn();
+        armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT; //TODO Amjad : Ensure it is wrapped in an if condition to check the position is not set below 0
+        armMotorLeft.setTargetPosition(armPositionCount);
+        armMotorRight.setTargetPosition(armPositionCount);
+        runArmToLevelState = true;
+        armPositionCount = ARM_LOW_POSITION_COUNT; //TODO Amjad : State shouldbe set here to RANDOM, not count
     }
 
     public void moveSSArmSlightlyUp() {
@@ -203,6 +197,7 @@ public class SSArm {
         armMotorRight.setTargetPosition(armPositionCount);
         runArmToLevelState = true;
         armPositionCount = ARM_HIGH_POSITION_COUNT; //TODO Amjad : State should be set here to RANDOM, not count
+
     }
 
 
