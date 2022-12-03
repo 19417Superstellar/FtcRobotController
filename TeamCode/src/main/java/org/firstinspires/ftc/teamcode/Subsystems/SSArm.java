@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
         import com.qualcomm.robotcore.hardware.DcMotorEx;
+        import com.qualcomm.robotcore.hardware.DcMotorSimple;
         import com.qualcomm.robotcore.hardware.HardwareMap;
 public class SSArm {
 
@@ -65,7 +66,7 @@ public class SSArm {
         resetArm();
         turnArmBrakeModeOff();
         armMotorLeft.setPositionPIDFCoefficients(5.0);
-        armMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
+        armMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
         armMotorRight.setPositionPIDFCoefficients(5.0);
         armMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
