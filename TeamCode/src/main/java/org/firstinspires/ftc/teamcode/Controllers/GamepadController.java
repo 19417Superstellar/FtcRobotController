@@ -100,7 +100,7 @@ public class GamepadController {
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
         if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) { //TODO Amjad Comment : What is the objective here? In this condition if elevator is not at lowest position, robot will move only at 1/3 of the max speed
                 driveTrain.gamepadInput = new Vector2d(
                         -gp1TurboMode(gp1GetLeftStickY()),
                         -gp1TurboMode(gp1GetLeftStickX()));
