@@ -100,16 +100,16 @@ public class GamepadController {
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
         if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) { //TODO Amjad Comment : What is the objective here? In this condition if elevator is not at lowest position, robot will move only at 1/3 of the max speed
+         //   if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) { //TODO Amjad Comment : What is the objective here? In this condition if elevator is not at lowest position, robot will move only at 1/3 of the max speed
                 driveTrain.gamepadInput = new Vector2d(
                         -gp1TurboMode(gp1GetLeftStickY()),
                         -gp1TurboMode(gp1GetLeftStickX()));
-            } else {
+         //   } else {
                 // Avoid using Turbo when elevator is at Level 0
-                driveTrain.gamepadInput = new Vector2d(
-                        -limitStick(gp1GetLeftStickY()),
-                        -limitStick(gp1GetLeftStickX()));
-            }
+        //        driveTrain.gamepadInput = new Vector2d(
+          //              -limitStick(gp1GetLeftStickY()),
+          //              -limitStick(gp1GetLeftStickX()));
+         //   }
         }
 
         if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
