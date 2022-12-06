@@ -17,7 +17,7 @@ import java.util.List;
 
     /**
      *
-     * Vuforia implementation for Hazmat
+     * Vuforia implementation for Super Stellar
      *  - Integrates Tensor flow and Navigation to single code
      *  - Updated to manage 1 cameras
      *
@@ -29,17 +29,13 @@ import java.util.List;
      * The code is structured as a LinearOpMode
      *
      * When images are located, Vuforia is able to determine the position and orientation of the
-     * image relative to the camera.  This sample code then combines that information with a
-     * knowledge of where the target images are on the field, to determine the location of the camera.
+     * image relative to the camera.
      *
-     * From the Audience perspective, the Red Alliance station is on the right and the
+     * Red Alliance station is on the right and the
      * Blue Alliance Station is on the left.
-
-     * There are a total of five image targets for the ULTIMATE GOAL game.
+     * There are a total of three image targets for the ULTIMATE GOAL game.
      * Three of the targets are placed in the center of the Red Alliance, Audience (Front),
      * and Blue Alliance perimeter walls.
-     * Two additional targets are placed on the perimeter wall, one in front of each Tower Goal.
-     * Refer to the Field Setup manual for more specific location details
      *
      * A final calculation then uses the location of the camera on the robot to determine the
      * robot's location and orientation on the field.
@@ -47,12 +43,7 @@ import java.util.List;
      * @see VuforiaLocalizer
      * @see VuforiaTrackableDefaultListener
      * see  ultimategoal/doc/tutorial/FTC_FieldCoordinateSystemDefinition.pdf
-     *
-     * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
-     * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
-     *
      */
-
 
     public class SSVision {
 
@@ -68,19 +59,13 @@ import java.util.List;
             WEBCAM1,
         }
 
-
         /*
-         * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-         * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
          * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
          * web site at https://developer.vuforia.com/license-manager.
-         *
-         * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-         * random data. As an example, here is a example of a fragment of a valid key:
-         *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-         * Once you've obtained a license key, copy the string from the Vuforia web site
-         * and paste it in to your code on the next line, between the double quotes.
+         * Vuforia license keys are always 380 characters long.
          */
+
+
         private static final String VUFORIA_KEY =
                 "AZME4Mr/////AAABmY+MAyxxT0IileR7JBqaAPsxN2XNYlaGBtEjYaHOlVVTqPQf7NH9eIrosYKKQHPGEXLtJUsdMwZ9e3EXBfy6arulcLPvdpW9bqAB2F2MJJXo35lLA096l/t/LQTi+etVso0Xc5RYkTVSIP3YABp1TeOaF8lCSpjVhPIVW3l/c/XlrnEMPhJk9IgqMEp4P/ifqAqMMMUAIKPEqIrXIv79TvAfdIJig46gfQGaQl5tFHr3nmvMbh/LhFrh5AWAy3B/93cCkOszmYkdHxZStbNB5lMdkTnf3sCnYbQY4jviorfhYrAkqHWH6vNOB9lUt8dOSeHsDtlk33e/6xQgOCNYFN80anYMp82JNDBFX3oyGliV";
 
@@ -107,10 +92,10 @@ import java.util.List;
 
         //Tensor Flow parameters
         /* Note: This sample uses the all-objects Tensor Flow model (PowerPlay_BCDM.tflite), which contains
-         * the following 4 detectable objects
+         * the following 3 detectable objects (the sleeves)
          *  0: Yellow Star,
          *  1: Black Moon,
-         *  2: Purple Sparklez
+         *  2: Purple Sparkle
          */
         //private static final String TFOD_MODEL_ASSET = "PowerPlay_BCDM.tflite";
         private static final String TFOD_MODEL_ASSET = "SuperStellar1.tflite";
@@ -142,9 +127,6 @@ import java.util.List;
                 webcamName = hardwareMap.get(WebcamName.class, "Webcam1");
             } /*
 
-        }
-        */
-
             /*
              * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
              * We can pass Vuforia the handle to a camera preview resource (on the RC phone);
@@ -155,8 +137,7 @@ import java.util.List;
 
             parameters.vuforiaLicenseKey = VUFORIA_KEY;
 
-            /**
-             * We also indicate which camera on the RC we wish to use.
+            /*
              */
             parameters.cameraName = webcamName;
 
@@ -194,7 +175,6 @@ import java.util.List;
         public void activateVuforiaTensorFlow(){
             /**
              * Activate TensorFlow Object Detection before we wait for the start command.
-             * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
              **/
             if (tfod != null) {
                 tfod.activate();
