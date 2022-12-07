@@ -225,7 +225,7 @@ public class GamepadController {
             if (gp2GetButtonYPress()) {
                 ssArm.moveSSArmSlightlyUp();
             }
-            if (gp2GetButtonBPress()) {
+            if (gp2GetButtonXPress()) {
                 ssArm.moveSSArmSlightlyDown();
             }
         }

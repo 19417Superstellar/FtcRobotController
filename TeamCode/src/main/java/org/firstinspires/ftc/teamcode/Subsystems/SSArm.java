@@ -15,10 +15,11 @@ public class SSArm {
 
     public enum ARM_POSITION {
        ARM_POSITION_INTAKE_FORWARD,
-        ARM_POSITION_INTAKE_REAR,
-        ARM_POSITION_MID,
         ARM_POSITION_LOW,
-        ARM_POSITION_HIGH
+        ARM_POSITION_MID,
+        ARM_POSITION_HIGH,
+        ARM_POSITION_INTAKE_REAR,
+        ARM_POSITION_RANDOM
     }
 
 
@@ -31,13 +32,14 @@ public class SSArm {
     //Use testarm teleop to verify if armMotorLeft and armMotorRight use the same encoder values
     //if not, add different constants for the two motors
     //public static int ARM_CUP_POSITION_COUNT = 375;//  TODO : Determine by experimentation
-    public static int ARM_LOW_POSITION_COUNT=0; //TODO : Determine by experimentation //TODO : Amjad This should be around 200, assuming the starting as FORWARD Intake Position
-    public static int ARM_MID_POSITION_COUNT=200; //TODO : Determine by experimentation //TODO : Amjad This should be around 300
-    public static int ARM_HIGH_POSITION_COUNT=450; //TODO : Determine by experimentation 
-    public static int ARM_FORWARD_INTAKE_POSITION_COUNT=800; //TODO : Determine by experimentation //TODO : Amjad This should be 0, suggest to keep the arm forward while starting. Keep grip open to keep withing 18"
-    public static int ARM_REAR_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation //TODO : Amjad This value should be around 800.
-    public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT=40; //TODO : Determine by experimentation
-    public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT=40; //TODO : Determine by experimentation //TODO : Amjad UP and DOWN can be same count, since it is a symmetrical robot, can eliminate one of these.
+    public static int ARM_FORWARD_INTAKE_POSITION_COUNT=0; //TODO : Determine by experimentation //TODO : Amjad This should be 0, suggest to keep the arm forward while starting. Keep grip open to keep withing 18"
+
+    public static int ARM_LOW_POSITION_COUNT=150; //TODO : Determine by experimentation //TODO : Amjad This should be around 200, assuming the starting as FORWARD Intake Position
+    public static int ARM_MID_POSITION_COUNT=350; //TODO : Determine by experimentation //TODO : Amjad This should be around 300
+    public static int ARM_HIGH_POSITION_COUNT=450; //TODO : Determine by experimentation
+    public static int ARM_REAR_INTAKE_POSITION_COUNT=600; //TODO : Determine by experimentation //TODO : Amjad This value should be around 800.
+    public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT=50; //TODO : Determine by experimentation
+    public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT=50; //TODO : Determine by experimentation //TODO : Amjad UP and DOWN can be same count, since it is a symmetrical robot, can eliminate one of these.
     //add count positions for different junctions
     //MAX 2200
 
@@ -66,9 +68,9 @@ public class SSArm {
         resetArm();
         turnArmBrakeModeOff();
         armMotorLeft.setPositionPIDFCoefficients(5.0);
-        armMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
+        armMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
         armMotorRight.setPositionPIDFCoefficients(5.0);
-        armMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
+        armMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
@@ -184,20 +186,26 @@ public class SSArm {
 
     public void moveSSArmSlightlyDown() {
         turnArmBrakeModeOn();
-        armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT; //TODO Amjad : Ensure it is wrapped in an if condition to check the position is not set below 0
-        armMotorLeft.setTargetPosition(armPositionCount);
+        if (armPositionCount > ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) {
+            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT; //TODO Amjad : Ensure it is wrapped in an if condition to check the position is not set below 0
+        } else {
+            armPositionCount = 0;
+        }
+            armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         runArmToLevelState = true;
-        armPositionCount = ARM_LOW_POSITION_COUNT; //TODO Amjad : State shouldbe set here to RANDOM, not count
     }
 
     public void moveSSArmSlightlyUp() {
         turnArmBrakeModeOn();
-        armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT; //TODO Amjad : Wrap it inside if condition to ensure if does not go beyond REARINTAKEposition. Also sign should be +
+        if (armPositionCount < ARM_REAR_INTAKE_POSITION_COUNT){
+            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT; //TODO Amjad : Wrap it inside if condition to ensure if does not go beyond REARINTAKEposition. Also sign should be +
+        } else {
+            armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT;
+        }
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
         runArmToLevelState = true;
-        armPositionCount = ARM_HIGH_POSITION_COUNT; //TODO Amjad : State should be set here to RANDOM, not count
 
     }
 
