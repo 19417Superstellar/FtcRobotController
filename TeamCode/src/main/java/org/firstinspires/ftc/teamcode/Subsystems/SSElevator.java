@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import com.qualcomm.robotcore.hardware.DcMotor; //TODO Amjad : Remove DCMotor class only use DCMotorEx class. 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMotorSimple class only use DCMotorEx class. 
 
         public class SSElevator {
 
@@ -28,13 +26,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
                 // TODO : Amjad The motor used is a 1150 rpm motor
             //    https://www.gobilda.com/5202-series-yellow-jacket-planetary-gear-motor-5-2-1-ratio-24mm-length-6mm-d-shaft-1150-rpm-36mm-gearbox-3-3-5v-encoder/
                 
-            public static double ENCODER_VALUE = 537.7; //TODO Amjad : The motor being used is 1150 Rpm motor with step of 145.1
+            public static double ENCODER_VALUE = 145.1; //TODO Amjad : The motor being used is 1150 Rpm motor with step of 145.1
             public static int baselineEncoderCount = 0; //TODO Amjad : Can remove as it is not used
             public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;//  TODO : Determine by experimentation
-            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 1500;//  TODO : Determine by experimentation
+            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 500;//  TODO : Determine by experimentation
             //MAX 2200
-            public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 40; //TODO Amjad : THere is no need for delta up here. you only have 2 position
-            public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 40; //TODO Amjad : This is needed only to lower elevator to reset if needed.
+            public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 50; //TODO Amjad : THere is no need for delta up here. you only have 2 position
+            public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 50; //TODO Amjad : This is needed only to lower elevator to reset if needed.
             public static int ELEVATOR_LEVELMAX_POSITION_COUNT = 2200;
 
             public static double POWER_NO_CARGO = 0.5;
@@ -57,11 +55,11 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              */
             public void initElevator(){
                 elevatorMotorLeft.setPositionPIDFCoefficients(5.0);
-                elevatorMotorLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-                elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                elevatorMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
+                elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 elevatorMotorRight.setPositionPIDFCoefficients(5.0);
-                elevatorMotorRight.setDirection(DcMotorSimple.Direction.FORWARD);
-                elevatorMotorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                elevatorMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
+                elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 resetElevator();
                 moveElevatorLevelGround();
                 if (getElevatorPosition() == elevatorPosition.LEVEL_LOW) {
@@ -77,8 +75,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              * Reset Elevator Encoder
              */
             public void resetElevator(){
-                elevatorMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                elevatorMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                elevatorMotorLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+                elevatorMotorRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
             }
 
             /**
@@ -87,8 +85,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              * setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE)
              */
             public void turnElevatorBrakeModeOn(){
-                elevatorMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                elevatorMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                elevatorMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+                elevatorMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
             }
 
             /**
@@ -110,8 +108,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple; //TODO Amjad : Remove DCMo
              */
             public void runElevatorToLevel(double power){
                 if (runElevatorToLevelState){
-                    elevatorMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
-                    elevatorMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
+                    elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
+                    elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION); //TODO Amjad : Move inside if condition
                     elevatorMotorLeft.setPower(power);
                     elevatorMotorRight.setPower(power);
                     runElevatorToLevelState = false;
