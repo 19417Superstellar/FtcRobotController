@@ -36,8 +36,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
             public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 50; //TODO Amjad : This is needed only to lower elevator to reset if needed.
             public static int ELEVATOR_LEVELMAX_POSITION_COUNT = 2200;
 
-            public static double POWER_NO_CARGO = 0.5;
-            public static double POWER_WITH_CARGO = 0.5;
+            public static double POWER_NO_CARGO = 0.7;
+            public static double POWER_WITH_CARGO = 0.7;
 
             public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
             public ELEVATOR_POSITION previousPosition = ELEVATOR_POSITION.LEVEL_LOW;
@@ -59,7 +59,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
                 elevatorMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
                 elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 elevatorMotorRight.setPositionPIDFCoefficients(5.0);
-                elevatorMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
+                elevatorMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
                 elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 resetElevator();
                 moveElevatorLevelGround();
