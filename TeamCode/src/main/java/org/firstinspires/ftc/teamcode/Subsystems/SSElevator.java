@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
  
@@ -56,7 +57,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
              */
             public void initElevator(){
                 elevatorMotorLeft.setPositionPIDFCoefficients(5.0);
-                elevatorMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
+                elevatorMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
                 elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 elevatorMotorRight.setPositionPIDFCoefficients(5.0);
                 elevatorMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
