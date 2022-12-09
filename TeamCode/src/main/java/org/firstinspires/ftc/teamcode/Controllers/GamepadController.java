@@ -188,12 +188,16 @@ public class GamepadController {
             }
         }
 
+        /*
+        Disabled REAR INTAKE till we can strenghen the arm and reinforce it
+
         if (gp2GetRightTriggerPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
                 ssArm.moveArmIntakeRear();
 
             }
         }
+        */
 
         if (!gp2GetStart() && gp2GetButtonXPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
