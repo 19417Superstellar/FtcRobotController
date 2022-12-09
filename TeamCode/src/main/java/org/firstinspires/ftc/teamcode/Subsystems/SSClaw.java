@@ -25,11 +25,11 @@ public class SSClaw {
 
     //MAX 2200
 
-    public static double GRIP_OPEN_POSITION_LEFT = 0;
-    public static double GRIP_CLOSE_POSITION_LEFT = 0.25;
+    public static double GRIP_OPEN_POSITION_LEFT = 0.77;
+    public static double GRIP_CLOSE_POSITION_LEFT = 0.32;
 
-    public static double GRIP_OPEN_POSITION_RIGHT = 1.0;
-    public static double GRIP_CLOSE_POSITION_RIGHT = 0.75;
+    public static double GRIP_OPEN_POSITION_RIGHT = 0.2;
+    public static double GRIP_CLOSE_POSITION_RIGHT = 0.8;
 
 
 

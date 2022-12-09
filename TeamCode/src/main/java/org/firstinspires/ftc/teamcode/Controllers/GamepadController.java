@@ -84,7 +84,7 @@ public class GamepadController {
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-       runElevator();
+//       runElevator();
        runArm();
        runClaw();
        runDriveControl_byRRDriveModes();
