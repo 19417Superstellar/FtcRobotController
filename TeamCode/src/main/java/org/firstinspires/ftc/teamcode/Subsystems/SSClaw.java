@@ -7,8 +7,11 @@ public class SSClaw {
 
     public Servo gripServoRight;
     public Servo gripServoLeft;
+
     //Gobilda (enter motor details later
     //Encoder count : enter details to be done
+
+
 
 
     public enum GRIP_SERVO_STATE {
@@ -25,11 +28,11 @@ public class SSClaw {
 
     //MAX 2200
 
-    public static double GRIP_OPEN_POSITION_LEFT = 0.77;
-    public static double GRIP_CLOSE_POSITION_LEFT = 0.32;
+    public static double GRIP_OPEN_POSITION_LEFT = 0.1;//0.77
+    public static double GRIP_CLOSE_POSITION_LEFT = 0.23;//0.32
 
-    public static double GRIP_OPEN_POSITION_RIGHT = 0.2;
-    public static double GRIP_CLOSE_POSITION_RIGHT = 0.8;
+    public static double GRIP_OPEN_POSITION_RIGHT = 0.9;//0.2
+    public static double GRIP_CLOSE_POSITION_RIGHT = 0.77;//0.8
 
 
 
@@ -44,9 +47,7 @@ public class SSClaw {
      * Initialization for the Arm
      */
     public void initGrip(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
-        gripServoLeft.setPosition(GRIP_CLOSE_POSITION_LEFT);
-        gripServoRight.setPosition(GRIP_CLOSE_POSITION_RIGHT);
-        gripServoState = GRIP_SERVO_STATE.GRIP_CLOSE;
+        setGripOpen();
     }
 
 
@@ -68,6 +69,5 @@ public class SSClaw {
     public GRIP_SERVO_STATE getGripServoState() {
         return gripServoState;
     }
-
 
 }

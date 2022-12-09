@@ -62,6 +62,7 @@ public class TeleOp_Claw extends LinearOpMode {
         /* If Stop is pressed, exit OpMode */
         if (isStopRequested()) return;
 
+        double leftServoPosition = 0.1, rightServoPosition = 0.9;
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
@@ -72,6 +73,39 @@ public class TeleOp_Claw extends LinearOpMode {
 
             while (opModeIsActive()) {
                 gamepadController.runClaw();
+                /*if (gamepadController.gp1GetButtonXPress()) {
+                    if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
+                        //ssClaw.setGripClose();
+                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_OPEN_POSITION_RIGHT);
+                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_OPEN_POSITION_LEFT);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_OPEN;
+                    } else {
+                        //ssClaw.setGripOpen();
+                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_CLOSE_POSITION_RIGHT);
+                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_CLOSE_POSITION_LEFT);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE;
+                    }
+                }*/
+
+                if (gamepadController.gp1GetDpad_downPress()){
+                    if (leftServoPosition >0) leftServoPosition -=0.01;
+                }
+                if (gamepadController.gp1GetDpad_upPress()) {
+                    if (leftServoPosition <1.0) leftServoPosition +=0.01;
+                }
+
+                ssClaw.gripServoLeft.setPosition(leftServoPosition);
+
+
+                if (gamepadController.gp2GetDpad_downPress()){
+                    if (rightServoPosition >0) rightServoPosition -=0.01;
+                }
+                if (gamepadController.gp2GetDpad_upPress()) {
+                    if (rightServoPosition <1.0) rightServoPosition +=0.01;
+                }
+
+                ssClaw.gripServoRight.setPosition(rightServoPosition);
+
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
