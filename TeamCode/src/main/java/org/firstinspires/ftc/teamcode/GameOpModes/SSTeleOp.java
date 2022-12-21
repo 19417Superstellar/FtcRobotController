@@ -106,6 +106,7 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
+        telemetry.addData("touch_sensor_is_pressed", ssElevator.touchSensor.isPressed());
 
         //add for all subsytems
 
