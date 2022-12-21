@@ -4,11 +4,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
-        public class SSElevator {
+public class SSElevator {
 
             public DcMotorEx elevatorMotorLeft;
             public DcMotorEx elevatorMotorRight;
+            public TouchSensor touchSensor;
             //Gobilda (enter motor details later
             //Encoder count : enter details to be done
 
@@ -30,14 +32,14 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
             public static double ENCODER_VALUE = 145.1; //TODO Amjad : The motor being used is 1150 Rpm motor with step of 145.1
             public static int baselineEncoderCount = 0; //TODO Amjad : Can remove as it is not used
             public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;//  TODO : Determine by experimentation
-            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 500;//  TODO : Determine by experimentation
+            public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 850;//  TODO : Determine by experimentation
             //MAX 2200
             public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 50; //TODO Amjad : THere is no need for delta up here. you only have 2 position
             public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 50; //TODO Amjad : This is needed only to lower elevator to reset if needed.
             public static int ELEVATOR_LEVELMAX_POSITION_COUNT = 2200;
 
-            public static double POWER_NO_CARGO = 0.5;
-            public static double POWER_WITH_CARGO = 0.5;
+            public static double POWER_NO_CARGO = 0.75;
+            public static double POWER_WITH_CARGO = 0.75;
 
             public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
             public ELEVATOR_POSITION previousPosition = ELEVATOR_POSITION.LEVEL_LOW;
@@ -48,6 +50,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
             public SSElevator(HardwareMap hardwareMap) {
                 elevatorMotorLeft = hardwareMap.get(DcMotorEx.class,"elevator_motor_left");
                 elevatorMotorRight = hardwareMap.get(DcMotorEx.class,"elevator_motor_right");
+                touchSensor = hardwareMap.get(TouchSensor.class, "elevator_sensor");
                 initElevator();
             }
 
@@ -56,7 +59,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
              */
             public void initElevator(){
                 elevatorMotorLeft.setPositionPIDFCoefficients(5.0);
-                elevatorMotorLeft.setDirection(DcMotorEx.Direction.REVERSE);
+                elevatorMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
                 elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
                 elevatorMotorRight.setPositionPIDFCoefficients(5.0);
                 elevatorMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
@@ -117,6 +120,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
                 }
                 else {
                     elevatorMotorRight.setPower(0.0);
+                    elevatorMotorLeft.setPower(0.0);
                 }
 
             }
@@ -146,6 +150,20 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
                 motorPowerToRun = POWER_WITH_CARGO;
                 runElevatorToLevelState = true;
+
+
+                //check if elevator sensor is on or off
+                //otherwise create while loop and move elevator slightly down until sensor tells it is all the way down
+                /*if(!touchSensor.isPressed()){
+                    while (!touchSensor.isPressed() ){
+                        elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+                        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+                        elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+                        motorPowerToRun = POWER_WITH_CARGO;
+                        runElevatorToLevelState = true;
+                    }
+                }*/
+
                 elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
             }
 

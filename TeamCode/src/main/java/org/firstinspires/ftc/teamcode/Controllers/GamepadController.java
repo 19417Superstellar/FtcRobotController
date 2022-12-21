@@ -147,7 +147,7 @@ public class GamepadController {
     public void runElevator() {
         if (gp2GetDpad_downPress()) {
             if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
-                ssElevator.moveElevatorLevelGround();
+                ssElevator.moveElevatorLevelLow();
             }
         }
 
