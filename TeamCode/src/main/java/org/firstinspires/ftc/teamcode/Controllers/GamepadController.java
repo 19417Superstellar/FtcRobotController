@@ -84,7 +84,7 @@ public class GamepadController {
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-       runElevator();
+//       runElevator();
        runArm();
        runClaw();
        runDriveControl_byRRDriveModes();
@@ -188,15 +188,19 @@ public class GamepadController {
             }
         }
 
+        /*
+        Disabled REAR INTAKE till we can strenghen the arm and reinforce it
+
         if (gp2GetRightTriggerPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
                 ssArm.moveArmIntakeRear();
 
             }
         }
+        */
 
-        if (gp2GetButtonYPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+        if (!gp2GetStart() && gp2GetButtonXPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
                 ssArm.moveArmLow();
 
             }
@@ -209,8 +213,8 @@ public class GamepadController {
             }
         }
 
-        if (gp2GetButtonXPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+        if (!gp2GetStart() && gp2GetButtonYPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
                 ssArm.moveArmHigh();
 
             }
@@ -242,7 +246,7 @@ public class GamepadController {
 
     public void runClaw() {
         if (gp2GetLeftBumperPress()) {
-            if (ssClaw.getGripServoState() != SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE){
+            if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
                 ssClaw.setGripClose();
             } else {
                 ssClaw.setGripOpen();
