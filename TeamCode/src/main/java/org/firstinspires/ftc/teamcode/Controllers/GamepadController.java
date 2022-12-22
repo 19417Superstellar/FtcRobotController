@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 
         //import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import android.os.Debug;
+
         import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.SwitchableLight;
 
@@ -60,7 +63,6 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSArm ssArm;
 
-
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
      * Assign the gamepad1 given in OpMode to the gamepad used here.
@@ -70,7 +72,8 @@ public class GamepadController {
                              DriveTrain driveTrain,
                              SSClaw ssClaw,
                              SSElevator ssElevator,
-                             SSArm ssArm) {
+                             SSArm ssArm,
+                             LinearOpMode opMode) {
         this.ssGamepad1 =  ssGamepad1;
         this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
@@ -136,37 +139,60 @@ public class GamepadController {
      * Elevator function mapped to the gamepad buttons
      */
     public void runElevator() {
-        if (gp2GetDpad_downPress()) {
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
-                ssElevator.moveElevatorLevelLow();
-            }
+
+        if (gp2GetStart() && gp2GetDpad_downPress()) {
+            // If start + d-pad down, then reset elevator to
+            // all the way down
+        //    if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+        //        ssElevator.moveElevatorLevelLow();
+        //    }
+            ssElevator.bringElevatorAllTheWayDown();
+        }
+        else if ( gp2GetDpad_downPress()) {
+            ssElevator.moveSSElevatorSlightlyDown();
         }
 
         if (gp2GetDpad_upPress()) {
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
-                ssElevator.moveElevatorLevelHigh();
-
-            }
+            ssElevator.moveSSElevatorSlightlyUp();
+//            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
+//                ssElevator.moveElevatorLevelHigh();
+//            }
         }
 
 
-        /*start+left trigger in gamepad1 will move slightly down
-          left trigger in gamepad1 will move slightly up
+        /*start+left trigger in gamepad2 will move slightly down
+          left trigger in gamepad2 will move slightly up
          */
 
-        if (gp2GetStart()) {
-            if (gp2GetLeftTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyUp();
-            }
-            if (gp2GetRightTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyDown();
-            }
-        }
+//        if (gp2GetStart()) {
+//            if (gp2GetLeftTriggerPress()) {
+//                ssElevator.moveSSElevatorSlightlyUp();
+//            }
+//            if (gp2GetRightTriggerPress()) {
+//                ssElevator.moveSSElevatorSlightlyDown();
+//            }
+//        }
 
         if (ssElevator.runElevatorToLevelState) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
 
+//        if (moveDownRequested) {
+//
+//            while (!this.opMode.isStopRequested() && !ssElevator.isElevatorInLowPosition() ){
+//               ssElevator.moveSSElevatorSlightlyDown();
+//               try {
+//                   Thread.sleep(100);
+//               }
+//               catch (Exception ex) {
+//                    // stop executing if interrupted
+//                   break;
+//               }
+//            }
+//
+//            moveDownRequested = false;
+//            //ssElevator.bringElevatorAllTheWayDown();
+//        }
     } // End of runElevator function
 
     /**

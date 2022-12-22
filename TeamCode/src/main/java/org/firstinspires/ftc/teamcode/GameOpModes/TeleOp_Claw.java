@@ -46,7 +46,7 @@ public class TeleOp_Claw extends LinearOpMode {
         ssElevator = new SSElevator(hardwareMap, this);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
