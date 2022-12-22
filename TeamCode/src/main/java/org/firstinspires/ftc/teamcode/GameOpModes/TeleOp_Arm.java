@@ -43,14 +43,14 @@ public class TeleOp_Arm extends LinearOpMode {
         //TODO_SS
         ssArm = new SSArm(hardwareMap);
         ssClaw = new SSClaw(hardwareMap);
-        ssElevator = new SSElevator(hardwareMap);
+        ssElevator = new SSElevator(hardwareMap, this);
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
-        if (GameField.poseSetInAutonomous == true) {
+        if (GameField.poseSetInAutonomous) {
             driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
                 driveTrain.getLocalizer().setPoseEstimate(startPose);

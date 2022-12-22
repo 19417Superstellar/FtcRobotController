@@ -42,14 +42,14 @@ public class SSTeleOp extends LinearOpMode {
         //TODO_SS
         ssClaw = new SSClaw(hardwareMap);
         ssArm = new SSArm(hardwareMap);
-        ssElevator = new SSElevator(hardwareMap);
+        ssElevator = new SSElevator(hardwareMap, this);
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
-        if (GameField.poseSetInAutonomous == true) {
+        if (GameField.poseSetInAutonomous) {
             driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
                 driveTrain.getLocalizer().setPoseEstimate(startPose);
@@ -99,13 +99,21 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
+        telemetry.addData("Elevator State", ssElevator.elevatorPosition);
+        telemetry.addData("Elevator target position", ssElevator.elevatorMotorLeft.getTargetPosition());
+        telemetry.addData("Elevator Power", ssElevator.elevatorMotorLeft.getPower());
+        telemetry.addData("Elevator leftGetTargetPosition", ssElevator.leftGetTargetPosition);
+
         telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
         telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
+
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
+
         telemetry.addData("touch_sensor_is_pressed", ssElevator.touchSensor.isPressed());
 
         //add for all subsytems
