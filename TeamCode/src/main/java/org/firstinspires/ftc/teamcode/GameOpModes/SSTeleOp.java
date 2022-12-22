@@ -45,7 +45,7 @@ public class SSTeleOp extends LinearOpMode {
         ssElevator = new SSElevator(hardwareMap, this);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
@@ -76,7 +76,6 @@ public class SSTeleOp extends LinearOpMode {
                     printDebugMessages();
                     telemetry.update();
                 }
-
             }
 
         }
@@ -100,6 +99,7 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
 
+        telemetry.addData("Elevator sensor is pressed:", ssElevator.touchSensor.isPressed());
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
         telemetry.addData("Elevator State", ssElevator.elevatorPosition);
@@ -113,8 +113,6 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
-
-        telemetry.addData("touch_sensor_is_pressed", ssElevator.touchSensor.isPressed());
 
         //add for all subsytems
 

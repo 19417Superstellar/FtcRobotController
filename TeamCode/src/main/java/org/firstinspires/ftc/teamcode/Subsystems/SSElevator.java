@@ -36,8 +36,8 @@ public class SSElevator {
     public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0; // 2023-12-21 calibrated value
     public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2900;  // 2023-12-21 calibrated value
 
-    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 50;
-    public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 50;
+    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 100;
+    public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100;
     public static int ELEVATOR_LEVELMAX_POSITION_COUNT = ELEVATOR_LEVEL_HIGH_POSITION_COUNT;
 
     public static double POWER_LEVEL_RUN = 0.75;
@@ -110,7 +110,6 @@ public class SSElevator {
     public void turnElevatorBrakeModeOff() {
         elevatorMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         elevatorMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-
     }
 
     /**
@@ -146,7 +145,7 @@ public class SSElevator {
      * Move Elevator to levelLow Position
      */
     public void moveElevatorLevelLow() {
-        turnElevatorBrakeModeOn();
+        turnElevatorBrakeModeOff();
 
         elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
@@ -154,25 +153,44 @@ public class SSElevator {
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
 
-        if ( !opMode.isStopRequested()) {
-            // temp to get rid of some warnings
-            elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
-        }
         //check if elevator sensor is on or off
         //otherwise create while loop and move elevator slightly down until sensor tells it is all the way down
-              /*  if(!touchSensor.isPressed()){
-                    while (!this.opMode.isStopRequested() && !touchSensor.isPressed() ){
-                        elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
-                        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
-                        elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-                        motorPowerToRun = POWER_LEVEL_RUN;
-                        runElevatorToLevelState = true;
-                    }
-                }*/
-
+//        while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ){
+//            elevatorMotorLeft.setPower(POWER_LEVEL_RUN);
+//            elevatorMotorRight.setPower(POWER_LEVEL_RUN);
+//        }
+//        elevatorMotorLeft.setPower(0.0);
+//        elevatorMotorRight.setPower(0.0);
+//        resetElevator();
+//        turnElevatorBrakeModeOff();
         elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
     }
 
+    public void bringElevatorAllTheWayDown()
+    {
+        if ( isElevatorInLowPosition())
+            return;
+
+        turnElevatorBrakeModeOff();
+
+        //check if elevator sensor is on or off
+        //otherwise create while loop and move elevator slightly down until sensor tells it is all the way down
+        while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ){
+            elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+            elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+            elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+            motorPowerToRun = POWER_LEVEL_RUN;
+            runElevatorToLevelState = true;
+
+            runElevatorToLevel(motorPowerToRun);
+        }
+        elevatorMotorLeft.setPower(0.0);
+        elevatorMotorRight.setPower(0.0);
+        resetElevator();
+        elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
+
+//        turnElevatorBrakeModeOff();
+    }
     /**
      * Move Elevator to levelHigh Position
      */
@@ -180,7 +198,6 @@ public class SSElevator {
         turnElevatorBrakeModeOn();
 
         elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT;
-        //elevatorPositionCount_left =
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         leftGetTargetPosition = elevatorMotorRight.getTargetPosition();
@@ -200,26 +217,20 @@ public class SSElevator {
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
 
-        runElevatorToLevel(motorPowerToRun);
         resetElevator();
-
         elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
     }
-
 
     /**
      * Move Elevator Slightly Up
      */
     public void moveSSElevatorSlightlyUp() {
-        if ((elevatorPositionCount > ELEVATOR_LEVEL_LOW_POSITION_COUNT) &&
-                elevatorPositionCount <= ELEVATOR_LEVELMAX_POSITION_COUNT - ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT) {
-            turnElevatorBrakeModeOn();
-            elevatorPositionCount = elevatorPositionCount + ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT;
-            elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
-            elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-            motorPowerToRun = POWER_LEVEL_RUN;
-            runElevatorToLevelState = true;
-        }
+        turnElevatorBrakeModeOn();
+        elevatorPositionCount = elevatorPositionCount + ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT;
+        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+        elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+        motorPowerToRun = POWER_LEVEL_RUN;
+        runElevatorToLevelState = true;
     }
 
     /**
@@ -240,6 +251,9 @@ public class SSElevator {
         return elevatorMotorRight.getCurrentPosition();
     }
 
+    public boolean isElevatorInLowPosition() {
+        return touchSensor.isPressed();
+    }
 }
 
 
