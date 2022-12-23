@@ -177,22 +177,6 @@ public class GamepadController {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
 
-//        if (moveDownRequested) {
-//
-//            while (!this.opMode.isStopRequested() && !ssElevator.isElevatorInLowPosition() ){
-//               ssElevator.moveSSElevatorSlightlyDown();
-//               try {
-//                   Thread.sleep(100);
-//               }
-//               catch (Exception ex) {
-//                    // stop executing if interrupted
-//                   break;
-//               }
-//            }
-//
-//            moveDownRequested = false;
-//            //ssElevator.bringElevatorAllTheWayDown();
-//        }
     } // End of runElevator function
 
     /**
@@ -201,6 +185,7 @@ public class GamepadController {
     public void runArm() {
         if (!gp2GetStart() && gp2GetButtonAPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmIntakeForward();
             }
         }
@@ -218,6 +203,10 @@ public class GamepadController {
 
         if (!gp2GetStart() && gp2GetButtonXPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to low position
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmLow();
 
             }
@@ -225,12 +214,20 @@ public class GamepadController {
 
         if (!gp2GetStart() && gp2GetButtonBPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_MID) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to low position
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmMid();
             }
         }
 
         if (!gp2GetStart() && gp2GetButtonYPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to high position
+                ssElevator.moveElevatorLevelHigh();
                 ssArm.moveArmHigh();
             }
         }
@@ -246,6 +243,10 @@ public class GamepadController {
             if (gp2GetButtonXPress()) {
                 ssArm.moveSSArmSlightlyDown();
             }
+        }
+
+        if (ssElevator.runElevatorToLevelState) {
+            ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
 
         if (ssArm.runArmToLevelState) {
