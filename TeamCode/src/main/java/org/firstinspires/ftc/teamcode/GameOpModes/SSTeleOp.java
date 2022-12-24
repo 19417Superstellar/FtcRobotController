@@ -106,6 +106,7 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Elevator target position", ssElevator.elevatorMotorLeft.getTargetPosition());
         telemetry.addData("Elevator Power", ssElevator.elevatorMotorLeft.getPower());
 
+        telemetry.addData("arm_position",ssArm.getArmPosition());
         telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
         telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
 

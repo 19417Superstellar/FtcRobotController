@@ -18,9 +18,7 @@ public class SSArm {
         ARM_POSITION_INTAKE_FORWARD,
         ARM_POSITION_LOW,
         ARM_POSITION_MID,
-        ARM_POSITION_HIGH,
-        ARM_POSITION_INTAKE_REAR,
-        ARM_POSITION_RANDOM
+        ARM_POSITION_HIGH
     }
 
 
@@ -28,40 +26,50 @@ public class SSArm {
     //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
     //Encoder Resolution: 537.7 PPR at the Output Shaft
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-    //public static double ENCODER_VALUE = 537.7;
-    // public static int ARM_BASELINE_POSITION_COUNT = 0;
-    //Use testarm teleop to verify if armMotorLeft and armMotorRight use the same encoder values
-    //if not, add different constants for the two motors
-    //public static int ARM_CUP_POSITION_COUNT = 375;//  Determine by experimentation
-    public static int ARM_FORWARD_INTAKE_POSITION_COUNT = 0; //Determine by experimentation
-    public static int ARM_LOW_POSITION_COUNT = 240; // Determine by experimentation
-    public static int ARM_MID_POSITION_COUNT = 350; // Determine by experimentation
+    private static final double MOTOR_ENCODER_RESOLUTION = 537.7;
+    public static double GEAR_RATIO = 2;
 
-    // Preventing the arm from going back till we mechanically reinforce it so it has enough
-    // power to come back forward
-    public static int ARM_HIGH_POSITION_COUNT = 400; // Determine by experimentation
-    public static int ARM_REAR_INTAKE_POSITION_COUNT = 400; // Determine by experimentation
+    public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100; // Determine by experimentation
+    public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT = 100; // Determine by experimentation
 
-    public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 50; // Determine by experimentation
-    public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT = 50; // Determine by experimentation
-    //add count positions for different junctions
-    //MAX 2200
+    // Constqnts for ARM position based on angle
+    // --------------------------------------------------------------------------------------------
+    // Angle is measured in direction of needed arm rotation, in degrees
+    // Radians will be more accurate, but degrees is close approximation and easier to understand
+    //
+    // Each revolution of motor moves the shaft 360 deg.
+    // In our case, we have a gears, and ratio for them is 1:2 (1 rotation of motor turns the shaft 1/2 rotation)
+    // Per motor spec sheet, each revolution is 537.7 ticks
+    // Therefore, we need 537.7*2 ticks to move the arm 360 deg
+    // To calculate the position (ticks) for different angles, we can then use the following
+    // formula
+    //
+    //       (537.7*2)
+    //  x =  ---------
+    //          360
+    //
+    // Example, a movement of 45 deg will need ((537.7*2)/360)*45 = 134.42 ticks
 
-    private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 275;
-    private static final double ARM_LOW_INTAKE_POSITION_ANGLE = 225;
-    private static final double ARM_MID_INTAKE_POSITION_ANGLE = 135;
-    private static final double ARM_HIGH_INTAKE_POSITION_ANGLE = 135;
+    // Note: These are the angles we need to rotate by and not actual physical position angles
+    private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
+    private static final double ARM_LOW_POSITION_ANGLE = 75;
+    private static final double ARM_MID_POSITION_ANGLE = 120;
+    private static final double ARM_HIGH_POSITION_ANGLE = 130;
 
-    private static final double PID_CONSTANT = 3.5;
-    public static double POWER_ARM_UP = 0.5;
+    // Max we allow arm to go with sightly up functionality
+    private static final double ARM_MAX_POSITION_ANGLE = 180;
 
+    // Physical angle of the arm relative to horizontal (0 deg) going counter clockwise
+    // This is used to calculate PID constant based on target angle to move
+    private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
+
+    private static final double PID_CONSTANT = 3.6;
+    public static double POWER_ARM_UP = 0.6;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
-    //public ARM_POSITION previousPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
-
-
-    public int armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT;
-
+    public int armPositionCount = 0;
+    public boolean runArmToLevelState = false;
+    public double motorPowerToRun = POWER_ARM_UP;
 
     public SSArm(HardwareMap hardwareMap) {
         armMotorLeft = hardwareMap.get(DcMotorEx.class, "arm_motor_left");
@@ -75,16 +83,17 @@ public class SSArm {
     public void initArm() {
         resetArm();
         turnArmBrakeModeOff();
+        armPositionCount = getPositionFromAngle(ARM_FORWARD_INTAKE_POSITION_ANGLE);
+
         // This is default PID value - it is then set for each level later
-        armMotorLeft.setPositionPIDFCoefficients(3.5);
+        armMotorLeft.setPositionPIDFCoefficients(PID_CONSTANT);
         armMotorLeft.setDirection(DcMotorEx.Direction.FORWARD);
 
-        armMotorRight.setPositionPIDFCoefficients(3.5);
+        armMotorRight.setPositionPIDFCoefficients(PID_CONSTANT);
         armMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
 
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
-
 
     public void resetArm() {
         //DcMotorEx.RunMode runMode = elevatorMotor.getMode();
@@ -101,13 +110,28 @@ public class SSArm {
      * The always return positive value even though cosine for some angles is negative
      * You can think of angles as 4 quadrants, each from 0 to 90 and repeating counter clockwise
      * So either you can provide an angle from 0-90 degree or 0-360 (CCwise)
+     *
      * @param angle : Target angle the arm will go to. 0 is 3 o'clock, 90 is 12 o'clock.
      *              increasing counter clock wise.
      * @return - Needed P value for PID control
      */
     private double getPIDValue(double angle) {
-        double power = Math.cos(angle) * SSArm.PID_CONSTANT;
+        // Calculate the physical position angle for PID calculation
+        // angle passed in is the angle we want to move by
+        double calcAngle = ARM_RESTING_PHYSICAL_ANGLE - angle;
+        double power = Math.cos(calcAngle) * SSArm.PID_CONSTANT;
         return Math.abs(power);
+    }
+
+    /**
+     * Calculates the ticks needed to move for a given angle based on encoder resolution
+     * (ticks per 360 deg) for the motor
+     *
+     * @param angle - Angle value to convert
+     * @return - Encoder ticks
+     */
+    private int getPositionFromAngle(double angle) {
+        return (int) (((MOTOR_ENCODER_RESOLUTION * GEAR_RATIO) / 360) * angle);
     }
 
     /**
@@ -118,7 +142,6 @@ public class SSArm {
     public void turnArmBrakeModeOn() {
         armMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
     }
 
     /**
@@ -129,108 +152,74 @@ public class SSArm {
     public void turnArmBrakeModeOff() {
         armMotorLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         armMotorRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-
     }
-
-    public boolean runArmToLevelState = false;
-    public double motorPowerToRun = POWER_ARM_UP;
 
     /**
      * Method to run motor to set to the set position
      */
     public void runArmToLevel(double power) {
-        armMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        armMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        if (runArmToLevelState ) {
+
+        if (runArmToLevelState) {
+            armMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            armMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
             armMotorLeft.setPower(power);
             armMotorRight.setPower(power);
             runArmToLevelState = false;
-            armMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            armMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         } else {
             armMotorLeft.setPower(0.0);
             armMotorRight.setPower(0.0);
-
         }
     }
 
+    /**
+     * Set target position and pid values based on the angle
+     *
+     * @param targetAngle - Angle we need to go to
+     */
+    private void setArmTargetPositionValues(double targetAngle) {
+        armPositionCount = getPositionFromAngle(targetAngle);
+        armMotorLeft.setTargetPosition(armPositionCount);
+        armMotorRight.setTargetPosition(armPositionCount);
+
+        double pidVal = getPIDValue(targetAngle);
+        armMotorLeft.setPositionPIDFCoefficients(pidVal);
+        armMotorRight.setPositionPIDFCoefficients(pidVal);
+
+        motorPowerToRun = POWER_ARM_UP;
+        runArmToLevelState = true;
+    }
 
     /**
      * Move Elevator to level0 Position
      */
     public void moveArmIntakeForward() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_FORWARD_INTAKE_POSITION_COUNT;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-
-        double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(getPIDValue(pidVal));
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
-
-        motorPowerToRun = POWER_ARM_UP;
-        runArmToLevelState = true;
+        setArmTargetPositionValues(ARM_FORWARD_INTAKE_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
-    public void moveArmIntakeRear() {
-        turnArmBrakeModeOn();
-        armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-        motorPowerToRun = POWER_ARM_UP;
-        runArmToLevelState = true;
-        armPosition = ARM_POSITION.ARM_POSITION_INTAKE_REAR;
-    }
-
-
     public void moveArmLow() {
         turnArmBrakeModeOn();
-        armPositionCount = ARM_LOW_POSITION_COUNT;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-        double pidVal = getPIDValue(ARM_LOW_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(getPIDValue(pidVal));
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
-
-        motorPowerToRun = POWER_ARM_UP;
-        runArmToLevelState = true;
+        setArmTargetPositionValues(ARM_LOW_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_LOW;
     }
 
-
     public void moveArmMid() {
         turnArmBrakeModeOn();
-
-        armPositionCount = ARM_MID_POSITION_COUNT;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-        motorPowerToRun = POWER_ARM_UP;
-        double pidVal = getPIDValue(ARM_MID_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(getPIDValue(pidVal));
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
-        runArmToLevelState = true;
+        setArmTargetPositionValues(ARM_MID_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_MID;
     }
 
     public void moveArmHigh() {
         turnArmBrakeModeOn();
-
-        armPositionCount = ARM_HIGH_POSITION_COUNT;
-        armMotorLeft.setTargetPosition(armPositionCount);
-        armMotorRight.setTargetPosition(armPositionCount);
-        double pidVal = getPIDValue(ARM_HIGH_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(getPIDValue(pidVal));
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
-        motorPowerToRun = POWER_ARM_UP;
-        runArmToLevelState = true;
+        setArmTargetPositionValues(ARM_HIGH_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_HIGH;
     }
 
     public void moveSSArmSlightlyDown() {
         turnArmBrakeModeOn();
         if (armPositionCount > ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) {
-            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT; //TODO Amjad : Ensure it is wrapped in an if condition to check the position is not set below 0
+            armPositionCount = armPositionCount - ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
         } else {
             armPositionCount = 0;
         }
@@ -241,10 +230,12 @@ public class SSArm {
 
     public void moveSSArmSlightlyUp() {
         turnArmBrakeModeOn();
-        if (armPositionCount < ARM_REAR_INTAKE_POSITION_COUNT) {
-            armPositionCount = armPositionCount + ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT; //TODO Amjad : Wrap it inside if condition to ensure if does not go beyond REARINTAKEposition. Also sign should be +
+        int maxPosition = getPositionFromAngle(ARM_MAX_POSITION_ANGLE);
+
+        if (armPositionCount < maxPosition) {
+            armPositionCount = armPositionCount + ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT;
         } else {
-            armPositionCount = ARM_REAR_INTAKE_POSITION_COUNT;
+            armPositionCount = maxPosition;
         }
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
@@ -253,23 +244,15 @@ public class SSArm {
     }
 
     public ARM_POSITION getArmPosition() {
-
         return armPosition;
     }
 
-
     public int currentEncoderValueLeft() {
-
         return armMotorLeft.getCurrentPosition();
-
-
     }
 
     public int currentEncoderValueRight() {
-
         return armMotorRight.getCurrentPosition();
-
-
     }
 
 }
