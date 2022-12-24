@@ -40,7 +40,7 @@ public class SSElevator {
     public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100;
     public static int ELEVATOR_LEVELMAX_POSITION_COUNT = ELEVATOR_LEVEL_HIGH_POSITION_COUNT;
 
-    public static double POWER_LEVEL_RUN = 0.75;
+    public static double POWER_LEVEL_RUN = 0.6;
 
     public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
 
@@ -116,16 +116,16 @@ public class SSElevator {
      * Method to run motor to set to the set position
      */
     public void runElevatorToLevel(double power) {
-        if (runElevatorToLevelState) {
-            elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            elevatorMotorLeft.setPower(power);
-            elevatorMotorRight.setPower(power);
-            runElevatorToLevelState = false;
-        } else {
-            elevatorMotorRight.setPower(0.0);
-            elevatorMotorLeft.setPower(0.0);
-        }
+//        if (runElevatorToLevelState) {
+//            elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//            elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//            elevatorMotorLeft.setPower(power);
+//            elevatorMotorRight.setPower(power);
+//            runElevatorToLevelState = false;
+//        } else {
+//            elevatorMotorRight.setPower(0.0);
+//            elevatorMotorLeft.setPower(0.0);
+//        }
     }
 
     /**
