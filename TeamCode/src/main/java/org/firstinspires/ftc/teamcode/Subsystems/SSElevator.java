@@ -116,16 +116,16 @@ public class SSElevator {
      * Method to run motor to set to the set position
      */
     public void runElevatorToLevel(double power) {
-//        if (runElevatorToLevelState) {
-//            elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//            elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//            elevatorMotorLeft.setPower(power);
-//            elevatorMotorRight.setPower(power);
-//            runElevatorToLevelState = false;
-//        } else {
-//            elevatorMotorRight.setPower(0.0);
-//            elevatorMotorLeft.setPower(0.0);
-//        }
+        if (runElevatorToLevelState) {
+            elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            elevatorMotorLeft.setPower(power);
+            elevatorMotorRight.setPower(power);
+            runElevatorToLevelState = false;
+        } else {
+            elevatorMotorRight.setPower(0.0);
+            elevatorMotorLeft.setPower(0.0);
+        }
     }
 
     /**
