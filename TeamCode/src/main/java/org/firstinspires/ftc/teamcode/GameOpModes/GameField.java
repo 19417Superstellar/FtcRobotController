@@ -15,7 +15,6 @@ public class GameField {
     // Can be any x/y coordinate of your choosing
     public static final Vector2d ORIGIN = new Vector2d(0,0);
     public static final Pose2d ORIGINPOSE = new Pose2d(0,0,Math.toRadians(0));
-
    //Define and declare Playing Alliance
     public enum PLAYING_ALLIANCE{
         RED_ALLIANCE,
@@ -45,12 +44,6 @@ public class GameField {
         LEVEL3,
         UNKNOWN;
     };
-
-    public enum VISION_IDENTIFIER{
-        DUCK,
-        MARKER
-    };
-    public static VISION_IDENTIFIER visionIdentifier = VISION_IDENTIFIER.DUCK;
 
     //Static fields to pass Pos from Autonomous to TeleOp
     public static boolean poseSetInAutonomous = false;
