@@ -53,8 +53,8 @@ public class SSArm {
     // Note: These are the angles we need to rotate by and not actual physical position angles
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
     private static final double ARM_LOW_POSITION_ANGLE = 75;
-    private static final double ARM_MID_POSITION_ANGLE = 120;
-    private static final double ARM_HIGH_POSITION_ANGLE = 130;
+    private static final double ARM_MID_POSITION_ANGLE = 100;
+    private static final double ARM_HIGH_POSITION_ANGLE = 120;
 
     // Max we allow arm to go with sightly up functionality
     private static final double ARM_MAX_POSITION_ANGLE = 180;
@@ -64,7 +64,7 @@ public class SSArm {
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
     private static final double PID_CONSTANT = 3.6;
-    public static double POWER_ARM_UP = 0.6;
+    public static double POWER_ARM_UP = 0.5;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     public int armPositionCount = 0;
@@ -83,7 +83,7 @@ public class SSArm {
     public void initArm() {
         resetArm();
         turnArmBrakeModeOff();
-        armPositionCount = getPositionFromAngle(ARM_FORWARD_INTAKE_POSITION_ANGLE);
+        armPositionCount = 0; //getPositionFromAngle(ARM_FORWARD_INTAKE_POSITION_ANGLE);
 
         // This is default PID value - it is then set for each level later
         armMotorLeft.setPositionPIDFCoefficients(PID_CONSTANT);
@@ -194,7 +194,18 @@ public class SSArm {
      */
     public void moveArmIntakeForward() {
         turnArmBrakeModeOn();
-        setArmTargetPositionValues(ARM_FORWARD_INTAKE_POSITION_ANGLE);
+        armPositionCount = 0;
+        armMotorLeft.setTargetPosition(armPositionCount);
+        armMotorRight.setTargetPosition(armPositionCount);
+
+        double pidVal = getPIDValue(0);
+        armMotorLeft.setPositionPIDFCoefficients(pidVal);
+        armMotorRight.setPositionPIDFCoefficients(pidVal);
+
+        motorPowerToRun = POWER_ARM_UP;
+        runArmToLevelState = true;
+
+       // setArmTargetPositionValues(ARM_FORWARD_INTAKE_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
