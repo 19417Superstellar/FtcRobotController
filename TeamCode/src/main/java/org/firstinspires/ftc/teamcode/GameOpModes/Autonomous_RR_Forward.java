@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
-//import org.firstinspires.ftc.teamcode.Subsystems.Vision;
+import org.firstinspires.ftc.teamcode.Subsystems.SSVision;
 
 public class Autonomous_RR_Forward {
 
@@ -52,7 +52,7 @@ public class Autonomous_RR_Forward {
         public SSClaw SSClaw;
 
 
-        //public Vision vision;
+        public SSVision vision;
         public final Pose2d RED_WAREHOUSE_STARTPOS = new Pose2d(61, 7, Math.toRadians(0));
         public Pose2d startPose = RED_WAREHOUSE_STARTPOS;
 
@@ -72,11 +72,11 @@ public class Autonomous_RR_Forward {
         public void runOpMode() throws InterruptedException {
             /* Create Subsystem Objects*/
             driveTrain = new org.firstinspires.ftc.teamcode.Subsystems.DriveTrain(hardwareMap);
-            SSElevator = new SSElevator(hardwareMap);
+            SSElevator = new SSElevator(hardwareMap, this);
             SSArm = new SSArm(hardwareMap);
 
 
-            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm);
+            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm, this);
             autonomousController = new AutonomousController(driveTrain, SSElevator, SSClaw, SSArm);
 
             GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
