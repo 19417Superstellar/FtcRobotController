@@ -93,16 +93,12 @@ import java.util.List;
         //Tensor Flow parameters
         /* Note: This sample uses the all-objects Tensor Flow model (PowerPlay_BCDM.tflite), which contains
          * the following 3 detectable objects (the sleeves)
-         *  0: Yellow Star,
-         *  1: Black Moon,
-         *  2: Purple Sparkle
+         *  0:"FTC Default"
          */
         //private static final String TFOD_MODEL_ASSET = "PowerPlay_BCDM.tflite";
         private static final String TFOD_MODEL_ASSET = "SuperStellar1.tflite";
         public static final String[] LABELS = {
-                "Yellow Star",
-                "Black Moon",
-                "Purple Sparkles"
+                "FTC Default",
         };
         public String detectedLabel = "None";
         public float detectedLabelLeft, detectedLabelRight, detectedLabelTop, detectedLabelBottom;
