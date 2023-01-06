@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 import org.firstinspires.ftc.teamcode.Controllers.AutonomousController;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
@@ -51,7 +52,7 @@ public class Autonomous_BL_Forward {
             boolean parked = false;
             boolean autonomousStarted = false;
 
-            //public Vision.ACTIVE_WEBCAM activeWebcam = Vision.ACTIVE_WEBCAM.WEBCAM1;
+            //public vision.ACTIVE_WEBCAM activeWebcam = vision.ACTIVE_WEBCAM.WEBCAM1;
             public GameField.VISION_IDENTIFIED_TARGET targetZone = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
 
             double af = GameField.ALLIANCE_FACTOR;
@@ -63,11 +64,11 @@ public class Autonomous_BL_Forward {
             public void runOpMode() throws InterruptedException {
                 /* Create Subsystem Objects*/
                 driveTrain = new org.firstinspires.ftc.teamcode.Subsystems.DriveTrain(hardwareMap);
-                SSElevator = new SSElevator(hardwareMap);
+               // SSElevator = new SSElevator(hardwareMap);
                 SSArm = new SSArm(hardwareMap);
 
 
-                gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm);
+               // gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm);
                 autonomousController = new AutonomousController(driveTrain, SSElevator, SSClaw, SSArm);
 
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
@@ -135,6 +136,8 @@ public class Autonomous_BL_Forward {
                 autonomousController.autoSSElevatorSetToLevelLow();
                 autonomousController.autoSSClawSetToClose();
                 autonomousController.runAutoControl();
+
+                //vision.activateVuforiaTensorFlow();
 
                 //Logic for waiting
                 safeWait(1000);
