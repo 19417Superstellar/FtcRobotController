@@ -64,7 +64,7 @@ public class SSArm {
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
     private static final double PID_CONSTANT = 3.6;
-    public static double POWER_ARM_UP = 0.5;
+    public static double POWER_ARM_UP = 0.7;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     public int armPositionCount = 0;
