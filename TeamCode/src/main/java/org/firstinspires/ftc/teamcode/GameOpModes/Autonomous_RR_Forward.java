@@ -60,7 +60,7 @@ public class Autonomous_RR_Forward {
         boolean parked = false;
         boolean autonomousStarted = false;
 
-        //public Vision.ACTIVE_WEBCAM activeWebcam = Vision.ACTIVE_WEBCAM.WEBCAM1;
+        public SSVision.ACTIVE_WEBCAM activeWebcam = SSVision.ACTIVE_WEBCAM.WEBCAM1;
         public GameField.VISION_IDENTIFIED_TARGET targetZone = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
 
         double af = GameField.ALLIANCE_FACTOR;
@@ -81,11 +81,11 @@ public class Autonomous_RR_Forward {
 
             GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
             //Key Pay inputs to select Game Plan;
-              //vision = new Vision(hardwareMap, activeWebcam);
+              vision = new SSVision(hardwareMap, activeWebcam);
             af = GameField.ALLIANCE_FACTOR;
 
             // Initiate Camera on Init.
-            //  vision.activateVuforiaTensorFlow();
+            vision.activateVuforiaTensorFlow();
 
             // 1.  Robot starts position with arm at Level Intake Front with pre-loaded cone in claw.
             startPose = RED_WAREHOUSE_STARTPOS;
@@ -105,7 +105,7 @@ public class Autonomous_RR_Forward {
             while (!isStopRequested()) {
                 // 2.  Call Vision function to detect Team Element position and set parking position
                 //Run Vuforia Tensor Flow
-                //  targetZone = vision.runVuforiaTensorFlow();
+                targetZone = vision.runVuforiaTensorFlow();
 
                 if (!parked) {
                     autonomousController.runAutoControl();
@@ -119,7 +119,7 @@ public class Autonomous_RR_Forward {
                 //Game Play is pressed
                 while (opModeIsActive() && !isStopRequested() && !parked) {
 
-                    //  vision.deactivateVuforiaTensorFlow();
+                    vision.deactivateVuforiaTensorFlow();
                     runAutoRedRightForward();
 
                     //Move to Launching Position

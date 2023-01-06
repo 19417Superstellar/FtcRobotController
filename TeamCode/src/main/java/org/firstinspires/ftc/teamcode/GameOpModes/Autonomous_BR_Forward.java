@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
+import org.firstinspires.ftc.teamcode.Subsystems.SSVision;
+
 
 public class Autonomous_BR_Forward {
 
@@ -44,7 +46,7 @@ public class Autonomous_BR_Forward {
             public org.firstinspires.ftc.teamcode.Subsystems.SSClaw SSClaw;
 
 
-            //public Vision vision;
+            public SSVision vision;
             public final Pose2d RED_WAREHOUSE_STARTPOS = new Pose2d(-61, -7, Math.toRadians(0));
             public Pose2d startPose = RED_WAREHOUSE_STARTPOS;
 
@@ -52,7 +54,7 @@ public class Autonomous_BR_Forward {
             boolean parked = false;
             boolean autonomousStarted = false;
 
-            //public Vision.ACTIVE_WEBCAM activeWebcam = Vision.ACTIVE_WEBCAM.WEBCAM1;
+            public SSVision.ACTIVE_WEBCAM activeWebcam = SSVision.ACTIVE_WEBCAM.WEBCAM1;
             public GameField.VISION_IDENTIFIED_TARGET targetZone = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
 
             double af = GameField.ALLIANCE_FACTOR;
@@ -64,20 +66,20 @@ public class Autonomous_BR_Forward {
             public void runOpMode() throws InterruptedException {
                 /* Create Subsystem Objects*/
                 driveTrain = new org.firstinspires.ftc.teamcode.Subsystems.DriveTrain(hardwareMap);
-                SSElevator = new SSElevator(hardwareMap);
+                SSElevator = new SSElevator(hardwareMap, this);
                 SSArm = new SSArm(hardwareMap);
 
 
-                gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm);
+                gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, SSArm, this);
                 autonomousController = new AutonomousController(driveTrain, SSElevator, SSClaw, SSArm);
 
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
                 //Key Pay inputs to select Game Plan;
-                //vision = new Vision(hardwareMap, activeWebcam);
+                vision = new SSVision(hardwareMap, activeWebcam);
                 af = GameField.ALLIANCE_FACTOR;
 
                 // Initiate Camera on Init.
-                //  vision.activateVuforiaTensorFlow();
+                vision.activateVuforiaTensorFlow();
 
                 // 1.  Robot starts position with arm at Level Intake Front with pre-loaded cone in claw.
                 startPose = RED_WAREHOUSE_STARTPOS;
@@ -97,7 +99,7 @@ public class Autonomous_BR_Forward {
                 while (!isStopRequested()) {
                     // 2.  Call Vision function to detect Team Element position and set parking position
                     //Run Vuforia Tensor Flow
-                    //  targetZone = vision.runVuforiaTensorFlow();
+                    targetZone = vision.runVuforiaTensorFlow();
 
                     if (!parked) {
                         autonomousController.runAutoControl();
@@ -111,7 +113,7 @@ public class Autonomous_BR_Forward {
                     //Game Play is pressed
                     while (opModeIsActive() && !isStopRequested() && !parked) {
 
-                        //  vision.deactivateVuforiaTensorFlow();
+                        vision.deactivateVuforiaTensorFlow();
                         runAutoRedRightForward();
 
                         //Move to Launching Position
