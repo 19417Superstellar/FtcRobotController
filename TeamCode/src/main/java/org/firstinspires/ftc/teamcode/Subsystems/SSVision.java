@@ -90,20 +90,26 @@ import java.util.List;
 
         public List<VuforiaTrackable> allTrackables;
 
-        //Tensor Flow parameters
-        /* Note: This sample uses the all-objects Tensor Flow model (PowerPlay_BCDM.tflite), which contains
-         * the following 3 detectable objects (the sleeves)
-         *  0: Yellow Star,
-         *  1: Black Moon,
-         *  2: Purple Sparkle
-         */
-        //private static final String TFOD_MODEL_ASSET = "PowerPlay_BCDM.tflite";
-        private static final String TFOD_MODEL_ASSET = "SuperStellar1.tflite";
-        public static final String[] LABELS = {
-                "Yellow Star",
-                "Black Moon",
-                "Purple Sparkles"
+        // Superstellar custom trained model file
+        //private static final String TFOD_MODEL_ASSET = "SS_PowerPlay.tflite";
+
+        // Custom Superstellar labels for the team sleeve
+//        public static final String[] LABELS = {
+//                "Yellow Star",
+//                "Black Moon",
+//                "Purple Sparkles"
+//        };
+
+        // Default FTC model file
+        private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+
+        // Default FTC labels for the sleeve
+        private static final String[] LABELS = {
+                "1 Bolt",
+                "2 Bulb",
+                "3 Panel"
         };
+
         public String detectedLabel = "None";
         public float detectedLabelLeft, detectedLabelRight, detectedLabelTop, detectedLabelBottom;
         public static float[] targetPosition = {
