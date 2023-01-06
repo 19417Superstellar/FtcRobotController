@@ -99,9 +99,6 @@ public class AutonomousController {
             return autoSSElevatorState;
         }
 
-        /**** End of Elevator functions ***/
-
-
         /**
          * runAutoArm() function
          */
@@ -176,8 +173,6 @@ public class AutonomousController {
         public void runAutoSSArm() {
             if(autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
                 ssArm.moveArmIntakeForward();
-            } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_INTAKE_REAR){
-                ssArm.moveArmIntakeRear();
             } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_LOW){
                 ssArm.moveArmLow();
             } else if (autoSSArmPosition == AUTO_ARM_POSITION.ARM_POSITION_MID){
@@ -187,7 +182,7 @@ public class AutonomousController {
             }
 
             if (ssArm.runArmToLevelState) {
-                ssArm.runArmToLevel(ssArm.POWER_ARM_UP);
+                ssArm.runArmToLevel(SSArm.POWER_ARM_UP);
             }
 
         }

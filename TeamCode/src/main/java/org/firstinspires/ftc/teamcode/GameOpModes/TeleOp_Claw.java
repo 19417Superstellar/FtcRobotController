@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.GameOpModes;
 
 
-        import com.acmerobotics.roadrunner.geometry.Pose2d;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-        import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
-        import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 
 /**
  * Power Play TeleOp mode <BR>
@@ -17,8 +18,8 @@ package org.firstinspires.ftc.teamcode.GameOpModes;
  *
  */
 
-@TeleOp(name = "SSTeleOp", group = "00-Teleop")
-public class SSTeleOp extends LinearOpMode {
+@TeleOp(name = "TeleOp_Claw", group = "00-Teleop")
+public class TeleOp_Claw extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
@@ -27,8 +28,8 @@ public class SSTeleOp extends LinearOpMode {
 
     //TODO_SS
     public SSClaw ssClaw;
-    public SSArm ssArm;
     public SSElevator ssElevator;
+    public SSArm ssArm;
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -61,6 +62,7 @@ public class SSTeleOp extends LinearOpMode {
         /* If Stop is pressed, exit OpMode */
         if (isStopRequested()) return;
 
+        double leftServoPosition = 0.1, rightServoPosition = 0.9;
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
@@ -70,12 +72,46 @@ public class SSTeleOp extends LinearOpMode {
             }
 
             while (opModeIsActive()) {
-                gamepadController.runByGamepadControl();
+                gamepadController.runClaw();
+                /*if (gamepadController.gp1GetButtonXPress()) {
+                    if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
+                        //ssClaw.setGripClose();
+                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_OPEN_POSITION_RIGHT);
+                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_OPEN_POSITION_LEFT);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_OPEN;
+                    } else {
+                        //ssClaw.setGripOpen();
+                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_CLOSE_POSITION_RIGHT);
+                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_CLOSE_POSITION_LEFT);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE;
+                    }
+                }*/
+
+                if (gamepadController.gp1GetDpad_downPress()){
+                    if (leftServoPosition >0) leftServoPosition -=0.01;
+                }
+                if (gamepadController.gp1GetDpad_upPress()) {
+                    if (leftServoPosition <1.0) leftServoPosition +=0.01;
+                }
+
+                ssClaw.gripServoLeft.setPosition(leftServoPosition);
+
+
+                if (gamepadController.gp2GetDpad_downPress()){
+                    if (rightServoPosition >0) rightServoPosition -=0.01;
+                }
+                if (gamepadController.gp2GetDpad_upPress()) {
+                    if (rightServoPosition <1.0) rightServoPosition +=0.01;
+                }
+
+                ssClaw.gripServoRight.setPosition(rightServoPosition);
+
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
                     telemetry.update();
                 }
+
             }
 
         }
@@ -98,18 +134,6 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
-
-        telemetry.addData("Elevator sensor is pressed:", ssElevator.touchSensor.isPressed());
-        telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
-        telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
-        telemetry.addData("Elevator State", ssElevator.elevatorPosition);
-        telemetry.addData("Elevator target position", ssElevator.elevatorMotorLeft.getTargetPosition());
-        telemetry.addData("Elevator Power", ssElevator.elevatorMotorLeft.getPower());
-
-        telemetry.addData("arm_position",ssArm.getArmPosition());
-        telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
-        telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
-
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());

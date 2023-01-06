@@ -2,7 +2,10 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 
         //import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import android.os.Debug;
+
         import com.acmerobotics.roadrunner.geometry.Vector2d;
+        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.hardware.Gamepad;
         import com.qualcomm.robotcore.hardware.SwitchableLight;
 
@@ -60,7 +63,6 @@ public class GamepadController {
     public SSElevator ssElevator;
     public SSArm ssArm;
 
-
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
      * Assign the gamepad1 given in OpMode to the gamepad used here.
@@ -70,14 +72,14 @@ public class GamepadController {
                              DriveTrain driveTrain,
                              SSClaw ssClaw,
                              SSElevator ssElevator,
-                             SSArm ssArm) {
+                             SSArm ssArm,
+                             LinearOpMode opMode) {
         this.ssGamepad1 =  ssGamepad1;
         this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
         this.ssClaw = ssClaw;
         this.ssElevator = ssElevator;
         this.ssArm = ssArm;
-
     }
 
     /**
@@ -99,18 +101,18 @@ public class GamepadController {
 
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
 
-        if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+       // if (driveTrain.driveType == DriveTrain.DriveType.ROBOT_CENTRIC){
+         //   if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
                 driveTrain.gamepadInput = new Vector2d(
                         -gp1TurboMode(gp1GetLeftStickY()),
                         -gp1TurboMode(gp1GetLeftStickX()));
-            } else {
+         //   } else {
                 // Avoid using Turbo when elevator is at Level 0
-                driveTrain.gamepadInput = new Vector2d(
-                        -limitStick(gp1GetLeftStickY()),
-                        -limitStick(gp1GetLeftStickX()));
-            }
-        }
+        //        driveTrain.gamepadInput = new Vector2d(
+          //              -limitStick(gp1GetLeftStickY()),
+          //              -limitStick(gp1GetLeftStickX()));
+         //   }
+      //  }
 
         if (driveTrain.driveType == DriveTrain.DriveType.FIELD_CENTRIC){
 
@@ -133,44 +135,43 @@ public class GamepadController {
         driveTrain.driveTrainPointFieldModes();
     }
 
-
-
-
-    /**
-     * function for intake function on Dpad
-     */
-
-
     /**
      * Elevator function mapped to the gamepad buttons
      */
     public void runElevator() {
-        if (gp2GetDpad_downPress()) {
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
-                ssElevator.moveElevatorLevelGround();
-            }
+
+        if (gp2GetStart() && gp2GetDpad_downPress()) {
+            // If start + d-pad down, then reset elevator to
+            // all the way down
+        //    if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+        //        ssElevator.moveElevatorLevelLow();
+        //    }
+            ssElevator.bringElevatorAllTheWayDown();
+        }
+        else if ( gp2GetDpad_downPress()) {
+            ssElevator.moveSSElevatorSlightlyDown();
         }
 
         if (gp2GetDpad_upPress()) {
-            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
-                ssElevator.moveElevatorLevelHigh();
-
-            }
+            ssElevator.moveSSElevatorSlightlyUp();
+//            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
+//                ssElevator.moveElevatorLevelHigh();
+//            }
         }
 
 
-        /*start+left trigger in gamepad1 will move slightly down
-          left trigger in gamepad1 will move slightly up
+        /*start+left trigger in gamepad2 will move slightly down
+          left trigger in gamepad2 will move slightly up
          */
 
-        if (gp2GetStart()) {
-            if (gp2GetLeftTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyUp();
-            }
-            if (gp2GetRightTriggerPress()) {
-                ssElevator.moveSSElevatorSlightlyDown();
-            }
-        }
+//        if (gp2GetStart()) {
+//            if (gp2GetLeftTriggerPress()) {
+//                ssElevator.moveSSElevatorSlightlyUp();
+//            }
+//            if (gp2GetRightTriggerPress()) {
+//                ssElevator.moveSSElevatorSlightlyDown();
+//            }
+//        }
 
         if (ssElevator.runElevatorToLevelState) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
@@ -184,9 +185,13 @@ public class GamepadController {
     public void runArm() {
         if (!gp2GetStart() && gp2GetButtonAPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmIntakeForward();
             }
         }
+
+        /*
+        Disabled REAR INTAKE till we can strenghen the arm and reinforce it
 
         if (gp2GetRightTriggerPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
@@ -194,9 +199,14 @@ public class GamepadController {
 
             }
         }
+        */
 
-        if (gp2GetButtonYPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+        if (!gp2GetStart() && gp2GetButtonXPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to low position
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmLow();
 
             }
@@ -204,18 +214,23 @@ public class GamepadController {
 
         if (!gp2GetStart() && gp2GetButtonBPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_MID) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to low position
+                ssElevator.moveElevatorLevelLow();
                 ssArm.moveArmMid();
-
             }
         }
 
-        if (gp2GetButtonXPress()) {
-            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_LOW) {
+        if (!gp2GetStart() && gp2GetButtonYPress()) {
+            if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_HIGH) {
+                // Make sure claw is closed
+                ssClaw.setGripClose();
+                // Move the elevator to high position
+                ssElevator.moveElevatorLevelHigh();
                 ssArm.moveArmHigh();
-
             }
         }
-
 
         /*start+left trigger in gamepad1 will move slightly down
           left trigger in gamepad1 will move slightly up
@@ -225,24 +240,27 @@ public class GamepadController {
             if (gp2GetButtonYPress()) {
                 ssArm.moveSSArmSlightlyUp();
             }
-            if (gp2GetButtonBPress()) {
+            if (gp2GetButtonXPress()) {
                 ssArm.moveSSArmSlightlyDown();
             }
+        }
+
+        if (ssElevator.runElevatorToLevelState) {
+            ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
 
         if (ssArm.runArmToLevelState) {
             ssArm.runArmToLevel(ssArm.motorPowerToRun);
         }
-            
 
-            if (gp2GetStart() && gp2GetDpad_down()) {
-                ssArm.resetArm();
-            }
+        if (gp2GetStart() && gp2GetDpad_down()) {
+            ssArm.resetArm();
+        }
     } //End of runArm function
 
     public void runClaw() {
         if (gp2GetLeftBumperPress()) {
-            if (ssClaw.getGripServoState() != SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE){
+            if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
                 ssClaw.setGripClose();
             } else {
                 ssClaw.setGripOpen();
@@ -370,19 +388,13 @@ public class GamepadController {
     }
 
     public boolean gp1GetRightTriggerPress() {
-        boolean isPressedRightTrigger = false;
-        if (!gp1RightTriggerLast && (gp1GetRightTrigger()>0.7)) {
-            isPressedRightTrigger = true;
-        }
+        boolean isPressedRightTrigger = !gp1RightTriggerLast && (gp1GetRightTrigger() > 0.7);
         gp1RightTriggerLast = (gp1GetRightTrigger()>0.7);
         return isPressedRightTrigger;
     }
 
     public boolean gp2GetRightTriggerPress() {
-        boolean isPressedRightTrigger = false;
-        if (!gp2RightTriggerLast && (gp2GetRightTrigger()>0.7)) {
-            isPressedRightTrigger = true;
-        }
+        boolean isPressedRightTrigger = !gp2RightTriggerLast && (gp2GetRightTrigger() > 0.7);
         gp2RightTriggerLast = (gp2GetRightTrigger()>0.7);
         return isPressedRightTrigger;
     }
@@ -400,19 +412,13 @@ public class GamepadController {
     }
 
     public boolean gp1GetLeftTriggerPress() {
-        boolean isPressedLeftTrigger = false;
-        if (!gp1LeftTriggerLast && (gp1GetLeftTrigger()>0.7)) {
-            isPressedLeftTrigger = true;
-        }
+        boolean isPressedLeftTrigger = !gp1LeftTriggerLast && (gp1GetLeftTrigger() > 0.7);
         gp1LeftTriggerLast = (gp1GetLeftTrigger()>0.7);
         return isPressedLeftTrigger;
     }
 
     public boolean gp2GetLeftTriggerPress() {
-        boolean isPressedLeftTrigger = false;
-        if (!gp2LeftTriggerLast && (gp2GetLeftTrigger()>0.7)) {
-            isPressedLeftTrigger = true;
-        }
+        boolean isPressedLeftTrigger = !gp2LeftTriggerLast && (gp2GetLeftTrigger() > 0.7);
         gp2LeftTriggerLast = (gp2GetLeftTrigger()>0.7);
         return isPressedLeftTrigger;
     }
@@ -440,19 +446,13 @@ public class GamepadController {
      * @return isPressedLeftBumper| = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetLeftBumperPress() {
-        boolean isPressedLeftBumper = false;
-        if (!gp1LeftBumperLast &&  ssGamepad1.left_bumper) {
-            isPressedLeftBumper = true;
-        }
+        boolean isPressedLeftBumper = !gp1LeftBumperLast && ssGamepad1.left_bumper;
         gp1LeftBumperLast =  ssGamepad1.left_bumper;
         return isPressedLeftBumper;
     }
 
     public boolean gp2GetLeftBumperPress() {
-        boolean isPressedLeftBumper = false;
-        if (!gp2LeftBumperLast &&  ssGamepad2.left_bumper) {
-            isPressedLeftBumper = true;
-        }
+        boolean isPressedLeftBumper = !gp2LeftBumperLast && ssGamepad2.left_bumper;
         gp2LeftBumperLast =  ssGamepad2.left_bumper;
         return isPressedLeftBumper;
     }
@@ -479,19 +479,13 @@ public class GamepadController {
      * @return isPressedRightBumper = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetRightBumperPress() {
-        boolean isPressedRightBumper = false;
-        if (!gp1RightBumperLast &&  ssGamepad1.right_bumper) {
-            isPressedRightBumper = true;
-        }
+        boolean isPressedRightBumper = !gp1RightBumperLast && ssGamepad1.right_bumper;
         gp1RightBumperLast =  ssGamepad1.right_bumper;
         return isPressedRightBumper;
     }
 
     public boolean gp2GetRightBumperPress() {
-        boolean isPressedRightBumper = false;
-        if (!gp2RightBumperLast &&  ssGamepad2.right_bumper) {
-            isPressedRightBumper = true;
-        }
+        boolean isPressedRightBumper = !gp2RightBumperLast && ssGamepad2.right_bumper;
         gp2RightBumperLast =  ssGamepad2.right_bumper;
         return isPressedRightBumper;
     }
@@ -514,18 +508,12 @@ public class GamepadController {
      * @return isPressedButton A = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetButtonAPress() {
-        boolean isPressedButtonA = false;
-        if (!gp1ButtonALast &&  ssGamepad1.a) {
-            isPressedButtonA = true;
-        }
+        boolean isPressedButtonA = !gp1ButtonALast && ssGamepad1.a;
         gp1ButtonALast =  ssGamepad1.a;
         return isPressedButtonA;
     }
     public boolean gp2GetButtonAPress() {
-        boolean isPressedButtonA = false;
-        if (!gp2ButtonALast &&  ssGamepad2.a) {
-            isPressedButtonA = true;
-        }
+        boolean isPressedButtonA = !gp2ButtonALast && ssGamepad2.a;
         gp2ButtonALast =  ssGamepad2.a;
         return isPressedButtonA;
     }
@@ -548,18 +536,12 @@ public class GamepadController {
      * @return isPressedButtonY = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetButtonYPress() {
-        boolean isPressedButtonY = false;
-        if (!gp1ButtonYLast &&  ssGamepad1.y) {
-            isPressedButtonY = true;
-        }
+        boolean isPressedButtonY = !gp1ButtonYLast && ssGamepad1.y;
         gp1ButtonYLast =  ssGamepad1.y;
         return isPressedButtonY;
     }
     public boolean gp2GetButtonYPress() {
-        boolean isPressedButtonY = false;
-        if (!gp2ButtonYLast &&  ssGamepad2.y) {
-            isPressedButtonY = true;
-        }
+        boolean isPressedButtonY = !gp2ButtonYLast && ssGamepad2.y;
         gp2ButtonYLast =  ssGamepad2.y;
         return isPressedButtonY;
     }
@@ -581,19 +563,13 @@ public class GamepadController {
      * @return isPressedButtonX = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetButtonXPress() {
-        boolean isPressedButtonX = false;
-        if (!gp1ButtonXLast &&  ssGamepad1.x) {
-            isPressedButtonX = true;
-        }
+        boolean isPressedButtonX = !gp1ButtonXLast && ssGamepad1.x;
         gp1ButtonXLast =  ssGamepad1.x;
         return isPressedButtonX;
     }
 
     public boolean gp2GetButtonXPress() {
-        boolean isPressedButtonX = false;
-        if (!gp2ButtonXLast &&  ssGamepad2.x) {
-            isPressedButtonX = true;
-        }
+        boolean isPressedButtonX = !gp2ButtonXLast && ssGamepad2.x;
         gp2ButtonXLast =  ssGamepad2.x;
         return isPressedButtonX;
     }
@@ -615,18 +591,12 @@ public class GamepadController {
      * @return isPressedButtonB = true if prev state is not pressed and current is pressed.
      */
     public boolean gp1GetButtonBPress() {
-        boolean isPressedButtonB = false;
-        if (!gp1ButtonBLast &&  ssGamepad1.b) {
-            isPressedButtonB = true;
-        }
+        boolean isPressedButtonB = !gp1ButtonBLast && ssGamepad1.b;
         gp1ButtonBLast =  ssGamepad1.b;
         return isPressedButtonB;
     }
     public boolean gp2GetButtonBPress() {
-        boolean isPressedButtonB = false;
-        if (!gp2ButtonBLast &&  ssGamepad2.b) {
-            isPressedButtonB = true;
-        }
+        boolean isPressedButtonB = !gp2ButtonBLast && ssGamepad2.b;
         gp2ButtonBLast =  ssGamepad2.b;
         return isPressedButtonB;
     }
@@ -649,19 +619,13 @@ public class GamepadController {
      */
     public boolean gp1GetDpad_upPress() {
         boolean isPressedDpad_up;
-        isPressedDpad_up = false;
-        if (!gp1Dpad_upLast &&  ssGamepad1.dpad_up) {
-            isPressedDpad_up = true;
-        }
+        isPressedDpad_up = !gp1Dpad_upLast && ssGamepad1.dpad_up;
         gp1Dpad_upLast =  ssGamepad1.dpad_up;
         return isPressedDpad_up;
     }
     public boolean gp2GetDpad_upPress() {
         boolean isPressedDpad_up;
-        isPressedDpad_up = false;
-        if (!gp2Dpad_upLast &&  ssGamepad2.dpad_up) {
-            isPressedDpad_up = true;
-        }
+        isPressedDpad_up = !gp2Dpad_upLast && ssGamepad2.dpad_up;
         gp2Dpad_upLast =  ssGamepad2.dpad_up;
         return isPressedDpad_up;
     }
@@ -685,19 +649,13 @@ public class GamepadController {
      */
     public boolean gp1GetDpad_downPress() {
         boolean isPressedDpad_down;
-        isPressedDpad_down = false;
-        if (!gp1Dpad_downLast &&  ssGamepad1.dpad_down) {
-            isPressedDpad_down = true;
-        }
+        isPressedDpad_down = !gp1Dpad_downLast && ssGamepad1.dpad_down;
         gp1Dpad_downLast =  ssGamepad1.dpad_down;
         return isPressedDpad_down;
     }
     public boolean gp2GetDpad_downPress() {
         boolean isPressedDpad_down;
-        isPressedDpad_down = false;
-        if (!gp2Dpad_downLast &&  ssGamepad2.dpad_down) {
-            isPressedDpad_down = true;
-        }
+        isPressedDpad_down = !gp2Dpad_downLast && ssGamepad2.dpad_down;
         gp2Dpad_downLast =  ssGamepad2.dpad_down;
         return isPressedDpad_down;
     }
@@ -721,19 +679,13 @@ public class GamepadController {
      */
     public boolean gp1GetDpad_leftPress() {
         boolean isPressedDpad_left;
-        isPressedDpad_left = false;
-        if (!gp1Dpad_leftLast &&  ssGamepad1.dpad_left) {
-            isPressedDpad_left = true;
-        }
+        isPressedDpad_left = !gp1Dpad_leftLast && ssGamepad1.dpad_left;
         gp1Dpad_leftLast =  ssGamepad1.dpad_left;
         return isPressedDpad_left;
     }
     public boolean gp2GetDpad_leftPress() {
         boolean isPressedDpad_left;
-        isPressedDpad_left = false;
-        if (!gp2Dpad_leftLast &&  ssGamepad2.dpad_left) {
-            isPressedDpad_left = true;
-        }
+        isPressedDpad_left = !gp2Dpad_leftLast && ssGamepad2.dpad_left;
         gp2Dpad_leftLast =  ssGamepad2.dpad_left;
         return isPressedDpad_left;
     }
@@ -747,7 +699,7 @@ public class GamepadController {
 
     /**
      * Method to track if Dpad_right was pressed
-     * To ensure that the continuous holding of Dpad_up does not send continual triggers,
+     * To ensure that the continuous holding of Dpad_up does   send continual triggers,
      * the state of the button is recorded and compared against previous time.
      * Only if the previous state is unpressed and current state is pressed would
      * the function return true.
@@ -757,19 +709,13 @@ public class GamepadController {
      */
     public boolean gp1GetDpad_rightPress() {
         boolean isPressedDpad_right;
-        isPressedDpad_right = false;
-        if (!gp1Dpad_rightLast &&  ssGamepad1.dpad_right) {
-            isPressedDpad_right = true;
-        }
+        isPressedDpad_right = !gp1Dpad_rightLast && ssGamepad1.dpad_right;
         gp1Dpad_rightLast =  ssGamepad1.dpad_right;
         return isPressedDpad_right;
     }
     public boolean gp2GetDpad_rightPress() {
         boolean isPressedDpad_right;
-        isPressedDpad_right = false;
-        if (!gp2Dpad_rightLast &&  ssGamepad2.dpad_right) {
-            isPressedDpad_right = true;
-        }
+        isPressedDpad_right = !gp2Dpad_rightLast && ssGamepad2.dpad_right;
         gp2Dpad_rightLast =  ssGamepad2.dpad_right;
         return isPressedDpad_right;
     }

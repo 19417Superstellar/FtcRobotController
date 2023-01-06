@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode.GameOpModes;
 
 
-        import com.acmerobotics.roadrunner.geometry.Pose2d;
-        import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-        import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-        import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
-        import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
-        import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 
 /**
  * Power Play TeleOp mode <BR>
@@ -17,8 +18,8 @@ package org.firstinspires.ftc.teamcode.GameOpModes;
  *
  */
 
-@TeleOp(name = "SSTeleOp", group = "00-Teleop")
-public class SSTeleOp extends LinearOpMode {
+@TeleOp(name = "TeleOp_Chassis", group = "00-Teleop")
+public class TeleOp_Chassis extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
@@ -70,12 +71,13 @@ public class SSTeleOp extends LinearOpMode {
             }
 
             while (opModeIsActive()) {
-                gamepadController.runByGamepadControl();
+                gamepadController.runDriveControl_byRRDriveModes();
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
                     telemetry.update();
                 }
+
             }
 
         }
@@ -98,18 +100,10 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
-
-        telemetry.addData("Elevator sensor is pressed:", ssElevator.touchSensor.isPressed());
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
-        telemetry.addData("Elevator State", ssElevator.elevatorPosition);
-        telemetry.addData("Elevator target position", ssElevator.elevatorMotorLeft.getTargetPosition());
-        telemetry.addData("Elevator Power", ssElevator.elevatorMotorLeft.getPower());
-
-        telemetry.addData("arm_position",ssArm.getArmPosition());
         telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
         telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
-
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
