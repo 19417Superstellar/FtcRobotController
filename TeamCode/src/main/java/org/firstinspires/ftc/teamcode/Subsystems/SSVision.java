@@ -212,9 +212,9 @@ import java.util.List;
                         // empty list.  no objects recognized.
                         detectedLabel = "None";
                         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_LOW;
                         } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
+                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_HIGH;
                         }
                     } else {
                         // list is not empty.
@@ -231,12 +231,6 @@ import java.util.List;
                     }*/
 
                         for (Recognition recognition : recognitions) {
-                            // check label to see which target zone to go after.
-                        /*detectedLabel = recognition.getLabel();
-                        detectedLabelLeft = recognition.getLeft();
-                        detectedLabelRight = recognition.getRight();
-                        detectedLabelTop = recognition.getTop();
-                        detectedLabelBottom = recognition.getBottom();*/
                             {
                                 detectedLabel = recognition.getLabel();
                                 detectedLabelLeft = recognition.getLeft();
@@ -246,15 +240,9 @@ import java.util.List;
 
                                 if (recognition.getLeft() < targetPosition[0]) {
                                     if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_LOW;
                                     } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
-                                    }
-                                } else if (recognition.getLeft() < targetPosition[1]) {
-                                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
-                                    } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_HIGH;
                                     }
                                 }
                             }

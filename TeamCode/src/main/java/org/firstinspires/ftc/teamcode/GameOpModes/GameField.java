@@ -40,20 +40,12 @@ public class GameField {
 
     //Define targets for Vision to determine Autonomous mode action based on camera detection
     public enum VISION_IDENTIFIED_TARGET {
-        LEVEL1,
-        LEVEL2,
-        LEVEL3,
+        LEVEL_LOW,
+        LEVEL_HIGH,
         UNKNOWN;
     };
 
-    public enum VISION_IDENTIFIER{
-        DUCK,
-        MARKER
+
     };
-    public static VISION_IDENTIFIER visionIdentifier = VISION_IDENTIFIER.DUCK;
 
-    //Static fields to pass Pos from Autonomous to TeleOp
-    public static boolean poseSetInAutonomous = false;
-    public static Pose2d currentPose = new Pose2d();
 
-}
