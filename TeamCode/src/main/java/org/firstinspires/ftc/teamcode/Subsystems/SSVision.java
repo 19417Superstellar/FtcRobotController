@@ -90,16 +90,26 @@ import java.util.List;
 
         public List<VuforiaTrackable> allTrackables;
 
-        //Tensor Flow parameters
-        /* Note: This sample uses the all-objects Tensor Flow model (PowerPlay_BCDM.tflite), which contains
-         * the following 3 detectable objects (the sleeves)
-         *  0:"FTC Default"
-         */
-        //private static final String TFOD_MODEL_ASSET = "PowerPlay_BCDM.tflite";
-        private static final String TFOD_MODEL_ASSET = "SuperStellar1.tflite";
-        public static final String[] LABELS = {
-                "FTC Default",
+        // Superstellar custom trained model file
+        //private static final String TFOD_MODEL_ASSET = "SS_PowerPlay.tflite";
+
+        // Custom Superstellar labels for the team sleeve
+//        public static final String[] LABELS = {
+//                "Yellow Star",
+//                "Black Moon",
+//                "Purple Sparkles"
+//        };
+
+        // Default FTC model file
+        private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+
+        // Default FTC labels for the sleeve
+        private static final String[] LABELS = {
+                "1 Bolt",
+                "2 Bulb",
+                "3 Panel"
         };
+
         public String detectedLabel = "None";
         public float detectedLabelLeft, detectedLabelRight, detectedLabelTop, detectedLabelBottom;
         public static float[] targetPosition = {
@@ -208,9 +218,9 @@ import java.util.List;
                         // empty list.  no objects recognized.
                         detectedLabel = "None";
                         if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_LOW;
+                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
                         } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_HIGH;
+                            targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
                         }
                     } else {
                         // list is not empty.
@@ -227,6 +237,12 @@ import java.util.List;
                     }*/
 
                         for (Recognition recognition : recognitions) {
+                            // check label to see which target zone to go after.
+                        /*detectedLabel = recognition.getLabel();
+                        detectedLabelLeft = recognition.getLeft();
+                        detectedLabelRight = recognition.getRight();
+                        detectedLabelTop = recognition.getTop();
+                        detectedLabelBottom = recognition.getBottom();*/
                             {
                                 detectedLabel = recognition.getLabel();
                                 detectedLabelLeft = recognition.getLeft();
@@ -236,9 +252,15 @@ import java.util.List;
 
                                 if (recognition.getLeft() < targetPosition[0]) {
                                     if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_LOW;
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL1;
                                     } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
-                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL_HIGH;
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
+                                    }
+                                } else if (recognition.getLeft() < targetPosition[1]) {
+                                    if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) {
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL2;
+                                    } else { //GameField.playingAlliance == GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE
+                                        targetLevelDetected = GameField.VISION_IDENTIFIED_TARGET.LEVEL3;
                                     }
                                 }
                             }
