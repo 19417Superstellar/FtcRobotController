@@ -54,7 +54,7 @@ public class SSArm {
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
     private static final double ARM_LOW_POSITION_ANGLE = 75;
     private static final double ARM_MID_POSITION_ANGLE = 100;
-    private static final double ARM_HIGH_POSITION_ANGLE = 120;
+    private static final double ARM_HIGH_POSITION_ANGLE = 130;
 
     // Max we allow arm to go with sightly up functionality
     private static final double ARM_MAX_POSITION_ANGLE = 180;

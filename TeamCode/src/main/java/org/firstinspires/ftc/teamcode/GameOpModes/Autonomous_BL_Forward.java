@@ -36,7 +36,6 @@ public class Autonomous_BL_Forward extends LinearOpMode {
 
     public boolean DEBUG_FLAG = true;
 
-    public GamepadController gamepadController;
     public AutonomousController autonomousController;
     public DriveTrain driveTrain;
     public SSElevator ssElevator;
@@ -66,12 +65,12 @@ public class Autonomous_BL_Forward extends LinearOpMode {
         driveTrain = new org.firstinspires.ftc.teamcode.Subsystems.DriveTrain(hardwareMap);
         ssElevator = new SSElevator(hardwareMap, this);
         ssArm = new SSArm(hardwareMap);
+        ssClaw = new SSClaw(hardwareMap);
 
-
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssArm, this);
         autonomousController = new AutonomousController(driveTrain, ssElevator, ssClaw, ssArm);
 
         GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
+
         //Key Pay inputs to select Game Plan;
         vision = new SSVision(hardwareMap, activeWebcam);
         af = GameField.ALLIANCE_FACTOR;
@@ -91,6 +90,9 @@ public class Autonomous_BL_Forward extends LinearOpMode {
         telemetry.addData("Start Pose : ", "Red Right Forward");
         telemetry.addData("Waiting for start to be pressed.", "Robot is ready!");
         telemetry.update();
+
+        /* Wait for Start or Stop Button to be pressed */
+        waitForStart();
 
         if (isStopRequested()) return;
 
