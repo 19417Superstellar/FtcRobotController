@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -28,11 +31,18 @@ public class AutoOpMode extends LinearOpMode{
 
     public Vision vision;
     public DriveTrain driveTrain;
+    public SSClaw claw;
+    public SSArm arm;
+    public SSElevator elevator;
 
     @Override
     public void runOpMode() throws InterruptedException {
         /*Create your Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
+        claw = new SSClaw(hardwareMap);
+        arm = new SSArm(hardwareMap);
+        elevator = new SSElevator(hardwareMap, this);
+
         vision = new Vision(hardwareMap);
 
         //Key Pay inputs to selecting Starting Position of robot
@@ -208,13 +218,13 @@ public class AutoOpMode extends LinearOpMode{
         /*TODO: Add code to pick Cone 1 from stack*/
 
         // Open claw
+        claw.setGripOpen();
 
-        // Move the arm to intake position based on coneCount (lower the elevator too)
+        // Move the arm to intake position based on coneCount
+        arm.moveArmToConeIntakePosition(coneCount);
 
         // Close the claw
-
-        // Move arm to high position (raise the elevator too)
-
+        claw.setGripClose();
 
         telemetry.addData("Picked Cone: Stack", coneCount);
         telemetry.update();
@@ -223,6 +233,22 @@ public class AutoOpMode extends LinearOpMode{
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
         /*TODO: Add code to drop cone on junction*/
+
+        // Move elevator high
+        elevator.moveElevatorLevelHigh();
+
+        // Move arm to high
+        arm.moveArmHigh();
+
+        // Open claw
+        claw.setGripOpen();
+
+        // Move elevator low
+        elevator.moveElevatorLevelLow();
+
+        // Move arm low
+        arm.moveArmLow();
+
         if (coneCount == 0) {
             telemetry.addData("Dropped Cone", "Pre-loaded");
         } else {
