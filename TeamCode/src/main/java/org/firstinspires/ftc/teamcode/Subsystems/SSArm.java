@@ -56,8 +56,8 @@ public class SSArm {
     // Note: These are the angles we need to rotate by and not actual physical position angles
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
     private static final double ARM_LOW_POSITION_ANGLE = 75;
-    private static final double ARM_MID_POSITION_ANGLE = 100;
-    private static final double ARM_HIGH_POSITION_ANGLE = 130;
+    private static final double ARM_MID_POSITION_ANGLE = 105;
+    private static final double ARM_HIGH_POSITION_ANGLE = 135;
     private static final double ARM_CONE1_INTAKE_POSITION_ANGLE = 15;
     private static final double ARM_CONE2_INTAKE_POSITION_ANGLE = 15;
     private static final double ARM_CONE3_INTAKE_POSITION_ANGLE = 10;
@@ -70,7 +70,7 @@ public class SSArm {
     // This is used to calculate PID constant based on target angle to move
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
-    private static final double PID_CONSTANT = 3.6;
+    private static final double PID_CONSTANT = 4.5;
     public static double POWER_ARM_UP = 0.7;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
@@ -254,8 +254,8 @@ public class SSArm {
         armMotorRight.setTargetPosition(armPositionCount);
 
         double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(pidVal);
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
+        armMotorLeft.setPositionPIDFCoefficients(3.8);
+        armMotorRight.setPositionPIDFCoefficients(3.8);
 
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;

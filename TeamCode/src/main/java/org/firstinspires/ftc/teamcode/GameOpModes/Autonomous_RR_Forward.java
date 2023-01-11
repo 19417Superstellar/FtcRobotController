@@ -39,7 +39,7 @@ public class Autonomous_RR_Forward {
      * 9.  Call elevator function to move to Level 1 position
      * 10. Call roadrunner function to move to parking position in storage area through gap
      */
-    @Autonomous(name = "Autonomous_Red_Warehouse", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
+    @Autonomous(name = "Autonomous_RR_Forward", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
     public class Autonomous_Red_Warehouse extends LinearOpMode {
 
         public boolean DEBUG_FLAG = true;

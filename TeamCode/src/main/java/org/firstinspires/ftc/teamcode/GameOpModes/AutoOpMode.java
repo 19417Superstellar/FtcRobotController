@@ -76,6 +76,7 @@ public class AutoOpMode extends LinearOpMode{
 
             //run Autonomous trajectory
             runAutoAndParking();
+            claw.setGripClose();
         }
 
         //Trajectory is completed, display Parking complete
