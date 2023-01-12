@@ -68,6 +68,9 @@ public class AutoOpMode extends LinearOpMode{
 
         //Game Play Button  is pressed
         if (opModeIsActive() && !isStopRequested()) {
+            // close the claw to grip the pre-loaded cone
+            claw.setGripClose();
+
             //Stop Vision process
             vision.deactivateVuforiaTensorFlow();
 
@@ -76,7 +79,6 @@ public class AutoOpMode extends LinearOpMode{
 
             //run Autonomous trajectory
             runAutoAndParking();
-            claw.setGripClose();
         }
 
         //Trajectory is completed, display Parking complete
@@ -223,6 +225,7 @@ public class AutoOpMode extends LinearOpMode{
 
         // Move the arm to intake position based on coneCount
         arm.moveArmToConeIntakePosition(coneCount);
+        arm.runArmToLevel(arm.motorPowerToRun);
 
         // Close the claw
         claw.setGripClose();
@@ -233,22 +236,24 @@ public class AutoOpMode extends LinearOpMode{
 
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
-        /*TODO: Add code to drop cone on junction*/
-
         // Move elevator high
         elevator.moveElevatorLevelHigh();
+        elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
         // Move arm to high
         arm.moveArmHigh();
+        arm.runArmToLevel(arm.motorPowerToRun);
 
         // Open claw
         claw.setGripOpen();
 
         // Move elevator low
         elevator.moveElevatorLevelLow();
+        elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
         // Move arm low
         arm.moveArmLow();
+        arm.runArmToLevel(arm.motorPowerToRun);
 
         if (coneCount == 0) {
             telemetry.addData("Dropped Cone", "Pre-loaded");
