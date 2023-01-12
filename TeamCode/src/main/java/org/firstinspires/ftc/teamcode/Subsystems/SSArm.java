@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class SSArm {
@@ -18,7 +17,11 @@ public class SSArm {
         ARM_POSITION_INTAKE_FORWARD,
         ARM_POSITION_LOW,
         ARM_POSITION_MID,
-        ARM_POSITION_HIGH
+        ARM_POSITION_HIGH,
+        ARM_POSITION_CONE_1,
+        ARM_POSITION_CONE_2,
+        ARM_POSITION_CONE_3,
+        ARM_POSITION_CONE_4,
     }
 
 
@@ -53,8 +56,12 @@ public class SSArm {
     // Note: These are the angles we need to rotate by and not actual physical position angles
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
     private static final double ARM_LOW_POSITION_ANGLE = 75;
-    private static final double ARM_MID_POSITION_ANGLE = 100;
-    private static final double ARM_HIGH_POSITION_ANGLE = 130;
+    private static final double ARM_MID_POSITION_ANGLE = 105;
+    private static final double ARM_HIGH_POSITION_ANGLE = 135;
+    private static final double ARM_CONE1_INTAKE_POSITION_ANGLE = 15;
+    private static final double ARM_CONE2_INTAKE_POSITION_ANGLE = 15;
+    private static final double ARM_CONE3_INTAKE_POSITION_ANGLE = 10;
+    private static final double ARM_CONE4_INTAKE_POSITION_ANGLE = 10;
 
     // Max we allow arm to go with sightly up functionality
     private static final double ARM_MAX_POSITION_ANGLE = 180;
@@ -63,7 +70,7 @@ public class SSArm {
     // This is used to calculate PID constant based on target angle to move
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
-    private static final double PID_CONSTANT = 3.6;
+    private static final double PID_CONSTANT = 4.5;
     public static double POWER_ARM_UP = 0.7;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
@@ -190,6 +197,54 @@ public class SSArm {
     }
 
     /**
+     * Moves arm to the right height to pick up a cone
+     * Used in autonomous mode
+     * @param coneCount - Which cone number are we picking
+     *                  Cone 0 is pre-loaded
+     *                  Cone 1 is top most in the stack
+     *                  Cone 2 is next and so on...
+     *                  ...
+     *                  Cone 5 is last one
+     */
+    public void moveArmToConeIntakePosition(int coneCount) {
+        double targetAngle;
+        ARM_POSITION targetPosition;
+
+        switch (coneCount) {
+            case 0:
+                moveArmIntakeForward();
+                return;
+            case 1:
+                targetPosition = ARM_POSITION.ARM_POSITION_CONE_1;
+                targetAngle = ARM_CONE1_INTAKE_POSITION_ANGLE;
+                break;
+            case 2:
+                targetPosition = ARM_POSITION.ARM_POSITION_CONE_2;
+                targetAngle = ARM_CONE2_INTAKE_POSITION_ANGLE;
+                break;
+            case 3:
+                targetPosition = ARM_POSITION.ARM_POSITION_CONE_3;
+                targetAngle = ARM_CONE3_INTAKE_POSITION_ANGLE;
+                break;
+            case 4:
+                targetPosition = ARM_POSITION.ARM_POSITION_CONE_4;
+                targetAngle = ARM_CONE4_INTAKE_POSITION_ANGLE;
+                break;
+            case 5:
+                moveArmIntakeForward();
+                return;
+            default: {
+                // Do nothing
+                return;
+            }
+        }
+
+        turnArmBrakeModeOn();
+        setArmTargetPositionValues(targetAngle);
+        armPosition = targetPosition;
+    }
+
+    /**
      * Move Elevator to level0 Position
      */
     public void moveArmIntakeForward() {
@@ -198,9 +253,9 @@ public class SSArm {
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
 
-        double pidVal = getPIDValue(0);
-        armMotorLeft.setPositionPIDFCoefficients(pidVal);
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
+        double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
+        armMotorLeft.setPositionPIDFCoefficients(3.8);
+        armMotorRight.setPositionPIDFCoefficients(3.8);
 
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
