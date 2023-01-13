@@ -24,7 +24,7 @@ public class DriveConstants {
     //public static final double MAX_RPM = 1;
 
     public static final double TICKS_PER_REV = 537.7 ;//1;
-    public static final double MAX_RPM = 312 ; //1;
+    public static final double MAX_RPM = 312.5 ; //1;
 
     /*
      * Set RUN_USING_ENCODER to true to enable built-in hub velocity control using drive encoders.
@@ -36,7 +36,7 @@ public class DriveConstants {
      */
     public static final boolean RUN_USING_ENCODER = true;
     //public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0, getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(3, 0, 0.03, 12.5);
     //public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 10, 14.71880);
 
     /*
@@ -56,7 +56,7 @@ public class DriveConstants {
     //EDIT THIS FOR STRAIGHT TEST
     public static double GEAR_RATIO = 1.0;//1;// output (wheel) speed / input (motor) speed
     //EDIT THIS FOR TRACK WIDTH TUNER TEST
-    public static double TRACK_WIDTH = 14.0;//11.5;// in
+    public static double TRACK_WIDTH = 14.35;//11.5;// in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -75,8 +75,8 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 45;
-    public static double MAX_ACCEL = 45;
+    public static double MAX_VEL = 59.071072740201366;
+    public static double MAX_ACCEL = 59.071072740201366;
     public static double MAX_ANG_VEL = Math.toRadians(290.87158346594356);
     public static double MAX_ANG_ACCEL = Math.toRadians(290.87158346594356);
 
