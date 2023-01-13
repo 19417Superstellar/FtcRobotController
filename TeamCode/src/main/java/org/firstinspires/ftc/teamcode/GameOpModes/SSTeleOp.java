@@ -49,11 +49,11 @@ public class SSTeleOp extends LinearOpMode {
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
-        if (GameField.poseSetInAutonomous) {
+       /* if (GameField.poseSetInAutonomous) {
             driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
                 driveTrain.getLocalizer().setPoseEstimate(startPose);
-        }
+        }*/
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -79,7 +79,7 @@ public class SSTeleOp extends LinearOpMode {
             }
 
         }
-        GameField.poseSetInAutonomous = false;
+       // GameField.poseSetInAutonomous = false;
     }
 
     /**
@@ -91,8 +91,8 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
         telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
-        telemetry.addData("GameField.poseSetInAutonomous :", GameField.poseSetInAutonomous);
-        telemetry.addData("GameField.currentPose :", GameField.currentPose);
+       // telemetry.addData("GameField.poseSetInAutonomous :", GameField.poseSetInAutonomous);
+       // telemetry.addData("GameField.currentPose :", GameField.currentPose);
         telemetry.addData("startPose :", startPose);
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
