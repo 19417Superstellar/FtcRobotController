@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 
         //import com.acmerobotics.roadrunner.geometry.Vector2d;
-        import android.os.Debug;
 
-        import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.hardware.Gamepad;
-        import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-        import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
-        import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
+import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
         import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
         import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
         import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;

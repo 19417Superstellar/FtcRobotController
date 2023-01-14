@@ -16,36 +16,12 @@ public class GameField {
     public static final Vector2d ORIGIN = new Vector2d(0,0);
     public static final Pose2d ORIGINPOSE = new Pose2d(0,0,Math.toRadians(0));
 
-   //Define and declare Playing Alliance
+   // Define and declare Playing Alliance
     public enum PLAYING_ALLIANCE{
         RED_ALLIANCE,
         BLUE_ALLIANCE,
     }
     public static PLAYING_ALLIANCE playingAlliance = PLAYING_ALLIANCE.BLUE_ALLIANCE;
-    public static double ALLIANCE_FACTOR = 1;
-
-
-    //Define and declare Robot Starting Locations
-    public enum START_POSITION{
-        WAREHOUSE,
-        STORAGE,
-        ORIGIN
-    }
-    public static START_POSITION startPosition = START_POSITION.WAREHOUSE;
-
-    public enum PARKING_LOCATION{
-        WAREHOUSE,
-        STORAGE
-    }
-
-    //Define targets for Vision to determine Autonomous mode action based on camera detection
-    public enum VISION_IDENTIFIED_TARGET {
-        LEVEL_LOW,
-        LEVEL_HIGH,
-        UNKNOWN;
-    };
-
-
-    };
+}
 
 
