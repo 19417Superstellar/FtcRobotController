@@ -136,7 +136,11 @@ public class AutoOpMode extends LinearOpMode{
         trajectoryAuto = driveTrain.trajectorySequenceBuilder(initPose)
                 .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
-                .setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
+                //.setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(dropConePose0)
                 .addDisplacementMarker(() -> {
                     dropCone(0); //Drop preloaded Cone
@@ -172,30 +176,30 @@ public class AutoOpMode extends LinearOpMode{
         switch (startPosition) {
             case BLUE_LEFT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-12, 60, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-12, 36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-12, 11, Math.toRadians(180)); break; // Location 3
+                    case 1: parkPose = new Pose2d(-8, 60, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(-8, 36, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(-8, 11, Math.toRadians(180)); break; // Location 3
                 }
                 break;
             case BLUE_RIGHT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-12, -11, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-12, -36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-12, -60, Math.toRadians(180)); break; // Location 3
+                    case 1: parkPose = new Pose2d(-8, -11, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(-8, -36, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(-8, -60, Math.toRadians(180)); break; // Location 3
                 }
                 break;
             case RED_LEFT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(12, -60, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(12, -36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(12, -11, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(8, -60, Math.toRadians(0)); break; // Location 1
+                    case 2: parkPose = new Pose2d(8, -36, Math.toRadians(0)); break; // Location 2
+                    case 3: parkPose = new Pose2d(8, -11, Math.toRadians(0)); break; // Location 3
                 }
                 break;
             case RED_RIGHT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(12, 11, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(12, 36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(12, 60, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(8, 11, Math.toRadians(0)); break; // Location 1
+                    case 2: parkPose = new Pose2d(8, 36, Math.toRadians(0)); break; // Location 2
+                    case 3: parkPose = new Pose2d(8, 60, Math.toRadians(0)); break; // Location 3
                 }
                 break;
         }
@@ -208,7 +212,7 @@ public class AutoOpMode extends LinearOpMode{
     //Run Auto trajectory and parking trajectory
     public void runAutoAndParking(){
         telemetry.setAutoClear(false);
-        telemetry.addData("Running FTC Wires (ftcwires.org) Autonomous Mode adopted for Team:","TEAM NUMBER");
+        telemetry.addData("Running FTC Wires (ftcwires.org) Autonomous Mode adopted for Team:","19417");
         telemetry.addData("---------------------------------------","");
         telemetry.update();
         //Run the trajectory built for Auto and Parking
