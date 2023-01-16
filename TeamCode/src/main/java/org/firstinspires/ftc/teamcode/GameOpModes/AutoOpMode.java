@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocit
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
@@ -108,11 +109,11 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(-12, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(-12, -55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-12, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-11, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-10, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-8, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                pickConePose = new Pose2d(-8, -50, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-8, -32, Math.toRadians(30)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(-8, 0, Math.toRadians(135)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(-8, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
@@ -240,13 +241,19 @@ public class AutoOpMode extends LinearOpMode{
 
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
-        // Move elevator high
-        elevator.moveElevatorLevelHigh();
+
+
+        // Move elevator low
+        elevator.moveElevatorLevelLow();
         elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
-        // Move arm to high
-        arm.moveArmHigh();
+        safeWait(2000);
+
+        // Move arm to mid
+        arm.moveArmMid();
         arm.runArmToLevel(arm.motorPowerToRun);
+
+        safeWait(1000);
 
         // Open claw
         claw.setGripOpen();
@@ -254,6 +261,8 @@ public class AutoOpMode extends LinearOpMode{
         // Move elevator low
         elevator.moveElevatorLevelLow();
         elevator.runElevatorToLevel(elevator.motorPowerToRun);
+
+        safeWait(500);
 
         // Move arm low
         arm.moveArmLow();
@@ -270,6 +279,14 @@ public class AutoOpMode extends LinearOpMode{
     public void parkingComplete(){
         telemetry.addData("Parked in Location", vision.identifiedparkingLocation);
         telemetry.update();
+    }
+
+    public void safeWait(double time) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        timer.reset();
+        while (!isStopRequested() && timer.time() < time){
+            //wait
+        }
     }
 
     //Method to select starting position using X, Y, A, B buttons on gamepad
