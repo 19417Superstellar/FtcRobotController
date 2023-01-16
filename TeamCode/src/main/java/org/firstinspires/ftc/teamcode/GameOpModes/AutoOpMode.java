@@ -109,9 +109,9 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(-8, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(-8, -50, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-8, -32, Math.toRadians(30)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-8, -32, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                pickConePose = new Pose2d(-8, -50, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-8.1, -32, Math.toRadians(30)); //Choose the pose to move to the stack of cones
                 dropConePose1 = new Pose2d(-8, 0, Math.toRadians(135)); //Choose the pose to move to the stack of cones
                 dropConePose2 = new Pose2d(-8, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
                 break;
@@ -247,7 +247,7 @@ public class AutoOpMode extends LinearOpMode{
         elevator.moveElevatorLevelLow();
         elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
-        safeWait(2000);
+        safeWait(1000);
 
         // Move arm to mid
         arm.moveArmMid();
