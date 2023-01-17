@@ -109,11 +109,11 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(-8, -32, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(-8, -50, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-8.1, -32, Math.toRadians(30)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-8, 0, Math.toRadians(135)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-8, -12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-32, -32, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                pickConePose = new Pose2d(-33, -50, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-28, -29, Math.toRadians(28)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(-8, 0, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(-8, -12, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
@@ -146,7 +146,7 @@ public class AutoOpMode extends LinearOpMode{
                 .addDisplacementMarker(() -> {
                     dropCone(0); //Drop preloaded Cone
                 })
-                //Uncomment following line to stop reduction in speed. And move to the position after which you want to stop reducing speed.
+               /* //Uncomment following line to stop reduction in speed. And move to the position after which you want to stop reducing speed.
                 //.resetVelConstraint()
                 .lineToLinearHeading(midWayPose)
                 .lineToLinearHeading(pickConePose)
@@ -167,7 +167,7 @@ public class AutoOpMode extends LinearOpMode{
                 .lineToLinearHeading(dropConePose2)
                 .addDisplacementMarker(() -> {
                     dropCone(2); //Drop cone on junction
-                })
+                }) */
                 .lineToLinearHeading(midWayPose)
                 .build();
     }
@@ -184,9 +184,9 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case BLUE_RIGHT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-8, -11, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-8, -36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-8, -60, Math.toRadians(180)); break; // Location 3
+                    case 1: parkPose = new Pose2d(-34, -11, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(-34, -36, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(-34, -60, Math.toRadians(180)); break; // Location 3
                 }
                 break;
             case RED_LEFT:
@@ -243,17 +243,12 @@ public class AutoOpMode extends LinearOpMode{
     public void dropCone(int coneCount){
 
 
-        // Move elevator low
-        elevator.moveElevatorLevelLow();
-        elevator.runElevatorToLevel(elevator.motorPowerToRun);
-
-        safeWait(1000);
-
         // Move arm to mid
         arm.moveArmMid();
         arm.runArmToLevel(arm.motorPowerToRun);
 
-        safeWait(1000);
+        safeWait(3000);
+
 
         // Open claw
         claw.setGripOpen();
@@ -262,7 +257,7 @@ public class AutoOpMode extends LinearOpMode{
         elevator.moveElevatorLevelLow();
         elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
-        safeWait(500);
+        safeWait(1000);
 
         // Move arm low
         arm.moveArmLow();

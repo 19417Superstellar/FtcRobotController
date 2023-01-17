@@ -35,13 +35,13 @@ public class SSArm {
     public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100; // Determine by experimentation
     public static int ARM_DELTA_SLIGHTLY_UP_DELTA_COUNT = 100; // Determine by experimentation
 
-    // Constqnts for ARM position based on angle
+    // Constants for ARM position based on angle
     // --------------------------------------------------------------------------------------------
     // Angle is measured in direction of needed arm rotation, in degrees
     // Radians will be more accurate, but degrees is close approximation and easier to understand
     //
     // Each revolution of motor moves the shaft 360 deg.
-    // In our case, we have a gears, and ratio for them is 1:2 (1 rotation of motor turns the shaft 1/2 rotation)
+    // In our case, we have gears, and ratio for them is 1:2 (1 rotation of motor turns the shaft 1/2 rotation)
     // Per motor spec sheet, each revolution is 537.7 ticks
     // Therefore, we need 537.7*2 ticks to move the arm 360 deg
     // To calculate the position (ticks) for different angles, we can then use the following
@@ -55,7 +55,7 @@ public class SSArm {
 
     // Note: These are the angles we need to rotate by and not actual physical position angles
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
-    private static final double ARM_LOW_POSITION_ANGLE = 75;
+    private static final double ARM_LOW_POSITION_ANGLE = 70;
     private static final double ARM_MID_POSITION_ANGLE = 105;
     private static final double ARM_HIGH_POSITION_ANGLE = 135;
     private static final double ARM_CONE1_INTAKE_POSITION_ANGLE = 15;
