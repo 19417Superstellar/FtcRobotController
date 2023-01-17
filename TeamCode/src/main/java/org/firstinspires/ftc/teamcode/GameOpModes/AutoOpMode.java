@@ -111,7 +111,7 @@ public class AutoOpMode extends LinearOpMode{
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
                 midWayPose = new Pose2d(-32, -32, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
                 pickConePose = new Pose2d(-33, -50, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-28, -29, Math.toRadians(28)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-28, -28, Math.toRadians(25)); //Choose the pose to move to the stack of cones
                 dropConePose1 = new Pose2d(-8, 0, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
                 dropConePose2 = new Pose2d(-8, -12, Math.toRadians(-90)); //Choose the pose to move to the stack of cones
                 break;
@@ -135,6 +135,9 @@ public class AutoOpMode extends LinearOpMode{
 
         //Drop Preloaded Cone, Pick 5 cones and park
         trajectoryAuto = driveTrain.trajectorySequenceBuilder(initPose)
+                .addTemporalMarker(1, () -> {
+                    raiseArmAndElevator();
+                })
                 .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 //.setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
@@ -177,9 +180,9 @@ public class AutoOpMode extends LinearOpMode{
         switch (startPosition) {
             case BLUE_LEFT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-8, 60, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-8, 36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-8, 11, Math.toRadians(180)); break; // Location 3
+                    case 1: parkPose = new Pose2d(-34, 60, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(-34, 36, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(-34, 11, Math.toRadians(180)); break; // Location 3
                 }
                 break;
             case BLUE_RIGHT:
@@ -191,16 +194,16 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case RED_LEFT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(8, -60, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(8, -36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(8, -11, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(34, -60, Math.toRadians(0)); break; // Location 1
+                    case 2: parkPose = new Pose2d(34, -36, Math.toRadians(0)); break; // Location 2
+                    case 3: parkPose = new Pose2d(34, -11, Math.toRadians(0)); break; // Location 3
                 }
                 break;
             case RED_RIGHT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(8, 11, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(8, 36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(8, 60, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(34, 11, Math.toRadians(0)); break; // Location 1
+                    case 2: parkPose = new Pose2d(34, 36, Math.toRadians(0)); break; // Location 2
+                    case 3: parkPose = new Pose2d(34, 60, Math.toRadians(0)); break; // Location 3
                 }
                 break;
         }
@@ -241,26 +244,19 @@ public class AutoOpMode extends LinearOpMode{
 
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
-
-
-        // Move arm to mid
-        arm.moveArmMid();
-        arm.runArmToLevel(arm.motorPowerToRun);
-
-        safeWait(3000);
-
+        safeWait(1000); // We may be able to remove this
 
         // Open claw
         claw.setGripOpen();
 
         // Move elevator low
-        elevator.moveElevatorLevelLow();
-        elevator.runElevatorToLevel(elevator.motorPowerToRun);
+       // elevator.moveElevatorLevelLow();
+       // elevator.runElevatorToLevel(elevator.motorPowerToRun);
 
-        safeWait(1000);
+        //safeWait(1000);
 
         // Move arm low
-        arm.moveArmLow();
+        arm.moveArmIntakeForward();
         arm.runArmToLevel(arm.motorPowerToRun);
 
         if (coneCount == 0) {
@@ -269,6 +265,14 @@ public class AutoOpMode extends LinearOpMode{
             telemetry.addData("Dropped Cone: Stack", coneCount);
         }
         telemetry.update();
+    }
+
+    public void raiseArmAndElevator() {
+        // Move arm to mid
+        arm.moveArmMid();
+        arm.runArmToLevel(arm.motorPowerToRun);
+
+        safeWait(1000); // we may be able to remove this
     }
 
     public void parkingComplete(){
