@@ -42,7 +42,7 @@ public class AutoOnlyPark extends LinearOpMode{
             //Run Vuforia Tensor Flow and keep watching for the identifier in the Signal Cone.
             vision.runVuforiaTensorFlow();
             telemetry.clearAll();
-            telemetry.addData("Start FTC Wires (ftcwires.org) Autonomous Mode adopted for Team","TEAM NUMBER");
+            telemetry.addData("Start FTC Wires (ftcwires.org) Autonomous Mode adopted for Team","19417");
             telemetry.addData("---------------------------------------","");
             telemetry.addData("Selected Starting Position", startPosition);
             telemetry.addData("Vision identified Parking Location", vision.identifiedparkingLocation);
@@ -142,7 +142,7 @@ public class AutoOnlyPark extends LinearOpMode{
         telemetry.clearAll();
         //******select start pose*****
         while(!isStopRequested()){
-            telemetry.addData("Initializing FTC Wires (ftcwires.org) AutoOnlyPark adopted for Team:","TEAM NUMBER");
+            telemetry.addData("Initializing FTC Wires (ftcwires.org) AutoOnlyPark adopted for Team:","19417");
             telemetry.addData("---------------------------------------","");
             telemetry.addData("Select Starting Position using XYAB Keys on gamepad 1:","");
             telemetry.addData("    Blue Left   ", "(X)");
