@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -60,7 +61,7 @@ public class Vision {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
    // private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    private static final String TFOD_MODEL_ASSET = "SuperstellarPowerPlay.tflite";
+    private static final String TFOD_MODEL_ASSET = "SuperStellarPowerPlay1.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
     /*private static final String[] LABELS = {
@@ -102,10 +103,9 @@ public class Vision {
      */
     private TFObjectDetector tfod;
 
-
     public Vision(HardwareMap hardwareMap) {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that first.
-        initVuforia();
+        initVuforia(hardwareMap);
         initTfod(hardwareMap);
     }
 
@@ -125,7 +125,9 @@ public class Vision {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(1.25, 16.0 / 9.0);
+            tfod.setZoom(1.25, 16.0/9.0);
+        //    tfod.setZoom(1.25, 16.0 / 9.0);
+
         }
     }
 
@@ -144,13 +146,13 @@ public class Vision {
                     double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
                     switch (recognition.getLabel()) {
-                        case "1 Bolt":
+                        case "1":
                             identifiedparkingLocation = 1;
                             break;
-                        case "2 Bulb":
+                        case "2":
                             identifiedparkingLocation = 2;
                             break;
-                        case "3 Panel":
+                        case "3":
                             identifiedparkingLocation = 3;
                             break;
                     }
@@ -163,15 +165,17 @@ public class Vision {
     /**
      * Initialize the Vuforia localization engine.
      */
-    private void initVuforia() {
+    private void initVuforia(HardwareMap hardwareMap) {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
+       // parameters.cameraDirection = CameraDirection.BACK;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
+       // parameters.cameraName
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
