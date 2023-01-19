@@ -60,21 +60,22 @@ public class Vision {
      * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
-   // private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    private static final String TFOD_MODEL_ASSET = "SuperStellarPowerPlay1.tflite";
+    private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+    //private static final String TFOD_MODEL_ASSET = "SuperStellarPowerPlay1.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
-    /*private static final String[] LABELS = {
+    private static final String[] LABELS = {
             "1 Bolt",
             "2 Bulb",
             "3 Panel"
     };
-*/
-    private static final String[] LABELS = {
+
+    /*private static final String[] LABELS = {
             "1",
             "2",
             "3"
-    };
+    };*/
+
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -146,6 +147,19 @@ public class Vision {
                     double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
                     switch (recognition.getLabel()) {
+                        case "1 Bolt":
+                            identifiedparkingLocation = 1;
+                            break;
+                        case "2 Bulb":
+                            identifiedparkingLocation = 2;
+                            break;
+                        case "3 Panel":
+                            identifiedparkingLocation = 3;
+                            break;
+                    }
+
+                    /*
+                    switch (recognition.getLabel()) {
                         case "1":
                             identifiedparkingLocation = 1;
                             break;
@@ -155,7 +169,7 @@ public class Vision {
                         case "3":
                             identifiedparkingLocation = 3;
                             break;
-                    }
+                    }*/
                 }
             }
         }
