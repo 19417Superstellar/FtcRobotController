@@ -51,6 +51,8 @@ import java.util.List;
  */
 public class Vision {
 
+    public String detectedLabel ="";
+
     public int identifiedparkingLocation = 1; //1 for Location 1, 2 for Location 2 and 3 for Location 3
 
     /*
@@ -146,6 +148,8 @@ public class Vision {
                     double width = Math.abs(recognition.getRight() - recognition.getLeft());
                     double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
+                    detectedLabel = recognition.getLabel();
+
                     switch (recognition.getLabel()) {
                         case "1 Bolt":
                             identifiedparkingLocation = 1;
@@ -201,7 +205,7 @@ public class Vision {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.75f;
+        tfodParameters.minResultConfidence = 0.5f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);

@@ -56,7 +56,7 @@ public class SSArm {
     // Note: These are the angles we need to rotate by and not actual physical position angles
     private static final double ARM_FORWARD_INTAKE_POSITION_ANGLE = 0;
     private static final double ARM_LOW_POSITION_ANGLE = 70;
-    private static final double ARM_MID_POSITION_ANGLE = 105;
+    private static final double ARM_MID_POSITION_ANGLE = 110;
     private static final double ARM_HIGH_POSITION_ANGLE = 135;
     private static final double ARM_CONE1_INTAKE_POSITION_ANGLE = 15;
     private static final double ARM_CONE2_INTAKE_POSITION_ANGLE = 15;
@@ -71,7 +71,7 @@ public class SSArm {
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
     private static final double PID_CONSTANT = 4.5;
-    public static double POWER_ARM_UP = 0.7;
+    public static double POWER_ARM_UP = 1.0;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     public int armPositionCount = 0;
