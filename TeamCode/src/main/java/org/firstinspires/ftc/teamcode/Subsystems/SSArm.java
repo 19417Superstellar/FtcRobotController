@@ -29,7 +29,7 @@ public class SSArm {
     //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
     //Encoder Resolution: 537.7 PPR at the Output Shaft
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-    private static final double MOTOR_ENCODER_RESOLUTION = 537.7;
+    private static final double MOTOR_ENCODER_RESOLUTION = 751.8; // 537.7;
     public static double GEAR_RATIO = 2;
 
     public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100; // Determine by experimentation
@@ -70,8 +70,8 @@ public class SSArm {
     // This is used to calculate PID constant based on target angle to move
     private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
-    private static final double PID_CONSTANT = 4.5;
-    public static double POWER_ARM_UP = 1.0;
+    private static final double PID_CONSTANT = 3.8;
+    public static double POWER_ARM_UP = .7;
 
     public ARM_POSITION armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     public int armPositionCount = 0;
@@ -125,9 +125,11 @@ public class SSArm {
     private double getPIDValue(double angle) {
         // Calculate the physical position angle for PID calculation
         // angle passed in is the angle we want to move by
-        double calcAngle = ARM_RESTING_PHYSICAL_ANGLE - angle;
+        /*double calcAngle = ARM_RESTING_PHYSICAL_ANGLE - angle;
         double power = Math.cos(calcAngle) * SSArm.PID_CONSTANT;
-        return Math.abs(power);
+        return Math.abs(power);*/
+
+        return PID_CONSTANT;
     }
 
     /**
@@ -253,9 +255,9 @@ public class SSArm {
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
 
-        double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
-        armMotorLeft.setPositionPIDFCoefficients(3.8);
-        armMotorRight.setPositionPIDFCoefficients(3.8);
+       // double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
+        armMotorLeft.setPositionPIDFCoefficients(PID_CONSTANT);
+        armMotorRight.setPositionPIDFCoefficients(PID_CONSTANT);
 
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
