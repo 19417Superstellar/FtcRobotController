@@ -66,9 +66,9 @@ public class Test_SleeveDetection extends LinearOpMode {
 
 
     private static final String[] LABELS = {
-            "1 Bolt",
-            "2 Bulb",
-            "3 Panel"
+            "1 Tangerine",
+            "2 Castles",
+            "3 Crowns"
     };
 
     /*private static final String TFOD_MODEL_ASSET = "SuperStellarPowerPlay1.tflite";
@@ -124,7 +124,7 @@ public class Test_SleeveDetection extends LinearOpMode {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(1.25, 16.0/9.0);
+            tfod.setZoom(1.00, 16.0/9.0);
 
         }
 
@@ -185,7 +185,7 @@ public class Test_SleeveDetection extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
             "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.50f;
+        tfodParameters.minResultConfidence = 0.75f;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
