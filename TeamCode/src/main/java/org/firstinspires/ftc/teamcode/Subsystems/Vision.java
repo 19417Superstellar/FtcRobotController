@@ -55,6 +55,9 @@ public class Vision {
 
     public int identifiedparkingLocation = 1; //1 for Location 1, 2 for Location 2 and 3 for Location 3
 
+    public final float confidenceThreshold = 0.7f;
+    public final double zoomLevel = 1.0;
+
     /*
      * Specify the source for the Tensor Flow Model.
      * If the TensorFlowLite object model is included in the Robot Controller App as an "asset",
@@ -63,20 +66,20 @@ public class Vision {
      * Here we assume it's an Asset.    Also see method initTfod() below .
      */
   //  private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
-    //private static final String TFOD_MODEL_ASSET = "SuperStellarPowerPlay1.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_20230124_194955.tflite";
     // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/CustomTeamModel.tflite";
 
-    private static final String[] LABELS = {
+    /*private static final String[] LABELS = {
             "1 Bolt",
             "2 Bulb",
             "3 Panel"
-    };
-
-    /*private static final String[] LABELS = {
-            "1",
-            "2",
-            "3"
     };*/
+
+    private static final String[] LABELS = {
+            "1 Tangerine",
+            "2 Castles",
+            "3 Crowns"
+    };
 
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
@@ -128,7 +131,7 @@ public class Vision {
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(1.25, 16.0/9.0);
+            tfod.setZoom(zoomLevel, 16.0/9.0);
         //    tfod.setZoom(1.25, 16.0 / 9.0);
 
         }
@@ -154,10 +157,10 @@ public class Vision {
                         case "1 Tangerine":
                             identifiedparkingLocation = 1;
                             break;
-                        case "2 Castle":
+                        case "2 Castles":
                             identifiedparkingLocation = 2;
                             break;
-                        case "3 Crown":
+                        case "3 Crowns":
                             identifiedparkingLocation = 3;
                             break;
                     }
@@ -205,7 +208,7 @@ public class Vision {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.5f;
+        tfodParameters.minResultConfidence = confidenceThreshold;
         tfodParameters.isModelTensorFlow2 = true;
         tfodParameters.inputSize = 300;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
