@@ -42,7 +42,7 @@ public class SSArm {
     //
     // Each revolution of motor moves the shaft 360 deg.
     // In our case, we have gears, and ratio for them is 1:2 (1 rotation of motor turns the shaft 1/2 rotation)
-    // Per motor spec sheet, each revolution is 537.7 ticks
+    // Per motor spec sheet (for 312 RPM), each revolution is 537.7 ticks
     // Therefore, we need 537.7*2 ticks to move the arm 360 deg
     // To calculate the position (ticks) for different angles, we can then use the following
     // formula
@@ -65,10 +65,6 @@ public class SSArm {
 
     // Max we allow arm to go with sightly up functionality
     private static final double ARM_MAX_POSITION_ANGLE = 180;
-
-    // Physical angle of the arm relative to horizontal (0 deg) going counter clockwise
-    // This is used to calculate PID constant based on target angle to move
-    private static final double ARM_RESTING_PHYSICAL_ANGLE = 250;
 
     private static final double PID_CONSTANT = 3.8;
     public static double POWER_ARM_UP = .7;
@@ -103,33 +99,8 @@ public class SSArm {
     }
 
     public void resetArm() {
-        //DcMotorEx.RunMode runMode = elevatorMotor.getMode();
         armMotorLeft.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         armMotorRight.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-
-        //armMotor.setMode(runMode);
-    }
-
-    /**
-     * Gets a calculated P (PID) coefficient based on the angle the arm
-     * is supposed to go to.
-     * This is detailed at : https://www.ctrlaltftc.com/feedforward-control
-     * The always return positive value even though cosine for some angles is negative
-     * You can think of angles as 4 quadrants, each from 0 to 90 and repeating counter clockwise
-     * So either you can provide an angle from 0-90 degree or 0-360 (CCwise)
-     *
-     * @param angle : Target angle the arm will go to. 0 is 3 o'clock, 90 is 12 o'clock.
-     *              increasing counter clock wise.
-     * @return - Needed P value for PID control
-     */
-    private double getPIDValue(double angle) {
-        // Calculate the physical position angle for PID calculation
-        // angle passed in is the angle we want to move by
-        /*double calcAngle = ARM_RESTING_PHYSICAL_ANGLE - angle;
-        double power = Math.cos(calcAngle) * SSArm.PID_CONSTANT;
-        return Math.abs(power);*/
-
-        return PID_CONSTANT;
     }
 
     /**
@@ -190,9 +161,8 @@ public class SSArm {
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
 
-        double pidVal = getPIDValue(targetAngle);
-        armMotorLeft.setPositionPIDFCoefficients(pidVal);
-        armMotorRight.setPositionPIDFCoefficients(pidVal);
+        armMotorLeft.setPositionPIDFCoefficients(PID_CONSTANT);
+        armMotorRight.setPositionPIDFCoefficients(PID_CONSTANT);
 
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
@@ -251,18 +221,17 @@ public class SSArm {
      */
     public void moveArmIntakeForward() {
         turnArmBrakeModeOn();
+
         armPositionCount = 0;
         armMotorLeft.setTargetPosition(armPositionCount);
         armMotorRight.setTargetPosition(armPositionCount);
 
-       // double pidVal = getPIDValue(ARM_FORWARD_INTAKE_POSITION_ANGLE);
         armMotorLeft.setPositionPIDFCoefficients(PID_CONSTANT);
         armMotorRight.setPositionPIDFCoefficients(PID_CONSTANT);
 
         motorPowerToRun = POWER_ARM_UP;
         runArmToLevelState = true;
 
-       // setArmTargetPositionValues(ARM_FORWARD_INTAKE_POSITION_ANGLE);
         armPosition = ARM_POSITION.ARM_POSITION_INTAKE_FORWARD;
     }
 
