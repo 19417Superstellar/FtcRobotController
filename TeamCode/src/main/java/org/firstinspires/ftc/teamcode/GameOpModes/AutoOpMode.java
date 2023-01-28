@@ -135,17 +135,17 @@ public class AutoOpMode extends LinearOpMode{
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
                 midWayPose = new Pose2d(-27, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(-27, -21, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-27, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
-                initPose = new Pose2d(54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(27, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(28, -20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
+                midWayPose = new Pose2d(28, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(28, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
-                initPose = new Pose2d(54, 36, Math.toRadians(0)); //Starting pose
-                midWayPose = new Pose2d(27, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(27, 22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
+                midWayPose = new Pose2d(27, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(27, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
         }
 
@@ -181,16 +181,16 @@ public class AutoOpMode extends LinearOpMode{
                 break;
             case RED_LEFT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(27, -64, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(27, -36.5, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(27, -8, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(27, -64, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(27, -36.5, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(27, -8, Math.toRadians(180)); break; // Location 3
                 }
                 break;
             case RED_RIGHT:
                 switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(27, 8, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(27, 36.5, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(27, 64, Math.toRadians(0)); break; // Location 3
+                    case 1: parkPose = new Pose2d(27, 8, Math.toRadians(180)); break; // Location 1
+                    case 2: parkPose = new Pose2d(27, 36.5, Math.toRadians(180)); break; // Location 2
+                    case 3: parkPose = new Pose2d(27, 64, Math.toRadians(180)); break; // Location 3
                 }
                 break;
         }
