@@ -129,23 +129,23 @@ public class AutoOpMode extends LinearOpMode{
         switch (startPosition) {
             case BLUE_LEFT:
                 initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
-                midWayPose = new Pose2d(-27, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(-28, 20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-29, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(-29, 20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(-27, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(-27, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-28, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(-28, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                midWayPose = new Pose2d(28, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(28, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(29, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(29, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
-                midWayPose = new Pose2d(27, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(27, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(28, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(28, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
         }
 
