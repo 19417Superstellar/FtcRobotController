@@ -140,7 +140,7 @@ public class AutoOpMode extends LinearOpMode{
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
                 midWayPose = new Pose2d(29, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(29, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(28.5, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
@@ -221,9 +221,15 @@ public class AutoOpMode extends LinearOpMode{
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
         // Open claw
-        arm.moveSSArmSlightlyDown();
+        //arm.moveSSArmSlightlyDown();
+        //arm.moveSSArmSlightlyDown();
+
+        safeWait(1000);
 
         claw.setGripOpen();
+
+        //arm.moveSSArmSlightlyUp();
+        //arm.moveSSArmSlightlyUp();
 
 
         if (coneCount == 0) {
