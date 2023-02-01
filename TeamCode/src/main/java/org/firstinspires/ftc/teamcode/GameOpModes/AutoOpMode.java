@@ -114,7 +114,7 @@ public class AutoOpMode extends LinearOpMode{
         // Drop the cone
         safeWait(1000);
         dropCone(0); //Drop preloaded Cone
-        safeWait(2000);
+//        safeWait(2000);
 
         // Go park
         driveTrain.followTrajectorySequence(trajectoryParking);
@@ -221,6 +221,8 @@ public class AutoOpMode extends LinearOpMode{
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
         // Open claw
+        arm.moveSSArmSlightlyDown();
+
         claw.setGripOpen();
 
 
