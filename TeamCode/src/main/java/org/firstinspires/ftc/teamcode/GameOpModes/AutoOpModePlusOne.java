@@ -18,8 +18,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 /**
  * FTC WIRES Autonomous Example for dropping preloaded cone, picking and dropping 2 cones and park
  */
-@Autonomous(name = "FTC Wires Autonomous", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
-public class AutoOpMode extends LinearOpMode{
+@Autonomous(name = "FTC Wires Auto+1", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
+public class AutoOpModePlusOne extends LinearOpMode{
 
     //Define and declare Robot Starting Locations
     public enum START_POSITION{
@@ -41,9 +41,7 @@ public class AutoOpMode extends LinearOpMode{
 
     //Initialize any other Pose2d's as desired
     Pose2d initPose; // Starting Pose
-    Pose2d pushPose;
     Pose2d midWayPose;
-
     Pose2d dropConePose0;
     Pose2d parkPose;
 
@@ -131,25 +129,21 @@ public class AutoOpMode extends LinearOpMode{
         switch (startPosition) {
             case BLUE_LEFT:
                 initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
-                pushPose = new Pose2d(-25, 36, Math.toRadians(0));
                 midWayPose = new Pose2d(-29, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
                 dropConePose0 = new Pose2d(-29, 20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                pushPose = new Pose2d(-25, -36, Math.toRadians(0));
                 midWayPose = new Pose2d(-28, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
                 dropConePose0 = new Pose2d(-28, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                pushPose = new Pose2d(25, -36, Math.toRadians(0));
                 midWayPose = new Pose2d(29, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
                 dropConePose0 = new Pose2d(28.5, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
-                pushPose = new Pose2d(25, 36, Math.toRadians(0));
                 midWayPose = new Pose2d(28, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
                 dropConePose0 = new Pose2d(28, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
@@ -202,11 +196,11 @@ public class AutoOpMode extends LinearOpMode{
         }
 
         trajectoryParking = driveTrain.trajectorySequenceBuilder(dropConePose0)
-                 .lineToLinearHeading(parkPose)
-                 .build();
+                .lineToLinearHeading(parkPose)
+                .build();
     }
 
-     //Write a method which is able to pick the cone from the stack depending on your subsystems
+    //Write a method which is able to pick the cone from the stack depending on your subsystems
     public void pickCone(int coneCount) {
         /*TODO: Add code to pick Cone 1 from stack*/
 
@@ -305,3 +299,4 @@ public class AutoOpMode extends LinearOpMode{
         telemetry.clearAll();
     }
 }
+
