@@ -44,7 +44,6 @@ public class AutoOpMode extends LinearOpMode {
     Pose2d initPose; // Starting Pose
     Pose2d pushPose;
     Pose2d midWayPose;
-
     Pose2d dropConePose0;
     Pose2d parkPose;
 
@@ -66,7 +65,9 @@ public class AutoOpMode extends LinearOpMode {
         vision.activateVuforiaTensorFlow();
 
         //Build Autonomous trajectory to be used based on starting position selected
+        buildPush();
         buildAuto();
+
         driveTrain.getLocalizer().setPoseEstimate(initPose);
 
         while (!isStopRequested() && !opModeIsActive()) {
@@ -88,8 +89,6 @@ public class AutoOpMode extends LinearOpMode {
 
             //Stop Vision process
             vision.deactivateVuforiaTensorFlow();
-
-            buildPush();
 
             //Build parking trajectory based on last detected target by vision
             buildParking();
@@ -133,6 +132,34 @@ public class AutoOpMode extends LinearOpMode {
 
     }
 
+    public void buildPush() {
+        switch (startPosition) {
+            case BLUE_LEFT:
+                initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
+                pushPose = new Pose2d(-25, 36, Math.toRadians(0));
+            case BLUE_RIGHT:
+                initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
+                pushPose = new Pose2d(-25, -36, Math.toRadians(0));
+            case RED_LEFT:
+                initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
+                pushPose = new Pose2d(17, -36, Math.toRadians(180));
+            case RED_RIGHT:
+                initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
+                pushPose = new Pose2d(25, 36, Math.toRadians(180));
+        }
+
+        trajectoryPush = driveTrain.trajectorySequenceBuilder(initPose)
+                .lineToLinearHeading(pushPose)
+                //Uncomment following line to slow down turn if needed.
+                //.setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
+                .setVelConstraint(getVelocityConstraint(
+                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                // .lineToLinearHeading(dropConePose0)
+                .build();
+    }
+
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
         switch (startPosition) {
@@ -155,53 +182,16 @@ public class AutoOpMode extends LinearOpMode {
         }
 
         trajectoryAuto =driveTrain.trajectorySequenceBuilder(pushPose)
-                        .
-
-                lineToLinearHeading(midWayPose)
-                //Uncomment following line to slow down turn if needed.
-                //.setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
-                        .
-
-                setVelConstraint(getVelocityConstraint(
-                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
-                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
-                        DriveConstants.TRACK_WIDTH))
-
-
-        .lineToLinearHeading(dropConePose0)
-
-                .build();
-
-    }
-
-
-    public void buildPush() {
-        switch (startPosition) {
-            case BLUE_LEFT:
-                initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
-                pushPose = new Pose2d(-25, 36, Math.toRadians(0));
-            case BLUE_RIGHT:
-                initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                pushPose = new Pose2d(-25, -36, Math.toRadians(0));
-            case RED_LEFT:
-                initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                pushPose = new Pose2d(17, -36, Math.toRadians(180));
-            case RED_RIGHT:
-                initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
-                pushPose = new Pose2d(25, 36, Math.toRadians(0));
-        }
-
-        //Drop Preloaded Cone, Pick 5 cones and park
-        trajectoryPush = driveTrain.trajectorySequenceBuilder(initPose)
-                .lineToLinearHeading(pushPose)
+                .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 //.setVelConstraint(getVelocityConstraint(30 /* Slower Velocity*/, 15 /*Slower Angular Velocity*/, DriveConstants.TRACK_WIDTH))
                 .setVelConstraint(getVelocityConstraint(
-                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
-                        0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
-               // .lineToLinearHeading(dropConePose0)
+                .lineToLinearHeading(dropConePose0)
                 .build();
+
     }
 
 
