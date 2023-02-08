@@ -4,6 +4,7 @@ import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocit
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
  * FTC WIRES Autonomous Example for dropping preloaded cone, picking and dropping 2 cones and park
  */
 @Autonomous(name = "FTC Wires Auto+1", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
+@Disabled
 public class AutoOpModePlusOne extends LinearOpMode{
 
     //Define and declare Robot Starting Locations
