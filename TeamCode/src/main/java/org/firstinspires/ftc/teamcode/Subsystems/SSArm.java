@@ -253,6 +253,19 @@ public class SSArm {
         armPosition = ARM_POSITION.ARM_POSITION_HIGH;
     }
 
+    public void moveSSArmReset() {
+        turnArmBrakeModeOn();
+        int currentPosition = armMotorLeft.getCurrentPosition();
+        armMotorLeft.setTargetPosition(currentPosition- 50);
+        armMotorRight.setTargetPosition(currentPosition- 50);
+        armMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        armMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        armMotorLeft.setPower(0.5);
+        armMotorRight.setPower(0.5);
+        resetArm();
+    }
+
+
     public void moveSSArmSlightlyDown() {
         turnArmBrakeModeOn();
         if (armPositionCount > ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT) {

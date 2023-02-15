@@ -252,7 +252,7 @@ public class GamepadController {
         }
 
         if (gp2GetStart() && gp2GetDpad_down()) {
-            ssArm.resetArm();
+            ssArm.moveSSArmReset();
         }
     } //End of runArm function
 
