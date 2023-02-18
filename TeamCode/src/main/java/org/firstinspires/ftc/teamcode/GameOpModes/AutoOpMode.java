@@ -178,16 +178,16 @@ public class AutoOpMode extends LinearOpMode {
                 dropConePose0 = new Pose2d(-29, 20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
-                midWayPose = new Pose2d(-28, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(-28, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-29, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(-29, -22, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 midWayPose = new Pose2d(29, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(28.5, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(29, -19, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
-                midWayPose = new Pose2d(28, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(28, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(29, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                dropConePose0 = new Pose2d(29, 21, Math.toRadians(180)); //Choose the pose to move to the stack of cones
                 break;
         }
 
