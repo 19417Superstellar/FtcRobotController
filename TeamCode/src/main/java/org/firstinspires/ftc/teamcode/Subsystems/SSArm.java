@@ -29,7 +29,10 @@ public class SSArm {
     //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
     //Encoder Resolution: 537.7 PPR at the Output Shaft
     //https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-19-2-1-ratio-24mm-length-8mm-rex-shaft-312-rpm-3-3-5v-encoder/
-    private static final double MOTOR_ENCODER_RESOLUTION = 751.8; // 537.7;
+
+    // We are now using 117 rpm motor
+    // https://www.gobilda.com/5202-series-yellow-jacket-planetary-gear-motor-50-9-1-ratio-117-rpm-3-3-5v-encoder/
+    private static final double MOTOR_ENCODER_RESOLUTION = 1425.1; //751.8; // 537.7;
     public static double GEAR_RATIO = 2;
 
     public static int ARM_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 100; // Determine by experimentation
