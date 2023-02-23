@@ -183,13 +183,13 @@ public class GamepadController {
     public void runArm() {
         if (!gp2GetStart() && gp2GetButtonAPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_FORWARD){
-                ssElevator.moveElevatorLevelLow();
+                ssElevator.bringElevatorAllTheWayDown();
                 ssArm.moveArmIntakeForward();
             }
         }
 
         /*
-        Disabled REAR INTAKE till we can strenghen the arm and reinforce it
+        Disabled REAR INTAKE till we can strengthen the arm and reinforce it
 
         if (gp2GetRightTriggerPress()) {
             if (ssArm.getArmPosition() != SSArm.ARM_POSITION.ARM_POSITION_INTAKE_REAR) {
@@ -204,7 +204,7 @@ public class GamepadController {
                 // Make sure claw is closed
                 ssClaw.setGripClose();
                 // Move the elevator to low position
-                ssElevator.moveElevatorLevelLow();
+                ssElevator.bringElevatorAllTheWayDown();
                 ssArm.moveArmLow();
 
             }
@@ -215,7 +215,7 @@ public class GamepadController {
                 // Make sure claw is closed
                 ssClaw.setGripClose();
                 // Move the elevator to low position
-                ssElevator.moveElevatorLevelLow();
+                ssElevator.bringElevatorAllTheWayDown();
                 ssArm.moveArmMid();
             }
         }

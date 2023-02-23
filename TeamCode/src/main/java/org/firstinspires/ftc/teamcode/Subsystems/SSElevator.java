@@ -52,6 +52,7 @@ public class SSElevator {
     public boolean runElevatorToLevelState = false;
     public double motorPowerToRun = POWER_LEVEL_RUN;
 
+    public boolean elevatorNeedsToGoDown = false;
     private final LinearOpMode opMode;
 
     public SSElevator(HardwareMap hardwareMap, LinearOpMode opMode) {
@@ -118,18 +119,42 @@ public class SSElevator {
      * Method to run motor to set to the set position
      */
     public void runElevatorToLevel(double power) {
+        if (elevatorNeedsToGoDown ) {
+            if (!isElevatorInLowPosition()) {
+                elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+                elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+                elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+                motorPowerToRun = POWER_LEVEL_RUN;
+                runMotors(motorPowerToRun);
+            }
+            else
+            {
+                elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
+                elevatorNeedsToGoDown = false;
+                resetElevator();
+                return;
+            }
+        }
+
         if (runElevatorToLevelState) {
-            elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-            elevatorMotorLeft.setPower(power);
-            elevatorMotorRight.setPower(power);
+            runMotors(power);
             runElevatorToLevelState = false;
         } else {
-            elevatorMotorRight.setPower(0.0);
-            elevatorMotorLeft.setPower(0.0);
+            stopMotors();
         }
     }
 
+    private void runMotors(double power) {
+        elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        elevatorMotorLeft.setPower(power);
+        elevatorMotorRight.setPower(power);
+    }
+
+    private void stopMotors() {
+        elevatorMotorRight.setPower(0.0);
+        elevatorMotorLeft.setPower(0.0);
+    }
     /**
      * Initialize elevator to low position
      */
@@ -143,66 +168,19 @@ public class SSElevator {
         elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
     }
 
-    /**
-     * Move Elevator to levelLow Position
-     */
-    public void moveElevatorLevelLow() {
-        bringElevatorAllTheWayDown();
-
-//        turnElevatorBrakeModeOff();
-//
-//        elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
-//        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
-//        elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-//        motorPowerToRun = POWER_LEVEL_RUN;
-//        runElevatorToLevelState = true;
-
-        //check if elevator sensor is on or off
-        //otherwise create while loop and move elevator slightly down until sensor tells it is all the way down
-//        while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ){
-//            elevatorMotorLeft.setPower(POWER_LEVEL_RUN);
-//            elevatorMotorRight.setPower(POWER_LEVEL_RUN);
-//        }
-//        elevatorMotorLeft.setPower(0.0);
-//        elevatorMotorRight.setPower(0.0);
-//        resetElevator();
-//        turnElevatorBrakeModeOff();
-        elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
-    }
-
     public void bringElevatorAllTheWayDown()
     {
-        if ( isElevatorInLowPosition())
-            return;
-
- /*       turnElevatorBrakeModeOff();
-
-        elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        turnElevatorBrakeModeOff();
-        while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ) {
-            elevatorMotorLeft.setTargetPosition((int) (elevatorMotorLeft.getCurrentPosition() - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT));
-            elevatorMotorRight.setTargetPosition((int) (elevatorMotorRight.getCurrentPosition() - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT));
-
-            elevatorMotorLeft.setPower(-POWER_LEVEL_RUN);
-            elevatorMotorRight.setPower(-POWER_LEVEL_RUN);
+        if ( isElevatorInLowPosition()) {
+            elevatorNeedsToGoDown = false;
         }
-
-        //resetIntakeMotorMode();
-        elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        turnElevatorBrakeModeOn();
-        elevatorMotorLeft.setPower(0.0);
-        elevatorMotorRight.setPower(0.0);
-        resetElevator();
-        elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
-
-        turnElevatorBrakeModeOff();*/
+        else
+        {
+            elevatorNeedsToGoDown = true;
+        }
 
         //check if elevator sensor is on or off
         //otherwise create while loop and move elevator slightly down until sensor tells it is all the way down
-        while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ){
+       /* while (!this.opMode.isStopRequested() && !isElevatorInLowPosition() ){
             elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
             elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
             elevatorMotorRight.setTargetPosition(elevatorPositionCount);
@@ -212,9 +190,8 @@ public class SSElevator {
             runElevatorToLevel(motorPowerToRun);
         }
         elevatorMotorLeft.setPower(0.0);
-        elevatorMotorRight.setPower(0.0);
-        resetElevator();
-        elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
+        elevatorMotorRight.setPower(0.0);*/
+
 
 
     }
