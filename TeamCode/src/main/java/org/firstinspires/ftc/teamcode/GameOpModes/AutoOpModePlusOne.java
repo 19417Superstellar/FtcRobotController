@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 /**
  * FTC WIRES Autonomous Example for dropping preloaded cone, picking and dropping 2 cones and park
  */
-@Autonomous(name = "FTC Wires Autonomous", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
+@Autonomous(name = "Autonomous Plus One", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
 public class AutoOpModePlusOne extends LinearOpMode{
 
     //Define and declare Robot Starting Locations
@@ -78,6 +78,7 @@ public class AutoOpModePlusOne extends LinearOpMode{
     //Initialize any other Pose2d's as desired
     Pose2d initPose; // Starting Pose
     Pose2d midWayPose;
+    Pose2d alignToStackPose;
     Pose2d pickConePose;
     Pose2d dropConePose0, dropConePose1, dropConePose2;
     Pose2d parkPose;
@@ -89,33 +90,34 @@ public class AutoOpModePlusOne extends LinearOpMode{
                 initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
                 midWayPose = new Pose2d(-12, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
                 pickConePose = new Pose2d(-12, 55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-12, 12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-11, 12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-10, 12, Math.toRadians(135)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(-11, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(-10, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
                 midWayPose = new Pose2d(-12, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(-12, -55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-12, -12, Math.toRadians(225)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-11, -12, Math.toRadians(225)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-10, -12, Math.toRadians(225)); //Choose the pose to move to the stack of cones
+                pickConePose = new Pose2d(-12, -55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-12, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(-11, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(-10, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                midWayPose = new Pose2d(12, -36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(12, -55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(12, -12, Math.toRadians(315)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(11, -12, Math.toRadians(315)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(10, -15, Math.toRadians(315)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(22, -36, Math.toRadians(270)); //Choose the pose to move forward towards signal cone
+                alignToStackPose = new Pose2d(6, -36, Math.toRadians(270)); // Align to stack of cones
+                pickConePose = new Pose2d(6, -55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
-                midWayPose = new Pose2d(12, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                midWayPose = new Pose2d(22, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
                 pickConePose = new Pose2d(12, 55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(12, 12, Math.toRadians(45)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(11, 12, Math.toRadians(45)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(10, 12, Math.toRadians(45)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose1 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                dropConePose2 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
                 break;
         }
 
@@ -133,18 +135,22 @@ public class AutoOpModePlusOne extends LinearOpMode{
                 })
                 //Uncomment following line to stop reduction in speed. And move to the position after which you want to stop reducing speed.
                 //.resetVelConstraint()
+                .lineToLinearHeading(alignToStackPose)
                 .lineToLinearHeading(pickConePose)
                 .addDisplacementMarker(() -> {
                     pickCone(1); //Pick top cone from stack
                 })
+                .lineToLinearHeading(alignToStackPose)
                 .lineToLinearHeading(dropConePose1)
                 .addDisplacementMarker(() -> {
                     dropCone(1); //Drop cone on junction
                 })
+                .lineToLinearHeading(alignToStackPose)
                 .lineToLinearHeading(pickConePose)
                 .addDisplacementMarker(() -> {
                     pickCone(2); //Pick second cone from stack
                 })
+                .lineToLinearHeading(alignToStackPose)
                 .lineToLinearHeading(dropConePose2)
                 .addDisplacementMarker(() -> {
                     dropCone(2); //Drop cone on junction
