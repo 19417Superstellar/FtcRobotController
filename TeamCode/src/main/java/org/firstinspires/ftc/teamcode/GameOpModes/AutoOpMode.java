@@ -363,6 +363,7 @@ public class AutoOpMode extends LinearOpMode {
             }
             telemetry.update();
         }
+
         telemetry.clearAll();
     }
 }
