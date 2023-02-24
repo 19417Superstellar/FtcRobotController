@@ -175,7 +175,7 @@ public class AutoOpMode extends LinearOpMode {
         switch (startPosition) {
             case BLUE_LEFT:
                 midWayPose = new Pose2d(-29, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                dropConePose0 = new Pose2d(-29, 20, Math.toRadians(0)); //Choose the pose to move to the stack of cones
+                dropConePose0 = new Pose2d(-29, 19, Math.toRadians(0)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
                 midWayPose = new Pose2d(-29, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone

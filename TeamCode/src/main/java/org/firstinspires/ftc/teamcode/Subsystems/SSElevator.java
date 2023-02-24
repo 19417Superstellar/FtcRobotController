@@ -132,8 +132,9 @@ public class SSElevator {
                 elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
                 elevatorNeedsToGoDown = false;
                 resetElevator();
-                return;
+                stopMotors();
             }
+            return;
         }
 
         if (runElevatorToLevelState) {

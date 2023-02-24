@@ -243,7 +243,7 @@ public class GamepadController {
             }
         }
 
-        if (ssElevator.runElevatorToLevelState) {
+        if (ssElevator.runElevatorToLevelState || ssElevator.elevatorNeedsToGoDown) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
 
