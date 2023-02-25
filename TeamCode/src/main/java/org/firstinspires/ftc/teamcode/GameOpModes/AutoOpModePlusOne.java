@@ -90,10 +90,9 @@ public class AutoOpModePlusOne extends LinearOpMode{
     TrajectorySequence trajectoryParking,
             trajectoryDropPreloadedCone,
             trajectoryJunctionToAlignConeStack,
-            trajectoryJunctionToMidway,
+            tracjectoryStackToDrop,
             trajectoryGoToConeStack,
-            trajectoryBackToAlignConeStack,
-            tracjectoryAlignToDrop;
+            trajectoryDrop1ToAlignStack;
 
     //Initialize any other Pose2d's as desired
     Pose2d initPose; // Starting Pose
@@ -102,11 +101,9 @@ public class AutoOpModePlusOne extends LinearOpMode{
     Pose2d pickConePose;
     Pose2d dropConePose;
     Pose2d parkPose;
-    Pose2d drop0Pose;
-    Pose2d alignToStack90DegreesPose;
+    Pose2d dropCone0Pose;
     Pose2d dropPlus1Pose;
-    Pose2d dropPlus145DegreePose;
-    Pose2d alignToStack45DegreesPose;
+    Pose2d moveToPlus1DropPose;
 
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
@@ -127,18 +124,12 @@ public class AutoOpModePlusOne extends LinearOpMode{
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                midWayPose = new Pose2d(22, -36, Math.toRadians(270)); //Choose the pose to move forward towards signal cone
-                dropConePose = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                alignToStackPose = new Pose2d(4, -36, Math.toRadians(270)); // Align to stack of cones
-                pickConePose = new Pose2d(4, -54, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                Pose2d dropCone0Pose = new Pose2d(19, -36, Math.toRadians(135));
-                Pose2d midWayPose  = new Pose2d(19, -36, Math.toRadians(0));
-                Pose2d alignToStackPose = new Pose2d(4, -36, Math.toRadians(270));
-                Pose2d pickConePose = new Pose2d(4, -54, Math.toRadians(270));
-                Pose2d alignToStack90DegreesPose = new Pose2d(4, 30, Math.toRadians(270));
-                Pose2d dropPlus1Pose = new Pose2d(4, 30, Math.toRadians(315));
-                Pose2d dropPlus145DegreePose;
-                Pose2d alignToStack45DegreesPose;
+                dropCone0Pose = new Pose2d(19, -36, Math.toRadians(135));
+                midWayPose  = new Pose2d(19, -36, Math.toRadians(180));
+                alignToStackPose = new Pose2d(4, -36, Math.toRadians(270));
+                pickConePose = new Pose2d(4, -54, Math.toRadians(270));
+                moveToPlus1DropPose = new Pose2d(4, 30, Math.toRadians(270));
+                dropPlus1Pose= new Pose2d(4, 30, Math.toRadians(315));
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
@@ -151,7 +142,6 @@ public class AutoOpModePlusOne extends LinearOpMode{
 
         // Drop preloaded cone trajectory
         trajectoryDropPreloadedCone = driveTrain.trajectorySequenceBuilder(initPose)
-                .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
                         0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
@@ -161,12 +151,13 @@ public class AutoOpModePlusOne extends LinearOpMode{
                 .build();
 
         trajectoryJunctionToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropConePose)
-                .lineToLinearHeading(alignToStackPose)
+                .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
                         0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
+                .lineToLinearHeading(alignToStackPose)
                 .build();
 
         trajectoryGoToConeStack = driveTrain.trajectorySequenceBuilder(alignToStackPose)
@@ -178,26 +169,19 @@ public class AutoOpModePlusOne extends LinearOpMode{
                         DriveConstants.TRACK_WIDTH))
                 .build();
 
-        trajectoryBackToAlignConeStack = driveTrain.trajectorySequenceBuilder(pickConePose)
+
+        tracjectoryStackToDrop= driveTrain.trajectorySequenceBuilder(pickConePose)
+                .lineToLinearHeading(moveToPlus1DropPose)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .lineToLinearHeading(dropPlus1Pose)
+                .build();
+
+        trajectoryDrop1ToAlignStack = driveTrain.trajectorySequenceBuilder(dropPlus1Pose)
                 .lineToLinearHeading(alignToStackPose)
-                //Uncomment following line to slow down turn if needed.
-                .setVelConstraint(getVelocityConstraint(
-                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
-                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
-                        DriveConstants.TRACK_WIDTH))
-                .build();
-
-        tracjectoryAlignToDrop= driveTrain.trajectorySequenceBuilder(alignToStackPose)
-                .lineToLinearHeading(dropConePose)
-                //Uncomment following line to slow down turn if needed.
-                .setVelConstraint(getVelocityConstraint(
-                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
-                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
-                        DriveConstants.TRACK_WIDTH))
-                .build();
-
-        trajectoryJunctionToMidway = driveTrain.trajectorySequenceBuilder(dropConePose)
-                .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
                         0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
@@ -296,44 +280,7 @@ Close claw
      align to stack pose
      drop cone 2- open claw
      park
-
-     init pose
-     drop 0 pose
-     midway pose
-     align to stack 90 degrees pose
-     pickConePose
-     drop +1 pose
-     drop +1 45 degree pose
-     align to stack 45 degrees pose
-
  */
-        /*
-         * Sequence for us:
-         *  Close claw
-         *  Lift arm
-         *  Go to midway pos + turn 90 degree
-         *  Strafe to mid junction
-         *  Drop pre loaded cone 1
-         *
-         *  Strafe to align to stack pose
-         *  Move arm to pick cone # 5, highest cone position
-         *  Move to cone stack
-         *  Close Claw
-         *  Move to align to stack pose
-         *  Strafe to mid junction
-         *  Drop pre loaded cone 2
-         *
-         *  Strafe to align to stack pose
-         *  Move arm to pick cone #4 position
-         *  Move to cone stack
-         *  Close Claw
-         *  Move to align to stack pose
-         *  Strafe to mid junction
-         *  Drop pre loaded cone 3
-         *
-         *  Strafe to midway pose
-         *  Move to parking pose
-         */
 
         raiseArmAndElevator();
 
@@ -347,22 +294,18 @@ Close claw
         pickCone(1);
         raiseArmAndElevator();
 
-        driveTrain.followTrajectorySequence(trajectoryBackToAlignConeStack);
-        driveTrain.followTrajectorySequence(tracjectoryAlignToDrop);
+        driveTrain.followTrajectorySequence(tracjectoryStackToDrop);
         dropCone(1);
 
-        driveTrain.followTrajectorySequence(trajectoryJunctionToAlignConeStack);
+        driveTrain.followTrajectorySequence(trajectoryDrop1ToAlignStack);
         arm.moveArmToConeIntakePosition(2);
 
         driveTrain.followTrajectorySequence(trajectoryGoToConeStack);
         pickCone(2);
         raiseArmAndElevator();
 
-        driveTrain.followTrajectorySequence(trajectoryBackToAlignConeStack);
-        driveTrain.followTrajectorySequence(tracjectoryAlignToDrop);
+        driveTrain.followTrajectorySequence(tracjectoryStackToDrop);
         dropCone(2);
-
-        driveTrain.followTrajectorySequence(trajectoryJunctionToMidway);
 
         //Run the trajectory built for Auto and Parking
         //driveTrain.followTrajectorySequence(trajectoryAuto);
