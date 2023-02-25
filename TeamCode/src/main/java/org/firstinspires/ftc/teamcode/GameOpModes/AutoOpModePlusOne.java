@@ -396,7 +396,7 @@ Close claw
 
     public void raiseArmAndElevator() {
         // Move arm to mid
-        arm.moveArmLow();
+        arm.moveArmMid();
         arm.runArmToLevel(arm.motorPowerToRun);
     }
 
