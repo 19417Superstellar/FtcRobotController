@@ -5,14 +5,18 @@ import static org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive.getVelocit
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 /**
- * FTC WIRES Autonomous Example for dropping preloaded cone, picking and dropping 2 cones and park
+ * Adapted from FTC WIRES Autonomous Example for dropping preloaded cone, picking and dropping 2 cones and park
  */
 @Autonomous(name = "Autonomous Plus One", group = "00-Autonomous", preselectTeleOp = "SSTeleOp")
 public class AutoOpModePlusOne extends LinearOpMode{
@@ -28,11 +32,18 @@ public class AutoOpModePlusOne extends LinearOpMode{
 
     public Vision vision;
     public DriveTrain driveTrain;
+    public SSClaw claw;
+    public SSArm arm;
+    public SSElevator elevator;
 
     @Override
     public void runOpMode() throws InterruptedException {
         /*Create your Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap);
+        claw = new SSClaw(hardwareMap);
+        arm = new SSArm(hardwareMap);
+        elevator = new SSElevator(hardwareMap, this);
+
         vision = new Vision(hardwareMap);
 
         //Key Pay inputs to selecting Starting Position of robot
@@ -58,6 +69,9 @@ public class AutoOpModePlusOne extends LinearOpMode{
 
         //Game Play Button  is pressed
         if (opModeIsActive() && !isStopRequested()) {
+            // close the claw to grip the pre-loaded cone
+            claw.setGripClose();
+
             //Stop Vision process
             vision.deactivateVuforiaTensorFlow();
 
@@ -73,14 +87,20 @@ public class AutoOpModePlusOne extends LinearOpMode{
     }
 
     //Initialize any other TrajectorySequences as desired
-    TrajectorySequence trajectoryAuto, trajectoryParking ;
+    TrajectorySequence trajectoryParking,
+            trajectoryDropPreloadedCone,
+            trajectoryJunctionToAlignConeStack,
+            trajectoryJunctionToMidway,
+            trajectoryGoToConeStack,
+            trajectoryBackToAlignConeStack,
+            tracjectoryAlignToDrop;
 
     //Initialize any other Pose2d's as desired
     Pose2d initPose; // Starting Pose
     Pose2d midWayPose;
     Pose2d alignToStackPose;
     Pose2d pickConePose;
-    Pose2d dropConePose0, dropConePose1, dropConePose2;
+    Pose2d dropConePose;
     Pose2d parkPose;
 
     //Set all position based on selected staring location and Build Autonomous Trajectory
@@ -88,73 +108,88 @@ public class AutoOpModePlusOne extends LinearOpMode{
         switch (startPosition) {
             case BLUE_LEFT:
                 initPose = new Pose2d(-54, 36, Math.toRadians(0)); //Starting pose
-                midWayPose = new Pose2d(-12, 36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
-                pickConePose = new Pose2d(-12, 55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-11, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-10, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                midWayPose = new Pose2d(-12, 36, Math.toRadians(270)); //Choose the pose to move forward towards signal cone
+                dropConePose = new Pose2d(-12, 12, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                alignToStackPose = new Pose2d(6, 36, Math.toRadians(270)); // Align to stack of cones
+                pickConePose = new Pose2d(-12, 55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
                 break;
             case BLUE_RIGHT:
                 initPose = new Pose2d(-54, -36, Math.toRadians(0));//Starting pose
-                midWayPose = new Pose2d(-12, -36, Math.toRadians(0)); //Choose the pose to move forward towards signal cone
+                midWayPose = new Pose2d(-12, -36, Math.toRadians(90)); //Choose the pose to move forward towards signal cone
+                dropConePose = new Pose2d(-12, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                alignToStackPose = new Pose2d(6, -36, Math.toRadians(90)); // Align to stack of cones
                 pickConePose = new Pose2d(-12, -55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(-12, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(-11, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(-10, -12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
                 break;
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
                 midWayPose = new Pose2d(22, -36, Math.toRadians(270)); //Choose the pose to move forward towards signal cone
-                alignToStackPose = new Pose2d(6, -36, Math.toRadians(270)); // Align to stack of cones
-                pickConePose = new Pose2d(6, -55, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                dropConePose = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                alignToStackPose = new Pose2d(4, -36, Math.toRadians(270)); // Align to stack of cones
+                pickConePose = new Pose2d(4, -54, Math.toRadians(270)); //Choose the pose to move to the stack of cones
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
-                midWayPose = new Pose2d(22, 36, Math.toRadians(180)); //Choose the pose to move forward towards signal cone
+                midWayPose = new Pose2d(22, 36, Math.toRadians(90)); //Choose the pose to move forward towards signal cone
+                dropConePose = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
+                alignToStackPose = new Pose2d(6, 36, Math.toRadians(90)); // Align to stack of cones
                 pickConePose = new Pose2d(12, 55, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose0 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose1 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
-                dropConePose2 = new Pose2d(12, 12, Math.toRadians(90)); //Choose the pose to move to the stack of cones
                 break;
         }
 
-        //Drop Preloaded Cone, Pick 5 cones and park
-        trajectoryAuto = driveTrain.trajectorySequenceBuilder(initPose)
+        // Drop preloaded cone trajectory
+        trajectoryDropPreloadedCone = driveTrain.trajectorySequenceBuilder(initPose)
                 .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
                         0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
-                .lineToLinearHeading(dropConePose0)
-                .addDisplacementMarker(() -> {
-                    dropCone(0); //Drop preloaded Cone
-                })
-                //Uncomment following line to stop reduction in speed. And move to the position after which you want to stop reducing speed.
-                //.resetVelConstraint()
+                .lineToLinearHeading(dropConePose)
+                .build();
+
+        trajectoryJunctionToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropConePose)
                 .lineToLinearHeading(alignToStackPose)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .build();
+
+        trajectoryGoToConeStack = driveTrain.trajectorySequenceBuilder(alignToStackPose)
                 .lineToLinearHeading(pickConePose)
-                .addDisplacementMarker(() -> {
-                    pickCone(1); //Pick top cone from stack
-                })
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .build();
+
+        trajectoryBackToAlignConeStack = driveTrain.trajectorySequenceBuilder(pickConePose)
                 .lineToLinearHeading(alignToStackPose)
-                .lineToLinearHeading(dropConePose1)
-                .addDisplacementMarker(() -> {
-                    dropCone(1); //Drop cone on junction
-                })
-                .lineToLinearHeading(alignToStackPose)
-                .lineToLinearHeading(pickConePose)
-                .addDisplacementMarker(() -> {
-                    pickCone(2); //Pick second cone from stack
-                })
-                .lineToLinearHeading(alignToStackPose)
-                .lineToLinearHeading(dropConePose2)
-                .addDisplacementMarker(() -> {
-                    dropCone(2); //Drop cone on junction
-                })
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .build();
+
+        tracjectoryAlignToDrop= driveTrain.trajectorySequenceBuilder(alignToStackPose)
+                .lineToLinearHeading(dropConePose)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .build();
+
+        trajectoryJunctionToMidway = driveTrain.trajectorySequenceBuilder(dropConePose)
+                .lineToLinearHeading(midWayPose)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.5*DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5*DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
                 .build();
     }
 
@@ -162,31 +197,55 @@ public class AutoOpModePlusOne extends LinearOpMode{
     public void buildParking(){
         switch (startPosition) {
             case BLUE_LEFT:
-                switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-12, 60, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-12, 36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-12, 11, Math.toRadians(180)); break; // Location 3
+                switch (vision.identifiedparkingLocation) {
+                    case 1:
+                        parkPose = new Pose2d(-27, 64, Math.toRadians(270));
+                        break; // Location 1
+                    case 2:
+                        parkPose = new Pose2d(-27, 36.5, Math.toRadians(270));
+                        break; // Location 2
+                    case 3:
+                        parkPose = new Pose2d(-27, 8, Math.toRadians(270));
+                        break; // Location 3
                 }
                 break;
             case BLUE_RIGHT:
-                switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(-12, -11, Math.toRadians(180)); break; // Location 1
-                    case 2: parkPose = new Pose2d(-12, -36, Math.toRadians(180)); break; // Location 2
-                    case 3: parkPose = new Pose2d(-12, -60, Math.toRadians(180)); break; // Location 3
+                switch (vision.identifiedparkingLocation) {
+                    case 1:
+                        parkPose = new Pose2d(-27, -8, Math.toRadians(90));
+                        break; // Location 1
+                    case 2:
+                        parkPose = new Pose2d(-27, -36.5, Math.toRadians(90));
+                        break; // Location 2
+                    case 3:
+                        parkPose = new Pose2d(-27, -64, Math.toRadians(90));
+                        break; // Location 3
                 }
                 break;
             case RED_LEFT:
-                switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(12, -60, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(12, -36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(12, -11, Math.toRadians(0)); break; // Location 3
+                switch (vision.identifiedparkingLocation) {
+                    case 1:
+                        parkPose = new Pose2d(27, -64, Math.toRadians(270));
+                        break; // Location 1
+                    case 2:
+                        parkPose = new Pose2d(27, -36.5, Math.toRadians(270));
+                        break; // Location 2
+                    case 3:
+                        parkPose = new Pose2d(27, -8, Math.toRadians(270));
+                        break; // Location 3
                 }
                 break;
             case RED_RIGHT:
-                switch(vision.identifiedparkingLocation){
-                    case 1: parkPose = new Pose2d(12, 11, Math.toRadians(0)); break; // Location 1
-                    case 2: parkPose = new Pose2d(12, 36, Math.toRadians(0)); break; // Location 2
-                    case 3: parkPose = new Pose2d(12, 60, Math.toRadians(0)); break; // Location 3
+                switch (vision.identifiedparkingLocation) {
+                    case 1:
+                        parkPose = new Pose2d(27, 8, Math.toRadians(90));
+                        break; // Location 1
+                    case 2:
+                        parkPose = new Pose2d(27, 36.5, Math.toRadians(90));
+                        break; // Location 2
+                    case 3:
+                        parkPose = new Pose2d(27, 64, Math.toRadians(90));
+                        break; // Location 3
                 }
                 break;
         }
@@ -202,21 +261,86 @@ public class AutoOpModePlusOne extends LinearOpMode{
         telemetry.addData("Running FTC Wires (ftcwires.org) Autonomous Mode adopted for Team:","TEAM NUMBER");
         telemetry.addData("---------------------------------------","");
         telemetry.update();
+
+        /*
+         * Sequence for us:
+         *  Close claw
+         *  Lift arm
+         *  Go to midway pos + turn 90 degree
+         *  Strafe to mid junction
+         *  Drop pre loaded cone 1
+         *
+         *  Strafe to align to stack pose
+         *  Move arm to pick cone # 5, highest cone position
+         *  Move to cone stack
+         *  Close Claw
+         *  Move to align to stack pose
+         *  Strafe to mid junction
+         *  Drop pre loaded cone 2
+         *
+         *  Strafe to align to stack pose
+         *  Move arm to pick cone #4 position
+         *  Move to cone stack
+         *  Close Claw
+         *  Move to align to stack pose
+         *  Strafe to mid junction
+         *  Drop pre loaded cone 3
+         *
+         *  Strafe to midway pose
+         *  Move to parking pose
+         */
+
+        raiseArmAndElevator();
+
+        driveTrain.followTrajectorySequence(trajectoryDropPreloadedCone);
+        dropCone(0);
+
+        driveTrain.followTrajectorySequence(trajectoryJunctionToAlignConeStack);
+
+        arm.moveArmToConeIntakePosition(1);
+        driveTrain.followTrajectorySequence(trajectoryGoToConeStack);
+        pickCone(1);
+        raiseArmAndElevator();
+
+        driveTrain.followTrajectorySequence(trajectoryBackToAlignConeStack);
+        driveTrain.followTrajectorySequence(tracjectoryAlignToDrop);
+        dropCone(1);
+
+        driveTrain.followTrajectorySequence(trajectoryJunctionToAlignConeStack);
+        arm.moveArmToConeIntakePosition(2);
+
+        driveTrain.followTrajectorySequence(trajectoryGoToConeStack);
+        pickCone(2);
+        raiseArmAndElevator();
+
+        driveTrain.followTrajectorySequence(trajectoryBackToAlignConeStack);
+        driveTrain.followTrajectorySequence(tracjectoryAlignToDrop);
+        dropCone(2);
+
+        driveTrain.followTrajectorySequence(trajectoryJunctionToMidway);
+
         //Run the trajectory built for Auto and Parking
-        driveTrain.followTrajectorySequence(trajectoryAuto);
+        //driveTrain.followTrajectorySequence(trajectoryAuto);
         driveTrain.followTrajectorySequence(trajectoryParking);
+
+        // Lower the arm
+        lowerArm();
     }
 
     //Write a method which is able to pick the cone from the stack depending on your subsystems
     public void pickCone(int coneCount) {
-        /*TODO: Add code to pick Cone 1 from stack*/
+        claw.setGripClose();
+        safeWait(1000);
         telemetry.addData("Picked Cone: Stack", coneCount);
         telemetry.update();
     }
 
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount){
-        /*TODO: Add code to drop cone on junction*/
+        safeWait(500);
+
+        claw.setGripOpen();
+
         if (coneCount == 0) {
             telemetry.addData("Dropped Cone", "Pre-loaded");
         } else {
@@ -228,6 +352,14 @@ public class AutoOpModePlusOne extends LinearOpMode{
     public void parkingComplete(){
         telemetry.addData("Parked in Location", vision.identifiedparkingLocation);
         telemetry.update();
+    }
+
+    public void safeWait(double time) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        timer.reset();
+        while (!isStopRequested() && timer.time() < time) {
+            //wait
+        }
     }
 
     //Method to select starting position using X, Y, A, B buttons on gamepad
@@ -262,6 +394,18 @@ public class AutoOpModePlusOne extends LinearOpMode{
             telemetry.update();
         }
         telemetry.clearAll();
+    }
+
+    public void raiseArmAndElevator() {
+        // Move arm to mid
+        arm.moveArmLow();
+        arm.runArmToLevel(arm.motorPowerToRun);
+    }
+
+    public void lowerArm() {
+        // Move arm low
+        arm.moveArmIntakeForward();
+        arm.runArmToLevel(arm.motorPowerToRun);
     }
 }
 
