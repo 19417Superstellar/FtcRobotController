@@ -102,6 +102,11 @@ public class AutoOpModePlusOne extends LinearOpMode{
     Pose2d pickConePose;
     Pose2d dropConePose;
     Pose2d parkPose;
+    Pose2d drop0Pose;
+    Pose2d alignToStack90DegreesPose;
+    Pose2d dropPlus1Pose;
+    Pose2d dropPlus145DegreePose;
+    Pose2d alignToStack45DegreesPose;
 
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
@@ -126,6 +131,14 @@ public class AutoOpModePlusOne extends LinearOpMode{
                 dropConePose = new Pose2d(19, -36, Math.toRadians(270)); //Choose the pose to move to the stack of cones
                 alignToStackPose = new Pose2d(4, -36, Math.toRadians(270)); // Align to stack of cones
                 pickConePose = new Pose2d(4, -54, Math.toRadians(270)); //Choose the pose to move to the stack of cones
+                Pose2d dropCone0Pose = new Pose2d(19, -36, Math.toRadians(135));
+                Pose2d midWayPose  = new Pose2d(19, -36, Math.toRadians(0));
+                Pose2d alignToStackPose = new Pose2d(4, -36, Math.toRadians(270));
+                Pose2d pickConePose = new Pose2d(4, -54, Math.toRadians(270));
+                Pose2d alignToStack90DegreesPose = new Pose2d(4, 30, Math.toRadians(270));
+                Pose2d dropPlus1Pose = new Pose2d(4, 30, Math.toRadians(315));
+                Pose2d dropPlus145DegreePose;
+                Pose2d alignToStack45DegreesPose;
                 break;
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180)); //Starting pose
@@ -261,7 +274,39 @@ public class AutoOpModePlusOne extends LinearOpMode{
         telemetry.addData("Running FTC Wires (ftcwires.org) Autonomous Mode adopted for Team:","TEAM NUMBER");
         telemetry.addData("---------------------------------------","");
         telemetry.update();
+/*
+Close claw
+    lift arm to mid junction (init pose)
+    go to drop 0- 45 degrees (drop 0 pose)
+    drop preloaded cone 1 (open claw)
+    turn to midway pose 0 angle (midway pose)
+    Align to stack pose- turn 90 degrees (align to stack 90 pose)
+     Move arm to pick cone # 5, highest cone position (move arm pose)
+     Move to cone stack (pickConePose)
+     Close Claw and raise elevator
+     go to drop +1 position (drop 1+ pose)
+     turn 45 degrees (drop 1+ 45 degree pose)
+     drop cone 1- open claw
+     align to stack pose (align to stack pose- 45 degrees)
+     Move arm to pick cone # 4, highest cone position
+     Move to cone stack
+     Close Claw and raise elevator
+     go to drop +1 position
+     turn 45 degrees
+     align to stack pose
+     drop cone 2- open claw
+     park
 
+     init pose
+     drop 0 pose
+     midway pose
+     align to stack 90 degrees pose
+     pickConePose
+     drop +1 pose
+     drop +1 45 degree pose
+     align to stack 45 degrees pose
+
+ */
         /*
          * Sequence for us:
          *  Close claw
