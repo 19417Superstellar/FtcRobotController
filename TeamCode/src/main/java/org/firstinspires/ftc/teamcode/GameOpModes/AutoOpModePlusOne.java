@@ -130,10 +130,10 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(19, -36, Math.toRadians(135));
-                midWayPose = new Pose2d(19, -36, Math.toRadians(180));
+                midWayPose = new Pose2d(19.5, -36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(4, -36, Math.toRadians(270));
                 pickConePose = new Pose2d(4, -54, Math.toRadians(270));
-                moveToPlus1DropPose = new Pose2d(4, 30, Math.toRadians(270));
+                moveToPlus1DropPose = new Pose2d(5, 30, Math.toRadians(270));
                 dropPlus1Pose = new Pose2d(4, 30, Math.toRadians(315));
                 break;
             case RED_RIGHT:
@@ -158,7 +158,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 .lineToLinearHeading(dropCone0Pose)
                 .build();
 
-        trajectoryJunctionToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropConePose)
+        trajectoryJunctionToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropCone0Pose)
                 .lineToLinearHeading(midWayPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
