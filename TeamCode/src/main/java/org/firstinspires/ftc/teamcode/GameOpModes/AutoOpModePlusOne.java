@@ -112,6 +112,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
         switch (startPosition) {
+            /*
             case BLUE_LEFT:
                 initPose = new Pose2d(-54, 36, Math.toRadians(0));//Starting pose
                 dropCone0Pose = new Pose2d(-27, 37, Math.toRadians(0));
@@ -136,6 +137,8 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 pushTurnAngle = 30;
                 straightenAngle = -90;
                 break;
+            */
+            case BLUE_LEFT:
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(27, -37, Math.toRadians(180));
@@ -148,6 +151,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 pushTurnAngle = -30;
                 straightenAngle = 90;
                 break;
+            case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
@@ -160,7 +164,6 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 pushTurnAngle = 30;
                 straightenAngle = -90;
                 break;
-
         }
 
         // Drop preloaded cone trajectory
