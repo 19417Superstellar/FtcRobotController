@@ -90,9 +90,12 @@ public class AutoOpModePlusOne extends LinearOpMode {
     //Initialize any other TrajectorySequences as desired
     TrajectorySequence trajectoryParking,
             trajectoryDropPreloadedCone,
+            trajectoryPushCone,
             trajectoryPreloadedToAlignConeStack,
             trajectoryGoToConeStack,
-            trajectoryConeStackToDrop1Plus;
+            trajectoryConeStackToDrop1Plus,
+            trajectoryGoToConeStack1Plus,trajectoryGoToDropCone1Plus;
+
 
     //Initialize any other Pose2d's as desired
     Pose2d initPose; // Starting Pose
@@ -100,12 +103,15 @@ public class AutoOpModePlusOne extends LinearOpMode {
     Pose2d pickConePose;
     Pose2d dropCone0Pose;
     Pose2d dropPlus1Pose;
+    Pose2d pushConePose;
     Pose2d parkPose;
+    Pose2d dropCone0PoseAngle;
+    Pose2d dropPlus1PoseAngle;
 
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
         switch (startPosition) {
-            case BLUE_LEFT:
+            /*case BLUE_LEFT:
                 initPose = new Pose2d(-54, 36, Math.toRadians(0));//Starting pose
                 dropCone0Pose = new Pose2d(-19, 36, Math.toRadians(45));
                 alignToStackPose = new Pose2d(-4, 36, Math.toRadians(270));
@@ -118,14 +124,19 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 alignToStackPose = new Pose2d(-4, -36, Math.toRadians(90));
                 pickConePose = new Pose2d(-4, -54, Math.toRadians(90));
                 dropPlus1Pose = new Pose2d(-4, -30, Math.toRadians(135));
-                break;
+                break;*/
+            case BLUE_LEFT:
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(19, -36, Math.toRadians(180));
-                alignToStackPose = new Pose2d(4, -36, Math.toRadians(270));
-                pickConePose = new Pose2d(4, -54, Math.toRadians(270));
-                dropPlus1Pose = new Pose2d(5, -18, Math.toRadians(270));
+                dropCone0Pose = new Pose2d(27, -37, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(24, -34, Math.toRadians(180-60));
+                pushConePose= new Pose2d(1, -36, Math.toRadians(180));
+                alignToStackPose = new Pose2d(0, -36, Math.toRadians(270));
+                pickConePose = new Pose2d(0, -53, Math.toRadians(270));
+                dropPlus1Pose = new Pose2d(3, -18, Math.toRadians(270));
+                dropPlus1PoseAngle = new Pose2d(4.5, -18.5, Math.toRadians(315));
                 break;
+            case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(19, 35, Math.toRadians(225));
@@ -140,25 +151,58 @@ public class AutoOpModePlusOne extends LinearOpMode {
         trajectoryDropPreloadedCone = driveTrain.trajectorySequenceBuilder(initPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(dropCone0Pose)
+                .lineToLinearHeading(dropCone0PoseAngle)
                 .build();
 
-        trajectoryPreloadedToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropCone0Pose)
+/*        trajectoryPushCone = driveTrain.trajectorySequenceBuilder(dropCone0Pose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5 * DriveConstants.MAX_VEL*//*Slower velocity*//*,
+                        0.5 * DriveConstants.MAX_ANG_VEL, *//*Slower angular velocity*//*
+                        DriveConstants.TRACK_WIDTH))
+                .lineToLinearHeading(pushConePose)
+                .build();*/
+
+        trajectoryPreloadedToAlignConeStack = driveTrain.trajectorySequenceBuilder(dropCone0PoseAngle)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
+                .turn(Math.toRadians(-30))
+                .forward(5)
+                .back(10)
+                .turn(Math.toRadians(60+30))
+                //.lineToLinearHeading(dropCone0Pose)
                 .lineToLinearHeading(alignToStackPose)
                 .build();
 
         trajectoryGoToConeStack = driveTrain.trajectorySequenceBuilder(alignToStackPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .lineToLinearHeading(pickConePose)
+                .build();
+
+        trajectoryGoToDropCone1Plus = driveTrain.trajectorySequenceBuilder(dropPlus1PoseAngle)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        DriveConstants.TRACK_WIDTH))
+                .lineToLinearHeading(dropPlus1Pose)
+                .build();
+
+        trajectoryGoToConeStack1Plus = driveTrain.trajectorySequenceBuilder(dropPlus1Pose)
+                //Uncomment following line to slow down turn if needed.
+                .setVelConstraint(getVelocityConstraint(
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(pickConePose)
@@ -167,10 +211,11 @@ public class AutoOpModePlusOne extends LinearOpMode {
         trajectoryConeStackToDrop1Plus = driveTrain.trajectorySequenceBuilder(pickConePose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(dropPlus1Pose)
+                .lineToLinearHeading(dropPlus1PoseAngle)
                 .build();
 
     }
@@ -178,7 +223,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
     //Build parking trajectory based on target detected by vision
     public void buildParking() {
         switch (startPosition) {
-            case BLUE_LEFT:
+            /*case BLUE_LEFT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
                         parkPose = new Pose2d(-27, 64, Math.toRadians(270));
@@ -203,30 +248,32 @@ public class AutoOpModePlusOne extends LinearOpMode {
                         parkPose = new Pose2d(-27, -64, Math.toRadians(90));
                         break; // Location 3
                 }
-                break;
+                break;*/
+            case BLUE_LEFT:
             case RED_LEFT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(6, -64, Math.toRadians(270));
+                        parkPose = new Pose2d(0, -64, Math.toRadians(360));
                         break; // Location 1
                     case 2:
-                        parkPose = new Pose2d(6, -36.5, Math.toRadians(270));
+                        parkPose = new Pose2d(0, -36.5, Math.toRadians(360));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(6, -8, Math.toRadians(270));
+                        parkPose = new Pose2d(0, -8, Math.toRadians(360));
                         break; // Location 3
                 }
                 break;
+            case BLUE_RIGHT:
             case RED_RIGHT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(27, 8, Math.toRadians(90));
+                        parkPose = new Pose2d(0, 8, Math.toRadians(90));
                         break; // Location 1
                     case 2:
-                        parkPose = new Pose2d(27, 36.5, Math.toRadians(90));
+                        parkPose = new Pose2d(0, 36.5, Math.toRadians(90));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(27, 64, Math.toRadians(90));
+                        parkPose = new Pose2d(0, 64, Math.toRadians(90));
                         break; // Location 3
                 }
                 break;
@@ -270,10 +317,12 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
         // Drop pre loaded cone
         driveTrain.followTrajectorySequence(trajectoryDropPreloadedCone);
-        driveTrain.turn(Math.toRadians(dropCone0Pose.getHeading() - 45));
+   //     driveTrain.turn(Math.toRadians(dropCone0Pose.getHeading() - 65));
         dropCone(0);
-        // straighten out
-        driveTrain.turn(Math.toRadians(dropCone0Pose.getHeading() + 45));
+        // straighten out and push
+     //   driveTrain.turn(Math.toRadians(dropCone0Pose.getHeading() + 65));
+        //driveTrain.followTrajectorySequence(trajectoryPushCone);
+        //driveTrain.followTrajectorySequence(trajectoryDropPreloadedCone);
 
         // Align to cone stack
         driveTrain.followTrajectorySequence(trajectoryPreloadedToAlignConeStack);
@@ -286,21 +335,22 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
         // Drop the cone
         driveTrain.followTrajectorySequence(trajectoryConeStackToDrop1Plus);
-        driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() + 45));
+        //driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() + 60));
         dropCone(1);
-        driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() - 45));
-
+        //driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() - 60));
+        driveTrain.followTrajectorySequence(trajectoryGoToDropCone1Plus);
         // Pick up another cone
         arm.moveArmToConeIntakePosition(2);
-        driveTrain.followTrajectorySequence(trajectoryGoToConeStack);
+        driveTrain.followTrajectorySequence(trajectoryGoToConeStack1Plus);
         pickCone(2);
         raiseArmAndElevator();
 
         // Drop the cone
         driveTrain.followTrajectorySequence(trajectoryConeStackToDrop1Plus);
-        driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() + 45));
+        //driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() + 60));
         dropCone(2);
-        driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() - 45));
+        //driveTrain.turn(Math.toRadians(dropPlus1Pose.getHeading() - 60));
+        driveTrain.followTrajectorySequence(trajectoryGoToDropCone1Plus);
 
         // Park
         driveTrain.followTrajectorySequence(trajectoryParking);
@@ -319,10 +369,10 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
     //Write a method which is able to drop the cone depending on your subsystems
     public void dropCone(int coneCount) {
-        safeWait(500);
+
 
         claw.setGripOpen();
-
+        safeWait(1000);
         if (coneCount == 0) {
             telemetry.addData("Dropped Cone", "Pre-loaded");
         } else {
