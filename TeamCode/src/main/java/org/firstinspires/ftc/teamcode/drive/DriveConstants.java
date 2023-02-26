@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 /*
@@ -81,22 +82,13 @@ public class DriveConstants {
     public static double MAX_ANG_ACCEL = Math.toRadians(290.87158346594356);
 
     /*
-     * Note from LearnRoadRunner.com:
-     * The velocity and acceleration constraints were calculated based on the following equation:
-     * ((MAX_RPM / 60) * GEAR_RATIO * WHEEL_RADIUS * 2 * Math.PI)*0.85 = 52.48
-     * This is capped at 85% because there are a number of variables that will prevent your bot from actually
-     * reaching this maximum velocity: voltage dropping over the game, bot weight, general mechanical inefficiences, etc.
-     * However, you can push this higher yourself if you'd like. Perhaps raise it to 90-95% of the theoretically
-     * max velocity. The theoreticaly maximum velocity is 83.3 in/s.
-     * Just make sure that your bot can actually reach this maximum velocity. Path following will be detrimentally
-     * affected if it is aiming for a velocity not actually possible.
-     *
-     * The maximum acceleration is somewhat arbitrary and it is recommended that you tweak this yourself based on
-     * actual testing. Just set it at a reasonable value and keep increasing until your path following starts
-     * to degrade. As of now, it simply mirrors the velocity results in 27.334275112574463 in/s/s
-     *
-     * Maximum Angular Velocity is calculated as: maximum velocity / (trackWidth / 2) * (180 / Math.PI)
+     * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
      */
+    public static RevHubOrientationOnRobot.LogoFacingDirection LOGO_FACING_DIR =
+            RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD;
+    public static RevHubOrientationOnRobot.UsbFacingDirection USB_FACING_DIR =
+            RevHubOrientationOnRobot.UsbFacingDirection.UP;
+
 
     public static double encoderTicksToInches(double ticks) {
         return WHEEL_RADIUS * 2 * Math.PI * GEAR_RATIO * ticks / TICKS_PER_REV;

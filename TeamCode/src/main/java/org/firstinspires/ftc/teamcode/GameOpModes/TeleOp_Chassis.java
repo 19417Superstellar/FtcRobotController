@@ -99,7 +99,7 @@ public class TeleOp_Chassis extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
         telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());

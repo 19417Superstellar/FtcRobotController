@@ -97,7 +97,7 @@ public class SSTeleOp extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
 
         telemetry.addData("Elevator sensor is pressed:", ssElevator.touchSensor.isPressed());
         telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());

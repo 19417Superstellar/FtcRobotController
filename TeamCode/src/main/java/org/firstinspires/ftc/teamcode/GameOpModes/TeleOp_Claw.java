@@ -133,7 +133,7 @@ public class TeleOp_Claw extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
         telemetry.addData("grip_position",ssClaw.getGripServoState());
         telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
         telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());

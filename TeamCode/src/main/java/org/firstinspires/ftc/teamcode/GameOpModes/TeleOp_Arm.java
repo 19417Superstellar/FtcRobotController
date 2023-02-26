@@ -99,7 +99,7 @@ public class TeleOp_Arm extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
         telemetry.addData("arm_motor_encoder_left",ssArm.currentEncoderValueLeft());
         telemetry.addData("arm_motor_encoder_right",ssArm.currentEncoderValueRight());
 
