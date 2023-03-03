@@ -62,8 +62,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     // One will supply a proportional gain and SMARTDAMP will...
     // use your kV and kA coefficients to solve for an optimal derivative gain
 
-    public static PIDCoefficients TRANSLATIONAL_PID = SmartdampPID.TranslationCoefficientsSMART(1);
-    public static PIDCoefficients HEADING_PID = SmartdampPID.RotationCoefficientsSMART(0.5);
+    public static PIDCoefficients TRANSLATIONAL_PID = SmartdampPID.TranslationCoefficientsSMART(5);//1
+    public static PIDCoefficients HEADING_PID = SmartdampPID.RotationCoefficientsSMART(5);//0.5
 
 
     public static double LATERAL_MULTIPLIER = 1.22;//1;

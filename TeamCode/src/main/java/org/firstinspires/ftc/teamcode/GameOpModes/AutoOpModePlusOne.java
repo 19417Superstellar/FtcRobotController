@@ -108,6 +108,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
     Pose2d dropCone0PoseAngle;
     Pose2d dropPlus1PoseAngle;
     double pushTurnAngle, straightenAngle;
+    double pushCone, comeBack;
 
     //Set all position based on selected staring location and Build Autonomous Trajectory
     public void buildAuto() {
@@ -150,19 +151,23 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 dropPlus1PoseAngle = new Pose2d(4.5, -18.5, Math.toRadians(315));
                 pushTurnAngle = -30;
                 straightenAngle = 90;
+                pushCone = 5;
+                comeBack = 10;
                 break;
             case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(27, 36, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(24, 33, Math.toRadians(180+57));
+                dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(21.5, 36, Math.toRadians(180+60));
                 pushConePose= new Pose2d(1, 36, Math.toRadians(180));
-                alignToStackPose = new Pose2d(0, 36, Math.toRadians(90));
+                alignToStackPose = new Pose2d(1, 36, Math.toRadians(90));
                 pickConePose = new Pose2d(4, 53, Math.toRadians(90));
-                dropPlus1Pose = new Pose2d(3, 18, Math.toRadians(90));
-                dropPlus1PoseAngle = new Pose2d(4.5, 18.5, Math.toRadians(34));
-                pushTurnAngle = 31;
-                straightenAngle = -90;
+                dropPlus1Pose = new Pose2d(2, 18, Math.toRadians(90));
+                dropPlus1PoseAngle = new Pose2d(4.5, 18.5, Math.toRadians(40));
+                pushTurnAngle = 1;
+                straightenAngle = -1;
+                pushCone = 0.5;
+                comeBack = 0.5;
                 break;
         }
 
@@ -193,8 +198,8 @@ public class AutoOpModePlusOne extends LinearOpMode {
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
                 .turn(Math.toRadians(pushTurnAngle))
-                .forward(5)
-                .back(10)
+                .forward(pushCone)
+                .back(comeBack)
                 .turn(Math.toRadians(straightenAngle))
                 //.lineToLinearHeading(dropCone0Pose)
                 .lineToLinearHeading(alignToStackPose)
@@ -272,7 +277,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_LEFT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(0, -64, Math.toRadians(360));
+                        parkPose = new Pose2d(0, -54, Math.toRadians(360));
                         break; // Location 1
                     case 2:
                         parkPose = new Pose2d(0, -36.5, Math.toRadians(360));
@@ -292,7 +297,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
                         parkPose = new Pose2d(0, 36.5, Math.toRadians(360));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(0, 64, Math.toRadians(360));
+                        parkPose = new Pose2d(0, 54, Math.toRadians(360));
                         break; // Location 3
                 }
                 break;
