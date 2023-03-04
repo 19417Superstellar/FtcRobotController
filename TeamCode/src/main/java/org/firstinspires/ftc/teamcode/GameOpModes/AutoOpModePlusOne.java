@@ -157,17 +157,17 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(22, 36, Math.toRadians(180+60));
+                dropCone0Pose = new Pose2d(27, 36, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(22.5, 35.5, Math.toRadians(180+60));
                 pushConePose= new Pose2d(1, 36, Math.toRadians(180));
-                alignToStackPose = new Pose2d(1, 36, Math.toRadians(90));
-                pickConePose = new Pose2d(4, 53.5, Math.toRadians(90));
-                dropPlus1Pose = new Pose2d(2, 18, Math.toRadians(90));
-                dropPlus1PoseAngle = new Pose2d(4.5, 18.5, Math.toRadians(40));
-                pushTurnAngle = 1;
-                straightenAngle = -1;
-                pushCone = 0.5;
-                comeBack = 0.5;
+                alignToStackPose = new Pose2d(2, 36, Math.toRadians(90));
+                pickConePose = new Pose2d(6, 54.5, Math.toRadians(90));
+                dropPlus1Pose = new Pose2d(3.5, 17, Math.toRadians(90));
+                dropPlus1PoseAngle = new Pose2d(5, 18.5, Math.toRadians(45));
+                pushTurnAngle = 30;
+                straightenAngle = -90;
+                pushCone = 1;
+                comeBack = 1;
                 break;
         }
 
@@ -291,7 +291,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_RIGHT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(1, 10, Math.toRadians(360));
+                        parkPose = new Pose2d(1, 12, Math.toRadians(360));
                         break; // Location 1
                     case 2:
                         parkPose = new Pose2d(0, 36.5, Math.toRadians(360));
@@ -305,6 +305,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
         trajectoryParking = driveTrain.trajectorySequenceBuilder(dropPlus1Pose)
                 .lineToLinearHeading(parkPose)
+                .forward(4)
                 .build();
     }
 
@@ -396,7 +397,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
 
         claw.setGripOpen();
-        safeWait(1000);
+        safeWait(1500);
         if (coneCount == 0) {
             telemetry.addData("Dropped Cone", "Pre-loaded");
         } else {
