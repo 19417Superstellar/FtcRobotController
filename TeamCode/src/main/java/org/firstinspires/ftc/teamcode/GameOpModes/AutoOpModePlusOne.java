@@ -158,10 +158,10 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(21.5, 36, Math.toRadians(180+60));
+                dropCone0PoseAngle = new Pose2d(22, 36, Math.toRadians(180+60));
                 pushConePose= new Pose2d(1, 36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(1, 36, Math.toRadians(90));
-                pickConePose = new Pose2d(4, 53, Math.toRadians(90));
+                pickConePose = new Pose2d(4, 53.5, Math.toRadians(90));
                 dropPlus1Pose = new Pose2d(2, 18, Math.toRadians(90));
                 dropPlus1PoseAngle = new Pose2d(4.5, 18.5, Math.toRadians(40));
                 pushTurnAngle = 1;
@@ -291,13 +291,13 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_RIGHT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(1, 9, Math.toRadians(360));
+                        parkPose = new Pose2d(1, 10, Math.toRadians(360));
                         break; // Location 1
                     case 2:
                         parkPose = new Pose2d(0, 36.5, Math.toRadians(360));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(0, 54, Math.toRadians(360));
+                        parkPose = new Pose2d(0, 56, Math.toRadians(360));
                         break; // Location 3
                 }
                 break;
