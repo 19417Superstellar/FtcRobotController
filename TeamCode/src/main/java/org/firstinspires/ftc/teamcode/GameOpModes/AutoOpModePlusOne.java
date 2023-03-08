@@ -90,9 +90,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
     //Initialize any other TrajectorySequences as desired
     TrajectorySequence trajectoryParking,
             trajectoryDropPreloadedCone,
-            trajectoryPushCone,
             trajectoryPreloadedToAlignConeStack,
-            trajectoryGoToConeStack,
             trajectoryConeStackToDrop1Plus,
             trajectoryGoToConeStack1Plus,trajectoryGoToDropCone1Plus;
 
@@ -103,7 +101,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
     Pose2d pickConePose;
     Pose2d dropCone0Pose;
     Pose2d dropPlus1Pose;
-    Pose2d pushConePose;
+   // Pose2d pushConePose;
     Pose2d parkPose;
     Pose2d dropCone0PoseAngle;
     Pose2d dropPlus1PoseAngle;
@@ -142,28 +140,28 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case BLUE_LEFT:
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(27, -37, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(24, -36, Math.toRadians(180-60));
-                pushConePose= new Pose2d(1, -36, Math.toRadians(180));
+                dropCone0Pose = new Pose2d(23, -37, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(21, -36, Math.toRadians(180-60));
+         //       pushConePose= new Pose2d(1, -36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(3, -36, Math.toRadians(270));
-                pickConePose = new Pose2d(4, -54, Math.toRadians(270));
+                pickConePose = new Pose2d(4, -52.5, Math.toRadians(270));
                 dropPlus1Pose = new Pose2d(4, -18, Math.toRadians(270));
                 dropPlus1PoseAngle = new Pose2d(4.5, -19, Math.toRadians(315));
                 pushTurnAngle = -30;
                 straightenAngle = 90;
-                pushCone = 5;
-                comeBack = 10;
+                pushCone = 1;
+                comeBack = 1;
                 break;
             case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
                 dropCone0Pose = new Pose2d(27, 36, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(22.5, 35.5, Math.toRadians(180+60));
-                pushConePose= new Pose2d(1, 36, Math.toRadians(180));
-                alignToStackPose = new Pose2d(2, 36, Math.toRadians(90));
+                dropCone0PoseAngle = new Pose2d(24, 35.5, Math.toRadians(180+60));
+          //      pushConePose= new Pose2d(1, 36, Math.toRadians(180));
+                alignToStackPose = new Pose2d(3, 36, Math.toRadians(90));
                 pickConePose = new Pose2d(6, 54.5, Math.toRadians(90));
                 dropPlus1Pose = new Pose2d(3.5, 17, Math.toRadians(90));
-                dropPlus1PoseAngle = new Pose2d(5, 18.5, Math.toRadians(45));
+                dropPlus1PoseAngle = new Pose2d(5.5, 18.5, Math.toRadians(45));
                 pushTurnAngle = 30;
                 straightenAngle = -90;
                 pushCone = 1;
@@ -205,14 +203,14 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 .lineToLinearHeading(alignToStackPose)
                 .build();
 
-        trajectoryGoToConeStack = driveTrain.trajectorySequenceBuilder(alignToStackPose)
+ /*       trajectoryGoToConeStack = driveTrain.trajectorySequenceBuilder(alignToStackPose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
-                        0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
+                        0.5 * DriveConstants.MAX_VEL*//*Slower velocity*//*,
+                        0.5 * DriveConstants.MAX_ANG_VEL, *//*Slower angular velocity*//*
                         DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(pickConePose)
-                .build();
+                .build();*/
 
         trajectoryGoToDropCone1Plus = driveTrain.trajectorySequenceBuilder(dropPlus1PoseAngle)
                 //Uncomment following line to slow down turn if needed.
@@ -226,7 +224,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
         trajectoryGoToConeStack1Plus = driveTrain.trajectorySequenceBuilder(dropPlus1Pose)
                 //Uncomment following line to slow down turn if needed.
                 .setVelConstraint(getVelocityConstraint(
-                        0.75 * DriveConstants.MAX_VEL/*Slower velocity*/,
+                        0.5 * DriveConstants.MAX_VEL/*Slower velocity*/,
                         0.5 * DriveConstants.MAX_ANG_VEL, /*Slower angular velocity*/
                         DriveConstants.TRACK_WIDTH))
                 .lineToLinearHeading(pickConePose)
@@ -277,13 +275,13 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_LEFT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(0, -54, Math.toRadians(360));
+                        parkPose = new Pose2d(0, -57, Math.toRadians(360));
                         break; // Location 1
                     case 2:
                         parkPose = new Pose2d(0, -36.5, Math.toRadians(360));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(0, -8, Math.toRadians(360));
+                        parkPose = new Pose2d(0, -12, Math.toRadians(360));
                         break; // Location 3
                 }
                 break;
@@ -354,7 +352,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
 
         // Pick up a cone
         arm.moveArmToConeIntakePosition(1);
-        driveTrain.followTrajectorySequence(trajectoryGoToConeStack);
+        driveTrain.followTrajectorySequence(trajectoryGoToConeStack1Plus);
         pickCone(1);
         raiseArmAndElevator();
 
