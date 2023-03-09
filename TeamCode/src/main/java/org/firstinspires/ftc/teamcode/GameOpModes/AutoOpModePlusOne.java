@@ -140,13 +140,13 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case BLUE_LEFT:
             case RED_LEFT:
                 initPose = new Pose2d(54, -36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(23, -37, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(21, -36, Math.toRadians(180-60));
+                dropCone0Pose = new Pose2d(21, -37, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(20, -37, Math.toRadians(180-60));
          //       pushConePose= new Pose2d(1, -36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(3, -36, Math.toRadians(270));
-                pickConePose = new Pose2d(4, -52.5, Math.toRadians(270));
-                dropPlus1Pose = new Pose2d(4, -18, Math.toRadians(270));
-                dropPlus1PoseAngle = new Pose2d(4.5, -19, Math.toRadians(315));
+                pickConePose = new Pose2d(6, -53, Math.toRadians(270));
+                dropPlus1Pose = new Pose2d(6, -18, Math.toRadians(270));
+                dropPlus1PoseAngle = new Pose2d(6, -18.5, Math.toRadians(315));
                 pushTurnAngle = -30;
                 straightenAngle = 90;
                 pushCone = 1;
@@ -155,10 +155,10 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(27, 36, Math.toRadians(180));
-                dropCone0PoseAngle = new Pose2d(24, 35.5, Math.toRadians(180+60));
+                dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
+                dropCone0PoseAngle = new Pose2d(21, 36, Math.toRadians(180+60));
           //      pushConePose= new Pose2d(1, 36, Math.toRadians(180));
-                alignToStackPose = new Pose2d(3, 36, Math.toRadians(90));
+                alignToStackPose = new Pose2d(4, 36, Math.toRadians(90));
                 pickConePose = new Pose2d(6, 54.5, Math.toRadians(90));
                 dropPlus1Pose = new Pose2d(3.5, 17, Math.toRadians(90));
                 dropPlus1PoseAngle = new Pose2d(5.5, 18.5, Math.toRadians(45));
