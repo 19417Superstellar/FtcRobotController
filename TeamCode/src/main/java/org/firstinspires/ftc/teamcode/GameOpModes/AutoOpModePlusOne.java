@@ -146,7 +146,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 dropCone0PoseAngle = new Pose2d(20, -37, Math.toRadians(180-60));
                 pushConePose= new Pose2d(1, -36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(3, -36, Math.toRadians(270));
-                pickConePose = new Pose2d(4.5, -54.5, Math.toRadians(270));
+                pickConePose = new Pose2d(4.5, -55, Math.toRadians(270));
                 dropPlus1Pose = new Pose2d(4, -17, Math.toRadians(270));
                 dropPlus1PoseAngle = new Pose2d(4.5, -18, Math.toRadians(315));
                 pushTurnAngle = -30;
@@ -157,7 +157,7 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case BLUE_RIGHT:
             case RED_RIGHT:
                 initPose = new Pose2d(54, 36, Math.toRadians(180));//Starting pose
-                dropCone0Pose = new Pose2d(27, 37, Math.toRadians(180));
+                dropCone0Pose = new Pose2d(26, 36.5, Math.toRadians(180));
                 dropCone0PoseAngle = new Pose2d(21, 36, Math.toRadians(180+60));
                 pushConePose= new Pose2d(1, 36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(4, 36, Math.toRadians(90));
