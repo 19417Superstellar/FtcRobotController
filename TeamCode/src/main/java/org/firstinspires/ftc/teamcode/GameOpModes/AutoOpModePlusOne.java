@@ -146,9 +146,9 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 dropCone0PoseAngle = new Pose2d(20, -37, Math.toRadians(180-60));
                 pushConePose= new Pose2d(1, -36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(3, -36, Math.toRadians(270));
-                pickConePose = new Pose2d(4.5, -54, Math.toRadians(270));
+                pickConePose = new Pose2d(4.5, -54.5, Math.toRadians(270));
                 dropPlus1Pose = new Pose2d(4, -17, Math.toRadians(270));
-                dropPlus1PoseAngle = new Pose2d(5, -19, Math.toRadians(315));
+                dropPlus1PoseAngle = new Pose2d(4.5, -18, Math.toRadians(315));
                 pushTurnAngle = -30;
                 straightenAngle = 90;
                 pushCone = 4;
@@ -162,8 +162,8 @@ public class AutoOpModePlusOne extends LinearOpMode {
                 pushConePose= new Pose2d(1, 36, Math.toRadians(180));
                 alignToStackPose = new Pose2d(4, 36, Math.toRadians(90));
                 pickConePose = new Pose2d(6, 54.5, Math.toRadians(90));
-                dropPlus1Pose = new Pose2d(3.5, 17, Math.toRadians(90));
-                dropPlus1PoseAngle = new Pose2d(5.5, 19, Math.toRadians(45));
+                dropPlus1Pose = new Pose2d(3.5, 16, Math.toRadians(90));
+                dropPlus1PoseAngle = new Pose2d(5.5, 17, Math.toRadians(45));
                 pushTurnAngle = 30;
                 straightenAngle = -90;
                 pushCone = 1;
@@ -277,13 +277,13 @@ public class AutoOpModePlusOne extends LinearOpMode {
             case RED_LEFT:
                 switch (vision.identifiedparkingLocation) {
                     case 1:
-                        parkPose = new Pose2d(0, -54, Math.toRadians(360));
+                        parkPose = new Pose2d(0, -56, Math.toRadians(360));
                         break; // Location 1
                     case 2:
                         parkPose = new Pose2d(0, -36.5, Math.toRadians(360));
                         break; // Location 2
                     case 3:
-                        parkPose = new Pose2d(0, -8, Math.toRadians(360));
+                        parkPose = new Pose2d(1, -8, Math.toRadians(360));
                         break; // Location 3
                 }
                 break;
