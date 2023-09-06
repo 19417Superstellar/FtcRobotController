@@ -8,7 +8,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-public class Vision {
+public class VisionCenterStage {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -28,7 +28,7 @@ public class Vision {
     private VisionPortal myVisionPortal;
 
 
-    public Vision (HardwareMap hardwareMap){
+    public VisionCenterStage(HardwareMap hardwareMap){
         initDoubleVision( hardwareMap);
 
 
