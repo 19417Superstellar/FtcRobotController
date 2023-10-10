@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -21,7 +22,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class SSIntake {
 
-    public DcMotor intakeMotor =null;
+    public DcMotorEx intakeMotor;
 
     public enum SSINTAKE_MOTOR_STATE {
         RUNNING,
@@ -40,7 +41,7 @@ public class SSIntake {
     public SSINTAKE_BUTTON_STATE SSIntakeButtonState;
 
     public SSIntake(HardwareMap hardwareMap) {
-        intakeMotor = hardwareMap.dcMotor.get("intake_motor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
         initSSIntake();
     }
 
