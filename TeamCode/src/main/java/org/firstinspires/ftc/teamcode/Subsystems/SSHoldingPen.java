@@ -68,7 +68,7 @@ public class SSHoldingPen {
         return SSHoldingPenMotorState;
     }
 
-    public boolean isElevatorInLowPosition() {
+    public boolean isPixelCollected() {
         return touchSensor.isPressed();
     }
 
