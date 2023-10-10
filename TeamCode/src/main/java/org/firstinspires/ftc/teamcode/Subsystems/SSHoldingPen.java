@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class SSHoldingPen {
 
     public DcMotorEx holdingPenMotor;
+    public TouchSensor touchSensor;
 
     public enum SSHOLDING_PEN_MOTOR_STATE {
         RUNNING,
@@ -28,6 +29,7 @@ public class SSHoldingPen {
 
     public SSHoldingPen(HardwareMap hardwareMap){
         holdingPenMotor = hardwareMap.get(DcMotorEx.class, "holding_pen_motor");
+        touchSensor = hardwareMap.get(TouchSensor.class, "holding_pen_sensor");
         initSSHoldingPen();
     }
 
@@ -64,6 +66,10 @@ public class SSHoldingPen {
 
     public SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE getSSIntakeMotorState() {
         return SSHoldingPenMotorState;
+    }
+
+    public boolean isElevatorInLowPosition() {
+        return touchSensor.isPressed();
     }
 
 
