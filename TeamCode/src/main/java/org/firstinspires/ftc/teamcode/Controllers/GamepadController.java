@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
 
 
 /**
@@ -147,6 +148,7 @@ public class GamepadController {
     boolean gp2Dpad_rightLast = false;
     boolean gp2LeftTriggerLast = false;
     boolean gp2RightTriggerLast = false;
+    SSHoldingPen holdingPen;
 
     /**
      * Method to convert linear map from gamepad1 stick input to a cubic map
@@ -271,6 +273,17 @@ public class GamepadController {
         boolean isPressedLeftTrigger = !gp2LeftTriggerLast && (gp2GetLeftTrigger() > 0.7);
         gp2LeftTriggerLast = (gp2GetLeftTrigger()>0.7);
         return isPressedLeftTrigger;
+    }
+
+    // TEMPORARY for holding pen test. Delete Later
+    public void runTemp(){
+        if(gp1GetDpad_down()){
+            holdingPen.startReverseSSIntakeMotor();
+        } else if (gp1GetDpad_up()){
+            holdingPen.startForwardSSHoldingPenMotor();
+        } else {
+            holdingPen.stopSSHoldingPenMotor();
+        }
     }
 
     /**

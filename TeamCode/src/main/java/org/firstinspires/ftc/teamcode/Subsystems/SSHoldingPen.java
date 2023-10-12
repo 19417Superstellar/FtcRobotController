@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.GameOpModes.AbbyMode;
+
 public class SSHoldingPen {
 
     public DcMotorEx holdingPenMotor;
@@ -27,9 +29,9 @@ public class SSHoldingPen {
 
     public SSHOLDING_PEN_MOTOR_STATE SSHoldingPenButtonState;
 
-    public SSHoldingPen(HardwareMap hardwareMap){
+    public SSHoldingPen(HardwareMap hardwareMap, AbbyMode abbyMode){
         holdingPenMotor = hardwareMap.get(DcMotorEx.class, "holding_pen_motor");
-        touchSensor = hardwareMap.get(TouchSensor.class, "holding_pen_sensor");
+        //touchSensor = hardwareMap.get(TouchSensor.class, "holding_pen_sensor");
         initSSHoldingPen();
     }
 
