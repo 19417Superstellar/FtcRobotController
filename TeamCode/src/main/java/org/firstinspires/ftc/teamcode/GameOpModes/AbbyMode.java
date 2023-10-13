@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.GameOpModes;
 
-import com.acmerobotics.roadrunner.drive.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -23,6 +22,7 @@ public class AbbyMode extends LinearOpMode {
         holdingPen = new SSHoldingPen(hardwareMap, this);
 
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this);
+        waitForStart();
 
         if(isStopRequested()) return;
 

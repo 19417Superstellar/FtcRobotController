@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.Controllers;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
@@ -55,6 +56,7 @@ public class GamepadController {
     //Create object reference to objects to systems passed from TeleOp
     public Gamepad  ssGamepad1,  ssGamepad2;
     public DriveTrain driveTrain;
+    public SSHoldingPen holdingPen;
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
@@ -148,7 +150,7 @@ public class GamepadController {
     boolean gp2Dpad_rightLast = false;
     boolean gp2LeftTriggerLast = false;
     boolean gp2RightTriggerLast = false;
-    SSHoldingPen holdingPen;
+
 
     /**
      * Method to convert linear map from gamepad1 stick input to a cubic map
@@ -277,12 +279,12 @@ public class GamepadController {
 
     // TEMPORARY for holding pen test. Delete Later
     public void runTemp(){
-        if(gp1GetDpad_down()){
+        if(gp1GetDpad_downPress()) {
             holdingPen.startReverseSSIntakeMotor();
-        } else if (gp1GetDpad_up()){
+        }
+
+        if (gp1GetDpad_upPress()){
             holdingPen.startForwardSSHoldingPenMotor();
-        } else {
-            holdingPen.stopSSHoldingPenMotor();
         }
     }
 
