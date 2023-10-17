@@ -17,12 +17,12 @@ public class SSClaw {
     }
 
     public enum WRIST_SERVO_STATE {
-        WRIST_FORWARD,
-        WRIST_BACK
+        WRIST_PICK,
+        WRIST_DROP
     }
 
     public GRIP_SERVO_STATE gripServoState = GRIP_SERVO_STATE.GRIP_OPEN;
-    public WRIST_SERVO_STATE wristServoState = WRIST_SERVO_STATE.WRIST_FORWARD;
+    public WRIST_SERVO_STATE wristServoState = WRIST_SERVO_STATE.WRIST_PICK;
 
     // Encoder values for 5203 Gobilda 312rpm motor yyyy encoder counts / revolution
     //5203 Series Yellow Jacket Planetary Gear Motor (19.2:1 Ratio, 24mm Length 8mm REX Shaft, 312 RPM, 3.3 - 5V Encoder)
@@ -57,7 +57,7 @@ public class SSClaw {
 
     public void initWrist(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
         wristServo.setPosition(WRIST_FORWARD_POSITION);
-        wristServoState = WRIST_SERVO_STATE.WRIST_FORWARD;
+        wristServoState = WRIST_SERVO_STATE.WRIST_PICK;
     }
 
     public void setGripOpen() {
@@ -67,7 +67,7 @@ public class SSClaw {
 
     public void setWristForward() {
         wristServo.setPosition(WRIST_FORWARD_POSITION);
-        wristServoState = WRIST_SERVO_STATE.WRIST_FORWARD;
+        wristServoState = WRIST_SERVO_STATE.WRIST_PICK;
     }
 
     public void setGripClose() {
@@ -77,7 +77,7 @@ public class SSClaw {
 
     public void setWristBack() {
         wristServo.setPosition(WRIST_BACK_POSITION);
-        wristServoState = WRIST_SERVO_STATE.WRIST_BACK;
+        wristServoState = WRIST_SERVO_STATE.WRIST_DROP;
     }
 
     //function to determine POWER_WITH_CARGO or POWER_WITH_NO_CARGO
