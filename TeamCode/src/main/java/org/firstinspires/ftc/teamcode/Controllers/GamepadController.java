@@ -65,10 +65,12 @@ public class GamepadController {
     public GamepadController(Gamepad ssGamepad1,
                              Gamepad  ssGamepad2,
                              DriveTrain driveTrain,
-                             LinearOpMode opMode) {
+                             LinearOpMode opMode,
+                             SSHoldingPen holdingPen) {
         this.ssGamepad1 =  ssGamepad1;
         this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
+        this.holdingPen = holdingPen;
     }
 
     /**

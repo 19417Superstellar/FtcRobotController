@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.GameOpModes.AbbyMode;
 
 public class SSHoldingPen {
 
     public DcMotorEx holdingPenMotor;
-    public TouchSensor touchSensor;
+    public DistanceSensor distanceSensor;
 
     public enum SSHOLDING_PEN_MOTOR_STATE {
         RUNNING,
@@ -18,10 +21,6 @@ public class SSHoldingPen {
         REVERSING
     }
 
-    public enum SSHOLDING_PEN_BUTTON_STATE {
-        ON,
-        OFF
-    }
 
     public SSHOLDING_PEN_MOTOR_STATE SSHoldingPenMotorState = SSHOLDING_PEN_MOTOR_STATE.STOPPED;
 
@@ -36,7 +35,7 @@ public class SSHoldingPen {
     }
 
     public void initSSHoldingPen(){
-
+        stopSSHoldingPenMotor();
     }
 
     public void startForwardSSHoldingPenMotor() {
@@ -71,7 +70,7 @@ public class SSHoldingPen {
     }
 
     public boolean isPixelCollected() {
-        return touchSensor.isPressed();
+        return distanceSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
 
 

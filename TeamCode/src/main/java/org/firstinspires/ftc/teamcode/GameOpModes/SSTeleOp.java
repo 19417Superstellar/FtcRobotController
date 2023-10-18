@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
 
 
 /**
@@ -23,6 +24,7 @@ public class SSTeleOp extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
+    public SSHoldingPen holdingPen;
 
     //TODO_SS
 
@@ -39,7 +41,7 @@ public class SSTeleOp extends LinearOpMode {
         //TODO_SS
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this, holdingPen);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
