@@ -282,11 +282,11 @@ public class GamepadController {
     // TEMPORARY for holding pen test. Delete Later
     public void runTemp(){
         if(gp1GetDpad_downPress()) {
-            holdingPen.startReverseSSIntakeMotor();
+            holdingPen.startReverseSSHoldingPenServo();
         }
 
         if (gp1GetDpad_upPress()){
-            holdingPen.startForwardSSHoldingPenMotor();
+            holdingPen.startForwardSSHoldingPenServo();
         }
     }
 
