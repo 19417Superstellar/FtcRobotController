@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Lights;
  *
  */
 @TeleOp(name = "SS TeleOp", group = "00-Teleop")
-public class TeleOpMode extends LinearOpMode {
+public class SSTeleOpMode extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;

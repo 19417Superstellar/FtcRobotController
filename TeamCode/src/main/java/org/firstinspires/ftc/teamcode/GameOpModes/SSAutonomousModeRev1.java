@@ -48,8 +48,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 /**
  * Hazmat Autonomous
  */
-@Autonomous(name = "SS Autonomous Mode", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
-public class AutonomousMode extends LinearOpMode {
+@Autonomous(name = "SS Autonomous Mode Rev 1", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
+public class SSAutonomousModeRev1 extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
