@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -9,6 +10,8 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class SSIndicators {
     public RevBlinkinLedDriver light;
+
+
 
     public enum SSINDICATORS_LIGHT_COLOR {
         PURPLE,
@@ -26,7 +29,7 @@ public class SSIndicators {
     public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
     public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor;
 
-    public SSIndicators(HardwareMap hardwareMap){
+    public SSIndicators(HardwareMap hardwareMap, LinearOpMode opMode){
         light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
         initIndicators();
     }

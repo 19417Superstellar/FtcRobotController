@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * Definition of HzIntake Class <BR>
+ * Definition of SSIntake Class <BR>
  *
  * HzIntake consists of system provided intake controls and adds functionality to the selection made on intake. <BR>
  *
@@ -41,7 +42,7 @@ public class SSIntake {
     }
     public SSINTAKE_BUTTON_STATE SSIntakeButtonState;
 
-    public SSIntake(HardwareMap hardwareMap) {
+    public SSIntake(HardwareMap hardwareMap, LinearOpMode opmode) {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
         initSSIntake();
     }

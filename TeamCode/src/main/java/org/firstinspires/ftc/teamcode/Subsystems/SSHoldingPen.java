@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -24,7 +25,7 @@ public class SSHoldingPen {
 
     public double SSHoldingPenServoPower = 0.95;
 
-    public SSHoldingPen(HardwareMap hardwareMap, AbbyMode abbyMode){
+    public SSHoldingPen(HardwareMap hardwareMap, LinearOpMode opMode){
         holdingPenServo = hardwareMap.get(Servo.class, "holding_pen_servo");
         initSSHoldingPen();
     }
