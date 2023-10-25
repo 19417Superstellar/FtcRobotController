@@ -84,13 +84,24 @@ public class GamepadController {
         this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
         this.holdingPen = holdingPen;
+        this.claw = claw;
+        this.elevator = elevator;
+        this.indicators = indicators;
+        this.intake = intake;
+
     }
 
     /**
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-       runDriveControl_byRRDriveModes();
+
+        runDriveControl_byRRDriveModes();
+        runClaw();
+        runElevator();
+        runIntake();
+        runHoldingPen();
+        runIndicators();
     }
 
     /**
