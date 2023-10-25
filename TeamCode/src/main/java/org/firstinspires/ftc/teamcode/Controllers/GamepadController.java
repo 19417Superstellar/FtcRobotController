@@ -98,10 +98,6 @@ public class GamepadController {
 
         runDriveControl_byRRDriveModes();
         runClaw();
-        runElevator();
-        runIntake();
-        runHoldingPen();
-        runIndicators();
     }
 
     /**
