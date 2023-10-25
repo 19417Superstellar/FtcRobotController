@@ -7,7 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIntake;
 
 
 /**
@@ -25,6 +29,10 @@ public class SSTeleOp extends LinearOpMode {
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
     public SSHoldingPen holdingPen;
+    public SSIndicators indicators;
+    public SSClaw claw;
+    public SSIntake intake;
+    public SSElevator elevator;
 
     //TODO_SS
 
@@ -41,7 +49,7 @@ public class SSTeleOp extends LinearOpMode {
         //TODO_SS
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this, holdingPen);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, holdingPen, elevator, claw, intake, indicators, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
@@ -93,10 +101,10 @@ public class SSTeleOp extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-      //  telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
 
 
-        //add for all subsytems
+        //add for all subsystems
 
         telemetry.update();
     }
