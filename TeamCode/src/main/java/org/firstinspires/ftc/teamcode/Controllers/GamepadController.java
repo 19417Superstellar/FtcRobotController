@@ -304,13 +304,13 @@ public class GamepadController {
     }
 
     // TEMPORARY for holding pen test. Delete Later
-    public void runTemp(){
-        if(gp1GetDpad_downPress()) {
-            holdingPen.startReverseSSHoldingPenServo();
-        }
-
-        if (gp1GetDpad_upPress()){
-            holdingPen.startForwardSSHoldingPenServo();
+    public void runClaw() {
+        if (gp2GetLeftBumperPress()) {
+            if (claw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
+                claw.setGripClose();
+            } else {
+                claw.setGripOpen();
+            }
         }
     }
 
@@ -380,6 +380,7 @@ public class GamepadController {
         gp2RightBumperLast =  ssGamepad2.right_bumper;
         return isPressedRightBumper;
     }
+
 
     public boolean gp1GetRightBumperPersistant(){
         return  ssGamepad1.right_bumper;

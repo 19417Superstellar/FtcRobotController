@@ -53,7 +53,7 @@ public class TeleOp_Elevator extends LinearOpMode{
                 }
 
                 while (opModeIsActive()) {
-                    gamepadController.runTemp();
+                    //gamepadController.runTemp();
 
                     if(DEBUG_FLAG) {
                         printDebugMessages();

@@ -27,7 +27,7 @@ public class AbbyMode extends LinearOpMode {
         if(isStopRequested()) return;
 
         while (opModeIsActive()){
-            gamepadController.runTemp();
+            //gamepadController.runTemp();
         }
     }
 }
