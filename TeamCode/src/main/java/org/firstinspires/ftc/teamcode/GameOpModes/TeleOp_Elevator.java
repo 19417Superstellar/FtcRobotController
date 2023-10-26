@@ -44,7 +44,6 @@ public class TeleOp_Elevator extends LinearOpMode{
             ssClaw = new SSClaw(hardwareMap);
 
             /* Create Controllers */
-            LinearOpMode SSClaw = null;
             gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssHoldingPen, ssElevator, ssClaw, ssIntake, ssIndicators, this);
             waitForStart();
 
@@ -60,7 +59,7 @@ public class TeleOp_Elevator extends LinearOpMode{
                 }
 
                 while (opModeIsActive()) {
-                    //gamepadController.runTemp();
+                    gamepadController.runElevator();
 
                     if(DEBUG_FLAG) {
                         printDebugMessages();
