@@ -299,7 +299,6 @@ public class GamepadController {
         return isPressedLeftTrigger;
     }
 
-    // TEMPORARY for holding pen test. Delete Later
     public void runClaw() {
         if (gp2GetLeftBumperPress()) {
             if (claw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
