@@ -28,11 +28,11 @@ public class SSTeleOp extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
-    public SSHoldingPen holdingPen;
-    public SSIndicators indicators;
-    public SSClaw claw;
-    public SSIntake intake;
-    public SSElevator elevator;
+    public SSHoldingPen ssHoldingPen;
+    public SSIndicators ssIndicators;
+    public SSClaw ssClaw;
+    public SSIntake ssIntake;
+    public SSElevator ssElevator;
 
     //TODO_SS
 
@@ -47,17 +47,22 @@ public class SSTeleOp extends LinearOpMode {
         driveTrain = new DriveTrain(hardwareMap);
 
         //TODO_SS
+        ssHoldingPen = new SSHoldingPen(hardwareMap);
+        ssIndicators = new SSIndicators(hardwareMap);
+        ssClaw = new SSClaw(hardwareMap);
+        ssIntake = new SSIntake(hardwareMap);
+        ssElevator = new SSElevator(hardwareMap);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, holdingPen, elevator, claw, intake, indicators, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssHoldingPen, ssElevator, ssClaw, ssIntake, ssIndicators, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
-       /* if (GameField.poseSetInAutonomous) {
+        if (GameField.poseSetInAutonomous) {
             driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
                 driveTrain.getLocalizer().setPoseEstimate(startPose);
-        }*/
+        }
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -95,16 +100,21 @@ public class SSTeleOp extends LinearOpMode {
         telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
         telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
-       // telemetry.addData("GameField.poseSetInAutonomous :", GameField.poseSetInAutonomous);
-       // telemetry.addData("GameField.currentPose :", GameField.currentPose);
+        telemetry.addData("GameField.poseSetInAutonomous :", GameField.poseSetInAutonomous);
+        telemetry.addData("GameField.currentPose :", GameField.currentPose);
         telemetry.addData("startPose :", startPose);
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
 
 
         //add for all subsystems
+        telemetry.addData("grip_position",ssClaw.getGripServoState());
+        telemetry.addData("grip_position_value_left",ssClaw.gripServoState.getPosition());
+        telemetry.addData("grip_position_value_right",ssClaw.wristServoState.getPosition());
+
+
 
         telemetry.update();
     }

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -42,7 +41,7 @@ public class SSIntake {
     }
     public SSINTAKE_BUTTON_STATE SSIntakeButtonState;
 
-    public SSIntake(HardwareMap hardwareMap, LinearOpMode opmode) {
+    public SSIntake(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
         initSSIntake();
     }

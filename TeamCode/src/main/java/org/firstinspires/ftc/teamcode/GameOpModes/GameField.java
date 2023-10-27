@@ -15,8 +15,10 @@ public class GameField {
     // Can be any x/y coordinate of your choosing
     public static final Vector2d ORIGIN = new Vector2d(0,0);
     public static final Pose2d ORIGINPOSE = new Pose2d(0,0,Math.toRadians(0));
+    public static boolean poseSetInAutonomous;
+    public static Pose2d currentPose;
 
-   // Define and declare Playing Alliance
+    // Define and declare Playing Alliance
     public enum PLAYING_ALLIANCE{
         RED_ALLIANCE,
         BLUE_ALLIANCE,

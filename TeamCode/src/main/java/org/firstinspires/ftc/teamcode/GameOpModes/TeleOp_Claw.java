@@ -33,8 +33,9 @@ public class TeleOp_Claw extends LinearOpMode {
     public SSClaw ssClaw;
     public SSElevator ssElevator;
     public SSIndicators ssIndicators;
-    public SSIntake ssIntake;
     public SSHoldingPen ssHoldingPen;
+    public SSIntake ssIntake;
+
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
@@ -53,15 +54,15 @@ public class TeleOp_Claw extends LinearOpMode {
         ssIntake = new SSIntake(hardwareMap, this);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssHoldingPen, ssIndicators, ssIntake, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
-        /*if (GameField.poseSetInAutonomous) {
+        if (GameField.poseSetInAutonomous) {
             driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
                 driveTrain.getLocalizer().setPoseEstimate(startPose);
-        }*/
+        }
 
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
@@ -69,7 +70,7 @@ public class TeleOp_Claw extends LinearOpMode {
         /* If Stop is pressed, exit OpMode */
         if (isStopRequested()) return;
 
-        double leftServoPosition = 0.1, rightServoPosition = 0.9;
+        double servoPosition = 0.1;
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
@@ -80,38 +81,28 @@ public class TeleOp_Claw extends LinearOpMode {
 
             while (opModeIsActive()) {
                 gamepadController.runClaw();
-                /*if (gamepadController.gp1GetButtonXPress()) {
+                if (gamepadController.gp1GetButtonXPress()) {
                     if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
-                        //ssClaw.setGripClose();
-                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_OPEN_POSITION_RIGHT);
-                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_OPEN_POSITION_LEFT);
+                        ssClaw.setGripClose();
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_OPEN_POSITION);
                         ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_OPEN;
                     } else {
-                        //ssClaw.setGripOpen();
-                        ssClaw.gripServoRight.setPosition(SSClaw.GRIP_CLOSE_POSITION_RIGHT);
-                        //ssClaw.gripServoLeft.setPosition(SSClaw.GRIP_CLOSE_POSITION_LEFT);
+                        ssClaw.setGripOpen();
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
                         ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE;
                     }
-                }*/
+                }
 
                 if (gamepadController.gp1GetDpad_downPress()){
-                    if (leftServoPosition >0) leftServoPosition -=0.01;
+                    if (servoPosition >0) servoPosition -=0.01;
                 }
                 if (gamepadController.gp1GetDpad_upPress()) {
-                    if (leftServoPosition <1.0) leftServoPosition +=0.01;
+                    if (servoPosition <1.0) servoPosition +=0.01;
                 }
 
-                ssClaw.gripServoLeft.setPosition(leftServoPosition);
+                ssClaw.gripServo.setPosition(servoPosition);
 
-
-                if (gamepadController.gp2GetDpad_downPress()){
-                    if (rightServoPosition >0) rightServoPosition -=0.01;
-                }
-                if (gamepadController.gp2GetDpad_upPress()) {
-                    if (rightServoPosition <1.0) rightServoPosition +=0.01;
-                }
-
-                ssClaw.gripServoRight.setPosition(rightServoPosition);
 
 
                 if(DEBUG_FLAG) {
@@ -122,7 +113,7 @@ public class TeleOp_Claw extends LinearOpMode {
             }
 
         }
-       // GameField.poseSetInAutonomous = false;
+        GameField.poseSetInAutonomous = false;
     }
 
     /**
@@ -141,11 +132,12 @@ public class TeleOp_Claw extends LinearOpMode {
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
         //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
-        telemetry.addData("grip_position",ssClaw.getGripServoState());
-        telemetry.addData("grip_position_value_left",ssClaw.gripServoLeft.getPosition());
-        telemetry.addData("grip_position_value_right",ssClaw.gripServoRight.getPosition());
 
         //add for all subsytems
+        telemetry.addData("grip_position",ssClaw.getGripServoState());
+        telemetry.addData("grip_position_value_left",ssClaw.gripServo.getPosition());
+        telemetry.addData("wrist_position_value_left",ssClaw.wristServo.getPosition());
+
 
         telemetry.update();
     }
