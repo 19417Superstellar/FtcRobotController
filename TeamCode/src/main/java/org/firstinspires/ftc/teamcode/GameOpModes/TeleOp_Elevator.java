@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIntake;
 
 @TeleOp(name = "TeleOp_Elevator", group = "00-TeleOp")
 public class TeleOp_Elevator extends LinearOpMode{
@@ -21,6 +23,11 @@ public class TeleOp_Elevator extends LinearOpMode{
         //TODO_SS
         public SSElevator ssElevator;
         public SSClaw ssClaw;
+        public SSHoldingPen ssHoldingPen;
+        public SSIntake ssIntake;
+        public SSIndicators ssIndicators;
+
+
 
         //public Vuforia Vuforia1;
         public Pose2d startPose = GameField.ORIGINPOSE;
@@ -37,8 +44,7 @@ public class TeleOp_Elevator extends LinearOpMode{
             ssClaw = new SSClaw(hardwareMap);
 
             /* Create Controllers */
-            LinearOpMode SSClaw = null;
-            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, SSClaw, SSElevator, this);
+            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssHoldingPen, ssElevator, ssClaw, ssIntake, ssIndicators, this);
             waitForStart();
 
             /* If Stop is pressed, exit OpMode */
@@ -53,7 +59,7 @@ public class TeleOp_Elevator extends LinearOpMode{
                 }
 
                 while (opModeIsActive()) {
-                    //gamepadController.runTemp();
+                    gamepadController.runElevator();
 
                     if(DEBUG_FLAG) {
                         printDebugMessages();

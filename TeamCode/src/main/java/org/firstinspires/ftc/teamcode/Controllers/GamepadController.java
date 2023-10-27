@@ -299,7 +299,6 @@ public class GamepadController {
         return isPressedLeftTrigger;
     }
 
-    // TEMPORARY for holding pen test. Delete Later
     public void runClaw() {
         if (gp2GetLeftBumperPress()) {
             if (claw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
@@ -307,6 +306,34 @@ public class GamepadController {
             } else {
                 claw.setGripOpen();
             }
+        }
+    }
+
+    public void runElevator() {
+        if(gp2GetButtonBPress()){
+            if (elevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_MID){
+                elevator.moveElevatorLevelMid();
+            }
+        }
+
+        if(gp2GetButtonXPress()){
+            if (elevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW){
+                elevator.initializeElevatorToLowPosition();
+            }
+        }
+
+        if(gp2GetButtonYPress()){
+            if (elevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH){
+                elevator.moveElevatorLevelHigh();
+            }
+        }
+
+        if(gp2GetDpad_upPress()){
+            elevator.moveSSElevatorSlightlyUp();
+        }
+
+        if(gp2GetDpad_upPress()){
+            elevator.moveSSElevatorSlightlyDown();
         }
     }
 
