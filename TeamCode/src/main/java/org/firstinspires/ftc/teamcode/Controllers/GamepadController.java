@@ -10,7 +10,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIntake;
 
 
 /**
@@ -57,6 +61,10 @@ public class GamepadController {
     public Gamepad  ssGamepad1,  ssGamepad2;
     public DriveTrain driveTrain;
     public SSHoldingPen holdingPen;
+    public SSClaw claw;
+    public SSElevator elevator;
+    public SSIndicators indicators;
+    public SSIntake intake;
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
@@ -65,10 +73,18 @@ public class GamepadController {
     public GamepadController(Gamepad ssGamepad1,
                              Gamepad  ssGamepad2,
                              DriveTrain driveTrain,
+                             SSIntake intake,
+                             SSClaw claw,
+                             SSElevator elevator,
+                             SSIndicators indicators,
                              LinearOpMode opMode) {
         this.ssGamepad1 =  ssGamepad1;
         this.ssGamepad2 =  ssGamepad2;
         this.driveTrain = driveTrain;
+        this.claw = claw;
+        this.elevator = elevator;
+        this.intake = intake;
+        this.indicators = indicators;
     }
 
     /**
