@@ -1,77 +1,76 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.GameOpModes.AbbyMode;
 
 public class SSHoldingPen {
 
-    public DcMotorEx holdingPenMotor;
-    public TouchSensor touchSensor;
+    public Servo holdingPenServo;
+    public DistanceSensor clawSensor;
+    public DistanceSensor penSensor;
 
-    public enum SSHOLDING_PEN_MOTOR_STATE {
+    public enum SSHOLDING_PEN_SERVO_STATE {
         RUNNING,
         STOPPED,
         REVERSING
     }
 
-    public enum SSHOLDING_PEN_BUTTON_STATE {
-        ON,
-        OFF
-    }
 
-    public SSHOLDING_PEN_MOTOR_STATE SSHoldingPenMotorState = SSHOLDING_PEN_MOTOR_STATE.STOPPED;
+    public SSHOLDING_PEN_SERVO_STATE SSHoldingPenServoState = SSHOLDING_PEN_SERVO_STATE.STOPPED;
 
-    public double SSHoldingPenMotorPower = 0.95;
+    public double SSHoldingPenServoPower = 0.95;
 
-    public SSHOLDING_PEN_MOTOR_STATE SSHoldingPenButtonState;
-
-    public SSHoldingPen(HardwareMap hardwareMap, AbbyMode abbyMode){
-        holdingPenMotor = hardwareMap.get(DcMotorEx.class, "holding_pen_motor");
-        //touchSensor = hardwareMap.get(TouchSensor.class, "holding_pen_sensor");
+    public SSHoldingPen(HardwareMap hardwareMap, LinearOpMode opMode){
+        holdingPenServo = hardwareMap.get(Servo.class, "holding_pen_servo");
         initSSHoldingPen();
     }
 
     public void initSSHoldingPen(){
-
+        stopSSHoldingPenServo();
     }
 
-    public void startForwardSSHoldingPenMotor() {
-        if (SSHoldingPenMotorState != SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.RUNNING) {
-            runSSHoldingPenMotor(DcMotorEx.Direction.FORWARD, SSHoldingPenMotorPower);
-            SSHoldingPenMotorState = SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.RUNNING;
+    public void startForwardSSHoldingPenServo() {
+        if (SSHoldingPenServoState != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.RUNNING) {
+            runSSHoldingPenServo(Servo.Direction.FORWARD, SSHoldingPenServoPower);
+            SSHoldingPenServoState = SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.RUNNING;
         }
     }
 
-    public void stopSSHoldingPenMotor() {
-        if(SSHoldingPenMotorState != SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.STOPPED) {
-            runSSHoldingPenMotor(DcMotor.Direction.FORWARD, 0.0);
-            SSHoldingPenMotorState = SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.STOPPED;
+    public void stopSSHoldingPenServo() {
+        if(SSHoldingPenServoState != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.STOPPED) {
+            runSSHoldingPenServo(Servo.Direction.FORWARD, 0.0);
+            SSHoldingPenServoState = SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.STOPPED;
         }
     }
 
-    public void startReverseSSIntakeMotor() {
-        if(SSHoldingPenMotorState != SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.REVERSING) {
-            runSSHoldingPenMotor(DcMotor.Direction.REVERSE, SSHoldingPenMotorPower);
-            SSHoldingPenMotorState = SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE.REVERSING;
+    public void startReverseSSHoldingPenServo() {
+        if(SSHoldingPenServoState != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.REVERSING) {
+            runSSHoldingPenServo(Servo.Direction.REVERSE, SSHoldingPenServoPower);
+            SSHoldingPenServoState = SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.REVERSING;
 
         }
     }
 
-    public void runSSHoldingPenMotor(DcMotorEx.Direction direction, double power){
-        holdingPenMotor.setDirection(direction);
-        holdingPenMotor.setPower(power);
+    public void runSSHoldingPenServo(Servo.Direction direction, double power){
+        holdingPenServo.setDirection(direction);
+        holdingPenServo.setPosition(0.5);
     }
 
-    public SSHoldingPen.SSHOLDING_PEN_MOTOR_STATE getSSIntakeMotorState() {
-        return SSHoldingPenMotorState;
+    public SSHoldingPen.SSHOLDING_PEN_SERVO_STATE getSSIntakeMotorState() {
+        return SSHoldingPenServoState;
     }
 
-    public boolean isPixelCollected() {
-        return touchSensor.isPressed();
+    public boolean isClawPixelCollected() {
+        return clawSensor.getDistance(DistanceUnit.CM) < 0.3;
+    }
+
+    public boolean isPenPixelCollected() {
+        return penSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
 
 

@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Light;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class SSIndicators {
     public RevBlinkinLedDriver light;
+
+
 
     public enum SSINDICATORS_LIGHT_COLOR {
         PURPLE,
         GREEN,
         YELLOW,
+        RED,
         WHITE
     }
 
@@ -37,6 +37,13 @@ public class SSIndicators {
         turnLightOn();
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.GREEN;
+
+    }
+
+    public void setLightToRed() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.RED;
 
     }
 
@@ -74,6 +81,7 @@ public class SSIndicators {
     public String getLightColor(){
         return SSIndicatorLightColor.name();
     }
+
 
 
 }

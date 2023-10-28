@@ -21,13 +21,13 @@ public class AbbyMode extends LinearOpMode {
 
         holdingPen = new SSHoldingPen(hardwareMap, this);
 
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this, holdingPen);
         waitForStart();
 
         if(isStopRequested()) return;
 
         while (opModeIsActive()){
-            gamepadController.runTemp();
+            //gamepadController.runTemp();
         }
     }
 }

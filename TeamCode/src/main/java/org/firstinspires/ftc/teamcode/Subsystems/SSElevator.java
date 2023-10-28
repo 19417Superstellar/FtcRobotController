@@ -14,7 +14,8 @@ public class SSElevator {
 
     public enum ELEVATOR_POSITION {
         LEVEL_LOW,
-        LEVEL_HIGH,
+        LEVEL_MID,
+        LEVEL_HIGH
     }
 
 
@@ -22,6 +23,7 @@ public class SSElevator {
     public static double ENCODER_VALUE = 145.1; // The motor being used is 1150 Rpm motor with step of 145.1
 
     public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0; // 2023-12-21 calibrated value
+    public static int ELEVATOR_LEVEL_MID_POSITION_COUNT = 1450;
     public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2900;  // 2023-12-21 calibrated value
 
     public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 300;
@@ -164,6 +166,18 @@ public class SSElevator {
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_HIGH;
+    }
+
+    public void moveElevatorLevelMid() {
+        turnElevatorBrakeModeOn();
+
+        elevatorPositionCount = ELEVATOR_LEVEL_MID_POSITION_COUNT;
+        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+        elevatorMotorRight.setTargetPosition(elevatorPositionCount);
+        leftGetTargetPosition = elevatorMotorRight.getTargetPosition();
+        motorPowerToRun = POWER_LEVEL_RUN;
+        runElevatorToLevelState = true;
+        elevatorPosition = ELEVATOR_POSITION.LEVEL_MID;
     }
 
     /**

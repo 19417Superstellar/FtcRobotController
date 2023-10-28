@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * Definition of HzIntake Class <BR>
+ * Definition of SSIntake Class <BR>
  *
  * HzIntake consists of system provided intake controls and adds functionality to the selection made on intake. <BR>
  *
@@ -33,7 +33,8 @@ public class SSIntake {
     public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
 
     public double SSIntakeMotorPower = 0.95;//0.9;
-
+    // set intake to eject once distance activated
+    //
     public enum SSINTAKE_BUTTON_STATE {
         ON,
         OFF
