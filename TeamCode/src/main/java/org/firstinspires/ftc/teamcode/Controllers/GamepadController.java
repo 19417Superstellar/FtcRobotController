@@ -5,6 +5,7 @@ package org.firstinspires.ftc.teamcode.Controllers;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -620,7 +621,17 @@ public class GamepadController {
         return  ssGamepad2.start;
     }
 
-}
+
+    /*public void runIntake() {
+        if (gp2GetDpad_upPress()) {
+
+            if ((SSIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
+                SSIntake.startForwardSSIntakeMotor();
+            }
+
+        }
+    }
+*/
    // For now, to automate, need state machine
     public void runClaw() {
         if (gp2GetRightBumperPress()) {
