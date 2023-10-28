@@ -91,7 +91,13 @@ public class GamepadController {
      *runByGamepad is the main controller function that runs each subsystem controller based on states
      */
     public void runByGamepadControl(){
-       runDriveControl_byRRDriveModes();
+
+        runDriveControl_byRRDriveModes();
+        runElevator();
+        runClaw();
+        runIntake();
+        runHoldingPen();
+        runIndicators();
     }
 
     /**
@@ -614,4 +620,15 @@ public class GamepadController {
         return  ssGamepad2.start;
     }
 
+}
+   // For now, to automate, need state machine
+    public void runClaw() {
+        if (gp2GetRightBumperPress()) {
+            if (claw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN ) {
+                claw.setGripClose();
+            } else {
+                claw.setGripOpen();
+            }
+        }
+    }
 }
