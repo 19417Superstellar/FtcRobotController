@@ -621,6 +621,29 @@ public class GamepadController {
         return  ssGamepad2.start;
     }
 
+    public void runElevator() {
+
+        if (gp2GetStart() && gp2GetDpad_downPress()) {
+            // If start + d-pad down, then reset elevator to
+            // all the way down
+            //    if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
+            //        ssElevator.moveElevatorLevelLow();
+            //    }
+            SSElevator.bringElevatorAllTheWayDown();
+        }
+        else if ( gp2GetDpad_downPress()) {
+            SSElevator.moveSSElevatorSlightlyDown();
+        }
+
+        if (gp2GetDpad_upPress()) {
+            SSElevator.moveSSElevatorSlightlyUp();
+//            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
+//                ssElevator.moveElevatorLevelHigh();
+//            }
+        }
+
+
+
 
     /*public void runIntake() {
         if (gp2GetDpad_upPress()) {
@@ -631,6 +654,9 @@ public class GamepadController {
 
         }
     }
+
+
+
 */
    // For now, to automate, need state machine
     public void runClaw() {
