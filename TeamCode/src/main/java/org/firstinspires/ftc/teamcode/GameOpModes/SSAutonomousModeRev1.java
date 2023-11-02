@@ -387,7 +387,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         telemetry.addData("Robot ready to start","");
 
         if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-            telemetry.addLine("Running Hazmat Autonomous Mode");
+            telemetry.addLine("Running Superstellar Autonomous Mode");
             telemetry.addData("Game Timer : ", gameTimer.time());
             //telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             //telemetry.addData("GameField.currentPose : ", GameField.currentPose);
