@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Controllers;
+package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -51,16 +51,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  *
  */
 
-public class GamepadController {
+public class TestGamepadController {
 
     //Create object reference to objects to systems passed from TeleOp
     public Gamepad hzGamepad1, hzGamepad2;
     public DriveTrain driveTrain;
-    public SSIntake ssIntake;
-    public SSElevator ssElevator;
-    public SSHoldingPen ssHoldingPen;
-    public SSClaw ssClaw;
-    public SSRocketLauncher ssRocketLauncher;
     public Telemetry telemetry;
 
 
@@ -68,24 +63,14 @@ public class GamepadController {
      * Constructor for HzGamepad1 and HzGamepad2 class that extends gamepad.
      * Assign the gamepad1 and gamepad2 given in OpMode to the gamepad used here.
      */
-    public GamepadController(Gamepad hzGamepad1,
-                             Gamepad hzGamepad2,
-                             DriveTrain driveTrain,
-                             SSIntake ssIntake,
-                             SSElevator ssElevator,
-                             SSHoldingPen ssHoldingPen,
-                             SSClaw ssClaw,
-                             SSRocketLauncher ssRocketLauncher,
-                             Telemetry telemetry
+    public TestGamepadController(Gamepad hzGamepad1,
+                                 Gamepad hzGamepad2,
+                                 DriveTrain driveTrain,
+                                 Telemetry telemetry
                             ) {
         this.hzGamepad1 = hzGamepad1;
         this.hzGamepad2 = hzGamepad2;
         this.driveTrain = driveTrain;
-        this.ssIntake = ssIntake;
-        this.ssElevator = ssElevator;
-        this.ssHoldingPen = ssHoldingPen;
-        this.ssClaw = ssClaw;
-        this.ssRocketLauncher = ssRocketLauncher;
         this.telemetry = telemetry;
     }
 
@@ -96,12 +81,7 @@ public class GamepadController {
      */
     public void runByGamepadControl(){
         runDriveControl_byRRDriveModes();
-        runSSIntake();
-        runSSElevator();
-        runSSHoldingPen();
-        runSSClaw();
-        runSSRocketLauncher();
-      }
+    }
 
     /**
      * runByGamepadRRDriveModes sets modes for Road Runner such as ROBOT and FIELD Centric Modes. <BR>
@@ -142,16 +122,6 @@ public class GamepadController {
 
         driveTrain.driveNormal();
     }
-
-    public void runSSIntake(){};
-
-    public void runSSElevator(){};
-
-    public void runSSHoldingPen(){};
-
-    public void runSSClaw(){};
-
-    public void runSSRocketLauncher(){};
 
 
     //*********** KEY PAD MODIFIERS BELOW ***********

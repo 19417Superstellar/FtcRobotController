@@ -21,7 +21,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  *     sets intake motor state to REVERSING <BR>
  */
 
-public class Lights {
+public class SSIndicators {
 
     public Telemetry telemetry;
     public RevBlinkinLedDriver blinkinLedDriver;
@@ -44,7 +44,7 @@ public class Lights {
     }
     public REV_BLINKIN_PATTERN currentRevBlinkinPattern;
 
-    public Lights(HardwareMap hardwareMap, Telemetry telemetry){
+    public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
         blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
         blinkinLedDriver.setPattern(patternDemo);

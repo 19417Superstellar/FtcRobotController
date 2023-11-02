@@ -42,7 +42,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.Lights;
+import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
+import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
+import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 
 /**
@@ -53,8 +58,13 @@ public class SSAutonomousMode extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
+    public SSIntake ssIntake;
+    public SSElevator ssElevator;
+    public SSHoldingPen ssHoldingPen;
+    public SSClaw ssClaw;
+    public SSRocketLauncher ssRocketLauncher;
+    public SSIndicators ssIndicators;
     public VisionTfod visionTfodFront;
-    public Lights lights;
 
     //Static Class for knowing system state
 
@@ -84,7 +94,7 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.update();
         //waitForStart();
 
-        lights.setPattern(Lights.REV_BLINKIN_PATTERN.DEMO);
+        ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEMO);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addData("Selected Starting Position", GameField.startPosition);
@@ -106,7 +116,7 @@ public class SSAutonomousMode extends LinearOpMode {
             gameTimer.reset();
             startTimer.reset();
             //Turn Lights Green
-            lights.setPattern(Lights.REV_BLINKIN_PATTERN.DEFAULT);
+            ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEFAULT);
 
             //Build parking trajectory based on last detected target by vision
             runAutonoumousMode();
@@ -340,19 +350,51 @@ public class SSAutonomousMode extends LinearOpMode {
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
         telemetry.addData("DriveTrain Initialized with Pose:",driveTrain.toStringPose2d(driveTrain.pose));
         telemetry.update();
+        /* Create Lights */
+        ssIntake = new SSIntake(hardwareMap, telemetry);
+        telemetry.addLine("ssIntake Initialized");
+        telemetry.update();
+
+        /* Create ssIntake */
+        ssIntake = new SSIntake(hardwareMap, telemetry);
+        telemetry.addLine("ssIntake Initialized");
+        telemetry.update();
+
+        /* Create ssElevator */
+        ssElevator = new SSElevator(hardwareMap, telemetry);
+        telemetry.addLine("ssElevator Initialized");
+        telemetry.update();
+
+        /* Create ssHoldingPen */
+        ssHoldingPen = new SSHoldingPen(hardwareMap, telemetry);
+        telemetry.addLine("ssHoldingPen Initialized");
+        telemetry.update();
+
+        /* Create ssClaw */
+        ssClaw = new SSClaw(hardwareMap, telemetry);
+        telemetry.addLine("ssClaw Initialized");
+        telemetry.update();
+
+        /* Create ssRocketLauncher */
+        ssRocketLauncher = new SSRocketLauncher(hardwareMap, telemetry);
+        telemetry.addLine("ssRocketLauncher Initialized");
+        telemetry.update();
+
+        /* Create ssIndicators */
+        ssIndicators = new SSIndicators(hardwareMap, telemetry);
+        telemetry.addLine("ssIndicators Initialized");
+        telemetry.update();
+
+
 
         /* Create Vision */
         visionTfodFront = new VisionTfod(hardwareMap, telemetry, "Webcam 1");
         telemetry.addLine("VisionTfod Initialized");
         telemetry.update();
 
-        /* Create Lights */
-        lights = new Lights(hardwareMap, telemetry);
-        telemetry.addLine("Lights Initialized");
-        telemetry.update();
-
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, telemetry);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
+                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
@@ -394,7 +436,7 @@ public class SSAutonomousMode extends LinearOpMode {
             //telemetry.addData("startPose : ", startPose);
 
             driveTrain.printDebugMessages();
-            lights.printDebugMessages();
+            ssIndicators.printDebugMessages();
         }
         telemetry.update();
     }

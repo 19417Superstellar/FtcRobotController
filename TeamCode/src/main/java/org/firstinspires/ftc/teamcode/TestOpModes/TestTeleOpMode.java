@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.GameOpModes;
+package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
+import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
@@ -24,16 +25,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  * This code defines the TeleOp mode is done by Hazmat Robot for Freight Frenzy<BR>
  *
  */
-@TeleOp(name = "SS TeleOp", group = "00-Teleop")
-public class SSTeleOpMode extends LinearOpMode {
+@TeleOp(name = "SS Test TeleOp", group = "Test")
+public class TestTeleOpMode extends LinearOpMode {
 
-    public GamepadController gamepadController;
+    public TestGamepadController gamepadController;
     public DriveTrain driveTrain;
-    public SSIntake ssIntake;
-    public SSElevator ssElevator;
-    public SSHoldingPen ssHoldingPen;
-    public SSClaw ssClaw;
-    public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
 
     //Static Class for knowing system state
@@ -99,39 +95,13 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.addData("DriveTrain Initialized with Pose:",driveTrain.toStringPose2d(driveTrain.pose));
         telemetry.update();
 
-        /* Create ssIntake */
-        ssIntake = new SSIntake(hardwareMap, telemetry);
-        telemetry.addLine("ssIntake Initialized");
-        telemetry.update();
-
-        /* Create ssElevator */
-        ssElevator = new SSElevator(hardwareMap, telemetry);
-        telemetry.addLine("ssElevator Initialized");
-        telemetry.update();
-
-        /* Create ssHoldingPen */
-        ssHoldingPen = new SSHoldingPen(hardwareMap, telemetry);
-        telemetry.addLine("ssHoldingPen Initialized");
-        telemetry.update();
-
-        /* Create ssClaw */
-        ssClaw = new SSClaw(hardwareMap, telemetry);
-        telemetry.addLine("ssClaw Initialized");
-        telemetry.update();
-
-        /* Create ssRocketLauncher */
-        ssRocketLauncher = new SSRocketLauncher(hardwareMap, telemetry);
-        telemetry.addLine("ssRocketLauncher Initialized");
-        telemetry.update();
-
-        /* Create ssIndicators */
+        /* Create Lights */
         ssIndicators = new SSIndicators(hardwareMap, telemetry);
-        telemetry.addLine("ssIndicators Initialized");
+        telemetry.addLine("Lights Initialized");
         telemetry.update();
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry);
+        gamepadController = new TestGamepadController(gamepad1, gamepad2, driveTrain, telemetry);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
@@ -173,12 +143,6 @@ public class SSTeleOpMode extends LinearOpMode {
             //telemetry.addData("startPose : ", startPose);
 
             driveTrain.printDebugMessages();
-            ssIntake.printDebugMessages();
-            ssElevator.printDebugMessages();
-            ssHoldingPen.printDebugMessages();
-            ssClaw.printDebugMessages();
-            ssRocketLauncher.printDebugMessages();
-            //visionAprilTagFront.printdebugMessages();
             ssIndicators.printDebugMessages();
         }
         telemetry.update();
