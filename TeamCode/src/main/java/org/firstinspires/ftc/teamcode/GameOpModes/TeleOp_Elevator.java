@@ -40,11 +40,11 @@ public class TeleOp_Elevator extends LinearOpMode{
             driveTrain = new DriveTrain(hardwareMap);
 
             //TODO_SS
-            ssElevator = new SSElevator(hardwareMap, this);
+            ssElevator = new SSElevator(hardwareMap);
             ssClaw = new SSClaw(hardwareMap);
 
             /* Create Controllers */
-            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssHoldingPen, ssElevator, ssClaw, ssIntake, ssIndicators, this);
+            gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssClaw, ssElevator, ssHoldingPen, ssIndicators, this);
             waitForStart();
 
             /* If Stop is pressed, exit OpMode */

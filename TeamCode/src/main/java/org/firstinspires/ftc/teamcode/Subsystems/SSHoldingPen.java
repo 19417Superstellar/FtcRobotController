@@ -25,7 +25,7 @@ public class SSHoldingPen {
 
     public double SSHoldingPenServoPower = 0.95;
 
-    public SSHoldingPen(HardwareMap hardwareMap, LinearOpMode opMode){
+    public SSHoldingPen(HardwareMap hardwareMap){
         holdingPenServo = hardwareMap.get(Servo.class, "holding_pen_servo");
         initSSHoldingPen();
     }

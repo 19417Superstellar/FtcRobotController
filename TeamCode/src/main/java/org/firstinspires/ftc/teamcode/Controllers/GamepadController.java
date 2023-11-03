@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.Subsystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.Subsystems.SSIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.SSRocketLauncher;
 
 
 /**
@@ -66,6 +67,7 @@ public class GamepadController {
     public SSElevator elevator;
     public SSIndicators indicators;
     public SSIntake intake;
+    public SSRocketLauncher launcher;
 
     /**
      * Constructor for  ssGamepad1 class that extends gamepad.
@@ -77,7 +79,9 @@ public class GamepadController {
                              SSIntake intake,
                              SSClaw claw,
                              SSElevator elevator,
+                             SSHoldingPen holdingPen,
                              SSIndicators indicators,
+                             SSRocketLauncher launcher,
                              LinearOpMode opMode) {
         this.ssGamepad1 =  ssGamepad1;
         this.ssGamepad2 =  ssGamepad2;
@@ -85,6 +89,8 @@ public class GamepadController {
         this.claw = claw;
         this.elevator = elevator;
         this.intake = intake;
+        this.holdingPen = holdingPen;
+        this.launcher = launcher;
         this.indicators = indicators;
     }
 
@@ -99,6 +105,7 @@ public class GamepadController {
         runIntake();
         runHoldingPen();
         runIndicators();
+        runLauncher();
     }
 
     /**
@@ -300,16 +307,6 @@ public class GamepadController {
         return isPressedLeftTrigger;
     }
 
-    // TEMPORARY for holding pen test. Delete Later
-    public void runTemp(){
-        if(gp1GetDpad_downPress()) {
-            holdingPen.startReverseSSIntakeMotor();
-        }
-
-        if (gp1GetDpad_upPress()){
-            holdingPen.startForwardSSHoldingPenMotor();
-        }
-    }
 
     /**
      * Methods to get the value of gamepad Left Bumper
@@ -621,44 +618,6 @@ public class GamepadController {
         return  ssGamepad2.start;
     }
 
-    public void runElevator() {
-
-        if (gp2GetStart() && gp2GetDpad_downPress()) {
-            // If start + d-pad down, then reset elevator to
-            // all the way down
-            //    if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_LOW) {
-            //        ssElevator.moveElevatorLevelLow();
-            //    }
-            SSElevator.bringElevatorAllTheWayDown();
-        }
-        else if ( gp2GetDpad_downPress()) {
-            SSElevator.moveSSElevatorSlightlyDown();
-        }
-
-        if (gp2GetDpad_upPress()) {
-            SSElevator.moveSSElevatorSlightlyUp();
-//            if (ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_HIGH) {
-//                ssElevator.moveElevatorLevelHigh();
-//            }
-        }
-
-
-
-
-    /*public void runIntake() {
-        if (gp2GetDpad_upPress()) {
-
-            if ((SSIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
-                SSIntake.startForwardSSIntakeMotor();
-            }
-
-        }
-    }
-
-
-
-*/
-   // For now, to automate, need state machine
     public void runClaw() {
         if (gp2GetRightBumperPress()) {
             if (claw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN ) {
@@ -666,6 +625,126 @@ public class GamepadController {
             } else {
                 claw.setGripOpen();
             }
+        }
+
+        if (gp2GetLeftBumperPress()) {
+            if (claw.getWristServoState() == SSClaw.WRIST_SERVO_STATE.WRIST_DROP) {
+                claw.setWristForward();
+            } else {
+                claw.setWristBack();
+            }
+        }
+    }
+
+    public void runIntake() {
+        if (gp1GetDpad_upPress()) {
+            if ((intake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
+                intake.startForwardSSIntakeMotor();
+            }
+        }
+
+        if (gp1GetDpad_downPress()) {
+            if ((intake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
+                intake.startReverseSSIntakeMotor();
+            }
+        }
+
+        if (!gp1GetDpad_downPress() && !gp1GetDpad_upPress()) {
+            intake.stopSSIntakeMotor();
+        }
+    }
+
+    public void runLauncher() {
+        launcher.initLauncher();
+        if(gp1GetLeftBumperPress()) {
+            launcher.setLauncherOpen();
+        }
+    }
+
+    public void runElevator() {
+
+        if ( gp2GetDpad_downPress()) {
+            elevator.moveSSElevatorSlightlyDown();
+        }
+
+        if (gp2GetDpad_upPress()) {
+            elevator.moveSSElevatorSlightlyUp();
+        }
+
+        if (gp2GetButtonBPress()) {
+            elevator.moveElevatorLevelMid();
+        }
+
+        if (gp2GetButtonXPress()) {
+            elevator.bringElevatorAllTheWayDown();
+        }
+
+        if (gp2GetButtonYPress()) {
+            elevator.moveElevatorLevelHigh();
+        }
+
+
+    /*
+        if (gamepadController.gp1GetButtonXPress()) {
+                    if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
+                        ssClaw.setGripClose();
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_OPEN_POSITION);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_OPEN;
+                    } else {
+                        ssClaw.setGripOpen();
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
+                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
+                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE;
+                    }
+                }
+
+                if (gamepadController.gp1GetDpad_downPress()){
+                    if (servoPosition >0) servoPosition -=0.01;
+                }
+                if (gamepadController.gp1GetDpad_upPress()) {
+                    if (servoPosition <1.0) servoPosition +=0.01;
+                }
+
+                ssClaw.gripServo.setPosition(servoPosition);
+
+
+
+                if(DEBUG_FLAG) {
+                    printDebugMessages();
+                    telemetry.update();
+                }
+
+            }
+    */
+    }
+
+    public void runHoldingPen() {
+        if (gp2GetLeftTriggerPress()) {
+            holdingPen.startReverseSSHoldingPenServo();
+        }
+
+        if (gp2GetRightTriggerPress()) {
+            holdingPen.startForwardSSHoldingPenServo();
+        }
+
+
+    }
+
+    public void runIndicators() {
+        if (gp1GetButtonAPress()) {
+            indicators.setLightToGreen();
+        }
+
+        if (gp1GetButtonBPress()) {
+            indicators.setLightToYellow();
+        }
+
+        if (gp1GetButtonXPress()) {
+            indicators.setLightToPurple();
+        }
+
+        if (gp1GetButtonYPress()) {
+            indicators.setLightToWhite();
         }
     }
 }

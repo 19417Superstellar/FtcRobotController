@@ -54,7 +54,7 @@ public class SSTeleOp extends LinearOpMode {
         ssElevator = new SSElevator(hardwareMap);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssHoldingPen, ssElevator, ssClaw, ssIntake, ssIndicators, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssClaw, ssElevator, ssHoldingPen, ssIndicators, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
@@ -106,13 +106,13 @@ public class SSTeleOp extends LinearOpMode {
 
         telemetry.addData("Drive Mode :", driveTrain.driveMode);
         telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-        telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
+        //telemetry.addData("Battery Power :", driveTrain.getBatteryVoltage(hardwareMap));
 
 
         //add for all subsystems
         telemetry.addData("grip_position",ssClaw.getGripServoState());
-        telemetry.addData("grip_position_value_left",ssClaw.gripServoState.getPosition());
-        telemetry.addData("grip_position_value_right",ssClaw.wristServoState.getPosition());
+        telemetry.addData("grip_position_value_left",ssClaw.getGripServoState());
+        telemetry.addData("grip_position_value_right",ssClaw.getWristServoState());
 
 
 

@@ -5,23 +5,31 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.Subsystems.SSIntake;
 
 @TeleOp(name = "TeleOp_HoldingPenTest", group = "00-TeleOp")
 public class AbbyMode extends LinearOpMode {
 
     public GamepadController gamepadController;
 
-    public SSHoldingPen holdingPen;
+    public SSHoldingPen ssHoldingPen;
+    public SSElevator ssElevator;
+    public SSClaw ssClaw;
+    public SSIndicators ssIndicators;
+    public SSIntake ssIntake;
 
     public DriveTrain driveTrain;
 
     public void runOpMode() throws InterruptedException {
         driveTrain = new DriveTrain(hardwareMap);
 
-        holdingPen = new SSHoldingPen(hardwareMap, this);
+        ssHoldingPen = new SSHoldingPen(hardwareMap);
 
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, this, holdingPen);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssClaw, ssElevator, ssHoldingPen, ssIndicators, this);
         waitForStart();
 
         if(isStopRequested()) return;

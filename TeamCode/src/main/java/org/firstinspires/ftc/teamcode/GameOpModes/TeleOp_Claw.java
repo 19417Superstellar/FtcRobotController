@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.Subsystems.SSArm;
 import org.firstinspires.ftc.teamcode.Subsystems.SSClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.SSElevator;
 import org.firstinspires.ftc.teamcode.Subsystems.SSHoldingPen;
@@ -48,13 +47,13 @@ public class TeleOp_Claw extends LinearOpMode {
 
         //TODO_SS
         ssClaw = new SSClaw(hardwareMap);
-        ssElevator = new SSElevator(hardwareMap, this);
-        ssIndicators = new SSIndicators(hardwareMap, this);
-        ssHoldingPen = new SSHoldingPen(hardwareMap, this);
-        ssIntake = new SSIntake(hardwareMap, this);
+        ssElevator = new SSElevator(hardwareMap);
+        ssIndicators = new SSIndicators(hardwareMap);
+        ssHoldingPen = new SSHoldingPen(hardwareMap);
+        ssIntake = new SSIntake(hardwareMap);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssClaw, ssElevator, ssHoldingPen, ssIndicators, ssIntake, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssClaw, ssElevator, ssHoldingPen, ssIndicators, this);
 
 
         //Get last position after Autonomous mode ended from static class set in Autonomous
@@ -81,37 +80,7 @@ public class TeleOp_Claw extends LinearOpMode {
 
             while (opModeIsActive()) {
                 gamepadController.runClaw();
-                if (gamepadController.gp1GetButtonXPress()) {
-                    if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN) {
-                        ssClaw.setGripClose();
-                        ssClaw.gripServo.setPosition(SSClaw.GRIP_OPEN_POSITION);
-                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_OPEN;
-                    } else {
-                        ssClaw.setGripOpen();
-                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
-                        ssClaw.gripServo.setPosition(SSClaw.GRIP_CLOSE_POSITION);
-                        ssClaw.gripServoState = SSClaw.GRIP_SERVO_STATE.GRIP_CLOSE;
-                    }
-                }
-
-                if (gamepadController.gp1GetDpad_downPress()){
-                    if (servoPosition >0) servoPosition -=0.01;
-                }
-                if (gamepadController.gp1GetDpad_upPress()) {
-                    if (servoPosition <1.0) servoPosition +=0.01;
-                }
-
-                ssClaw.gripServo.setPosition(servoPosition);
-
-
-
-                if(DEBUG_FLAG) {
-                    printDebugMessages();
-                    telemetry.update();
-                }
-
             }
-
         }
         GameField.poseSetInAutonomous = false;
     }

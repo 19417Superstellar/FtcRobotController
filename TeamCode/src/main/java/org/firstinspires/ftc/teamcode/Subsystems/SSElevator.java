@@ -41,13 +41,13 @@ public class SSElevator {
     public double motorPowerToRun = POWER_LEVEL_RUN;
 
     public boolean elevatorNeedsToGoDown = false;
-    private final LinearOpMode opMode;
+    //private final LinearOpMode opMode;
 
-    public SSElevator(HardwareMap hardwareMap, LinearOpMode opMode) {
+    public SSElevator(HardwareMap hardwareMap) {
         elevatorMotorLeft = hardwareMap.get(DcMotorEx.class, "elevator_motor_left");
         elevatorMotorRight = hardwareMap.get(DcMotorEx.class, "elevator_motor_right");
         touchSensor = hardwareMap.get(TouchSensor.class, "elevator_sensor");
-        this.opMode = opMode;
+        //this.opMode = opMode;
 
         initElevator();
     }
