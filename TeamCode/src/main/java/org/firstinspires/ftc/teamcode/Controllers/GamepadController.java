@@ -490,6 +490,8 @@ public class GamepadController {
         return hzGamepad2.a;
     }
 
+    public GamepadController(Gamepad gamepad1, Gamepad gamepad2, DriveTrain driveTrain, SSClaw ssClaw, SSElevator ssElevator) {
+    }
 
     /**
      * Method to track if Button Y was pressed
