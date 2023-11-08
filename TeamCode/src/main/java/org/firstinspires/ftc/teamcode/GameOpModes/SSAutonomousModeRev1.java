@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 
 /**
- * Hazmat Autonomous
+ * Superstellar Autonomous
  */
 @Autonomous(name = "SS Autonomous Mode Rev 1", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousModeRev1 extends LinearOpMode {
@@ -76,7 +76,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_AUTONOMOUS;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS;
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
@@ -94,7 +94,6 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         telemetry.update();
         //waitForStart();
 
-        ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEMO);
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addData("Selected Starting Position", GameField.startPosition);
@@ -115,8 +114,6 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         if (opModeIsActive() && !isStopRequested()) {
             gameTimer.reset();
             startTimer.reset();
-            //Turn Lights Green
-            ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEFAULT);
 
             //Build parking trajectory based on last detected target by vision
             runAutonoumousMode();
@@ -389,7 +386,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry);
+                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 

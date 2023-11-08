@@ -8,11 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
-import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -26,11 +24,15 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  *
  */
 @TeleOp(name = "SS Test TeleOp", group = "Test")
-public class TestTeleOpMode extends LinearOpMode {
+public class TeleOp_Claw extends LinearOpMode {
 
     public TestGamepadController gamepadController;
     public DriveTrain driveTrain;
     public SSIndicators ssIndicators;
+    public SSHoldingPen ssHoldingPen;
+    public SSRocketLauncher ssRocketLauncher;
+    public SSIntake ssIntake;
+    public SSClaw ssClaw;
 
     //Static Class for knowing system state
 

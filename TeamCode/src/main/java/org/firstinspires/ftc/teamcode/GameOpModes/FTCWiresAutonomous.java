@@ -52,8 +52,8 @@ import java.util.List;
 @Autonomous(name = "FTC Wires Autonomous Mode", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
 public class FTCWiresAutonomous extends LinearOpMode {
 
-    public static String TEAM_NAME = "EDIT TEAM NAME"; //TODO: Enter team Name
-    public static int TEAM_NUMBER = 0; //TODO: Enter team Number
+    public static String SUPERSTELLAR = "EDIT TEAM NAME"; //TODO: Enter team Name
+    public static int SUPERSTELLAR_19417 = 0; //TODO: Enter team Number
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -290,7 +290,7 @@ public class FTCWiresAutonomous extends LinearOpMode {
         //******select start pose*****
         while(!isStopRequested()){
             telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
-                    TEAM_NAME, " ", TEAM_NUMBER);
+                    SUPERSTELLAR, " ", SUPERSTELLAR_19417);
             telemetry.addData("---------------------------------------","");
             telemetry.addData("Select Starting Position using XYAB on Logitech (or ▢ΔOX on Playstayion) on gamepad 1:","");
             telemetry.addData("    Blue Left   ", "(X / ▢)");

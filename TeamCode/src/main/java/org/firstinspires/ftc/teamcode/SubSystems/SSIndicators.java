@@ -5,59 +5,96 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
- * Definition of Subsystem Class <BR>
+ * Definition of Indicator class <BR>
  *
- * Example : Intake consists of system provided intake controls and adds functionality to the selection made on intake. <BR>
+ * Lights that change color to indicate the desired pixel color<BR>
  *
- * The states are as followed: <BR>
- *     INTAKE_SERVO_LEVEL1 for one state - example if intake motor is running, stopped, or reversing  <BR>
- *     INTAKE_SERVO_LEVEL2 for another state  = example if the intake is on or off  <BR>
- *
- * The functions are as followed: Example assumes a motor like an intake <BR>
- *     runIntakeMotor checks if the motor is not running and runs the intake  <BR>
- *     stopIntakeMotor checks if the intake has stopped and if its not, it sets the intake power to 0
- *     and sets intakeMotorState to INTAKE_SERVO_LEVEL1.STOPPED  <BR>
- *      startReverseIntakeMotor checks if the motor is not reversing, and sets the  motor to FORWARD, then also
- *     sets intake motor state to REVERSING <BR>
  */
 
+
 public class SSIndicators {
-
+    public RevBlinkinLedDriver light;
     public Telemetry telemetry;
-    public RevBlinkinLedDriver blinkinLedDriver;
-    public RevBlinkinLedDriver.BlinkinPattern currentPattern;
-    public RevBlinkinLedDriver.BlinkinPattern patternDemo = RevBlinkinLedDriver.BlinkinPattern.CP2_BREATH_SLOW;
 
-    public enum REV_BLINKIN_PATTERN {
-        DEMO(RevBlinkinLedDriver.BlinkinPattern.CP2_BREATH_SLOW),
-        NONE(RevBlinkinLedDriver.BlinkinPattern.BLACK),
-        TRANSFER_PROGRESS(RevBlinkinLedDriver.BlinkinPattern.RED),
-        OUTTAKE_JUNCTION_NOT_ALIGNED(RevBlinkinLedDriver.BlinkinPattern.RED_ORANGE),
-        OUTTAKE_JUNCTION_ALIGNED(RevBlinkinLedDriver.BlinkinPattern.DARK_GREEN),
-        END_GAME(RevBlinkinLedDriver.BlinkinPattern.HEARTBEAT_BLUE),
-        DEFAULT(RevBlinkinLedDriver.BlinkinPattern.GOLD);
-
-        private RevBlinkinLedDriver.BlinkinPattern blinkinPattern;
-        private REV_BLINKIN_PATTERN(RevBlinkinLedDriver.BlinkinPattern blinkinPattern) {
-            this.blinkinPattern = blinkinPattern;
-        };
+    public enum SSINDICATORS_LIGHT_COLOR {
+        PURPLE,
+        GREEN,
+        YELLOW,
+        RED,
+        WHITE
     }
-    public REV_BLINKIN_PATTERN currentRevBlinkinPattern;
+
+    public enum SSINDICATORS_LIGHT_STATE {
+        ON,
+        OFF
+    }
+
+    public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
+    public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor;
 
     public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
-        this.telemetry = telemetry;
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "blinkin");
-        blinkinLedDriver.setPattern(patternDemo);
-        currentPattern = patternDemo;
+        this.telemetry = this.telemetry;
+        light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
+        initIndicators();
     }
 
-    public void setPattern(REV_BLINKIN_PATTERN revBlinkinPattern) {
-        blinkinLedDriver.setPattern(revBlinkinPattern.blinkinPattern);
-        currentRevBlinkinPattern = revBlinkinPattern;
+    public void initIndicators(){
+
+    }
+
+    public void setLightToGreen() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.GREEN;
+
+    }
+
+    public void setLightToRed() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.RED;
+
+    }
+
+    public void setLightToPurple() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.PURPLE;
+    }
+
+    public void setLightToWhite() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.WHITE;
+    }
+
+    public void setLightToYellow() {
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.YELLOW;
+    }
+
+    public void turnLightOn(){
+        if(SSIndicatorLightState != SSINDICATORS_LIGHT_STATE.ON){
+            SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.ON;
+        }
+    }
+
+    public void turnLightOff(){
+        if(SSIndicatorLightState != SSINDICATORS_LIGHT_STATE.OFF){
+            SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
+            light.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+        }
+    }
+
+    public String getLightColor(){
+        return SSIndicatorLightColor.name();
     }
 
     public void printDebugMessages(){
-        telemetry.addData("Current Blinking Pattern:", currentRevBlinkinPattern);
+        telemetry.addData("Current Color: ", getLightColor());
         telemetry.addLine("=================");
     }
+
 }
+
