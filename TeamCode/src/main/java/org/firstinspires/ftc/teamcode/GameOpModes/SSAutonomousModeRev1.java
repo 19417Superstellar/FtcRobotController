@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 
 /**
- * Hazmat Autonomous
+ * Superstellar Autonomous
  */
 @Autonomous(name = "SS Autonomous Mode Rev 1", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousModeRev1 extends LinearOpMode {
@@ -76,7 +76,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_AUTONOMOUS;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS;
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();

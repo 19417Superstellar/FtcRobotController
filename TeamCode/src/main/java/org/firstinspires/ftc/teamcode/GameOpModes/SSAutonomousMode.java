@@ -51,7 +51,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 
 /**
- * Hazmat Autonomous
+ * Superstellar Autonomous
  */
 @Autonomous(name = "SS Autonomous Mode", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousMode extends LinearOpMode {

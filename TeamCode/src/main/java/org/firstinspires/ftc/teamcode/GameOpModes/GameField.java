@@ -40,10 +40,10 @@ public class GameField {
     public static DEBUG_LEVEL debugLevel = DEBUG_LEVEL.MAXIMUM;
 
     public enum OP_MODE_RUNNING {
-        HAZMAT_TELEOP,
-        HAZMAT_AUTONOMOUS
+        SUPERSTELLAR_TELEOP,
+        SUPERSTELLAR_AUTONOMOUS
     }
-    public static OP_MODE_RUNNING opModeRunning = OP_MODE_RUNNING.HAZMAT_AUTONOMOUS;
+    public static OP_MODE_RUNNING opModeRunning = OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS;
 
     //Static fields to pass Pos from Autonomous to TeleOp
     public static boolean poseSetInAutonomous = false;

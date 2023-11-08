@@ -45,7 +45,7 @@ public class TestTeleOpMode extends LinearOpMode {
      */
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_TELEOP;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();

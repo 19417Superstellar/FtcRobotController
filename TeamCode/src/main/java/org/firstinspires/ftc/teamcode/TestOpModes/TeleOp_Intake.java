@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -12,11 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 
 /**
@@ -25,13 +19,12 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  * This code defines the TeleOp mode is done by Hazmat Robot for Freight Frenzy<BR>
  *
  */
-@TeleOp(name = "SS Claw Test TeleOp", group = "Test")
-public class TeleOp_Claw extends LinearOpMode {
+@TeleOp(name = "SS Test TeleOp", group = "Test")
+public class TeleOp_Intake extends LinearOpMode {
 
     public TestGamepadController gamepadController;
     public DriveTrain driveTrain;
-    public SSClaw ssClaw;
-
+    public SSIndicators ssIndicators;
 
     //Static Class for knowing system state
 
@@ -78,7 +71,7 @@ public class TeleOp_Claw extends LinearOpMode {
                 }
             }
         }
-       // GameField.poseSetInAutonomous = false;
+        GameField.poseSetInAutonomous = false;
     }
 
     public void initSubsystems(){
@@ -96,18 +89,19 @@ public class TeleOp_Claw extends LinearOpMode {
         telemetry.addData("DriveTrain Initialized with Pose:",driveTrain.toStringPose2d(driveTrain.pose));
         telemetry.update();
 
-        ssClaw = new SSClaw(hardwareMap, telemetry);
-
-
+        /* Create Lights */
+        ssIndicators = new SSIndicators(hardwareMap, telemetry);
+        telemetry.addLine("Lights Initialized");
+        telemetry.update();
 
         /* Create Controllers */
-       /* gamepadController = new TestGamepadController(gamepad1, gamepad2, driveTrain, telemetry);
+        gamepadController = new TestGamepadController(gamepad1, gamepad2, driveTrain, telemetry);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        } /*
+        }
 
         /* Get last position after Autonomous mode ended from static class set in Autonomous */
         if ( GameField.poseSetInAutonomous) {
@@ -136,20 +130,14 @@ public class TeleOp_Claw extends LinearOpMode {
         telemetry.addData("Robot ready to start","");
 
         if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-            telemetry.addLine("Running Superstellar Claw TeleOpMode");
-            telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
-            telemetry.addData("startPose :", startPose);
-            telemetry.addData("Drive Mode :", driveTrain.driveType);
-            telemetry.addData("PoseEstimate :", driveTrain.driveType);
-            telemetry.addData("elevator_motor_encoder_left", ssClaw.currentEncoderValue());
-            telemetry.addData("elevator_motor_encoder_right",ssClaw.currentRightEncoderValue());
-            //telemetry.addData("Game Timer : ", gameTimer.time());
+            telemetry.addLine("Running Hazmat TeleOpMode");
+            telemetry.addData("Game Timer : ", gameTimer.time());
             //telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             //telemetry.addData("GameField.currentPose : ", GameField.currentPose);
             //telemetry.addData("startPose : ", startPose);
 
             driveTrain.printDebugMessages();
-            ssClaw.printDebugMessages();
+            ssIndicators.printDebugMessages();
         }
         telemetry.update();
     }
