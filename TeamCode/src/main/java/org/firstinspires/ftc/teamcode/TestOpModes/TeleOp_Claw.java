@@ -11,10 +11,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 
 /**
@@ -23,15 +19,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  * This code defines the TeleOp mode is done by Hazmat Robot for Freight Frenzy<BR>
  *
  */
-@TeleOp(name = "SS Test TeleOp", group = "Test")
+@TeleOp(name = "SS Claw Test TeleOp", group = "Test")
 public class TeleOp_Claw extends LinearOpMode {
 
     public TestGamepadController gamepadController;
     public DriveTrain driveTrain;
-    public SSIndicators ssIndicators;
-    public SSHoldingPen ssHoldingPen;
-    public SSRocketLauncher ssRocketLauncher;
-    public SSIntake ssIntake;
     public SSClaw ssClaw;
 
     //Static Class for knowing system state
@@ -97,10 +89,7 @@ public class TeleOp_Claw extends LinearOpMode {
         telemetry.addData("DriveTrain Initialized with Pose:",driveTrain.toStringPose2d(driveTrain.pose));
         telemetry.update();
 
-        /* Create Lights */
-        ssIndicators = new SSIndicators(hardwareMap, telemetry);
-        telemetry.addLine("Lights Initialized");
-        telemetry.update();
+        ssClaw = new SSClaw(hardwareMap, telemetry);
 
         /* Create Controllers */
         gamepadController = new TestGamepadController(gamepad1, gamepad2, driveTrain, telemetry);
@@ -136,16 +125,23 @@ public class TeleOp_Claw extends LinearOpMode {
         telemetry.setAutoClear(true);
         telemetry.addData("DEBUG_LEVEL is : ", GameField.debugLevel);
         telemetry.addData("Robot ready to start","");
+        telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
+        telemetry.addData("startPose :", startPose);
+        telemetry.addData("Drive Mode :", driveTrain.driveType);
+        telemetry.addData("PoseEstimate :", driveTrain.driveType);
+       // telemetry.addData("elevator_motor_encoder_left", ssElevator.currentLeftEncoderValue());
+      //  telemetry.addData("elevator_motor_encoder_right",ssElevator.currentRightEncoderValue());
 
         if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-            telemetry.addLine("Running Hazmat TeleOpMode");
+            telemetry.addLine("Running Superstellar Claw TeleOpMode");
             telemetry.addData("Game Timer : ", gameTimer.time());
             //telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             //telemetry.addData("GameField.currentPose : ", GameField.currentPose);
             //telemetry.addData("startPose : ", startPose);
 
+
             driveTrain.printDebugMessages();
-            ssIndicators.printDebugMessages();
+            ssClaw.printDebugMessages();
         }
         telemetry.update();
     }

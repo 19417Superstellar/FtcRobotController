@@ -49,7 +49,7 @@ public class SSTeleOpMode extends LinearOpMode {
      */
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_TELEOP;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
@@ -131,7 +131,7 @@ public class SSTeleOpMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry);
+                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 

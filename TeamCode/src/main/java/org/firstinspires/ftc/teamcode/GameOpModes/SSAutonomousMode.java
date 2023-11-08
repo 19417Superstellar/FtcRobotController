@@ -78,7 +78,7 @@ public class SSAutonomousMode extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_AUTONOMOUS;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS;
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
