@@ -32,8 +32,8 @@ public class SSIndicators {
     public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
     public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor;
 
-    public SSIndicators(HardwareMap hardwareMap){
-        this.telemetry = telemetry;
+    public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
+        this.telemetry = this.telemetry;
         light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
         initIndicators();
     }

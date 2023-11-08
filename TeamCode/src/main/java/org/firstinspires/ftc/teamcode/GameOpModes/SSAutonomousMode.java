@@ -37,8 +37,10 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
@@ -51,7 +53,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 
 /**
- * Hazmat Autonomous
+ * Superstellar Autonomous
  */
 @Autonomous(name = "SS Autonomous Mode", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousMode extends LinearOpMode {
@@ -94,8 +96,6 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.update();
         //waitForStart();
 
-        ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEMO);
-
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addData("Selected Starting Position", GameField.startPosition);
 
@@ -116,7 +116,7 @@ public class SSAutonomousMode extends LinearOpMode {
             gameTimer.reset();
             startTimer.reset();
             //Turn Lights Green
-            ssIndicators.setPattern(SSIndicators.REV_BLINKIN_PATTERN.DEFAULT);
+            ssIndicators.setLightToGreen();
 
             //Build parking trajectory based on last detected target by vision
             runAutonoumousMode();
@@ -393,8 +393,8 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.update();
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator, ssHoldingPen,
+                ssClaw, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
