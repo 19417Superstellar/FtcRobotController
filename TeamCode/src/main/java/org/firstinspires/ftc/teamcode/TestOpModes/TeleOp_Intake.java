@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.GameOpModes;
+package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 
-public class TeleOp_Intake {
+public class TeleOp_Intake  {
     DcMotor intakeMotor;
 // You may have other hardware components like servos, sensors, etc.
 
@@ -19,13 +19,14 @@ public class TeleOp_Intake {
         double intakePower = 0.0;
 
         // You can use different gamepad buttons or triggers for control
+        /*
         if (GamepadController.a) {
             intakePower = 0.5; // Spin the intake motor forward
         } else if (GamepadController.b) {
             intakePower = -0.5; // Reverse the intake motor
         } else {
             intakePower = 0.0; // Stop the intake motor
-        }
+        }*/
 
         // Set the intake motor power
         intakeMotor.setPower(intakePower);
