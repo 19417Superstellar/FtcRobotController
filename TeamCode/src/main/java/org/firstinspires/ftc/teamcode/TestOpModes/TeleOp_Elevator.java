@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.TestOpModes;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
@@ -11,9 +13,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 
-@TeleOp(name = "TeleOp_Elevator", group = "00-TeleOp")
-public class TeleOp_Elevator extends LinearOpMode {
-
+import java.util.Observer;
+public class TeleOp_Elevator {
     public boolean DEBUG_FLAG = true;
 
     public GamepadController gamepadController;
@@ -29,7 +30,7 @@ public class TeleOp_Elevator extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_TELEOP;
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
 
@@ -50,7 +51,7 @@ public class TeleOp_Elevator extends LinearOpMode {
                 telemetry.update();
             }
 
-            while (opModeIsActive()) {
+            while (isStopRequested()) {
                 gamepadController.runSSElevator();
 
                 if(DEBUG_FLAG) {
@@ -71,6 +72,7 @@ public class TeleOp_Elevator extends LinearOpMode {
     public void printDebugMessages(){
         telemetry.setAutoClear(true);
         telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
+
         telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
         telemetry.addData("startPose :", startPose);
         telemetry.addData("Drive Mode :", driveTrain.driveType);
@@ -83,5 +85,7 @@ public class TeleOp_Elevator extends LinearOpMode {
         telemetry.update();
     }
 
-
+    public boolean isStopRequested() {
+        return stopRequested;
+    }
 }

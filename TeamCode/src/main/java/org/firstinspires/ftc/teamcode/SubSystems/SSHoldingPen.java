@@ -9,9 +9,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class SSHoldingPen {
 
-    public Servo holdingPenServo;
-    public DistanceSensor clawSensor;
-    public DistanceSensor penSensor;
+    public CRServo holdingPenServo;
+
+    public TouchSensor touchSensor;
+   // public DistanceSensor clawSensor;
+   // public DistanceSensor penSensor;
 
     public enum SSHOLDING_PEN_SERVO_STATE {
         RUNNING,
@@ -26,7 +28,7 @@ public class SSHoldingPen {
     public Telemetry telemetry;
     public SSHoldingPen(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
-        holdingPenServo = hardwareMap.get(Servo.class, "holding_pen_servo");
+        holdingPenServo = hardwareMap.get(CRServo.class, "holding_pen_servo");
         initSSHoldingPen();
     }
 

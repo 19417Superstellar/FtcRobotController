@@ -86,7 +86,7 @@ public class TeleOp_Intake {
          * Method to add debug messages. Update as telemetry.addData.
          * Use public attributes or methods if needs to be called here.
          */
-        public void printDebugMessages(){
+        public void printDebugMessages() {
             telemetry.setAutoClear(true);
             telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
 
@@ -94,13 +94,14 @@ public class TeleOp_Intake {
             telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             telemetry.addData("GameField.currentPose : ", GameField.currentPose);
             telemetry.addData("startPose : ", startPose);
+        }
 
             //****** Drive debug ******
            /*telemetry.addData("Drive Mode : ", driveTrain.driveMode);
             telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
             telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
 
-            telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState()); /*
+            telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState()); */
 
             //Add logic for debug print Logic
 
