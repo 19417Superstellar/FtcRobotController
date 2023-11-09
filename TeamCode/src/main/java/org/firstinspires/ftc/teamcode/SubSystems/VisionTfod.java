@@ -138,7 +138,7 @@ public class VisionTfod {
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
-            if (GameField.opModeRunning == GameField.OP_MODE_RUNNING.HAZMAT_AUTONOMOUS) {
+            if (GameField.opModeRunning == GameField.OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS) {
                 if (GameField.startPosition == GameField.START_POSITION.RED_LEFT ||
                         GameField.startPosition == GameField.START_POSITION.BLUE_LEFT) {
                     if (recognition.getLabel() == "Pixel") {
