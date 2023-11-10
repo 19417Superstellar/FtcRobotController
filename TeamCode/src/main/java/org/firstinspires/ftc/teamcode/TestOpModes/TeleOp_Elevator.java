@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 
-import java.util.Observer;
 public class TeleOp_Elevator {
     public boolean DEBUG_FLAG = true;
 
@@ -30,7 +29,7 @@ public class TeleOp_Elevator {
 
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.HAZMAT_TELEOP;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
         /* Create Subsystem Objects*/
         driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
 
@@ -39,7 +38,7 @@ public class TeleOp_Elevator {
         ssClaw = new SSClaw(hardwareMap,telemetry);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1,gamepad2,driveTrain,ssClaw,ssElevator);
+        gamepadController = new GamepadController(gamepad1,gamepad2,driveTrain);
 
         if (isStopRequested()) return;
 

@@ -1,12 +1,20 @@
 package org.firstinspires.ftc.teamcode.GameOpModes;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 
 public class TeleOp_Intake {
@@ -27,11 +35,12 @@ public class TeleOp_Intake {
         public void runOpMode() throws InterruptedException {
 
             /* Create Subsystem Objects*/
-            driveTrain = new DriveTrain(hardwareMap);
+            driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
             //Declare subsystem to be tested
-            ssIntake = new SSIntake(hardwareMap);
+            ssIntake = new SSIntake(hardwareMap, telemetry);
             /* Create Controllers */
-            gamepadController = new GamepadController(gamepad1, driveTrain);
+
+            gamepadController = new GamepadController(gamepad1,gamepad2,driveTrain);
 
             /* Set Initial State of any subsystem when TeleOp is to be started*/
             ssIntake.initSSIntake();
@@ -94,6 +103,7 @@ public class TeleOp_Intake {
             telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             telemetry.addData("GameField.currentPose : ", GameField.currentPose);
             telemetry.addData("startPose : ", startPose);
+            telemetry.update();
         }
 
             //****** Drive debug ******
@@ -105,9 +115,9 @@ public class TeleOp_Intake {
 
             //Add logic for debug print Logic
 
-            telemetry.update();
+
 
         }
     }
 
-}
+

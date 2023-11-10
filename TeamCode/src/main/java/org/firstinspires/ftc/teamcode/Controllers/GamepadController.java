@@ -576,7 +576,7 @@ public class GamepadController {
         return ssGamepad2.a;
     }
 
-    public GamepadController(Gamepad gamepad1, Gamepad gamepad2, DriveTrain driveTrain, SSClaw ssClaw, SSElevator ssElevator) {
+    public GamepadController(Gamepad gamepad1, Gamepad gamepad2, DriveTrain driveTrain) {
     }
 
     /**
