@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.har
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 
-public class TeleOp_Elevator {
+public class TeleOp_Elevator extends LinearOpMode {
     public boolean DEBUG_FLAG = true;
 
     public GamepadController gamepadController;
@@ -84,7 +85,4 @@ public class TeleOp_Elevator {
         telemetry.update();
     }
 
-    public boolean isStopRequested() {
-        return stopRequested;
-    }
 }
