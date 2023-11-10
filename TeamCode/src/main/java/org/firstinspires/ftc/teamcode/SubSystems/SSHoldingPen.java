@@ -11,11 +11,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class SSHoldingPen {
 
-    public CRServo holdingPenServo;
+ public CRServo holdingPenServo;
 
-    public TouchSensor touchSensor;
-   // public DistanceSensor clawSensor;
-   // public DistanceSensor penSensor;
+ public TouchSensor touchSensor;
+    public DistanceSensor clawSensor;
+    public DistanceSensor penSensor;
 
     public enum SSHOLDING_PEN_SERVO_STATE {
         RUNNING,
@@ -62,23 +62,20 @@ public class SSHoldingPen {
 
     public void runSSHoldingPenServo(Servo.Direction direction, double power){
         //holdingPenServo.setDirection(direction);
-        holdingPenServo.setPower(0.5);
+      //  holdingPenServo.setDirection(5.0E-01);
     }
 
     public SSHoldingPen.SSHOLDING_PEN_SERVO_STATE getSSIntakeMotorState() {
         return SSHoldingPenServoState;
     }
 
-    /*
-    //public boolean isClawPixelCollected() {
+    public boolean isClawPixelCollected() {
         return clawSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
 
     public boolean isPenPixelCollected() {
         return penSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
-
-     */
 
     public void printDebugMessages(){
         //******  debug ******
