@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 @TeleOp(name = "SS Claw Test TeleOp", group = "Test")
 public class TeleOp_Claw extends LinearOpMode {
 
-    public TestGamepadController gamepadController;
+    public GamepadController gamepadController;
     public DriveTrain driveTrain;
     public SSClaw ssClaw;
 
@@ -92,7 +93,8 @@ public class TeleOp_Claw extends LinearOpMode {
         ssClaw = new SSClaw(hardwareMap, telemetry);
 
         /* Create Controllers */
-        gamepadController = new TestGamepadController(gamepad1, gamepad2, driveTrain, telemetry);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
+                ssClaw, null, null, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 

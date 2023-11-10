@@ -131,7 +131,7 @@ public class SSTeleOpMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssRocketLauncher, telemetry, this);
+                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 

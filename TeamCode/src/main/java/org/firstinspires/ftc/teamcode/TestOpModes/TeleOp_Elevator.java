@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestOpModes;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
@@ -13,7 +10,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 
-public class TeleOp_Elevator {
+public class TeleOp_Elevator extends LinearOpMode {
     public boolean DEBUG_FLAG = true;
 
     public GamepadController gamepadController;
@@ -25,7 +22,6 @@ public class TeleOp_Elevator {
 
     //public Vuforia Vuforia1;
     public Pose2d startPose = GameField.ORIGINPOSE;
-    private boolean stopRequested;
 
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
@@ -45,13 +41,14 @@ public class TeleOp_Elevator {
         /*If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
+            gamepadController.runSSElevator();
+
             if(DEBUG_FLAG) {
                 printDebugMessages();
                 telemetry.update();
             }
 
             while (isStopRequested()) {
-                gamepadController.runSSElevator();
 
                 if(DEBUG_FLAG) {
                     printDebugMessages();
@@ -84,7 +81,4 @@ public class TeleOp_Elevator {
         telemetry.update();
     }
 
-    public boolean isStopRequested() {
-        return stopRequested;
-    }
 }

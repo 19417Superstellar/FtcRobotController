@@ -79,6 +79,7 @@ public class GamepadController {
                              SSElevator ssElevator,
                              SSHoldingPen ssHoldingPen,
                              SSClaw ssClaw,
+                             SSIndicators ssIndicators,
                              SSRocketLauncher ssRocketLauncher,
                              Telemetry telemetry,
                              LinearOpMode opMode
@@ -90,6 +91,7 @@ public class GamepadController {
         this.ssElevator = ssElevator;
         this.ssHoldingPen = ssHoldingPen;
         this.ssClaw = ssClaw;
+        this.ssIndicators = ssIndicators;
         this.ssRocketLauncher = ssRocketLauncher;
         this.telemetry = telemetry;
         this.opMode = opMode;
@@ -170,7 +172,7 @@ public class GamepadController {
 
 
     public void runSSElevator(){
-        if ( gp2GetDpad_downPress()) {
+        if (gp2GetDpad_downPress()) {
             ssElevator.moveSSElevatorSlightlyDown();
         }
 

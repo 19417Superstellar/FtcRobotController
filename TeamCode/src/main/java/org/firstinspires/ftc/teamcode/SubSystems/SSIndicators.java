@@ -33,43 +33,53 @@ public class SSIndicators {
     public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor;
 
     public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
-        this.telemetry = this.telemetry;
+        this.telemetry = telemetry;
         light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
         initIndicators();
     }
 
     public void initIndicators(){
-
+        turnLightOff();
     }
 
     public void setLightToGreen() {
-        turnLightOn();
+        if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
+            turnLightOn();
+        }
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.GREEN;
 
     }
 
     public void setLightToRed() {
-        turnLightOn();
+        if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
+            turnLightOn();
+        }
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.RED;
 
     }
 
     public void setLightToPurple() {
-        turnLightOn();
+        if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
+            turnLightOn();
+        }
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.PURPLE;
     }
 
     public void setLightToWhite() {
-        turnLightOn();
+        if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
+            turnLightOn();
+        }
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.WHITE;
     }
 
     public void setLightToYellow() {
-        turnLightOn();
+        if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
+            turnLightOn();
+        }
         light.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.YELLOW;
     }
@@ -87,12 +97,12 @@ public class SSIndicators {
         }
     }
 
-    public String getLightColor(){
-        return SSIndicatorLightColor.name();
-    }
+    /*public String getLightColor(){
+        return SSIndicatorLightColor.toString();
+    }*/
 
     public void printDebugMessages(){
-        telemetry.addData("Current Color: ", getLightColor());
+        //telemetry.addData("Current Color: ", getLightColor());
         telemetry.addLine("=================");
     }
 

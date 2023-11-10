@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 
 /**
- * Defenition of the HzGamepad Class <BR>
+ * Defenition of the ssGamepad Class <BR>
  *
- * HzGamepad consists of system provided gamepad(s) and adds functionality to the selection
+ * ssGamepad consists of system provided gamepad(s) and adds functionality to the selection
  * made on gamepads <BR>
  *
  * For Hazmat  PowerPlay, two Gamepads are used (gamepad1 and gamepad2) <BR>
@@ -54,22 +54,22 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 public class TestGamepadController {
 
     //Create object reference to objects to systems passed from TeleOp
-    public Gamepad hzGamepad1, hzGamepad2;
+    public Gamepad ssGamepad1, ssGamepad2;
     public DriveTrain driveTrain;
     public Telemetry telemetry;
 
 
     /**
-     * Constructor for HzGamepad1 and HzGamepad2 class that extends gamepad.
+     * Constructor for ssGamepad1 and ssGamepad2 class that extends gamepad.
      * Assign the gamepad1 and gamepad2 given in OpMode to the gamepad used here.
      */
-    public TestGamepadController(Gamepad hzGamepad1,
-                                 Gamepad hzGamepad2,
+    public TestGamepadController(Gamepad ssGamepad1,
+                                 Gamepad ssGamepad2,
                                  DriveTrain driveTrain,
                                  Telemetry telemetry
                             ) {
-        this.hzGamepad1 = hzGamepad1;
-        this.hzGamepad2 = hzGamepad2;
+        this.ssGamepad1 = ssGamepad1;
+        this.ssGamepad2 = ssGamepad2;
         this.driveTrain = driveTrain;
         this.telemetry = telemetry;
     }
@@ -207,10 +207,10 @@ public class TestGamepadController {
      * @return gpGamepad1.left_stick_x
      */
     public double gp1GetLeftStickX() {
-        return hzGamepad1.left_stick_x;
+        return ssGamepad1.left_stick_x;
     }
     public double gp2GetLeftStickX() {
-        return hzGamepad2.left_stick_x;
+        return ssGamepad2.left_stick_x;
     }
 
     /**
@@ -220,8 +220,8 @@ public class TestGamepadController {
      *
      * @return gpGamepad1.left_stick_y
      */
-    public double gp1GetLeftStickY() { return hzGamepad1.left_stick_y; }
-    public double gp2GetLeftStickY() { return hzGamepad2.left_stick_y; }
+    public double gp1GetLeftStickY() { return ssGamepad1.left_stick_y; }
+    public double gp2GetLeftStickY() { return ssGamepad2.left_stick_y; }
 
     /**
      * Methods to get the value of gamepad Right stick X to keep turning.
@@ -231,16 +231,16 @@ public class TestGamepadController {
      * @return gpGamepad1.right_stick_x
      */
     public double gp1GetRightStickX() {
-        return hzGamepad1.right_stick_x;
+        return ssGamepad1.right_stick_x;
     }
     public double gp2GetRightStickX() {
-        return hzGamepad2.right_stick_x;
+        return ssGamepad2.right_stick_x;
     }
     public double gp1GetRightStickY() {
-        return hzGamepad1.right_stick_y;
+        return ssGamepad1.right_stick_y;
     }
     public double gp2GetRightStickY() {
-        return hzGamepad2.right_stick_y;
+        return ssGamepad2.right_stick_y;
     }
 
     /**
@@ -252,10 +252,10 @@ public class TestGamepadController {
      * @return gpGamepad2.right_trigger
      */
     public double gp1GetRightTrigger() {
-        return hzGamepad1.right_trigger;
+        return ssGamepad1.right_trigger;
     }
     public double gp2GetRightTrigger() {
-        return hzGamepad2.right_trigger;
+        return ssGamepad2.right_trigger;
     }
 
     /**
@@ -291,10 +291,10 @@ public class TestGamepadController {
      * @return gpGamepad2.left_trigger
      */
     public double gp1GetLeftTrigger() {
-        return hzGamepad1.left_trigger;
+        return ssGamepad1.left_trigger;
     }
     public double gp2GetLeftTrigger() {
-        return hzGamepad2.left_trigger;
+        return ssGamepad2.left_trigger;
     }
 
     /**
@@ -346,10 +346,10 @@ public class TestGamepadController {
      * @return gpGamepad2.left_bumper
      */
     public boolean gp1GetLeftBumper() {
-        return hzGamepad1.left_bumper;
+        return ssGamepad1.left_bumper;
     }
     public boolean gp2GetLeftBumper() {
-        return hzGamepad2.left_bumper;
+        return ssGamepad2.left_bumper;
     }
 
     /**
@@ -364,19 +364,19 @@ public class TestGamepadController {
      */
     public boolean gp1GetLeftBumperPress() {
         boolean isPressedLeftBumper = false;
-        if (!gp1LeftBumperLast && hzGamepad1.left_bumper) {
+        if (!gp1LeftBumperLast && ssGamepad1.left_bumper) {
             isPressedLeftBumper = true;
         }
-        gp1LeftBumperLast = hzGamepad1.left_bumper;
+        gp1LeftBumperLast = ssGamepad1.left_bumper;
         return isPressedLeftBumper;
     }
 
     public boolean gp2GetLeftBumperPress() {
         boolean isPressedLeftBumper = false;
-        if (!gp2LeftBumperLast && hzGamepad2.left_bumper) {
+        if (!gp2LeftBumperLast && ssGamepad2.left_bumper) {
             isPressedLeftBumper = true;
         }
-        gp2LeftBumperLast = hzGamepad2.left_bumper;
+        gp2LeftBumperLast = ssGamepad2.left_bumper;
         return isPressedLeftBumper;
     }
 
@@ -387,10 +387,10 @@ public class TestGamepadController {
      * @return gpGamepad2.right_bumper
      */
     public boolean gp1GetRightBumper() {
-        return hzGamepad1.right_bumper;
+        return ssGamepad1.right_bumper;
     }
     public boolean gp2GetRightBumper() {
-        return hzGamepad2.right_bumper;
+        return ssGamepad2.right_bumper;
     }
     /**
      * Method to track if Right Bumper was pressed
@@ -404,27 +404,27 @@ public class TestGamepadController {
      */
     public boolean gp1GetRightBumperPress() {
         boolean isPressedRightBumper = false;
-        if (!gp1RightBumperLast && hzGamepad1.right_bumper) {
+        if (!gp1RightBumperLast && ssGamepad1.right_bumper) {
             isPressedRightBumper = true;
         }
-        gp1RightBumperLast = hzGamepad1.right_bumper;
+        gp1RightBumperLast = ssGamepad1.right_bumper;
         return isPressedRightBumper;
     }
 
     public boolean gp2GetRightBumperPress() {
         boolean isPressedRightBumper = false;
-        if (!gp2RightBumperLast && hzGamepad2.right_bumper) {
+        if (!gp2RightBumperLast && ssGamepad2.right_bumper) {
             isPressedRightBumper = true;
         }
-        gp2RightBumperLast = hzGamepad2.right_bumper;
+        gp2RightBumperLast = ssGamepad2.right_bumper;
         return isPressedRightBumper;
     }
 
     public boolean gp1GetRightBumperPersistant(){
-        return hzGamepad1.right_bumper;
+        return ssGamepad1.right_bumper;
     }
     public boolean gp2GetRightBumperPersistant(){
-        return hzGamepad2.right_bumper;
+        return ssGamepad2.right_bumper;
     }
 
     /**
@@ -439,25 +439,25 @@ public class TestGamepadController {
      */
     public boolean gp1GetButtonAPress() {
         boolean isPressedButtonA = false;
-        if (!gp1ButtonALast && hzGamepad1.a) {
+        if (!gp1ButtonALast && ssGamepad1.a) {
             isPressedButtonA = true;
         }
-        gp1ButtonALast = hzGamepad1.a;
+        gp1ButtonALast = ssGamepad1.a;
         return isPressedButtonA;
     }
     public boolean gp2GetButtonAPress() {
         boolean isPressedButtonA = false;
-        if (!gp2ButtonALast && hzGamepad2.a) {
+        if (!gp2ButtonALast && ssGamepad2.a) {
             isPressedButtonA = true;
         }
-        gp2ButtonALast = hzGamepad2.a;
+        gp2ButtonALast = ssGamepad2.a;
         return isPressedButtonA;
     }
     public boolean gp1GetA(){
-        return hzGamepad1.a;
+        return ssGamepad1.a;
     }
     public boolean gp2GetA(){
-        return hzGamepad2.a;
+        return ssGamepad2.a;
     }
 
 
@@ -473,25 +473,25 @@ public class TestGamepadController {
      */
     public boolean gp1GetButtonYPress() {
         boolean isPressedButtonY = false;
-        if (!gp1ButtonYLast && hzGamepad1.y) {
+        if (!gp1ButtonYLast && ssGamepad1.y) {
             isPressedButtonY = true;
         }
-        gp1ButtonYLast = hzGamepad1.y;
+        gp1ButtonYLast = ssGamepad1.y;
         return isPressedButtonY;
     }
     public boolean gp2GetButtonYPress() {
         boolean isPressedButtonY = false;
-        if (!gp2ButtonYLast && hzGamepad2.y) {
+        if (!gp2ButtonYLast && ssGamepad2.y) {
             isPressedButtonY = true;
         }
-        gp2ButtonYLast = hzGamepad2.y;
+        gp2ButtonYLast = ssGamepad2.y;
         return isPressedButtonY;
     }
     public boolean gp1GetY(){
-        return hzGamepad1.y;
+        return ssGamepad1.y;
     }
     public boolean gp2GetY(){
-        return hzGamepad2.y;
+        return ssGamepad2.y;
     }
 
     /**
@@ -506,26 +506,26 @@ public class TestGamepadController {
      */
     public boolean gp1GetButtonXPress() {
         boolean isPressedButtonX = false;
-        if (!gp1ButtonXLast && hzGamepad1.x) {
+        if (!gp1ButtonXLast && ssGamepad1.x) {
             isPressedButtonX = true;
         }
-        gp1ButtonXLast = hzGamepad1.x;
+        gp1ButtonXLast = ssGamepad1.x;
         return isPressedButtonX;
     }
 
     public boolean gp2GetButtonXPress() {
         boolean isPressedButtonX = false;
-        if (!gp2ButtonXLast && hzGamepad2.x) {
+        if (!gp2ButtonXLast && ssGamepad2.x) {
             isPressedButtonX = true;
         }
-        gp2ButtonXLast = hzGamepad2.x;
+        gp2ButtonXLast = ssGamepad2.x;
         return isPressedButtonX;
     }
     public boolean gp1GetX(){
-        return hzGamepad1.x;
+        return ssGamepad1.x;
     }
     public boolean gp2GetX(){
-        return hzGamepad2.x;
+        return ssGamepad2.x;
     }
 
     /**
@@ -540,25 +540,25 @@ public class TestGamepadController {
      */
     public boolean gp1GetButtonBPress() {
         boolean isPressedButtonB = false;
-        if (!gp1ButtonBLast && hzGamepad1.b) {
+        if (!gp1ButtonBLast && ssGamepad1.b) {
             isPressedButtonB = true;
         }
-        gp1ButtonBLast = hzGamepad1.b;
+        gp1ButtonBLast = ssGamepad1.b;
         return isPressedButtonB;
     }
     public boolean gp2GetButtonBPress() {
         boolean isPressedButtonB = false;
-        if (!gp2ButtonBLast && hzGamepad2.b) {
+        if (!gp2ButtonBLast && ssGamepad2.b) {
             isPressedButtonB = true;
         }
-        gp2ButtonBLast = hzGamepad2.b;
+        gp2ButtonBLast = ssGamepad2.b;
         return isPressedButtonB;
     }
     public boolean gp1GetB(){
-        return hzGamepad1.b;
+        return ssGamepad1.b;
     }
     public boolean gp2GetB(){
-        return hzGamepad2.b;
+        return ssGamepad2.b;
     }
 
     /**
@@ -574,27 +574,27 @@ public class TestGamepadController {
     public boolean gp1GetDpad_upPress() {
         boolean isPressedDpad_up;
         isPressedDpad_up = false;
-        if (!gp1Dpad_upLast && hzGamepad1.dpad_up) {
+        if (!gp1Dpad_upLast && ssGamepad1.dpad_up) {
             isPressedDpad_up = true;
         }
-        gp1Dpad_upLast = hzGamepad1.dpad_up;
+        gp1Dpad_upLast = ssGamepad1.dpad_up;
         return isPressedDpad_up;
     }
     public boolean gp2GetDpad_upPress() {
         boolean isPressedDpad_up;
         isPressedDpad_up = false;
-        if (!gp2Dpad_upLast && hzGamepad2.dpad_up) {
+        if (!gp2Dpad_upLast && ssGamepad2.dpad_up) {
             isPressedDpad_up = true;
         }
-        gp2Dpad_upLast = hzGamepad2.dpad_up;
+        gp2Dpad_upLast = ssGamepad2.dpad_up;
         return isPressedDpad_up;
     }
 
     public boolean gp1GetDpad_up(){
-        return hzGamepad1.dpad_up;
+        return ssGamepad1.dpad_up;
     }
     public boolean gp2GetDpad_up(){
-        return hzGamepad2.dpad_up;
+        return ssGamepad2.dpad_up;
     }
 
     /**
@@ -610,27 +610,27 @@ public class TestGamepadController {
     public boolean gp1GetDpad_downPress() {
         boolean isPressedDpad_down;
         isPressedDpad_down = false;
-        if (!gp1Dpad_downLast && hzGamepad1.dpad_down) {
+        if (!gp1Dpad_downLast && ssGamepad1.dpad_down) {
             isPressedDpad_down = true;
         }
-        gp1Dpad_downLast = hzGamepad1.dpad_down;
+        gp1Dpad_downLast = ssGamepad1.dpad_down;
         return isPressedDpad_down;
     }
     public boolean gp2GetDpad_downPress() {
         boolean isPressedDpad_down;
         isPressedDpad_down = false;
-        if (!gp2Dpad_downLast && hzGamepad2.dpad_down) {
+        if (!gp2Dpad_downLast && ssGamepad2.dpad_down) {
             isPressedDpad_down = true;
         }
-        gp2Dpad_downLast = hzGamepad2.dpad_down;
+        gp2Dpad_downLast = ssGamepad2.dpad_down;
         return isPressedDpad_down;
     }
 
     public boolean gp1GetDpad_down(){
-        return hzGamepad1.dpad_down;
+        return ssGamepad1.dpad_down;
     }
     public boolean gp2GetDpad_down(){
-        return hzGamepad2.dpad_down;
+        return ssGamepad2.dpad_down;
     }
 
     /**
@@ -646,27 +646,27 @@ public class TestGamepadController {
     public boolean gp1GetDpad_leftPress() {
         boolean isPressedDpad_left;
         isPressedDpad_left = false;
-        if (!gp1Dpad_leftLast && hzGamepad1.dpad_left) {
+        if (!gp1Dpad_leftLast && ssGamepad1.dpad_left) {
             isPressedDpad_left = true;
         }
-        gp1Dpad_leftLast = hzGamepad1.dpad_left;
+        gp1Dpad_leftLast = ssGamepad1.dpad_left;
         return isPressedDpad_left;
     }
     public boolean gp2GetDpad_leftPress() {
         boolean isPressedDpad_left;
         isPressedDpad_left = false;
-        if (!gp2Dpad_leftLast && hzGamepad2.dpad_left) {
+        if (!gp2Dpad_leftLast && ssGamepad2.dpad_left) {
             isPressedDpad_left = true;
         }
-        gp2Dpad_leftLast = hzGamepad2.dpad_left;
+        gp2Dpad_leftLast = ssGamepad2.dpad_left;
         return isPressedDpad_left;
     }
 
     public boolean gp1GetDpad_left(){
-        return hzGamepad1.dpad_left;
+        return ssGamepad1.dpad_left;
     }
     public boolean gp2GetDpad_left(){
-        return hzGamepad2.dpad_left;
+        return ssGamepad2.dpad_left;
     }
 
     /**
@@ -682,33 +682,33 @@ public class TestGamepadController {
     public boolean gp1GetDpad_rightPress() {
         boolean isPressedDpad_right;
         isPressedDpad_right = false;
-        if (!gp1Dpad_rightLast && hzGamepad1.dpad_right) {
+        if (!gp1Dpad_rightLast && ssGamepad1.dpad_right) {
             isPressedDpad_right = true;
         }
-        gp1Dpad_rightLast = hzGamepad1.dpad_right;
+        gp1Dpad_rightLast = ssGamepad1.dpad_right;
         return isPressedDpad_right;
     }
     public boolean gp2GetDpad_rightPress() {
         boolean isPressedDpad_right;
         isPressedDpad_right = false;
-        if (!gp2Dpad_rightLast && hzGamepad2.dpad_right) {
+        if (!gp2Dpad_rightLast && ssGamepad2.dpad_right) {
             isPressedDpad_right = true;
         }
-        gp2Dpad_rightLast = hzGamepad2.dpad_right;
+        gp2Dpad_rightLast = ssGamepad2.dpad_right;
         return isPressedDpad_right;
     }
     public boolean gp1GetDpad_right(){
-        return hzGamepad1.dpad_right;
+        return ssGamepad1.dpad_right;
     }
     public boolean gp2GetDpad_right(){
-        return hzGamepad2.dpad_right;
+        return ssGamepad2.dpad_right;
     }
 
     public boolean gp1GetStart(){
-        return hzGamepad1.start;
+        return ssGamepad1.start;
     }
     public boolean gp2GetStart(){
-        return hzGamepad2.start;
+        return ssGamepad2.start;
     }
 
 }

@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -59,21 +61,24 @@ public class SSHoldingPen {
     }
 
     public void runSSHoldingPenServo(Servo.Direction direction, double power){
-        holdingPenServo.setDirection(direction);
-        holdingPenServo.setPosition(0.5);
+        //holdingPenServo.setDirection(direction);
+        holdingPenServo.setPower(0.5);
     }
 
     public SSHoldingPen.SSHOLDING_PEN_SERVO_STATE getSSIntakeMotorState() {
         return SSHoldingPenServoState;
     }
 
-    public boolean isClawPixelCollected() {
+    /*
+    //public boolean isClawPixelCollected() {
         return clawSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
 
     public boolean isPenPixelCollected() {
         return penSensor.getDistance(DistanceUnit.CM) < 0.3;
     }
+
+     */
 
     public void printDebugMessages(){
         //******  debug ******

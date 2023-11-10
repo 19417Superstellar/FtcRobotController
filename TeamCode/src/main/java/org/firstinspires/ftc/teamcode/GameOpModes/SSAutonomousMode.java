@@ -394,7 +394,7 @@ public class SSAutonomousMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator, ssHoldingPen,
-                ssClaw, ssRocketLauncher, telemetry, this);
+                ssClaw, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
