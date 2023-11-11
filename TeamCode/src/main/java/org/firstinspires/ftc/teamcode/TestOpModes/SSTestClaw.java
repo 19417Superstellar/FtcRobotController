@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
  *
  */
 @TeleOp(name = "SS Claw Test TeleOp", group = "Test")
-public class TeleOp_Claw extends LinearOpMode {
+public class SSTestClaw extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
