@@ -3,26 +3,17 @@ package org.firstinspires.ftc.teamcode.TestOpModes;
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
-import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
-@TeleOp(name = "indicator teleop", group = "Test")
-public class TeleOp_Indicators extends LinearOpMode {
+@TeleOp(name = "SSTest Indicator", group = "Test")
+public class SSTestIndicator extends LinearOpMode {
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
     public SSIndicators indicators;
@@ -36,6 +27,7 @@ public class TeleOp_Indicators extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         indicators = new SSIndicators(hardwareMap, telemetry);
+
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
                 null, indicators, null, telemetry, this);
 

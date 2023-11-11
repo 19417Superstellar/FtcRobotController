@@ -30,7 +30,7 @@ public class SSIndicators {
     }
 
     public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
-    public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor;
+    public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.WHITE;
 
     public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -97,12 +97,16 @@ public class SSIndicators {
         }
     }
 
-    /*public String getLightColor(){
-        return SSIndicatorLightColor.toString();
-    }*/
+    public SSINDICATORS_LIGHT_COLOR getLightColor(){
+        return SSIndicatorLightColor;
+    }
 
+    public SSINDICATORS_LIGHT_STATE getLightState() {
+        return SSIndicatorLightState;
+    }
     public void printDebugMessages(){
-        //telemetry.addData("Current Color: ", getLightColor());
+        telemetry.addData("Current Color: ", getLightColor());
+        telemetry.addData("LED on/off", getLightState());
         telemetry.addLine("=================");
     }
 

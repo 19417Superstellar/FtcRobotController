@@ -1,17 +1,20 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class SSElevator {
     public DcMotorEx elevatorMotorLeft;
     public DcMotorEx elevatorMotorRight;
-    public TouchSensor touchSensor;
 
+    public VoltageSensor voltageSensor;
 
+    public double voltageThreshold = 9.0; // 9 volts
 
     public enum ELEVATOR_POSITION {
         LEVEL_LOW,
@@ -19,25 +22,17 @@ public class SSElevator {
         LEVEL_HIGH
     }
 
-
-
-    public static double ENCODER_VALUE = 145.1; // The motor being used is 1150 Rpm motor with step of 145.1
-
-    public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0; // 2023-12-21 calibrated value
+    public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;
     public static int ELEVATOR_LEVEL_MID_POSITION_COUNT = 1450;
-    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2900;  // 2023-12-21 calibrated value
-
+    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2900;
     public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 300;
     public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 300;
-    public static int ELEVATOR_LEVELMAX_POSITION_COUNT = ELEVATOR_LEVEL_HIGH_POSITION_COUNT;
 
-    public static double POWER_LEVEL_RUN = .9;
+    public static double POWER_LEVEL_RUN = .1;
 
     public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
 
     public int elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
-    public int leftGetTargetPosition;
-
     public boolean runElevatorToLevelState = false;
     public double motorPowerToRun = POWER_LEVEL_RUN;
 
@@ -48,8 +43,7 @@ public class SSElevator {
         this.telemetry = telemetry;
         elevatorMotorLeft = hardwareMap.get(DcMotorEx.class, "elevator_motor_left");
         elevatorMotorRight = hardwareMap.get(DcMotorEx.class, "elevator_motor_right");
-        touchSensor = hardwareMap.get(TouchSensor.class, "elevator_sensor");
-
+        voltageSensor = hardwareMap.voltageSensor.iterator().next();
         initElevator();
     }
 
@@ -62,7 +56,7 @@ public class SSElevator {
         elevatorMotorLeft.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         elevatorMotorRight.setPositionPIDFCoefficients(5.0);
-        elevatorMotorRight.setDirection(DcMotorEx.Direction.FORWARD);
+        elevatorMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
         elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
         resetElevator();
@@ -74,7 +68,6 @@ public class SSElevator {
             turnElevatorBrakeModeOn();
         }
     }
-
 
     /**
      * Reset Elevator Encoder
@@ -96,7 +89,7 @@ public class SSElevator {
 
     public void runElevatorToLevel(double power) {
         if (elevatorNeedsToGoDown ) {
-            if (!isElevatorInLowPosition()) {
+            if (!isMotorStalled()) {
                 elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
                 elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
                 elevatorMotorRight.setTargetPosition(elevatorPositionCount);
@@ -147,7 +140,7 @@ public class SSElevator {
 
     public void bringElevatorAllTheWayDown()
     {
-        if ( isElevatorInLowPosition()) {
+        if ( isMotorStalled()) {
             elevatorNeedsToGoDown = false;
         }
         else
@@ -163,7 +156,6 @@ public class SSElevator {
         elevatorPositionCount = ELEVATOR_LEVEL_HIGH_POSITION_COUNT;
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-        leftGetTargetPosition = elevatorMotorRight.getTargetPosition();
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_HIGH;
@@ -175,7 +167,6 @@ public class SSElevator {
         elevatorPositionCount = ELEVATOR_LEVEL_MID_POSITION_COUNT;
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
-        leftGetTargetPosition = elevatorMotorRight.getTargetPosition();
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_MID;
@@ -226,13 +217,14 @@ public class SSElevator {
         return elevatorMotorRight.getCurrentPosition();
     }
 
-    public boolean isElevatorInLowPosition() {
-        return touchSensor.isPressed();
+    public boolean isMotorStalled() {
+        return voltageSensor.getVoltage() <= this.voltageThreshold;
     }
 
     public void printDebugMessages(){
         //******  debug ******
-        //telemetry.addData("xx", xx);
-        telemetry.addLine("=============");
+        telemetry.addData("elevator_motor_encoder_left", currentLeftEncoderValue());
+        telemetry.addData("elevator_motor_encoder_right",currentRightEncoderValue());
+        telemetry.addData("elevator_motor_stalled",this.isMotorStalled());
     }
 }

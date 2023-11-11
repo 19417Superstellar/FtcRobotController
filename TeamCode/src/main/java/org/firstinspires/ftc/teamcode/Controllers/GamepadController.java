@@ -21,20 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
  * ssGamepad consists of system provided gamepad(s) and adds functionality to the selection
  * made on gamepads <BR>
  *
- * For Hazmat  PowerPlay, two Gamepads are used (gamepad1 and gamepad2) <BR>
- *
- * The controls are as follows: (replace with gamepad2 for 2nd gamepad) <BR>
- *  *      Left Stick for pan motion (gamepad1.left_stick_x and gamepad2.left_stick_y) <BR>
- *  *      Right Stick for turn motion (gamepad2.right_stick_x: gamepad1.right_stick_y) <BR>
- *  *      Right Bumper magazine flip and majorClaw state(gp2) (gamepad1.right_bumper, gamepad2.right_bumper) <BR>
- *  *      Left Bumper for spinner state and minorArm state(gp2) (gamepad1.left_bumper, gamepad2.left_bumper) <BR>
- *  *      Right Trigger for turbo, and majorArm Parking position(gp2) (gamepad1.right_trigger, gamepad2.right_trigger) <BR>
- *  *      Button A for elevator intake level and major arm pickup position(gp2) (gamepad1.a, gamepad2.a) <BR>
- *  *      Button Y for elevator level 2 and major arm capstone position(gp2) (gamepad1.y, gamepad2.y) <BR>
- *  *      Button X for elevator level 1 and majorArm down one level(gp2) (gamepad1.x, gamepad2.x) <BR>
- *  *      Button B for elevator level 3 and majorArm level up one(gp2) (gamepad1.b, gamepad2.b) <BR>
- *  *      Button Dpad_up for intake out & stop, also for minorArm level up one (gamepad1.dpad_up, gamepad2.dpad_up) <BR>
- *  *      Button Dpad_down for intake in & stop, also for minorArm level down one (gamepad1.dpad_down, gamepad2.dpad_down) <BR>
+ * For SuperStellar, two Gamepads are used (gamepad1 and gamepad2) <BR>
  *
  * To access the gamepad functions, use the gp1Get* or gp2Get* functions at the end of this class <BR>
  *     gp1GetLeftStickX(), gp2GetLeftStickX()
@@ -55,7 +42,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 public class GamepadController {
 
-    //Create object reference to objects to systems passed from TeleOp
+    // Create object reference to objects to systems passed from TeleOp
     public Gamepad ssGamepad1, ssGamepad2;
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
@@ -96,8 +83,6 @@ public class GamepadController {
         this.telemetry = telemetry;
         this.opMode = opMode;
     }
-
-
 
     /**
      *runByGamepad is the main controller function that runs each subsystem controller based on states
@@ -191,6 +176,10 @@ public class GamepadController {
         if (gp2GetButtonYPress()) {
             ssElevator.moveElevatorLevelHigh();
         }
+
+        if (ssElevator.runElevatorToLevelState) {
+            ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
+        }
     }
 
     public void runSSHoldingPen(){};
@@ -212,7 +201,6 @@ public class GamepadController {
             }
         }
     }
-
 
     public void runSSRocketLauncher() {
         ssRocketLauncher.initLauncher();
