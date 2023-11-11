@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.TestOpModes;
 
+import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
@@ -18,18 +21,14 @@ public class SSTestIntake extends LinearOpMode {
 
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
-
     public SSIntake ssIntake;
-
-    //public Vuforia Vuforia1;
-    public Pose2d startPose = GameField.ORIGINPOSE;
+    public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
 
     @Override
     public void runOpMode() throws InterruptedException {
+        GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
 
-        /* Create Subsystem Objects*/
-        //  driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
-        //Declare subsystem to be tested
         ssIntake = new SSIntake(hardwareMap, telemetry);
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, null, null,
@@ -38,31 +37,38 @@ public class SSTestIntake extends LinearOpMode {
         /* Set Initial State of any subsystem when TeleOp is to be started*/
         ssIntake.initSSIntake();
 
+        gameTimer.reset();
+
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
+
+        telemetry.addLine("Start Pressed");
+        telemetry.update();
 
         /* If Stop is pressed, exit OpMode */
         if (isStopRequested()) return;
 
-        /*If Start is pressed, enter loop and exit only when Stop is pressed */
+        /* Wait for Start or Stop Button to be pressed */
+        /* If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
-            if (DEBUG_FLAG) {
-                printDebugMessages();
+            if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
+                ssIntake.printDebugMessages();
                 telemetry.update();
             }
 
             while (opModeIsActive()) {
                 gamepadController.runSSIntake();
+                ssIntake.printDebugMessages();
+                telemetry.update();
 
-                if (DEBUG_FLAG) {
-                    printDebugMessages();
+                if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
+                    ssIntake.printDebugMessages();
                     telemetry.update();
                 }
-
             }
-
         }
+
         GameField.poseSetInAutonomous = false;
     }
 
@@ -77,11 +83,9 @@ public class SSTestIntake extends LinearOpMode {
         telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
         telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
         telemetry.addData("GameField.currentPose : ", GameField.currentPose);
-        telemetry.addData("startPose : ", startPose);
         telemetry.update();
 
         ssIntake.printDebugMessages();
-
     }
 }
 

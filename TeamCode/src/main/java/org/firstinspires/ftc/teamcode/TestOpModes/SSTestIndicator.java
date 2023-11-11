@@ -39,6 +39,7 @@ public class SSTestIndicator extends LinearOpMode {
         indicators.initIndicators();
 
         /* Wait for Start or Stop Button to be pressed */
+        waitForStart();
         gameTimer.reset();
 
         telemetry.addLine("Start Pressed");
@@ -47,7 +48,8 @@ public class SSTestIndicator extends LinearOpMode {
         /* If Stop is pressed, exit OpMode */
         if (isStopRequested()) return;
 
-        /*If Start is pressed, enter loop and exit only when Stop is pressed */
+        /* Wait for Start or Stop Button to be pressed */
+        /* If Start is pressed, enter loop and exit only when Stop is pressed */
         while (!isStopRequested()) {
 
             if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
