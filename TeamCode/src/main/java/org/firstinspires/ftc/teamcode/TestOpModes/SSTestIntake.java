@@ -10,10 +10,9 @@ import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 
-public class SSTestIntake {
+
     @TeleOp(name = "Test Intake", group = "Test")
-    @Disabled
-    public class TestIntake extends LinearOpMode {
+    public class SSTestIntake extends LinearOpMode {
 
         public boolean DEBUG_FLAG = true;
 
@@ -111,6 +110,6 @@ public class SSTestIntake {
 
 
         }
-    }
+
 
 
