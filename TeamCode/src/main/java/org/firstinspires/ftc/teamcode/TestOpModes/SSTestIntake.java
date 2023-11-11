@@ -1,24 +1,16 @@
 package org.firstinspires.ftc.teamcode.TestOpModes;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
-import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 
-public class TeleOp_Intake {
+public class SSTestIntake {
     @TeleOp(name = "Test Intake", group = "Test")
     @Disabled
     public class TestIntake extends LinearOpMode {
