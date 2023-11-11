@@ -143,12 +143,9 @@ public class SSElevator {
         if ( isMotorStalled()) {
             elevatorNeedsToGoDown = false;
         }
-        else
-        {
+        else {
             elevatorNeedsToGoDown = true;
         }
-
-
     }
     public void moveElevatorLevelHigh() {
         turnElevatorBrakeModeOn();
