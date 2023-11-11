@@ -32,16 +32,9 @@ public class SSIntake {
         REVERSING
     }
 
-    public SSINTAKE_MOTOR_STATE SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
+    public SSINTAKE_MOTOR_STATE ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
 
-    public double SSIntakeMotorPower = 0.95;//0.9;
-    // set intake to eject once distance activated
-    //
-    public enum SSINTAKE_BUTTON_STATE {
-        ON,
-        OFF
-    }
-    public SSINTAKE_BUTTON_STATE SSIntakeButtonState;
+    public double ssIntakeMotorPower = 0.95;//0.9;
     public Telemetry telemetry;
     public SSIntake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -50,16 +43,16 @@ public class SSIntake {
     }
 
     public void initSSIntake(){
-
+        intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /**
      * runIntakeMotor checks if the intake is not running and runs the intake
      */
     public void startForwardSSIntakeMotor() {
-        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.RUNNING) {
-            runSSIntakeMotor(DcMotor.Direction.FORWARD,SSIntakeMotorPower);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.RUNNING) {
+            runSSIntakeMotor(DcMotor.Direction.FORWARD, ssIntakeMotorPower);
+            ssIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
         }
     }
 
@@ -68,9 +61,9 @@ public class SSIntake {
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
     public void stopSSIntakeMotor() {
-        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.STOPPED) {
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.STOPPED) {
             runSSIntakeMotor(DcMotor.Direction.FORWARD, 0.0);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
+            ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
         }
     }
 
@@ -79,9 +72,9 @@ public class SSIntake {
      * ets intake motor state to REVERSING
      */
     public void startReverseSSIntakeMotor() {
-        if(SSIntakeMotorState != SSINTAKE_MOTOR_STATE.REVERSING) {
-            runSSIntakeMotor(DcMotor.Direction.REVERSE, SSIntakeMotorPower);
-            SSIntakeMotorState = SSINTAKE_MOTOR_STATE.REVERSING;
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.REVERSING) {
+            runSSIntakeMotor(DcMotor.Direction.REVERSE, ssIntakeMotorPower);
+            ssIntakeMotorState = SSINTAKE_MOTOR_STATE.REVERSING;
 
         }
     }
@@ -97,13 +90,12 @@ public class SSIntake {
     /**
      * Returns Intake motor state
      */
-    public SSINTAKE_MOTOR_STATE getSSIntakeMotorState() {
-        return SSIntakeMotorState;
+    public SSINTAKE_MOTOR_STATE getSsIntakeMotorState() {
+        return ssIntakeMotorState;
     }
 
     public void printDebugMessages(){
         //******  debug ******
-        //telemetry.addData("xx", xx);
-        telemetry.addLine("=============");
+        telemetry.addData("Intake Motor State:", this.getSsIntakeMotorState());
     }
 }

@@ -139,13 +139,13 @@ public class GamepadController {
 
     public void runSSIntake() {
         if (gp1GetDpad_upPress()) {
-            if ((ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
+            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();
             }
         }
 
         if (gp1GetDpad_downPress()) {
-            if ((ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
+            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
                 ssIntake.startReverseSSIntakeMotor();
             }
         }

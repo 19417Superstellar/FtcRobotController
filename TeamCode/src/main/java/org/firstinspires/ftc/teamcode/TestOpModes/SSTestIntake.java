@@ -11,105 +11,79 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 
 
-    @TeleOp(name = "Test Intake", group = "Test")
-    public class SSTestIntake extends LinearOpMode {
+@TeleOp(name = "SS Test Intake", group = "Test")
+public class SSTestIntake extends LinearOpMode {
 
-        public boolean DEBUG_FLAG = true;
+    public boolean DEBUG_FLAG = true;
 
-        public GamepadController gamepadController;
-        public DriveTrain driveTrain;
-        public SSIntake ssIntake;
+    public GamepadController gamepadController;
+    public DriveTrain driveTrain;
 
-        //public Vuforia Vuforia1;
-        public Pose2d startPose = GameField.ORIGINPOSE;
+    public SSIntake ssIntake;
 
-        @Override
-        public void runOpMode() throws InterruptedException {
+    //public Vuforia Vuforia1;
+    public Pose2d startPose = GameField.ORIGINPOSE;
 
-            /* Create Subsystem Objects*/
-            driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
-            //Declare subsystem to be tested
-            ssIntake = new SSIntake(hardwareMap, telemetry);
-            /* Create Controllers */
+    @Override
+    public void runOpMode() throws InterruptedException {
 
-            gamepadController = new GamepadController(gamepad1,gamepad2,driveTrain);
+        /* Create Subsystem Objects*/
+        //  driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
+        //Declare subsystem to be tested
+        ssIntake = new SSIntake(hardwareMap, telemetry);
+        /* Create Controllers */
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, null, null,
+                null, null, null, telemetry, this);
 
-            /* Set Initial State of any subsystem when TeleOp is to be started*/
-            ssIntake.initSSIntake();
+        /* Set Initial State of any subsystem when TeleOp is to be started*/
+        ssIntake.initSSIntake();
 
-            /* Wait for Start or Stop Button to be pressed */
-            waitForStart();
+        /* Wait for Start or Stop Button to be pressed */
+        waitForStart();
 
-            /* If Stop is pressed, exit OpMode */
-            if (isStopRequested()) return;
+        /* If Stop is pressed, exit OpMode */
+        if (isStopRequested()) return;
 
-            /*If Start is pressed, enter loop and exit only when Stop is pressed */
-            while (!isStopRequested()) {
+        /*If Start is pressed, enter loop and exit only when Stop is pressed */
+        while (!isStopRequested()) {
 
-                if(DEBUG_FLAG) {
+            if (DEBUG_FLAG) {
+                printDebugMessages();
+                telemetry.update();
+            }
+
+            while (opModeIsActive()) {
+                gamepadController.runSSIntake();
+
+                if (DEBUG_FLAG) {
                     printDebugMessages();
                     telemetry.update();
                 }
 
-                while (opModeIsActive()) {
-                    gamepadController.runByGamepadControl();
-
-                    //Test Code
-                    if (gamepadController.gp1GetDpad_downPress()) {
-                        if(ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING) {
-                            ssIntake.startForwardSSIntakeMotor();
-                        } else if(ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-                            ssIntake.stopSSIntakeMotor();
-                        }
-                    }
-
-                    //Reverse Intake motors and run - in case of stuck state)
-                    if (gamepadController.gp1GetDpad_upPress()) {
-                        if(ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING) {
-                            ssIntake.startReverseSSIntakeMotor();
-                        } else if (ssIntake.getSSIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.STOPPED) {
-                            ssIntake.stopSSIntakeMotor();
-                        }
-                    }
-
-                    if(DEBUG_FLAG) {
-                        printDebugMessages();
-                        telemetry.update();
-                    }
-
-                }
-
             }
-            GameField.poseSetInAutonomous = false;
-        }
-
-        /**
-         * Method to add debug messages. Update as telemetry.addData.
-         * Use public attributes or methods if needs to be called here.
-         */
-        public void printDebugMessages() {
-            telemetry.setAutoClear(true);
-            telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
-
-            telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
-            telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
-            telemetry.addData("GameField.currentPose : ", GameField.currentPose);
-            telemetry.addData("startPose : ", startPose);
-            telemetry.update();
-        }
-
-            //****** Drive debug ******
-           /*telemetry.addData("Drive Mode : ", driveTrain.driveMode);
-            telemetry.addData("PoseEstimate :", driveTrain.poseEstimate);
-            telemetry.addData("Battery Power : ", driveTrain.getBatteryVoltage(hardwareMap));
-
-            telemetry.addData("Intake State : ", ssIntake.getSSIntakeMotorState()); */
-
-            //Add logic for debug print Logic
-
-
 
         }
+        GameField.poseSetInAutonomous = false;
+    }
+
+    /**
+     * Method to add debug messages. Update as telemetry.addData.
+     * Use public attributes or methods if needs to be called here.
+     */
+    public void printDebugMessages() {
+        telemetry.setAutoClear(true);
+        telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
+
+        telemetry.addData("GameField.playingAlliance : ", GameField.playingAlliance);
+        telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
+        telemetry.addData("GameField.currentPose : ", GameField.currentPose);
+        telemetry.addData("startPose : ", startPose);
+        telemetry.update();
+
+        ssIntake.printDebugMessages();
+
+    }
+}
 
 
 
