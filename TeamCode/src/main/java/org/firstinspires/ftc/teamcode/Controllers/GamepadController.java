@@ -138,6 +138,10 @@ public class GamepadController {
     }
 
     public void runSSIntake() {
+        // Note for Aarushi & Keerthika:
+        // Try gp1GetDpad_up and  gp1GetDpad_down methods here instead of gp1GetDpad_upPress/gp1GetDpad_downPress.
+        // gp1GetDpad_up and gp1GetDpad_down will give us continous state vs one shot.
+
         if (gp1GetDpad_upPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();

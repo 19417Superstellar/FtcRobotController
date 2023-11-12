@@ -51,11 +51,10 @@ public class SSIntake {
      * runIntakeMotor checks if the intake is not running and runs the intake
      */
     public void startForwardSSIntakeMotor() {
-       // [AG] - Don't think we need this check
-       // if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.RUNNING) {
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.RUNNING) {
             runSSIntakeMotor(DcMotor.Direction.FORWARD, ssIntakeMotorPower);
             ssIntakeMotorState = SSINTAKE_MOTOR_STATE.RUNNING;
-       // }
+        }
     }
 
     /**
@@ -63,11 +62,10 @@ public class SSIntake {
      * and sets intakeMotorState to INTAKE_MOTOR_STATE.STOPPED
      */
     public void stopSSIntakeMotor() {
-      // [AG] - Don't think we need this check
-      //  if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.STOPPED) {
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.STOPPED) {
             runSSIntakeMotor(DcMotor.Direction.FORWARD, 0.0);
             ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
-      //  }
+        }
     }
 
     /**
@@ -75,11 +73,10 @@ public class SSIntake {
      * ets intake motor state to REVERSING
      */
     public void startReverseSSIntakeMotor() {
-        // [AG] - Don't think we need this check
-        //  if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.REVERSING) {
+        if(ssIntakeMotorState != SSINTAKE_MOTOR_STATE.REVERSING) {
             runSSIntakeMotor(DcMotor.Direction.REVERSE, ssIntakeMotorPower);
             ssIntakeMotorState = SSINTAKE_MOTOR_STATE.REVERSING;
-      //  }
+        }
     }
 
     /**
