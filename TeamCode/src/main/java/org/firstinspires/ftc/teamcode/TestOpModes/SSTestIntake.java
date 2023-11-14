@@ -26,21 +26,20 @@ public class SSTestIntake extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
-        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
-
         ssIntake = new SSIntake(hardwareMap, telemetry);
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, null, null,
                 null, null, null, telemetry, this);
 
+        GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
+        GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
+
         /* Set Initial State of any subsystem when TeleOp is to be started*/
         ssIntake.initSSIntake();
 
-        gameTimer.reset();
-
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
+        gameTimer.reset();
 
         telemetry.addLine("Start Pressed");
         telemetry.update();
