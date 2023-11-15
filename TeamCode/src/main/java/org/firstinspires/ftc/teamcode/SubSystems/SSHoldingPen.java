@@ -35,6 +35,7 @@ public class SSHoldingPen {
     }
 
     public void initSSHoldingPen(){
+
         stopSSHoldingPenServo();
     }
 
@@ -79,7 +80,7 @@ public class SSHoldingPen {
 
     public void printDebugMessages(){
         //******  debug ******
-        //telemetry.addData("xx", xx);
+        //telemetry.addData("xx", "x");
         telemetry.addLine("=============");
     }
 
