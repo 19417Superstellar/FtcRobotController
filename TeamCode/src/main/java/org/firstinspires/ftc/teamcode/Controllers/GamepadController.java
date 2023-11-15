@@ -147,18 +147,19 @@ public class GamepadController {
         if (gp1GetDpad_upPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();
+            } else {
+                ssIntake.stopSSIntakeMotor();
             }
         }
 
         if (gp1GetDpad_downPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
                 ssIntake.startReverseSSIntakeMotor();
+            } else {
+                ssIntake.stopSSIntakeMotor();
             }
         }
 
-        if (!gp1GetDpad_downPress() && !gp1GetDpad_upPress()) {
-            ssIntake.stopSSIntakeMotor();
-        }
     }
 
 
