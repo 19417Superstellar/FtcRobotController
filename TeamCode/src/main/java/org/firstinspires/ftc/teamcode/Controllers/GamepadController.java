@@ -189,7 +189,23 @@ public class GamepadController {
         }
     }
 
-    public void runSSHoldingPen(){};
+    public void runSSHoldingPen(){
+        if(gp2GetLeftTriggerPress()) {
+            if(ssHoldingPen.getSSIntakeMotorState() != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.REVERSING) {
+                ssHoldingPen.startReverseSSHoldingPenServo();
+            } else {
+                ssHoldingPen.stopSSHoldingPenServo();
+            }
+        }
+
+        if(gp2GetRightTriggerPress()) {
+            if(ssHoldingPen.getSSIntakeMotorState() != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.RUNNING) {
+                ssHoldingPen.startForwardSSHoldingPenServo();
+            } else {
+                ssHoldingPen.stopSSHoldingPenServo();
+            }
+        }
+    }
 
     public void runSSClaw() {
         if (gp2GetRightBumperPress()) {
@@ -373,7 +389,7 @@ public class GamepadController {
 
     /**
      * gp1 right trigger press cubic value when pressed
-     * @return
+     * @return if right trigger pressed
      */
     public boolean gp1GetRightTriggerPress() {
         boolean isPressedRightTrigger = false;
