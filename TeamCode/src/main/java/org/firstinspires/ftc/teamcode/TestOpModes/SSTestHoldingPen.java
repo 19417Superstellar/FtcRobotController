@@ -51,7 +51,7 @@ public class SSTestHoldingPen extends LinearOpMode {
             }
 
             while (opModeIsActive()) {
-                gamepadController.runSSElevator();
+                gamepadController.runSSHoldingPen();
                 ssHoldingPen.printDebugMessages();
                 telemetry.update();
 
