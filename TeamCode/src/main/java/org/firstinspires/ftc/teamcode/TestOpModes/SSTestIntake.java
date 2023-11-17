@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 
 
+// tested - works
 @TeleOp(name = "SS Test Intake", group = "Test")
 public class SSTestIntake extends LinearOpMode {
 
@@ -23,6 +24,7 @@ public class SSTestIntake extends LinearOpMode {
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
     public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
+
 
     @Override
     public void runOpMode() throws InterruptedException {

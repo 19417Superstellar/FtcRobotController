@@ -29,7 +29,8 @@ public class SSTestHoldingPen extends LinearOpMode {
         ssHoldingPen = new SSHoldingPen(hardwareMap, telemetry);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, ssHoldingPen,null, null, null, telemetry, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, ssHoldingPen,null,
+                null, null, telemetry, this);
 
         ssHoldingPen.initSSHoldingPen();
 

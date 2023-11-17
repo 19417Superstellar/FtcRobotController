@@ -7,40 +7,34 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
+import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
+import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
-// tested - works
-@TeleOp(name = "SSTest Indicator", group = "Test")
-public class SSTestIndicator extends LinearOpMode {
+@TeleOp(name = "SS Test Rocket Launcher", group = "Test")
+public class SSTestRocketLauncher extends LinearOpMode {
+    public boolean DEBUG_FLAG = true;
     public GamepadController gamepadController;
     public DriveTrain driveTrain;
-    public SSIndicators indicators;
-    public Pose2d startPose = GameField.ORIGINPOSE;
+    public SSRocketLauncher ssRocketLauncher;
     public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
 
-    /*
-     * Constructor for passing all the subsystems in order to make the subsystem be able to use
-     * and work/be active
-     */
-
     public void runOpMode() throws InterruptedException {
-        indicators = new SSIndicators(hardwareMap, telemetry);
-
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
-                null, indicators, null, telemetry, this);
-
-
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
         GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;
 
-        /* Set Initial State of any subsystem when OpMode is to be started*/
-        indicators.initIndicators();
+        ssRocketLauncher = new SSRocketLauncher(hardwareMap, telemetry);
 
-        /* Wait for Start or Stop Button to be pressed */
-        waitForStart();
+        /* Create Controllers */
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,null,
+                null, ssRocketLauncher, telemetry, this);
+
+        ssRocketLauncher.initLauncher();
+
         gameTimer.reset();
 
         telemetry.addLine("Start Pressed");
@@ -54,21 +48,38 @@ public class SSTestIndicator extends LinearOpMode {
         while (!isStopRequested()) {
 
             if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-                indicators.printDebugMessages();
+                ssRocketLauncher.printDebugMessages();
                 telemetry.update();
             }
 
             while (opModeIsActive()) {
-                gamepadController.runSSIndicators();
-                indicators.printDebugMessages();
+                gamepadController.runSSRocketLauncher();
+                ssRocketLauncher.printDebugMessages();
                 telemetry.update();
 
                 if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-                    indicators.printDebugMessages();
+                    ssRocketLauncher.printDebugMessages();
                     telemetry.update();
                 }
             }
         }
         GameField.poseSetInAutonomous = false;
     }
+
+    /**
+     * Method to add debug messages. Update as telemetry.addData.
+     * Use public attributes or methods if needs to be called here.
+     */
+    public void printDebugMessages(){
+        telemetry.setAutoClear(true);
+        telemetry.addData("DEBUG_FLAG is : ", DEBUG_FLAG);
+
+
+        //add for all subsytems
+        ssRocketLauncher.printDebugMessages();
+
+        telemetry.update();
+    }
+
 }
+

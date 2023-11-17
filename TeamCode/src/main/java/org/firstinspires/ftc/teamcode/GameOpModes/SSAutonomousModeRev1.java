@@ -53,7 +53,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 /**
  * Superstellar Autonomous
  */
-@Autonomous(name = "SS Autonomous Mode Rev 1", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
+@Autonomous(name = "SS Autonomous Mode Circle", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousModeRev1 extends LinearOpMode {
 
     public GamepadController gamepadController;
