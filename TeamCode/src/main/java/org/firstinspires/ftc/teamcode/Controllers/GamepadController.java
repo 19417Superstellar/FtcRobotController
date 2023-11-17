@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
@@ -48,7 +48,7 @@ public class GamepadController {
     public SSIntake ssIntake;
     public SSElevator ssElevator;
     public SSHoldingPen ssHoldingPen;
-    public SSClaw ssClaw;
+    public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
     public Telemetry telemetry;
@@ -65,7 +65,7 @@ public class GamepadController {
                              SSIntake ssIntake,
                              SSElevator ssElevator,
                              SSHoldingPen ssHoldingPen,
-                             SSClaw ssClaw,
+                             SSBucket ssBucket,
                              SSIndicators ssIndicators,
                              SSRocketLauncher ssRocketLauncher,
                              Telemetry telemetry,
@@ -77,7 +77,7 @@ public class GamepadController {
         this.ssIntake = ssIntake;
         this.ssElevator = ssElevator;
         this.ssHoldingPen = ssHoldingPen;
-        this.ssClaw = ssClaw;
+        this.ssBucket = ssBucket;
         this.ssIndicators = ssIndicators;
         this.ssRocketLauncher = ssRocketLauncher;
         this.telemetry = telemetry;
@@ -92,7 +92,7 @@ public class GamepadController {
         runSSIntake();
         runSSElevator();
         runSSHoldingPen();
-        runSSClaw();
+        runSSBucket();
         runSSIndicators();
         runSSRocketLauncher();
       }
@@ -207,20 +207,12 @@ public class GamepadController {
         }
     }
 
-    public void runSSClaw() {
-        if (gp2GetRightBumperPress()) {
-            if (ssClaw.getGripServoState() == SSClaw.GRIP_SERVO_STATE.GRIP_OPEN ){
-                ssClaw.setGripClose();
-            } else {
-                ssClaw.setGripOpen();
-            }
-        }
-
+    public void runSSBucket() {
         if (gp2GetLeftBumperPress()) {
-            if (ssClaw.getWristServoState() == SSClaw.WRIST_SERVO_STATE.WRIST_DROP) {
-                ssClaw.setWristForward();
+            if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP) {
+                ssBucket.setBucketDropPosition();
             } else {
-                ssClaw.setWristBack();
+                ssBucket.setBucketPickPosition();
             }
         }
     }
