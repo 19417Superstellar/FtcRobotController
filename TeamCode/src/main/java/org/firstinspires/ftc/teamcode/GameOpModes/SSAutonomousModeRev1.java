@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
@@ -53,7 +53,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 /**
  * Superstellar Autonomous
  */
-@Autonomous(name = "SS Autonomous Mode Circle", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
+@Autonomous(name = "SS Autonomous Mode Drop-Park", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousModeRev1 extends LinearOpMode {
 
     public GamepadController gamepadController;
@@ -61,7 +61,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
     public SSIntake ssIntake;
     public SSElevator ssElevator;
     public SSHoldingPen ssHoldingPen;
-    public SSClaw ssClaw;
+    public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
     public VisionTfod visionTfodFront;
@@ -139,19 +139,20 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         switch (GameField.startPosition) {
             case BLUE_LEFT:
+                initPose = new Pose2d(-60, 12, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(26, 8, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(23, 36, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-36, 24, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-48, 48, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(33, 3, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(30, 36,  Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-24, 12, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-36, 48,  Math.toRadians(-90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(30, -9, Math.toRadians(-45));
-                        dropYellowPixelPose = new Pose2d(37, 36, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-36, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-24, 48, Math.toRadians(-90));
                         break;
                 }
                 midwayPose1 = new Pose2d(14, 13, Math.toRadians(-45));
@@ -159,20 +160,21 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 parkPose = new Pose2d(8, 30, Math.toRadians(-90));
                 break;
 
-            case RED_RIGHT:
+            case RED_LEFT:
+                initPose = new Pose2d(60, -48, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(30, 9, Math.toRadians(45));
-                        dropYellowPixelPose = new Pose2d(21, -36, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(36, -48, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(48, 48, Math.toRadians(90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(33, -3, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(29, -36,  Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(24, -36, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(36, 48,  Math.toRadians(90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(26, -8, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(37, -36, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(36, -24, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(24, 48, Math.toRadians(90));
                         break;
                 }
                 midwayPose1 = new Pose2d(14, -13, Math.toRadians(45));
@@ -180,20 +182,21 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 parkPose = new Pose2d(8, -30, Math.toRadians(90));
                 break;
 
-            case BLUE_RIGHT:
+            case BLUE_RIGHT: //GOOD
+                initPose = new Pose2d(-60, -48, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(27, 9, Math.toRadians(45));
-                        dropYellowPixelPose = new Pose2d(27, 86, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-24, -24, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-48, 48, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(33, -3, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(34, 86, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-36, -36, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-36, 48, Math.toRadians(-90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(26, -8, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(43, 86, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(-24, -48, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(-24, 48, Math.toRadians(-90));
                         break;
                 }
                 midwayPose1 = new Pose2d(8, -8, Math.toRadians(0));
@@ -204,20 +207,21 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 parkPose = new Pose2d(50, 84, Math.toRadians(-90));
                 break;
 
-            case RED_LEFT:
+            case RED_RIGHT:
+                initPose = new Pose2d(60, 12, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(26, 8, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(37, -86, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(36, 24, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(24, 48, Math.toRadians(90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(33, -3, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(29, -86, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(24, 12, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(36, 48, Math.toRadians(90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(27, -9, Math.toRadians(-45));
-                        dropYellowPixelPose = new Pose2d(21, -86, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(36, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(48, 48, Math.toRadians(90));
                         break;
                 }
                 midwayPose1 = new Pose2d(8, 8, Math.toRadians(0));
@@ -229,7 +233,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 break;
         }
 
-        //drive.pose = initPose;
+        drive.pose = initPose;
 
         //Move robot to dropPurplePixel based on identified Spike Mark Location
         Actions.runBlocking(
@@ -364,7 +368,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         telemetry.update();
 
         /* Create ssClaw */
-        ssClaw = new SSClaw(hardwareMap, telemetry);
+        ssBucket = new SSBucket(hardwareMap, telemetry);
         telemetry.addLine("ssClaw Initialized");
         telemetry.update();
 
@@ -386,7 +390,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssIndicators, ssRocketLauncher, telemetry, this);
+                ssIntake, ssElevator, ssHoldingPen, ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
