@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 
 @TeleOp(name = "SS Test Holding Pen", group = "Test")
