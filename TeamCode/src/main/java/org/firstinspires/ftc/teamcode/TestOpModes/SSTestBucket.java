@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
  * This code defines the TeleOp mode is done by Hazmat Robot for Freight Frenzy<BR>
  *
  */
-@TeleOp(name = "SS Claw Test TeleOp", group = "Test")
+@TeleOp(name = "SS Bucket Test TeleOp", group = "Test")
 public class SSTestBucket extends LinearOpMode {
 
     public GamepadController gamepadController;
