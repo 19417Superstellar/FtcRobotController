@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSClaw;
+import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
@@ -32,7 +32,7 @@ public class SSTeleOpMode extends LinearOpMode {
     public SSIntake ssIntake;
     public SSElevator ssElevator;
     public SSHoldingPen ssHoldingPen;
-    public SSClaw ssClaw;
+    public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
 
@@ -115,7 +115,7 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.update();
 
         /* Create ssClaw */
-        ssClaw = new SSClaw(hardwareMap, telemetry);
+        ssBucket = new SSBucket(hardwareMap, telemetry);
         telemetry.addLine("ssClaw Initialized");
         telemetry.update();
 
@@ -131,7 +131,7 @@ public class SSTeleOpMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssClaw, ssIndicators, ssRocketLauncher, telemetry, this);
+                ssIntake, ssElevator, ssHoldingPen, ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
@@ -176,7 +176,7 @@ public class SSTeleOpMode extends LinearOpMode {
             ssIntake.printDebugMessages();
             ssElevator.printDebugMessages();
             ssHoldingPen.printDebugMessages();
-            ssClaw.printDebugMessages();
+            ssBucket.printDebugMessages();
             ssRocketLauncher.printDebugMessages();
             //visionAprilTagFront.printdebugMessages();
             ssIndicators.printDebugMessages();
