@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
@@ -47,7 +46,6 @@ public class GamepadController {
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
     public SSElevator ssElevator;
-    public SSHoldingPen ssHoldingPen;
     public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
@@ -64,7 +62,6 @@ public class GamepadController {
                              DriveTrain driveTrain,
                              SSIntake ssIntake,
                              SSElevator ssElevator,
-                             SSHoldingPen ssHoldingPen,
                              SSBucket ssBucket,
                              SSIndicators ssIndicators,
                              SSRocketLauncher ssRocketLauncher,
@@ -76,7 +73,6 @@ public class GamepadController {
         this.driveTrain = driveTrain;
         this.ssIntake = ssIntake;
         this.ssElevator = ssElevator;
-        this.ssHoldingPen = ssHoldingPen;
         this.ssBucket = ssBucket;
         this.ssIndicators = ssIndicators;
         this.ssRocketLauncher = ssRocketLauncher;
@@ -91,7 +87,7 @@ public class GamepadController {
         runDriveControl_byRRDriveModes();
         runSSIntake();
         runSSElevator();
-        runSSHoldingPen();
+        //runSSHoldingPen();
         runSSBucket();
         runSSIndicators();
         runSSRocketLauncher();
@@ -142,9 +138,9 @@ public class GamepadController {
         // Try gp1GetDpad_up and  gp1GetDpad_down methods here instead of gp1GetDpad_upPress/gp1GetDpad_downPress.
         // gp1GetDpad_up and gp1GetDpad_down will give us continous state vs one shot.
         // In the final version, we will need to integrate the color sensors and stop intake when 2 pixels as in the
-        // bucket.
+        // bucket. <-- this was done
 
-        if (gp1GetDpad_upPress()) {
+        if (gp1GetDpad_up()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();
             } else {
@@ -152,11 +148,13 @@ public class GamepadController {
             }
         }
 
-        if (gp1GetDpad_downPress()) {
-            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
-                ssIntake.startReverseSSIntakeMotor();
-            } else {
-                ssIntake.stopSSIntakeMotor();
+        if(!(ssIntake.dropSensorDetectsColor() && ssIntake.holdSensorDetectsColor())) {
+            if (gp1GetDpad_down()) {
+                if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
+                    ssIntake.startReverseSSIntakeMotor();
+                } else {
+                    ssIntake.stopSSIntakeMotor();
+                }
             }
         }
 
@@ -189,7 +187,7 @@ public class GamepadController {
         }
     }
 
-    public void runSSHoldingPen(){
+    /*public void runSSHoldingPen(){
         if(gp2GetLeftTriggerPress()) {
             if(ssHoldingPen.getSSIntakeMotorState() != SSHoldingPen.SSHOLDING_PEN_SERVO_STATE.REVERSING) {
                 ssHoldingPen.startReverseSSHoldingPenServo();
@@ -205,7 +203,7 @@ public class GamepadController {
                 ssHoldingPen.stopSSHoldingPenServo();
             }
         }
-    }
+    }*/
 
     public void runSSBucket() {
         if (gp2GetLeftBumperPress()) {

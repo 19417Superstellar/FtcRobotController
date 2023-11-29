@@ -6,11 +6,6 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
-import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
-import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
-import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 
 /**

@@ -2,17 +2,13 @@ package org.firstinspires.ftc.teamcode.TestOpModes;
 
 import static com.qualcomm.robotcore.util.ElapsedTime.Resolution.MILLISECONDS;
 
-import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 
 @TeleOp(name = "SS Test Rocket Launcher", group = "Test")
@@ -30,7 +26,7 @@ public class SSTestRocketLauncher extends LinearOpMode {
         ssRocketLauncher = new SSRocketLauncher(hardwareMap, telemetry);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,null,
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
                 null, ssRocketLauncher, telemetry, this);
 
         ssRocketLauncher.initLauncher();

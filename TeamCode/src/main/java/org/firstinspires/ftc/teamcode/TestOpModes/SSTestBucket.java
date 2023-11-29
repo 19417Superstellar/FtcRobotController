@@ -65,7 +65,8 @@ public class SSTestBucket extends LinearOpMode {
             }
 
             while (opModeIsActive()) {
-                gamepadController.runByGamepadControl();
+                gamepadController.runSSIntake();
+
 
                 if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
                     printDebugMessages();
@@ -94,7 +95,7 @@ public class SSTestBucket extends LinearOpMode {
         ssBucket = new SSBucket(hardwareMap, telemetry);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null,
                 ssBucket, null, null, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();

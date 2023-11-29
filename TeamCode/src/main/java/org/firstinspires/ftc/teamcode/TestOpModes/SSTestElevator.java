@@ -28,8 +28,7 @@ public class SSTestElevator extends LinearOpMode {
         ssElevator = new SSElevator(hardwareMap, telemetry);
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, ssElevator, null,
-                null, null, null, telemetry, this);
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, ssElevator, null, null, null, telemetry, this);
 
         ssElevator.initElevator();
 

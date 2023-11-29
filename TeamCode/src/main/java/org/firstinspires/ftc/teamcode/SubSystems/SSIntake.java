@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -25,6 +26,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSIntake {
 
     public DcMotorEx intakeMotor;
+    public NormalizedColorSensor holdSensor;
+    public NormalizedColorSensor dropSensor;
 
     public enum SSINTAKE_MOTOR_STATE {
         RUNNING,
@@ -87,6 +90,14 @@ public class SSIntake {
         intakeMotor.setPower(power);
     }
 
+    public boolean holdSensorDetectsColor() {
+        return true;
+    }
+
+    public boolean dropSensorDetectsColor() {
+        return true;
+    }
+
     /**
      * Returns Intake motor state
      */
@@ -97,5 +108,7 @@ public class SSIntake {
     public void printDebugMessages(){
         //******  debug ******
         telemetry.addData("Intake Motor State:", this.getSsIntakeMotorState());
+        telemetry.addLine("Front color sensor == Color: " + dropSensor.getNormalizedColors());
+        telemetry.addLine("Back color sensor == Color: " + holdSensor.getNormalizedColors());
     }
 }

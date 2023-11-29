@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -8,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSBucket {
 
     public Servo bucketServo;
-    //Gobilda (enter motor details later
-    //Encoder count : enter details to be done
+    public NormalizedColorSensor holdSensor;
+    public NormalizedColorSensor dropSensor;
 
     
 
@@ -36,6 +37,8 @@ public class SSBucket {
     public SSBucket(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         bucketServo = hardwareMap.get(Servo.class,"bucket_servo");
+        holdSensor = hardwareMap.get(NormalizedColorSensor.class, "hold_sensor");
+        dropSensor = hardwareMap.get(NormalizedColorSensor.class, "drop_sensor");
 
         initBucket();
     }
@@ -63,6 +66,9 @@ public class SSBucket {
     //function to determine POWER_WITH_CARGO or POWER_WITH_NO_CARGO
 
 
+
+    // both below are placeholders until we can test and get values
+
     public BUCKET_SERVO_STATE getBucketServoState() {
         return bucketServoState;
     }
@@ -71,6 +77,7 @@ public class SSBucket {
         //******  debug ******
         //telemetry.addData("xx", xx);
         telemetry.addLine("=============");
+
     }
 
 }

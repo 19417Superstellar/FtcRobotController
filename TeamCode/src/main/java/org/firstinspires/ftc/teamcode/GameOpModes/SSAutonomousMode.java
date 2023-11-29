@@ -37,16 +37,13 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
@@ -62,7 +59,6 @@ public class SSAutonomousMode extends LinearOpMode {
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
     public SSElevator ssElevator;
-    public SSHoldingPen ssHoldingPen;
     public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
@@ -366,7 +362,6 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.update();
 
         /* Create ssHoldingPen */
-        ssHoldingPen = new SSHoldingPen(hardwareMap, telemetry);
         telemetry.addLine("ssHoldingPen Initialized");
         telemetry.update();
 
@@ -385,15 +380,13 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.addLine("ssIndicators Initialized");
         telemetry.update();
 
-
-
         /* Create Vision */
         visionTfodFront = new VisionTfod(hardwareMap, telemetry, "Webcam 1");
         telemetry.addLine("VisionTfod Initialized");
         telemetry.update();
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator, ssHoldingPen,
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator,
                 ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();

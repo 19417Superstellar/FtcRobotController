@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
-import org.firstinspires.ftc.teamcode.SubSystems.SSHoldingPen;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
 import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
@@ -31,7 +30,6 @@ public class SSTeleOpMode extends LinearOpMode {
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
     public SSElevator ssElevator;
-    public SSHoldingPen ssHoldingPen;
     public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
@@ -110,7 +108,6 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.update();
 
         /* Create ssHoldingPen */
-        ssHoldingPen = new SSHoldingPen(hardwareMap, telemetry);
         telemetry.addLine("ssHoldingPen Initialized");
         telemetry.update();
 
@@ -131,7 +128,7 @@ public class SSTeleOpMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssHoldingPen, ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
+                ssIntake, ssElevator, ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
@@ -175,7 +172,6 @@ public class SSTeleOpMode extends LinearOpMode {
             driveTrain.printDebugMessages();
             ssIntake.printDebugMessages();
             ssElevator.printDebugMessages();
-            ssHoldingPen.printDebugMessages();
             ssBucket.printDebugMessages();
             ssRocketLauncher.printDebugMessages();
             //visionAprilTagFront.printdebugMessages();

@@ -29,7 +29,7 @@ public class SSTestIndicator extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         indicators = new SSIndicators(hardwareMap, telemetry);
 
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
+        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null,
                 null, indicators, null, telemetry, this);
 
 
