@@ -9,8 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSBucket {
 
     public Servo bucketServo;
-    public NormalizedColorSensor holdSensor;
-    public NormalizedColorSensor dropSensor;
+
 
     
 
@@ -37,8 +36,6 @@ public class SSBucket {
     public SSBucket(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         bucketServo = hardwareMap.get(Servo.class,"bucket_servo");
-        holdSensor = hardwareMap.get(NormalizedColorSensor.class, "hold_sensor");
-        dropSensor = hardwareMap.get(NormalizedColorSensor.class, "drop_sensor");
 
         initBucket();
     }

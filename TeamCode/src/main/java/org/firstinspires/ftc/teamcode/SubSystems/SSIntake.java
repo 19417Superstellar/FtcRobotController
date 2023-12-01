@@ -26,8 +26,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSIntake {
 
     public DcMotorEx intakeMotor;
-    public NormalizedColorSensor holdSensor;
-    public NormalizedColorSensor dropSensor;
+    public NormalizedColorSensor topSensor;
+    public NormalizedColorSensor bottomSensor;
 
     public enum SSINTAKE_MOTOR_STATE {
         RUNNING,
@@ -43,6 +43,9 @@ public class SSIntake {
     public SSIntake(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
+        topSensor = hardwareMap.get(NormalizedColorSensor.class, "topSensor");
+        bottomSensor = hardwareMap.get(NormalizedColorSensor.class, "bottomSensor");
+
         initSSIntake();
     }
 
@@ -90,11 +93,11 @@ public class SSIntake {
         intakeMotor.setPower(power);
     }
 
-    public boolean holdSensorDetectsColor() {
+    public boolean topSensorDetectsColor() {
         return true;
     }
 
-    public boolean dropSensorDetectsColor() {
+    public boolean bottomSensorDetectsColor() {
         return true;
     }
 
@@ -105,10 +108,10 @@ public class SSIntake {
         return ssIntakeMotorState;
     }
 
-    public void printDebugMessages(){
+    public void printDebugMessages() {
         //******  debug ******
         telemetry.addData("Intake Motor State:", this.getSsIntakeMotorState());
-        telemetry.addLine("Front color sensor == Color: " + dropSensor.getNormalizedColors());
-        telemetry.addLine("Back color sensor == Color: " + holdSensor.getNormalizedColors());
+        telemetry.addLine("Top color sensor == Color: " + topSensor.getNormalizedColors().toColor());
+        telemetry.addLine("Bottom color sensor == Color: " + bottomSensor.getNormalizedColors().toColor());
     }
 }

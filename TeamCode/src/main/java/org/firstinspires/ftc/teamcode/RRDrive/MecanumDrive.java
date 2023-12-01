@@ -230,12 +230,12 @@ public class MecanumDrive {
 
         //TODO Step 3: Specify how the robot should track its position
         //Comment this line if NOT using Drive Encoder localization
-        localizer = new DriveLocalizer();
+        //localizer = new DriveLocalizer();
         //Uncomment next line if using Two Dead Wheel Localizer and also check TwoDeadWheelLocalizer.java for Step 3.1
         //localizer = new TwoDeadWheelLocalizer(hardwareMap, imu, PARAMS.inPerTick)
 
         //Uncomment next line if using Three Dead Wheel Localizer and also check ThreeDeadWheelLocalizer.java for Step 3.1
-        //localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick)
+        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
         //TODO End Step 3
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);

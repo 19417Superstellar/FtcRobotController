@@ -140,7 +140,7 @@ public class GamepadController {
         // In the final version, we will need to integrate the color sensors and stop intake when 2 pixels as in the
         // bucket. <-- this was done
 
-        if (gp1GetDpad_up()) {
+        if (gp1GetDpad_upPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();
             } else {
@@ -148,8 +148,8 @@ public class GamepadController {
             }
         }
 
-        if(!(ssIntake.dropSensorDetectsColor() && ssIntake.holdSensorDetectsColor())) {
-            if (gp1GetDpad_down()) {
+        if(!(ssIntake.topSensorDetectsColor() && ssIntake.bottomSensorDetectsColor())) {
+            if (gp1GetDpad_downPress()) {
                 if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
                     ssIntake.startReverseSSIntakeMotor();
                 } else {
