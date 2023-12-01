@@ -72,7 +72,7 @@ public class SSBucket {
 
     public void printDebugMessages(){
         //******  debug ******
-        //telemetry.addData("xx", xx);
+        telemetry.addData("Bucket Servo State: ", getBucketServoState());
         telemetry.addLine("=============");
 
     }
