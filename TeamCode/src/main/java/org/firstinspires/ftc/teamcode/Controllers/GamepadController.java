@@ -148,7 +148,7 @@ public class GamepadController {
             }
         }
 
-        if(!(ssIntake.topSensorDetectsColor() && ssIntake.bottomSensorDetectsColor())) {
+        if(!ssIntake.bottomSensorDetectsColor()) {
             if (gp1GetDpad_downPress()) {
                 if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
                     ssIntake.startReverseSSIntakeMotor();

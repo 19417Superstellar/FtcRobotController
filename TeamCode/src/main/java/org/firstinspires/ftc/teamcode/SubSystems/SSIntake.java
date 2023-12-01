@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 /**
  * Definition of SSIntake Class <BR>
@@ -93,12 +95,18 @@ public class SSIntake {
         intakeMotor.setPower(power);
     }
 
-    public boolean topSensorDetectsColor() {
-        return true;
+    public boolean bottomSensorDetectsColor() {
+        if(((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) < 60) {
+            return true;
+        }
+        return false;
     }
 
-    public boolean bottomSensorDetectsColor() {
-        return true;
+    public boolean topSensorDetectsColor() {
+        if(((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) < 60) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -111,7 +119,11 @@ public class SSIntake {
     public void printDebugMessages() {
         //******  debug ******
         telemetry.addData("Intake Motor State:", this.getSsIntakeMotorState());
-        telemetry.addLine("Top color sensor == Color: " + topSensor.getNormalizedColors().toColor());
-        telemetry.addLine("Bottom color sensor == Color: " + bottomSensor.getNormalizedColors().toColor());
+        telemetry.addLine("Bottom intake distance: " + ((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM));
+        telemetry.addLine("Bottom intake detected: " + bottomSensorDetectsColor());
+
+        telemetry.addLine("Top intake distance: " + ((DistanceSensor) topSensor).getDistance(DistanceUnit.MM));
+        telemetry.addLine("Top intake detected: " + topSensorDetectsColor());
     }
+
 }
