@@ -29,8 +29,8 @@ public class SSBucket {
 
     //change values
 
-    public static double BUCKET_DROP_POSITION = 180;
-    public static double BUCKET_PICK_POSITION= 0;
+   // public static double BUCKET_DROP_POSITION = 180;
+   // public static double BUCKET_PICK_POSITION = 0;
 
     public Telemetry telemetry;
     public SSBucket(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -45,18 +45,18 @@ public class SSBucket {
      */
 
     public void initBucket(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
-        bucketServo.setPosition(BUCKET_PICK_POSITION);
+        bucketServo.setPosition(0.24);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
     
 
     public void setBucketDropPosition() {
-        bucketServo.setPosition(BUCKET_DROP_POSITION);
+        bucketServo.setPosition(1.1);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP;
     }
 
     public void setBucketPickPosition() {
-        bucketServo.setPosition(BUCKET_PICK_POSITION);
+        bucketServo.setPosition(0.2);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
 
@@ -73,6 +73,7 @@ public class SSBucket {
     public void printDebugMessages(){
         //******  debug ******
         //telemetry.addData("xx", xx);
+        telemetry.addLine("bucket: " + getBucketServoState().toString() + "  " + bucketServo.getPosition());
         telemetry.addLine("=============");
 
     }

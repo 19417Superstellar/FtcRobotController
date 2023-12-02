@@ -24,12 +24,11 @@ public class SSElevator {
 
     public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 0;
     public static int ELEVATOR_LEVEL_MID_POSITION_COUNT = 1450;
-    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2900;
+    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2700;
     public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 300;
     public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 300;
 
-    public static double POWER_LEVEL_RUN = .1;
-
+    public static double POWER_LEVEL_RUN = .8;
     public ELEVATOR_POSITION elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
 
     public int elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
@@ -59,14 +58,13 @@ public class SSElevator {
         elevatorMotorRight.setDirection(DcMotorEx.Direction.REVERSE);
         elevatorMotorRight.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        resetElevator();
-        initializeElevatorToLowPosition();
 
         if (getElevatorPosition() == ELEVATOR_POSITION.LEVEL_LOW) {
             turnElevatorBrakeModeOff();
         } else if (getElevatorPosition() == ELEVATOR_POSITION.LEVEL_HIGH) {
             turnElevatorBrakeModeOn();
         }
+        resetElevator();
     }
 
     /**
@@ -175,13 +173,16 @@ public class SSElevator {
     public void moveSSElevatorSlightlyDown() {
         turnElevatorBrakeModeOn();
         elevatorPositionCount = elevatorPositionCount - ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT;
+        if ( elevatorPositionCount < 0 ) {
+            elevatorPositionCount= 0;
+        }
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
 
-        resetElevator();
-        elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
+        //resetElevator();
+        //elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
     }
 
     /**

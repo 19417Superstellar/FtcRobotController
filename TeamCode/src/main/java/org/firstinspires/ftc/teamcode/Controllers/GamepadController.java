@@ -139,22 +139,19 @@ public class GamepadController {
         // gp1GetDpad_up and gp1GetDpad_down will give us continous state vs one shot.
         // In the final version, we will need to integrate the color sensors and stop intake when 2 pixels as in the
         // bucket. <-- this was done
+        if (gp1GetDpad_downPress()) {
+            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
+                ssIntake.startReverseSSIntakeMotor();
+            } else {
+                ssIntake.stopSSIntakeMotor();
+            }
+        }
 
         if (gp1GetDpad_upPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
                 ssIntake.startForwardSSIntakeMotor();
             } else {
                 ssIntake.stopSSIntakeMotor();
-            }
-        }
-
-        if(!ssIntake.bottomSensorDetectsColor()) {
-            if (gp1GetDpad_downPress()) {
-                if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
-                    ssIntake.startReverseSSIntakeMotor();
-                } else {
-                    ssIntake.stopSSIntakeMotor();
-                }
             }
         }
 
