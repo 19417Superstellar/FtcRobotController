@@ -95,14 +95,14 @@ public class SSIntake {
         intakeMotor.setPower(power);
     }
 
-    public boolean bottomSensorDetectsColor() {
+    public boolean bottomSensorDetectsIntake() {
         if(((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) < 60) {
             return true;
         }
         return false;
     }
 
-    public boolean topSensorDetectsColor() {
+    public boolean topSensorDetectsIntake() {
         if(((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) < 60) {
             return true;
         }
@@ -120,10 +120,10 @@ public class SSIntake {
         //******  debug ******
         telemetry.addData("Intake Motor State:", this.getSsIntakeMotorState());
         telemetry.addLine("Bottom intake distance: " + ((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM));
-        telemetry.addLine("Bottom intake detected: " + bottomSensorDetectsColor());
+        telemetry.addLine("Bottom intake detected: " + bottomSensorDetectsIntake());
 
         telemetry.addLine("Top intake distance: " + ((DistanceSensor) topSensor).getDistance(DistanceUnit.MM));
-        telemetry.addLine("Top intake detected: " + topSensorDetectsColor());
+        telemetry.addLine("Top intake detected: " + topSensorDetectsIntake());
     }
 
 }
