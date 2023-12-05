@@ -100,14 +100,14 @@ public class SSIntake {
     }
 
     public boolean bottomSensorDetectsIntake() {
-        if(((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) < 60) {
+        if(((DistanceSensor) bottomSensor).getDistance(DistanceUnit.MM) < 5) {
             return true;
         }
         return false;
     }
 
     public boolean topSensorDetectsIntake() {
-        if(((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) > 40 && ((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) < 60) {
+        if(((DistanceSensor) topSensor).getDistance(DistanceUnit.MM) < 5) {
             return true;
         }
         return false;

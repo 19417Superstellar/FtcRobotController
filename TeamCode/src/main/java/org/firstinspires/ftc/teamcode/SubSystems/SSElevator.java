@@ -121,7 +121,7 @@ public class SSElevator {
 
     private void stopMotors() {
         elevatorMotorRight.setPower(0.0);
-        elevatorMotorLeft.setPower(0.0);
+        //elevatorMotorLeft.setPower(0.0);
     }
     /**
      * Initialize elevator to low position
@@ -176,7 +176,7 @@ public class SSElevator {
         if ( elevatorPositionCount < 0 ) {
             elevatorPositionCount= 0;
         }
-        elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
+      elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
