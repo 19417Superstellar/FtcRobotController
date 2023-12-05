@@ -1,0 +1,37 @@
+control hub
+	Motors
+		0 intake_motor
+		1 elevator_motor_right
+		2 rightBack
+		3 rightFront
+	Servos
+		0 indicator_light
+	I2C Bus 0
+		0 imu
+
+expansion hub
+	Motors
+		0 leftBack
+		2 leftFront
+	Servos
+		1 launcher_servo
+		2 bucket_servo
+	I2C Bus 0
+		0 bottomSensor
+		1 topSensor
+
+
+gp1	Chassis controller		                        gp2	Subsystem controller
+KEY	            FUNCTION		                    KEY	        FUNCTION
+A	            green light		                    A	        -
+B	            white light		                    B	        -
+X	            purple light	                    X	        -
+Y	            yellow light	                    Y	        top level (top of board) elevator
+dpad_up	        intake push out		                dpad_up	    slightly up elevator
+dpad_down	    intake push in + stop	            dpad_down	slightly down elevator
+trigger_left*	suspension hook
+trigger_right*	suspension raise
+bumper_left	    launching drone (release)	        bumper_left	bucket drop/hold
+bumper_right	bumper_right
+joystick_left	chassis moving
+joystick_right	chassis rotation
