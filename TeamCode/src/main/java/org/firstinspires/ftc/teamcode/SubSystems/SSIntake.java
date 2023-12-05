@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -28,6 +29,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class SSIntake {
 
     public DcMotorEx intakeMotor;
+    public Servo intakeLatch;
     public NormalizedColorSensor topSensor;
     public NormalizedColorSensor bottomSensor;
 
@@ -47,12 +49,14 @@ public class SSIntake {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "intake_motor");
         topSensor = hardwareMap.get(NormalizedColorSensor.class, "topSensor");
         bottomSensor = hardwareMap.get(NormalizedColorSensor.class, "bottomSensor");
+        intakeLatch = hardwareMap.get(Servo.class, "intake_latch");
 
         initSSIntake();
     }
 
     public void initSSIntake(){
         intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        intakeLatch.setPosition(0.5);
     }
 
     /**
