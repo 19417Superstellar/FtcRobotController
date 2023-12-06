@@ -25,9 +25,9 @@ expansion hub
 
 gp1	Chassis controller		                        gp2	Subsystem controller
 KEY	            FUNCTION		                    KEY	        FUNCTION
-A	            green light		                    A	        -
+A	            green light		                    A	        elevator to bottom (pick) position
 B	            white light		                    B	        -
-X	            purple light	                    X	        -
+X	            purple light	                    X	        elevator to top position
 Y	            yellow light	                    Y	        top level (top of board) elevator
 dpad_up	        intake push out		                dpad_up	    slightly up elevator
 dpad_down	    intake push in + stop	            dpad_down	slightly down elevator

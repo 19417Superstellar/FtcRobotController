@@ -126,7 +126,7 @@ public class SSElevator {
     /**
      * Initialize elevator to low position
      */
-    public void initializeElevatorToLowPosition() {
+    public void moveElevatorPickPosition() {
         turnElevatorBrakeModeOff();
         elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
@@ -134,8 +134,8 @@ public class SSElevator {
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
+        resetElevator();
     }
-
     public void bringElevatorAllTheWayDown()
     {
         if ( isMotorStalled()) {

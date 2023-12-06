@@ -56,7 +56,7 @@ public class SSIntake {
 
     public void initSSIntake(){
         intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        intakeLatch.setPosition(0.5);
+        intakeLatch.setPosition(0.25);
     }
 
     /**

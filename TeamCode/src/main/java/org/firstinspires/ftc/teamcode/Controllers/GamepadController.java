@@ -176,6 +176,11 @@ public class GamepadController {
             ssElevator.moveElevatorLevelHigh();
         }
 
+        if (gp2GetButtonAPress()) {
+            ssElevator.moveElevatorPickPosition();
+            ssBucket.setBucketPickPosition();
+        }
+
         if (ssElevator.runElevatorToLevelState) {
             ssElevator.runElevatorToLevel(ssElevator.motorPowerToRun);
         }
