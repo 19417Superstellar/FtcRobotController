@@ -15,6 +15,7 @@ public class SSBucket {
 
     public enum BUCKET_SERVO_STATE {
         BUCKET_PICK,
+        BUCKET_CARRY,
         BUCKET_DROP
     }
 
@@ -45,7 +46,7 @@ public class SSBucket {
      */
 
     public void initBucket(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
-        bucketServo.setPosition(0.24);
+        bucketServo.setPosition(0.18);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
     
@@ -56,8 +57,13 @@ public class SSBucket {
     }
 
     public void setBucketPickPosition() {
-        bucketServo.setPosition(0.2);
+        bucketServo.setPosition(0.18);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
+    }
+
+    public void setBucketCarryPosition() {
+        bucketServo.setPosition(0.6);
+        bucketServoState = BUCKET_SERVO_STATE.BUCKET_CARRY;
     }
 
     //function to determine POWER_WITH_CARGO or POWER_WITH_NO_CARGO
@@ -73,7 +79,7 @@ public class SSBucket {
     public void printDebugMessages(){
         //******  debug ******
         //telemetry.addData("xx", xx);
-        telemetry.addLine("bucket: " + getBucketServoState().toString() + "  " + bucketServo.getPosition());
+        telemetry.addLine("Bucket: " + getBucketServoState().toString() + "  " + bucketServo.getPosition());
         telemetry.addLine("=============");
 
     }

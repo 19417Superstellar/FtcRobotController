@@ -9,9 +9,11 @@ control hub
 	I2C Bus 0
 		0 imu
 
+
 expansion hub
 	Motors
 		0 leftBack
+		2 elevator_motor_left
 		3 leftFront
 	Servos
 	    0 intake_latch

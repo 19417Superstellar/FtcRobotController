@@ -55,6 +55,7 @@ public class SSTeleOpMode extends LinearOpMode {
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
         gameTimer.reset();
+        ssIntake.openIntakeLatch();
 
         telemetry.addLine("Start Pressed");
         telemetry.update();

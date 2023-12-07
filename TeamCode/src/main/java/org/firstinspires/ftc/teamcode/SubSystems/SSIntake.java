@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.SubSystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -41,7 +43,7 @@ public class SSIntake {
 
     public SSINTAKE_MOTOR_STATE ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
 
-    public double ssIntakeMotorPower = 0.95;//0.9;
+    public double ssIntakeMotorPower = 1.0;//0.9;
     public Telemetry telemetry;
 
     public SSIntake(HardwareMap hardwareMap, Telemetry telemetry) {
@@ -56,8 +58,15 @@ public class SSIntake {
 
     public void initSSIntake(){
         intakeMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        intakeLatch.setPosition(0.25);
     }
+    public void runIntakeReverse(int time) {
+        ElapsedTime timer = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        while(timer.time() < time) {
+            startReverseSSIntakeMotor();
+        }
+        stopSSIntakeMotor();
+    }
+
 
     /**
      * runIntakeMotor checks if the intake is not running and runs the intake
@@ -78,6 +87,10 @@ public class SSIntake {
             runSSIntakeMotor(DcMotor.Direction.FORWARD, 0.0);
             ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
         }
+    }
+
+    public void openIntakeLatch() {
+        intakeLatch.setPosition(0.25);
     }
 
     /**

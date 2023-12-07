@@ -233,6 +233,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         drive.pose = initPose;
 
+
         //Move robot to dropPurplePixel based on identified Spike Mark Location
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -242,6 +243,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         //TODO : Code to drop Purple Pixel on Spike Mark
         safeWaitSeconds(1);
+        ssIntake.runIntakeReverse(500);
 
         //Move robot to midwayPose1
         Actions.runBlocking(
@@ -280,6 +282,11 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         //TODO : Code to drop Pixel on Backdrop
         safeWaitSeconds(1);
+        ssElevator.moveElevatorLevelMid();
+        safeWaitSeconds(2);
+        ssBucket.setBucketDropPosition();
+        safeWaitSeconds(3);
+        ssElevator.moveElevatorPickPosition();
 
         //Move robot to park in Backstage
         Actions.runBlocking(
@@ -287,6 +294,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                         .strafeToLinearHeading(parkPose.position, parkPose.heading)
                         //.splineToLinearHeading(parkPose,0)
                         .build());
+        ssIntake.openIntakeLatch();
     }
 
     //Method to select starting position using X, Y, A, B buttons on gamepad

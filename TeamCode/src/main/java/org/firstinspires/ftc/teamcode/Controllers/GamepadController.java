@@ -111,9 +111,9 @@ public class GamepadController {
 
             if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
                 driveTrain.gamepadInput = driveTrain.rotateFieldCentric(
-                        gp1TurboMode(gp1GetLeftStickY()),
-                        gp1TurboMode(gp1GetLeftStickX()),
-                        -driveTrain.pose.heading.log()
+                        -gp1TurboMode(gp1GetLeftStickY()),
+                        -gp1TurboMode(gp1GetLeftStickX()),
+                        driveTrain.pose.heading.log()
                 );
                 driveTrain.gamepadInput = driveTrain.pose.heading.inverse().times(
                         new Vector2d(-driveTrain.gamepadInput.x, driveTrain.gamepadInput.y));
@@ -157,28 +157,39 @@ public class GamepadController {
 
     public void runSSElevator(){
         if (gp2GetDpad_downPress()) {
+            if(ssBucket.bucketServoState != SSBucket.BUCKET_SERVO_STATE.BUCKET_CARRY) {
+                ssBucket.setBucketCarryPosition();
+            }
             ssElevator.moveSSElevatorSlightlyDown();
         }
 
         if (gp2GetDpad_upPress()) {
+            ssBucket.setBucketCarryPosition();
             ssElevator.moveSSElevatorSlightlyUp();
         }
 
         if (gp2GetButtonBPress()) {
-            ssElevator.moveElevatorLevelMid();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelHigh();
         }
 
         if (gp2GetButtonXPress()) {
-            ssElevator.bringElevatorAllTheWayDown();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelLow();
         }
 
         if (gp2GetButtonYPress()) {
-            ssElevator.moveElevatorLevelHigh();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelMid();
         }
 
         if (gp2GetButtonAPress()) {
             ssElevator.moveElevatorPickPosition();
             ssBucket.setBucketPickPosition();
+        }
+
+        if(ssIntake.topSensorDetectsIntake()) {
+            ssBucket.setBucketCarryPosition();
         }
 
         if (ssElevator.runElevatorToLevelState) {
