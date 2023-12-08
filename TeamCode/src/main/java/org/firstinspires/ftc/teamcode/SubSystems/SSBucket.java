@@ -46,23 +46,23 @@ public class SSBucket {
      */
 
     public void initBucket(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
-        bucketServo.setPosition(0.18);
+        bucketServo.setPosition(0.05);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
     
 
     public void setBucketDropPosition() {
-        bucketServo.setPosition(1.1);
+        bucketServo.setPosition(0.87);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP;
     }
 
     public void setBucketPickPosition() {
-        bucketServo.setPosition(0.18);
+        bucketServo.setPosition(0.05);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
 
     public void setBucketCarryPosition() {
-        bucketServo.setPosition(0.6);
+        bucketServo.setPosition(0.42);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_CARRY;
     }
 
