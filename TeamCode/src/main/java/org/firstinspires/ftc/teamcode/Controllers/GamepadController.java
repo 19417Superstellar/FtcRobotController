@@ -188,7 +188,9 @@ public class GamepadController {
             ssBucket.setBucketPickPosition();
         }
 
-        if(ssIntake.topSensorDetectsIntake()) {
+        if (ssIntake.getSsIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.RUNNING &&
+                ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_INTAKE &&
+                ssIntake.topSensorDetectsIntake()) {
             ssBucket.setBucketCarryPosition();
         }
 
@@ -217,10 +219,11 @@ public class GamepadController {
 
     public void runSSBucket() {
         if (gp2GetLeftBumperPress()) {
-            if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP) {
+            if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP
+                && ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_INTAKE) {
                 ssBucket.setBucketDropPosition();
             } else {
-                ssBucket.setBucketPickPosition();
+                ssBucket.setBucketCarryPosition();
             }
         }
     }

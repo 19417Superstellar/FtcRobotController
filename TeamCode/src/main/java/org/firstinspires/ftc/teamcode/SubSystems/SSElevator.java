@@ -230,6 +230,7 @@ public class SSElevator {
 
     public void printDebugMessages(){
         //******  debug ******
+        telemetry.addData("elevator level", getElevatorPosition().toString());
         telemetry.addData("elevator_motor_encoder_left", currentLeftEncoderValue());
         telemetry.addData("elevator_motor_encoder_right",currentRightEncoderValue());
         telemetry.addData("elevator_motor_encoder val ", elevatorPositionCount);
