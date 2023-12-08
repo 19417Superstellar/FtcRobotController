@@ -22,10 +22,10 @@ public class SSElevator {
     }
 
     public static int ELEVATOR_LEVEL_INTAKE_POSITION_COUNT = 0;
-    public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 450;
-    public static int ELEVATOR_LEVEL_MID_POSITION_COUNT = 700;
-    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 1000;
-    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 150      ;
+    public static int ELEVATOR_LEVEL_LOW_POSITION_COUNT = 1150;
+    public static int ELEVATOR_LEVEL_MID_POSITION_COUNT = 1450;
+    public static int ELEVATOR_LEVEL_HIGH_POSITION_COUNT = 2050;
+    public static int ELEVATOR_DELTA_SLIGHTLY_UP_DELTA_COUNT = 200      ;
     public static int ELEVATOR_DELTA_SLIGHTLY_DOWN_DELTA_COUNT = 150;
 
     public static double POWER_LEVEL_RUN = .8;
