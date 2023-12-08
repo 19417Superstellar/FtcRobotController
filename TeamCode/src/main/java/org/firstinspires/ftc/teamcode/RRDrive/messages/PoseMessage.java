@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.RRDrive;
+package org.firstinspires.ftc.teamcode.RRDrive.messages;
 
 import com.acmerobotics.roadrunner.Pose2d;
 
@@ -12,7 +12,6 @@ public final class PoseMessage {
         this.timestamp = System.nanoTime();
         this.x = pose.position.x;
         this.y = pose.position.y;
-        this.heading = pose.heading.log();
+        this.heading = pose.heading.toDouble();
     }
 }
-

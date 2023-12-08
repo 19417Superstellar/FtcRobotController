@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class TuningOpModes {
+    // TODO: change this to TankDrive.class if you're using tank
     public static final Class<?> DRIVE_CLASS = MecanumDrive.class;
 
     public static final String GROUP = "quickstart";
@@ -77,7 +78,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.MECANUM,
+                        DriveType.MECANUM,
                         MecanumDrive.PARAMS.inPerTick,
                         MecanumDrive.PARAMS.maxWheelVel,
                         MecanumDrive.PARAMS.minProfileAccel,
@@ -126,7 +127,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.TANK,
+                        DriveType.TANK,
                         TankDrive.PARAMS.inPerTick,
                         TankDrive.PARAMS.maxWheelVel,
                         TankDrive.PARAMS.minProfileAccel,

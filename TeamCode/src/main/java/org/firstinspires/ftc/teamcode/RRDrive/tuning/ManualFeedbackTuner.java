@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.RRDrive.tuning;
 
+import static org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive.PARAMS;
+
+import android.view.textclassifier.TextClassifierEvent;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -55,9 +59,44 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                                 .lineToX(DISTANCE)
                                 .lineToX(0)
                                 .build());
+
+                PARAMS.axialVelGain = generateSMARTDerivativeTerm(PARAMS.axialGain, false);
+                PARAMS.lateralVelGain = generateSMARTDerivativeTerm(PARAMS.lateralGain, false);
+                PARAMS.headingVelGain = generateSMARTDerivativeTerm(PARAMS.headingGain, true);
+
+                telemetry.addLine("generateSMARTDerivativeTerm");
+                telemetry.addData("axialVelGain : ", generateSMARTDerivativeTerm(PARAMS.axialGain, false));
+                telemetry.addData("lateralVelGain : ", generateSMARTDerivativeTerm(PARAMS.lateralGain, false));
+                telemetry.addData("headingVelGain : ", generateSMARTDerivativeTerm(PARAMS.headingGain, true));
+                telemetry.update();
             }
         } else {
             throw new AssertionError();
         }
     }
+
+    //Hazmat added Generate damp function
+    public static double generateSMARTDerivativeTerm(double kP, boolean rotation) {
+
+        double kV = PARAMS.kV;
+        double kA = PARAMS.kA;
+
+
+        if (rotation) {
+            kV /= PARAMS.trackWidthTicks * PARAMS.inPerTick;
+            kA /= PARAMS.trackWidthTicks * PARAMS.inPerTick;
+        }
+
+        // anything below this will result in a non minimum phase system.
+        // non-minimum phase means the system will hesitate, similar to that of a turning bicycle or a pitching aircraft.
+        // while it would technically be faster, I have not yet proved it's stability so I will leave it out for now.
+        double criticalKp = (kV * kV) / (4 * kA);
+        if (criticalKp >= kP) {
+            return 0;
+        }
+        // the critically damped PID derivative gain.
+        return 2 * Math.sqrt(kA * kP) - kV;
+    }
+
+
 }
