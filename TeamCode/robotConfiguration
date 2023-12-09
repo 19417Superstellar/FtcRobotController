@@ -25,7 +25,7 @@ expansion hub
         0 topSensor
 
 
-gp1	Chassis controller		                        gp2	Subsystem controller
+gp1	Chassis controller		                        gp2	Subsystem controller (not updated)
 KEY	            FUNCTION		                    KEY	        FUNCTION
 A	            green light		                    A	        elevator to bottom (pick) position
 B	            white light		                    B	        -
