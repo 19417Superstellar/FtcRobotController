@@ -52,7 +52,7 @@ public class SSBucket {
     
 
     public void setBucketDropPosition() {
-        bucketServo.setPosition(0.82);
+        bucketServo.setPosition(0.86);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP;
     }
 

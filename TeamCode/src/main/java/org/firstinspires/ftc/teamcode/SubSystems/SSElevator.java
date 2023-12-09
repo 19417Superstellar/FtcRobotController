@@ -134,6 +134,9 @@ public class SSElevator {
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
         elevatorPosition = ELEVATOR_POSITION.LEVEL_INTAKE;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
     }
     public void bringElevatorAllTheWayDown() {
         if ( isMotorStalled()) {
@@ -151,6 +154,9 @@ public class SSElevator {
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
         elevatorPosition = ELEVATOR_POSITION.LEVEL_HIGH;
     }
 
@@ -162,6 +168,9 @@ public class SSElevator {
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
         elevatorPosition = ELEVATOR_POSITION.LEVEL_LOW;
     }
 
@@ -173,6 +182,9 @@ public class SSElevator {
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
         runElevatorToLevelState = true;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
         elevatorPosition = ELEVATOR_POSITION.LEVEL_MID;
     }
 
@@ -189,6 +201,9 @@ public class SSElevator {
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
        runElevatorToLevelState = true;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
 
         //resetElevator();
         //elevatorPositionCount = ELEVATOR_LEVEL_LOW_POSITION_COUNT;
@@ -203,7 +218,11 @@ public class SSElevator {
         elevatorMotorLeft.setTargetPosition(elevatorPositionCount);
         elevatorMotorRight.setTargetPosition(elevatorPositionCount);
         motorPowerToRun = POWER_LEVEL_RUN;
-       // runElevatorToLevelState = true;
+        runElevatorToLevelState = true;
+        if (runElevatorToLevelState) {
+            runElevatorToLevel(motorPowerToRun);
+        }
+       //
     }
 
     /**

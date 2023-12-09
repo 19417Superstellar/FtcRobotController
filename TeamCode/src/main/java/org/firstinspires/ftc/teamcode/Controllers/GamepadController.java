@@ -232,7 +232,7 @@ public class GamepadController {
     }
 
     public void runSSRocketLauncher() {
-        ssRocketLauncher.initLauncher();
+        //ssRocketLauncher.initLauncher();
         if (gp1GetLeftBumperPress()) {
             ssRocketLauncher.setLauncherOpen();
         }
