@@ -141,19 +141,19 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(-3, 12, Math.toRadians(138));
-                        dropYellowPixelPose = new Pose2d(-48, 48, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(58));
+                        dropYellowPixelPose = new Pose2d(17.5, 37.5, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(-1, 14, Math.toRadians(116));
-                        dropYellowPixelPose = new Pose2d(-36, 48,  Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(25, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(24, 37,  Math.toRadians(-90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(-8, 7, Math.toRadians(109));
-                        dropYellowPixelPose = new Pose2d(-24, 48, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(23, -1, Math.toRadians(-56));
+                        dropYellowPixelPose = new Pose2d(32, 38, Math.toRadians(-90));
                         break;
                 }
-                midwayPose1 = new Pose2d(14, 13, Math.toRadians(-45));
+                midwayPose1 = new Pose2d(6, 34, Math.toRadians(-90));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(8, 30, Math.toRadians(-90));
                 break;
