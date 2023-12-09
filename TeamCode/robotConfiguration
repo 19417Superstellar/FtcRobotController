@@ -18,7 +18,7 @@ expansion hub
 	Servos
 	    0 intake_latch
 		2 bucket_servo
-		4 launcher_servo
+		5 launcher_servo
 	I2C Bus 1
 		0 bottomSensor
     I2C Bus 3
