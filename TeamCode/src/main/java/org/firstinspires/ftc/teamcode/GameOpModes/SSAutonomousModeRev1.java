@@ -141,11 +141,11 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(visionTfodFront.identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(58));
+                        dropPurplePixelPose = new Pose2d(24, -1, Math.toRadians(47));
                         dropYellowPixelPose = new Pose2d(17.5, 37.5, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(25, 0, Math.toRadians(0));
+                        dropPurplePixelPose = new Pose2d(22, -2, Math.toRadians(0));
                         dropYellowPixelPose = new Pose2d(24, 37,  Math.toRadians(-90));
                         break;
                     case RIGHT:
@@ -153,7 +153,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                         dropYellowPixelPose = new Pose2d(32, 38, Math.toRadians(-90));
                         break;
                 }
-                midwayPose1 = new Pose2d(6, 34, Math.toRadians(-90));
+                midwayPose1 = new Pose2d(2, 37, Math.toRadians(-90));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(8, 30, Math.toRadians(-90));
                 break;
@@ -244,7 +244,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         //TODO : Code to drop Purple Pixel on Spike Mark
         safeWaitSeconds(1);
-        ssIntake.runIntakeReverse(500);
+        ssIntake.runIntakeReverse(300);
 
         //Move robot to midwayPose1
         Actions.runBlocking(
