@@ -312,6 +312,10 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                         //.splineToLinearHeading(parkPose,0)
                         .build());
         ssIntake.openIntakeLatch();
+
+        ssIntake.startForwardSSIntakeMotor();
+        safeWaitSeconds(1);
+        ssIntake.stopSSIntakeMotor();
     }
 
     //Method to select starting position using X, Y, A, B buttons on gamepad
