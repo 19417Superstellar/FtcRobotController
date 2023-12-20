@@ -85,10 +85,13 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
 
-        //time
-        addTime();
+        telemetry.setAutoClear(true);
+        telemetry.clearAll();
 
-        //Key Pay inputs to selecting Starting Position of robot
+        // Use gamepad buttons to select the wait time
+        configureWaitTime();
+
+        // Gamepad inputs to selecting Starting Position of robot
         selectStartingPosition();
         telemetry.addData("Selected Starting Position", GameField.startPosition);
 
@@ -328,8 +331,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
     //Method to select starting position using X, Y, A, B buttons on gamepad
     public void selectStartingPosition() {
-        telemetry.setAutoClear(true);
-        telemetry.clearAll();
+
         //******select start pose*****
         while(!isStopRequested()){
             telemetry.addLine("Initializing Superstellar Autonomous Mode:");
@@ -368,26 +370,29 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         telemetry.clearAll();
     }
 
-    public void addTime() {
-        telemetry.addData("dpad up to increase", "");
-        telemetry.addData("dpad up to decrease", "");
-        telemetry.addData("dpad left to exit", "");
+    public void configureWaitTime() {
+        telemetry.addData("Configure wait time (in seconds)", "");
+        telemetry.addData("Press Y to increase", "");
+        telemetry.addData("Press A to decrease", "");
+        telemetry.addData("Press X to exit", "");
+        telemetry.addData("---------------------------------------","");
 
-        if (gp1GetButtonYPress()) {
-            timeToWait = timeToWait + 1;
-            telemetry.addData("Wait Time: ", timeToWait);
-            telemetry.update();
-        }
-
-        if (gp1GetButtonAPress()) {
-            timeToWait = timeToWait - 1;
-            if (timeToWait < 0) {
-                timeToWait = 0;
+        while(!isStopRequested() && !gp1GetButtonXPress()) {
+            if (gp1GetButtonYPress()) {
+                timeToWait = timeToWait + 1;
+                telemetry.addData("Wait Time: ", timeToWait);
+                telemetry.update();
             }
-            telemetry.addData("Wait Time: ", timeToWait);
-            telemetry.update();
-        }
 
+            if (gp1GetButtonAPress()) {
+                timeToWait = timeToWait - 1;
+                if (timeToWait < 0) {
+                    timeToWait = 0;
+                }
+                telemetry.addData("Wait Time: ", timeToWait);
+                telemetry.update();
+            }
+        }
     }
 
     public boolean gp1GetButtonXPress() {
