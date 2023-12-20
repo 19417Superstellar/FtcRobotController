@@ -112,7 +112,7 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.addLine("ssHoldingPen Initialized");
         telemetry.update();
 
-        /* Create ssClaw */
+        /* Create ssBucket */
         ssBucket = new SSBucket(hardwareMap, telemetry);
         telemetry.addLine("ssClaw Initialized");
         telemetry.update();

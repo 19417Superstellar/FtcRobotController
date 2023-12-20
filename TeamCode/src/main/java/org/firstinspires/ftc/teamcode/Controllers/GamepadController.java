@@ -134,7 +134,7 @@ public class GamepadController {
     }
 // get rid of bucket drop while intake level
     public void runSSIntake() {
-        if (gp2GetLeftTriggerPress()) {
+        if (gp2GetRightBumperPress()) {
             if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
                 ssIntake.startReverseSSIntakeMotor();
             } else {

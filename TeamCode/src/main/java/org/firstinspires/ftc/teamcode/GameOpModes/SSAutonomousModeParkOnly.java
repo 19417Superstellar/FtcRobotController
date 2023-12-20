@@ -63,6 +63,11 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
     public VisionTfod visionTfodFront;
+    boolean gp1ButtonXLast = false;
+
+    boolean gp1ButtonYLast= false;
+
+    boolean gp1ButtonALast= false;
 
     //Static Class for knowing system state
 
@@ -79,6 +84,9 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
+
+        //time
+        addTime();
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();
@@ -355,21 +363,58 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                 break;
             }
 
-            if(gamepad1.left_bumper) {
-                timeToWait = timeToWait + 1;
-                if(timeToWait < 0) {
-                    timeToWait = 0;
-                }
-                telemetry.update();
-            }
-
-            if(gamepad1.right_bumper) {
-                timeToWait = timeToWait - 1;
-                telemetry.update();
-            }
             telemetry.update();
         }
         telemetry.clearAll();
+    }
+
+    public void addTime() {
+        telemetry.addData("dpad up to increase", "");
+        telemetry.addData("dpad up to decrease", "");
+        telemetry.addData("dpad left to exit", "");
+
+        if (gp1GetButtonYPress()) {
+            timeToWait = timeToWait + 1;
+            telemetry.addData("Wait Time: ", timeToWait);
+            telemetry.update();
+        }
+
+        if (gp1GetButtonAPress()) {
+            timeToWait = timeToWait - 1;
+            if (timeToWait < 0) {
+                timeToWait = 0;
+            }
+            telemetry.addData("Wait Time: ", timeToWait);
+            telemetry.update();
+        }
+
+    }
+
+    public boolean gp1GetButtonXPress() {
+        boolean isPressedButtonX = false;
+        if (!gp1ButtonXLast && gamepad1.x) {
+            isPressedButtonX = true;
+        }
+        gp1ButtonXLast = gamepad1.x;
+        return isPressedButtonX;
+    }
+
+    public boolean gp1GetButtonAPress() {
+        boolean isPressedButtonA = false;
+        if (!gp1ButtonALast && gamepad1.a) {
+            isPressedButtonA = true;
+        }
+        gp1ButtonALast = gamepad1.a;
+        return isPressedButtonA;
+    }
+
+    public boolean gp1GetButtonYPress() {
+        boolean isPressedButtonY = false;
+        if (!gp1ButtonYLast && gamepad1.y) {
+            isPressedButtonY = true;
+        }
+        gp1ButtonALast = gamepad1.y;
+        return isPressedButtonY;
     }
 
     //method to wait safely with stop button working if needed. Use this instead of sleep
