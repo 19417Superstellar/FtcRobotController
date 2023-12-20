@@ -55,7 +55,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.VisionTfod;
 @Autonomous(name = "SS Autonomous Mode Park ONLY", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
 public class SSAutonomousModeParkOnly extends LinearOpMode {
 
-    public GamepadController gamepadController;
     public DriveTrain driveTrain;
     public SSIntake ssIntake;
     public SSElevator ssElevator;
@@ -65,18 +64,13 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     public VisionTfod visionTfodFront;
     boolean gp1ButtonXLast = false;
 
-    boolean gp1ButtonYLast= false;
-
-    boolean gp1ButtonALast= false;
-
-    //Static Class for knowing system state
-
-    public Pose2d startPose = GameField.ORIGINPOSE;
+     public Pose2d startPose = GameField.ORIGINPOSE;
 
     public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
     public ElapsedTime startTimer = new ElapsedTime(MILLISECONDS);
 
     public double timeToWait = 0.0;
+
     @Override
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
@@ -84,12 +78,13 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
-
-        telemetry.setAutoClear(true);
         telemetry.clearAll();
 
         // Use gamepad buttons to select the wait time
         configureWaitTime();
+
+        telemetry.setAutoClear(true);
+        telemetry.update();
 
         // Gamepad inputs to selecting Starting Position of robot
         selectStartingPosition();
@@ -133,12 +128,12 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     public void runAutonoumousMode() {
         //Initialize Pose2d as desired
         Pose2d initPose = new Pose2d(0, 0, 0); // Starting Pose
-        Pose2d moveBeyondTrussPose = new Pose2d(0,0,0);
+        Pose2d moveBeyondTrussPose = new Pose2d(0, 0, 0);
         Pose2d dropPurplePixelPose = new Pose2d(0, 0, 0);
-        Pose2d midwayPose1 = new Pose2d(0,0,0);
-        Pose2d midwayPose1a = new Pose2d(0,0,0);
-        Pose2d intakeStack = new Pose2d(0,0,0);
-        Pose2d midwayPose2 = new Pose2d(0,0,0);
+        Pose2d midwayPose1 = new Pose2d(0, 0, 0);
+        Pose2d midwayPose1a = new Pose2d(0, 0, 0);
+        Pose2d intakeStack = new Pose2d(0, 0, 0);
+        Pose2d midwayPose2 = new Pose2d(0, 0, 0);
         Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
         Pose2d parkPose = new Pose2d(0, 0, 0);
         double waitSecondsBeforeDrop = 0;
@@ -211,7 +206,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                 } */
                 midwayPose1 = new Pose2d(0, -1, Math.toRadians(0));
                 midwayPose1a = new Pose2d(18, -18, Math.toRadians(-90));
-                intakeStack = new Pose2d(52, -19,Math.toRadians(-90));
+                intakeStack = new Pose2d(52, -19, Math.toRadians(-90));
                 midwayPose2 = new Pose2d(52, 62, Math.toRadians(-90));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(85, -11, Math.toRadians(0));
@@ -236,7 +231,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                 } */
                 midwayPose1 = new Pose2d(2, -27, Math.toRadians(90));
                 midwayPose1a = new Pose2d(18, 18, Math.toRadians(90));
-                intakeStack = new Pose2d(52, 19,Math.toRadians(90));
+                intakeStack = new Pose2d(52, 19, Math.toRadians(90));
                 midwayPose2 = new Pose2d(52, -62, Math.toRadians(90));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(2, -35, Math.toRadians(90));
@@ -247,7 +242,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
         safeWaitSeconds(1);
 
-        if(GameField.startPosition == GameField.START_POSITION.RED_LEFT || GameField.startPosition == GameField.START_POSITION.BLUE_RIGHT) {
+        if (GameField.startPosition == GameField.START_POSITION.RED_LEFT || GameField.startPosition == GameField.START_POSITION.BLUE_RIGHT) {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             .strafeToLinearHeading(midwayPose1.position, midwayPose1.heading)
@@ -333,33 +328,33 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     public void selectStartingPosition() {
 
         //******select start pose*****
-        while(!isStopRequested()){
+        while (!isStopRequested()) {
             telemetry.addLine("Initializing Superstellar Autonomous Mode:");
-            telemetry.addData("---------------------------------------","");
-            telemetry.addData("Select Starting Position using XYAB on Logitech (or ▢ΔOX on Playstayion) on gamepad 1:","");
+            telemetry.addData("---------------------------------------", "");
+            telemetry.addData("Select Starting Position using XYAB on Logitech (or ▢ΔOX on Playstayion) on gamepad 1:", "");
             telemetry.addData("    Blue Left   ", "(X / ▢)");
             telemetry.addData("    Blue Right ", "(Y / Δ)");
             telemetry.addData("    Red Left    ", "(B / O)");
             telemetry.addData("    Red Right  ", "(A / X)");
             telemetry.addData("Wait Time: ", timeToWait);
             telemetry.addData("start pose: ", startPose);
-            telemetry.addData("current pose: ",driveTrain.pose);
-            if(gamepad1.x){
+            telemetry.addData("current pose: ", driveTrain.pose);
+            if (gamepad1.x) {
                 GameField.startPosition = GameField.START_POSITION.BLUE_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
                 break;
             }
-            if(gamepad1.y){
+            if (gamepad1.y) {
                 GameField.startPosition = GameField.START_POSITION.BLUE_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
                 break;
             }
-            if(gamepad1.b){
+            if (gamepad1.b) {
                 GameField.startPosition = GameField.START_POSITION.RED_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
                 break;
             }
-            if(gamepad1.a){
+            if (gamepad1.a) {
                 GameField.startPosition = GameField.START_POSITION.RED_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
                 break;
@@ -371,55 +366,41 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     }
 
     public void configureWaitTime() {
-        telemetry.addData("Configure wait time (in seconds)", "");
-        telemetry.addData("Press Y to increase", "");
-        telemetry.addData("Press A to decrease", "");
-        telemetry.addData("Press X to exit", "");
-        telemetry.addData("---------------------------------------","");
 
-        while(!isStopRequested() && !gp1GetButtonXPress()) {
-            if (gp1GetButtonYPress()) {
-                timeToWait = timeToWait + 1;
-                telemetry.addData("Wait Time: ", timeToWait);
-                telemetry.update();
-            }
+        while (!isStopRequested()) {
 
-            if (gp1GetButtonAPress()) {
-                timeToWait = timeToWait - 1;
-                if (timeToWait < 0) {
-                    timeToWait = 0;
+            telemetry.clearAll();
+            telemetry.addData("Configure wait time (in seconds) using DPad on gamepad 1:", "");
+            telemetry.addData("Press DPad UP to increase", "");
+            telemetry.addData("Press DPad DOWN to decrease", "");
+            telemetry.addData("Press DPad LEFT to exit", "(X / ▢)");
+            telemetry.addData("---------------------------------------", "");
+            telemetry.addData("Wait Time: ", timeToWait);
+
+            telemetry.update();
+
+            if (gamepad1.dpad_up) {
+                timeToWait = timeToWait + 2.0;
+                if (timeToWait > 15.0) {
+                    timeToWait = 15.0;
                 }
-                telemetry.addData("Wait Time: ", timeToWait);
-                telemetry.update();
             }
-        }
-    }
 
-    public boolean gp1GetButtonXPress() {
-        boolean isPressedButtonX = false;
-        if (!gp1ButtonXLast && gamepad1.x) {
-            isPressedButtonX = true;
-        }
-        gp1ButtonXLast = gamepad1.x;
-        return isPressedButtonX;
-    }
+            if (gamepad1.dpad_down) {
+                timeToWait = timeToWait - 2.0;
+                if (timeToWait < 0.0) {
+                    timeToWait = 0.0;
+                }
+            }
 
-    public boolean gp1GetButtonAPress() {
-        boolean isPressedButtonA = false;
-        if (!gp1ButtonALast && gamepad1.a) {
-            isPressedButtonA = true;
-        }
-        gp1ButtonALast = gamepad1.a;
-        return isPressedButtonA;
-    }
+            if (gamepad1.dpad_left) {
+                break;
+            }
 
-    public boolean gp1GetButtonYPress() {
-        boolean isPressedButtonY = false;
-        if (!gp1ButtonYLast && gamepad1.y) {
-            isPressedButtonY = true;
+            // Prevents accidental button presses or rapid fire button presses
+            // (debounce)
+            safeWaitSeconds(0.2);
         }
-        gp1ButtonALast = gamepad1.y;
-        return isPressedButtonY;
     }
 
     //method to wait safely with stop button working if needed. Use this instead of sleep
@@ -430,7 +411,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         }
     }
 
-    public void initSubsystems(){
+    public void initSubsystems() {
 
         telemetry.setAutoClear(false);
 
@@ -440,9 +421,9 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         telemetry.update();
 
         /* Create Subsystem Objects*/
-        driveTrain = new DriveTrain(hardwareMap, new Pose2d(0,0,0), telemetry);
+        driveTrain = new DriveTrain(hardwareMap, new Pose2d(0, 0, 0), telemetry);
         driveTrain.driveType = DriveTrain.DriveType.ROBOT_CENTRIC;
-        telemetry.addData("DriveTrain Initialized with Pose:",driveTrain.toStringPose2d(driveTrain.pose));
+        telemetry.addData("DriveTrain Initialized with Pose:", driveTrain.toStringPose2d(driveTrain.pose));
         telemetry.update();
 
         /* Create ssIntake */
@@ -481,8 +462,6 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         telemetry.update();
 
         /* Create Controllers */
-        gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain,
-                ssIntake, ssElevator, ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
@@ -491,7 +470,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         }
 
         /* Get last position after Autonomous mode ended from static class set in Autonomous */
-        if ( GameField.poseSetInAutonomous) {
+        if (GameField.poseSetInAutonomous) {
             driveTrain.pose = GameField.currentPose;
             //driveTrain.getLocalizer().setPoseEstimate(GameField.currentPose);
         } else {
@@ -511,10 +490,10 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
      * Method to add debug messages. Update as telemetry.addData.
      * Use public attributes or methods if needs to be called here.
      */
-    public void printDebugMessages(){
+    public void printDebugMessages() {
         telemetry.setAutoClear(true);
         telemetry.addData("DEBUG_LEVEL is : ", GameField.debugLevel);
-        telemetry.addData("Robot ready to start","");
+        telemetry.addData("Robot ready to start", "");
 
         if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
             telemetry.addLine("Running Superstellar Autonomous Mode");
