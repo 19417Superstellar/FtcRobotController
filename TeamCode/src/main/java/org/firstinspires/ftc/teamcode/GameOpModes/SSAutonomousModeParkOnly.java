@@ -70,6 +70,8 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
     public ElapsedTime startTimer = new ElapsedTime(MILLISECONDS);
 
     public double timeToWait = 0.0;
+    private boolean isDPadUpLastPressed = false;
+    private boolean isDPadDownLastPressed = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -379,14 +381,14 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
             telemetry.update();
 
-            if (gamepad1.dpad_up) {
+            if (isDPadUpPressed()) {
                 timeToWait = timeToWait + 2.0;
                 if (timeToWait > 15.0) {
                     timeToWait = 15.0;
                 }
             }
 
-            if (gamepad1.dpad_down) {
+            if (isDPadDownPressed()) {
                 timeToWait = timeToWait - 2.0;
                 if (timeToWait < 0.0) {
                     timeToWait = 0.0;
@@ -399,8 +401,32 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
 
             // Prevents accidental button presses or rapid fire button presses
             // (debounce)
-            safeWaitSeconds(0.2);
+            // safeWaitSeconds(0.2);
         }
+    }
+
+    private boolean isDPadUpPressed()
+    {
+        boolean isPressed = false;
+        if (!isDPadUpLastPressed && gamepad1.dpad_up)
+        {
+            isPressed = true;
+        }
+
+        isDPadUpLastPressed = gamepad1.dpad_up;
+        return isPressed;
+    }
+
+    private boolean isDPadDownPressed()
+    {
+        boolean isPressed = false;
+        if (!isDPadDownLastPressed && gamepad1.dpad_down)
+        {
+            isPressed = true;
+        }
+
+        isDPadDownLastPressed = gamepad1.dpad_down;
+        return isPressed;
     }
 
     //method to wait safely with stop button working if needed. Use this instead of sleep
