@@ -68,6 +68,8 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
     public Pose2d startPose = GameField.ORIGINPOSE;
 
+    public double timeToWait = 0.0;
+
     public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
     public ElapsedTime startTimer = new ElapsedTime(MILLISECONDS);
 
@@ -78,6 +80,8 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         /* Set Initial State of any subsystem when OpMode is to be started*/
         initSubsystems();
+
+        configureWaitTime();
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();
@@ -246,6 +250,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         safeWaitSeconds(1);
         ssIntake.runIntakeReverse(300);
 
+        safeWaitSeconds(timeToWait);
         //Move robot to midwayPose1
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -444,6 +449,44 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
             ssIndicators.printDebugMessages();
         }
         telemetry.update();
+    }
+
+    public void configureWaitTime() {
+
+        while (!isStopRequested()) {
+
+            telemetry.clearAll();
+            telemetry.addData("Configure wait time (in seconds) using DPad on gamepad 1:", "");
+            telemetry.addData("Press DPad UP to increase", "");
+            telemetry.addData("Press DPad DOWN to decrease", "");
+            telemetry.addData("Press DPad LEFT to exit", "(X / ▢)");
+            telemetry.addData("---------------------------------------", "");
+            telemetry.addData("Wait Time: ", timeToWait);
+
+            telemetry.update();
+
+            if (gamepad1.dpad_up) {
+                timeToWait = timeToWait + 2.0;
+                if (timeToWait > 15.0) {
+                    timeToWait = 15.0;
+                }
+            }
+
+            if (gamepad1.dpad_down) {
+                timeToWait = timeToWait - 2.0;
+                if (timeToWait < 0.0) {
+                    timeToWait = 0.0;
+                }
+            }
+
+            if (gamepad1.dpad_left) {
+                break;
+            }
+
+            // Prevents accidental button presses or rapid fire button presses
+            // (debounce)
+            safeWaitSeconds(0.2);
+        }
     }
 
 
