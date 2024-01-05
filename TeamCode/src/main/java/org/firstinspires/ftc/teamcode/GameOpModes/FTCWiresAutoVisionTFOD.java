@@ -49,11 +49,11 @@ import java.util.List;
 /**
  * FTC WIRES Autonomous Example for only vision detection using tensorflow and park
  */
-@Autonomous(name = "FTC Wires Autonomous Mode", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
-public class FTCWiresAutonomous extends LinearOpMode {
+@Autonomous(name = "FTC Wires Auto Tensor Flow Vision", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
+public class FTCWiresAutoVisionTFOD extends LinearOpMode {
 
-    public static String SUPERSTELLAR = "EDIT TEAM NAME"; //TODO: Enter team Name
-    public static int SUPERSTELLAR_19417 = 0; //TODO: Enter team Number
+    public static String TEAM_NAME = "EDIT TEAM NAME"; //TODO: Enter team Name
+    public static int TEAM_NUMBER = 0; //TODO: Enter team Number
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -88,7 +88,13 @@ public class FTCWiresAutonomous extends LinearOpMode {
         initTfod();
 
         // Wait for the DS start button to be touched.
+        telemetry.addLine("Vision Tensor Flow for White Pixel Detection");
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
+        telemetry.addLine("The starting point of the robot is assumed to be on the starting tile, " +
+                "and along the edge farther from the truss legs. ");
+        telemetry.addLine("You should also have a webcam connected and positioned in a way to see " +
+                "the middle spike mark and the spike mark away from the truss (and ideally nothing else). " +
+                "We assumed the camera to be in the center of the robot. ");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
         //waitForStart();
@@ -98,15 +104,10 @@ public class FTCWiresAutonomous extends LinearOpMode {
 
             //Run Vuforia Tensor Flow and keep watching for the identifier in the Signal Cone.
             runTfodTensorFlow();
-            telemetry.addData("Vision identified Parking Location", identifiedSpikeMarkLocation);
+            telemetry.addLine("Vision Tensor Flow for White Pixel Detection");
+            telemetry.addData("Identified Parking Location", identifiedSpikeMarkLocation);
             telemetry.update();
         }
-
-        //Stop Vision process
-        /*if (visionPortal.getCameraState() != CAMERA_DEVICE_CLOSED) {
-            //visionPortal.stopStreaming();
-            visionPortal.close();
-        }*/
 
         //Game Play Button  is pressed
         if (opModeIsActive() && !isStopRequested()) {
@@ -125,7 +126,7 @@ public class FTCWiresAutonomous extends LinearOpMode {
         Pose2d intakeStack = new Pose2d(0,0,0);
         Pose2d midwayPose2 = new Pose2d(0,0,0);
         Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
-        Pose2d parkPose = new Pose2d(0, 0, 0);
+        Pose2d parkPose = new Pose2d(0,0, 0);
         double waitSecondsBeforeDrop = 0;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
 
@@ -224,8 +225,6 @@ public class FTCWiresAutonomous extends LinearOpMode {
                 break;
         }
 
-        //drive.pose = initPose;
-
         //Move robot to dropPurplePixel based on identified Spike Mark Location
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -290,8 +289,9 @@ public class FTCWiresAutonomous extends LinearOpMode {
         //******select start pose*****
         while(!isStopRequested()){
             telemetry.addData("Initializing FTC Wires (ftcwires.org) Autonomous adopted for Team:",
-                    SUPERSTELLAR, " ", SUPERSTELLAR_19417);
+                    TEAM_NAME, " ", TEAM_NUMBER);
             telemetry.addData("---------------------------------------","");
+            telemetry.addLine("This Auto program uses Vision Tensor Flow for White pixel detection");
             telemetry.addData("Select Starting Position using XYAB on Logitech (or ▢ΔOX on Playstayion) on gamepad 1:","");
             telemetry.addData("    Blue Left   ", "(X / ▢)");
             telemetry.addData("    Blue Right ", "(Y / Δ)");
@@ -326,7 +326,6 @@ public class FTCWiresAutonomous extends LinearOpMode {
         }
     }
 
-
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
@@ -338,13 +337,14 @@ public class FTCWiresAutonomous extends LinearOpMode {
         // Create the vision portal the easy way.
         if (USE_WEBCAM) {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
+                hardwareMap.get(WebcamName.class, "Webcam 1"), tfod);
         } else {
             visionPortal = VisionPortal.easyCreateWithDefaults(
-                    BuiltinCameraDirection.BACK, tfod);
+                BuiltinCameraDirection.BACK, tfod);
         }
 
-        tfod.setMinResultConfidence(0.20f);
+        // Set confidence threshold for TFOD recognitions, at any time.
+        tfod.setMinResultConfidence(0.095f);
 
     }   // end method initTfod()
 
@@ -363,7 +363,7 @@ public class FTCWiresAutonomous extends LinearOpMode {
             identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
         }
 
-        // Step through the list of recognitions and display info for each one.
+            // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
@@ -383,7 +383,7 @@ public class FTCWiresAutonomous extends LinearOpMode {
                 }
             } else { //RED_RIGHT or BLUE_RIGHT
                 if (recognition.getLabel() == "Pixel") {
-                    if (x < 200) {
+                    if (x < 350) {
                         identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
                     } else {
                         identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT;
