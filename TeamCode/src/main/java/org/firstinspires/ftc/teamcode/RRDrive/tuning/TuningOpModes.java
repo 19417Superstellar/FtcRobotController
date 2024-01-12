@@ -31,6 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class TuningOpModes {
+    // TODO: change this to TankDrive.class if you're using tank
     public static final Class<?> DRIVE_CLASS = MecanumDrive.class;
 
     public static final String GROUP = "quickstart";
@@ -73,11 +74,11 @@ public final class TuningOpModes {
                     parEncs.add(dl.par);
                     perpEncs.add(dl.perp);
                 } else {
-                    throw new IllegalArgumentException("unknown localizer: " + md.localizer.getClass().getName());
+                    throw new RuntimeException("unknown localizer: " + md.localizer.getClass().getName());
                 }
 
                 return new DriveView(
-                    DriveType.MECANUM,
+                        DriveType.MECANUM,
                         MecanumDrive.PARAMS.inPerTick,
                         MecanumDrive.PARAMS.maxWheelVel,
                         MecanumDrive.PARAMS.minProfileAccel,
@@ -122,11 +123,11 @@ public final class TuningOpModes {
                     parEncs.add(dl.par);
                     perpEncs.add(dl.perp);
                 } else {
-                    throw new IllegalArgumentException("unknown localizer: " + td.localizer.getClass().getName());
+                    throw new RuntimeException("unknown localizer: " + td.localizer.getClass().getName());
                 }
 
                 return new DriveView(
-                    DriveType.TANK,
+                        DriveType.TANK,
                         TankDrive.PARAMS.inPerTick,
                         TankDrive.PARAMS.maxWheelVel,
                         TankDrive.PARAMS.minProfileAccel,
@@ -146,7 +147,7 @@ public final class TuningOpModes {
                 );
             };
         } else {
-            throw new AssertionError();
+            throw new RuntimeException();
         }
 
         manager.register(metaForClass(AngularRampLogger.class), new AngularRampLogger(dvf));

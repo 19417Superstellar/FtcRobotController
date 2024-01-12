@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 
 
@@ -29,8 +30,8 @@ public class DriveTrain extends MecanumDrive{
     public void driveNormal(){
         setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                    gamepadInput.x,
-                    gamepadInput.y),
+                        gamepadInput.x,
+                        gamepadInput.y),
                 gamepadInputTurn
         ));
 
@@ -53,14 +54,14 @@ public class DriveTrain extends MecanumDrive{
     }
 
     public void printDebugMessages(){
-       //****** Drive debug ******
-       telemetry.addData("Drive Type : ", driveType);
-       telemetry.addData("PoseEstimateString :", toStringPose2d(pose));
-       telemetry.addData("Parallel Left /LF Encoder", leftFront.getCurrentPosition());
-       telemetry.addData("Parallel Right / LB Encoder", leftBack.getCurrentPosition());
-       telemetry.addData("Perpendicular / RF Encoder", rightFront.getCurrentPosition());
-       telemetry.addData("RB Encoder", rightBack.getCurrentPosition());
-       telemetry.addLine("=============");
+        //****** Drive debug ******
+        telemetry.addData("Drive Type : ", driveType);
+        telemetry.addData("PoseEstimateString :", toStringPose2d(pose));
+        telemetry.addData("Parallel Left /LF Encoder", leftFront.getCurrentPosition());
+        telemetry.addData("Parallel Right / LB Encoder", leftBack.getCurrentPosition());
+        telemetry.addData("Perpendicular / RF Encoder", rightFront.getCurrentPosition());
+        telemetry.addData("RB Encoder", rightBack.getCurrentPosition());
+        telemetry.addLine("=============");
     }
 
 }

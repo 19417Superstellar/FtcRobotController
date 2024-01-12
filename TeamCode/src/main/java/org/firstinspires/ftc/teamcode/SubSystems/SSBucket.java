@@ -9,13 +9,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSBucket {
 
     public Servo bucketServo;
-    public NormalizedColorSensor holdSensor;
-    public NormalizedColorSensor dropSensor;
+
 
     
 
     public enum BUCKET_SERVO_STATE {
         BUCKET_PICK,
+        BUCKET_CARRY,
         BUCKET_DROP
     }
 
@@ -30,15 +30,13 @@ public class SSBucket {
 
     //change values
 
-    public static double BUCKET_DROP_POSITION = 180;
-    public static double BUCKET_PICK_POSITION= 0;
+   // public static double BUCKET_DROP_POSITION = 180;
+   // public static double BUCKET_PICK_POSITION = 0;
 
     public Telemetry telemetry;
     public SSBucket(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
         bucketServo = hardwareMap.get(Servo.class,"bucket_servo");
-        holdSensor = hardwareMap.get(NormalizedColorSensor.class, "hold_sensor");
-        dropSensor = hardwareMap.get(NormalizedColorSensor.class, "drop_sensor");
 
         initBucket();
     }
@@ -48,19 +46,24 @@ public class SSBucket {
      */
 
     public void initBucket(){ //TODO Amjad : If the starting position in autonomous is with arm facing forward, arm may need to be kept open to git in 18"
-        bucketServo.setPosition(BUCKET_PICK_POSITION);
+        bucketServo.setPosition(0.03);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
     
 
     public void setBucketDropPosition() {
-        bucketServo.setPosition(BUCKET_DROP_POSITION);
+        bucketServo.setPosition(0.86);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_DROP;
     }
 
     public void setBucketPickPosition() {
-        bucketServo.setPosition(BUCKET_PICK_POSITION);
+        bucketServo.setPosition(0.03);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
+    }
+
+    public void setBucketCarryPosition() {
+        bucketServo.setPosition(0.42);
+        bucketServoState = BUCKET_SERVO_STATE.BUCKET_CARRY;
     }
 
     //function to determine POWER_WITH_CARGO or POWER_WITH_NO_CARGO
@@ -75,7 +78,8 @@ public class SSBucket {
 
     public void printDebugMessages(){
         //******  debug ******
-        //telemetry.addData("xx", xx);
+        //telemetry.addData("xx", xx)
+        telemetry.addLine("Bucket: " + getBucketServoState().toString() + "  " + bucketServo.getPosition());
         telemetry.addLine("=============");
 
     }

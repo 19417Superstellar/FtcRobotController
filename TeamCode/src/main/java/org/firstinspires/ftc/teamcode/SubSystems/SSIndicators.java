@@ -39,7 +39,8 @@ public class SSIndicators {
     }
 
     public void initIndicators(){
-        turnLightOff();
+        turnLightOn();
+        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
     public void setLightToGreen() {

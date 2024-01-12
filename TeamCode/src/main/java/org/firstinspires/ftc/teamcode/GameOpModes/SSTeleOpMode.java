@@ -55,6 +55,7 @@ public class SSTeleOpMode extends LinearOpMode {
         /* Wait for Start or Stop Button to be pressed */
         waitForStart();
         gameTimer.reset();
+        ssIntake.openIntakeLatch();
 
         telemetry.addLine("Start Pressed");
         telemetry.update();
@@ -111,7 +112,7 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.addLine("ssHoldingPen Initialized");
         telemetry.update();
 
-        /* Create ssClaw */
+        /* Create ssBucket */
         ssBucket = new SSBucket(hardwareMap, telemetry);
         telemetry.addLine("ssClaw Initialized");
         telemetry.update();
@@ -163,7 +164,7 @@ public class SSTeleOpMode extends LinearOpMode {
         telemetry.addData("Robot ready to start","");
 
         if (GameField.debugLevel != GameField.DEBUG_LEVEL.NONE) {
-            telemetry.addLine("Running Hazmat TeleOpMode");
+            telemetry.addLine("Running SS TeleOpMode");
             telemetry.addData("Game Timer : ", gameTimer.time());
             //telemetry.addData("GameField.poseSetInAutonomous : ", GameField.poseSetInAutonomous);
             //telemetry.addData("GameField.currentPose : ", GameField.currentPose);

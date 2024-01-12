@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.RRDrive.TankDrive;
 import org.firstinspires.ftc.teamcode.RRDrive.tuning.TuningOpModes;
 
+
 /**
  * FTC WIRES TeleOp Example
  *
@@ -45,6 +46,7 @@ public class FTCWiresTeleOpMode extends LinearOpMode {
                 //telemetry.addData("RF Encoder", drive.rightFront.getCurrentPosition());
                 //telemetry.addData("RB Encoder", drive.rightBack.getCurrentPosition());
 
+                telemetry.addLine("Current Pose");
                 telemetry.addData("x", drive.pose.position.x);
                 telemetry.addData("y", drive.pose.position.y);
                 telemetry.addData("heading", Math.toDegrees(drive.pose.heading.log()));
@@ -68,7 +70,7 @@ public class FTCWiresTeleOpMode extends LinearOpMode {
 
                 telemetry.addData("x", drive.pose.position.x);
                 telemetry.addData("y", drive.pose.position.y);
-                telemetry.addData("heading", Math.toDegrees(drive.pose.heading.log()));
+                telemetry.addData("heading", drive.pose.heading);
                 telemetry.update();
             }
         } else {

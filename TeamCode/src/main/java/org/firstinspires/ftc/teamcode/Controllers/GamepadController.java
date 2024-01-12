@@ -111,9 +111,9 @@ public class GamepadController {
 
             if (GameField.playingAlliance == GameField.PLAYING_ALLIANCE.RED_ALLIANCE) { // Red Alliance
                 driveTrain.gamepadInput = driveTrain.rotateFieldCentric(
-                        gp1TurboMode(gp1GetLeftStickY()),
-                        gp1TurboMode(gp1GetLeftStickX()),
-                        -driveTrain.pose.heading.log()
+                        -gp1TurboMode(gp1GetLeftStickY()),
+                        -gp1TurboMode(gp1GetLeftStickX()),
+                        driveTrain.pose.heading.log()
                 );
                 driveTrain.gamepadInput = driveTrain.pose.heading.inverse().times(
                         new Vector2d(-driveTrain.gamepadInput.x, driveTrain.gamepadInput.y));
@@ -132,26 +132,20 @@ public class GamepadController {
 
         driveTrain.driveNormal();
     }
-
+// get rid of bucket drop while intake level
     public void runSSIntake() {
-        // Note for Aarushi & Keerthika:
-        // Try gp1GetDpad_up and  gp1GetDpad_down methods here instead of gp1GetDpad_upPress/gp1GetDpad_downPress.
-        // gp1GetDpad_up and gp1GetDpad_down will give us continous state vs one shot.
-        // In the final version, we will need to integrate the color sensors and stop intake when 2 pixels as in the
-        // bucket. <-- this was done
-
-        if (gp1GetDpad_up()) {
-            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
-                ssIntake.startForwardSSIntakeMotor();
+        if (gp2GetRightBumperPress()) {
+            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
+                ssIntake.startReverseSSIntakeMotor();
             } else {
                 ssIntake.stopSSIntakeMotor();
             }
         }
 
-        if(!(ssIntake.dropSensorDetectsColor() && ssIntake.holdSensorDetectsColor())) {
-            if (gp1GetDpad_down()) {
-                if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.REVERSING)) {
-                    ssIntake.startReverseSSIntakeMotor();
+        if ((gp2GetRightTriggerPress())) {
+            if(!(ssIntake.bottomSensorDetectsIntake() && ssIntake.topSensorDetectsIntake())) {
+                if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
+                    ssIntake.startForwardSSIntakeMotor();
                 } else {
                     ssIntake.stopSSIntakeMotor();
                 }
@@ -163,23 +157,41 @@ public class GamepadController {
 
     public void runSSElevator(){
         if (gp2GetDpad_downPress()) {
+            if(ssBucket.bucketServoState != SSBucket.BUCKET_SERVO_STATE.BUCKET_CARRY) {
+                ssBucket.setBucketCarryPosition();
+            }
             ssElevator.moveSSElevatorSlightlyDown();
         }
 
         if (gp2GetDpad_upPress()) {
+            ssBucket.setBucketCarryPosition();
             ssElevator.moveSSElevatorSlightlyUp();
         }
 
         if (gp2GetButtonBPress()) {
-            ssElevator.moveElevatorLevelMid();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelHigh();
         }
 
         if (gp2GetButtonXPress()) {
-            ssElevator.bringElevatorAllTheWayDown();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelLow();
         }
 
         if (gp2GetButtonYPress()) {
-            ssElevator.moveElevatorLevelHigh();
+            ssBucket.setBucketCarryPosition();
+            ssElevator.moveElevatorLevelMid();
+        }
+
+        if (gp2GetButtonAPress()) {
+            ssElevator.moveElevatorPickPosition();
+            ssBucket.setBucketPickPosition();
+        }
+
+        if (ssIntake.getSsIntakeMotorState() == SSIntake.SSINTAKE_MOTOR_STATE.RUNNING &&
+                ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_INTAKE &&
+                ssIntake.topSensorDetectsIntake() && ssIntake.bottomSensorDetectsIntake()) {
+            ssBucket.setBucketCarryPosition();
         }
 
         if (ssElevator.runElevatorToLevelState) {
@@ -207,16 +219,20 @@ public class GamepadController {
 
     public void runSSBucket() {
         if (gp2GetLeftBumperPress()) {
-            if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP) {
+            if (ssBucket.getBucketServoState() != SSBucket.BUCKET_SERVO_STATE.BUCKET_DROP
+                && ssElevator.getElevatorPosition() != SSElevator.ELEVATOR_POSITION.LEVEL_INTAKE) {
                 ssBucket.setBucketDropPosition();
             } else {
-                ssBucket.setBucketPickPosition();
+                if (ssElevator.getElevatorPosition() == SSElevator.ELEVATOR_POSITION.LEVEL_INTAKE) {
+                    ssBucket.setBucketPickPosition();
+                }
             }
         }
+
     }
 
     public void runSSRocketLauncher() {
-        ssRocketLauncher.initLauncher();
+        //ssRocketLauncher.initLauncher();
         if (gp1GetLeftBumperPress()) {
             ssRocketLauncher.setLauncherOpen();
         }

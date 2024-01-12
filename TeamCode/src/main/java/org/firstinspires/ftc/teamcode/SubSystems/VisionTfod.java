@@ -150,7 +150,7 @@ public class VisionTfod {
                     }
                 } else { //RED_RIGHT or BLUE_RIGHT
                     if (recognition.getLabel() == "Pixel") {
-                        if (x < 200) {
+                        if (x < 350) {
                             identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
                         } else {
                             identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.RIGHT;
