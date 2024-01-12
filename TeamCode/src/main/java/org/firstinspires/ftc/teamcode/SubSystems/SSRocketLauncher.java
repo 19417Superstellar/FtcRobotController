@@ -28,7 +28,7 @@ public class SSRocketLauncher {
     //MAX 2200
 
     //change values
-    public static double LAUNCHER_OPEN_POSITION = 0.2;
+    public static double LAUNCHER_OPEN_POSITION = 0.3;
     public static double LAUNCHER_CLOSE_POSITION = 0.5;
 
     public Telemetry telemetry;
