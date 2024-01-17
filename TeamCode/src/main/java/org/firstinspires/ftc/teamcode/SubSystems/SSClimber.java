@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSClimber {
     public DcMotorEx climberMotor;
 
-    public final int CLIMBER_UP_POSITION_COUNT = 1000; // <-- temp value
+    public final int CLIMBER_UP_POSITION_COUNT = 2000;// <-- temp value
 
     public final int CLIMBER_DOWN_POSITION_COUNT = 0;
 
@@ -16,7 +16,6 @@ public class SSClimber {
         CLIMBER_UP_POSITION,
         CLIMBER_DOWN_POSITION
     }
-
     public CLIMBER_MOTOR_STATE climberMotorState = CLIMBER_MOTOR_STATE.CLIMBER_DOWN_POSITION;
 
     public Telemetry telemetry;
@@ -37,6 +36,7 @@ public class SSClimber {
         climberMotorState = CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION;
         climberMotor.setTargetPosition(CLIMBER_UP_POSITION_COUNT);
     }
+
 
     public void runClimberMotorDown() {
         climberMotorState = CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION;

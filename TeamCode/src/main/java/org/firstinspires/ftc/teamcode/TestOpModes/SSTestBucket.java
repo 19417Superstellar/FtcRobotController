@@ -96,7 +96,7 @@ public class SSTestBucket extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null,
-                ssBucket, null, null, telemetry, this);
+                ssBucket, null, null, null, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 

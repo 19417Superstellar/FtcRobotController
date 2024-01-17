@@ -27,7 +27,7 @@ public class SSTestRocketLauncher extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null, null,
-                null, ssRocketLauncher, telemetry, this);
+                null, ssRocketLauncher, null, telemetry, this);
 
         ssRocketLauncher.initLauncher();
 
