@@ -32,7 +32,7 @@ public class SSTestIntake extends LinearOpMode {
         ssIntake = new SSIntake(hardwareMap, telemetry);
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, null,
-                null, null, null, telemetry, this);
+                null, null, null, null, telemetry, this);
 
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
         GameField.opModeRunning = GameField.OP_MODE_RUNNING.SUPERSTELLAR_TELEOP;

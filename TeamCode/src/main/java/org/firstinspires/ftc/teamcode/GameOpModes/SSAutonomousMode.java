@@ -43,6 +43,7 @@ import org.firstinspires.ftc.teamcode.Controllers.GamepadController;
 import org.firstinspires.ftc.teamcode.RRDrive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
+import org.firstinspires.ftc.teamcode.SubSystems.SSClimber;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -62,6 +63,7 @@ public class SSAutonomousMode extends LinearOpMode {
     public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
+    public SSClimber ssClimber;
     public VisionTfod visionTfodFront;
 
     //Static Class for knowing system state
@@ -386,6 +388,11 @@ public class SSAutonomousMode extends LinearOpMode {
         telemetry.addLine("ssIndicators Initialized");
         telemetry.update();
 
+        /* Create ssClimber */
+        ssClimber = new SSClimber(hardwareMap, telemetry);
+        telemetry.addLine("ssClimber Initialized");
+        telemetry.update();
+
         /* Create Vision */
         visionTfodFront = new VisionTfod(hardwareMap, telemetry, "Webcam 1");
         telemetry.addLine("VisionTfod Initialized");
@@ -393,7 +400,7 @@ public class SSAutonomousMode extends LinearOpMode {
 
         /* Create Controllers */
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, ssIntake, ssElevator,
-                ssBucket, ssIndicators, ssRocketLauncher, telemetry, this);
+                ssBucket, ssIndicators, ssRocketLauncher, ssClimber, telemetry, this);
         telemetry.addLine("Gamepad Initialized");
         telemetry.update();
 
