@@ -8,6 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GameOpModes.GameField;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.SubSystems.SSBucket;
+import org.firstinspires.ftc.teamcode.SubSystems.SSClimber;
 import org.firstinspires.ftc.teamcode.SubSystems.SSElevator;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIndicators;
 import org.firstinspires.ftc.teamcode.SubSystems.SSIntake;
@@ -49,6 +50,7 @@ public class GamepadController {
     public SSBucket ssBucket;
     public SSRocketLauncher ssRocketLauncher;
     public SSIndicators ssIndicators;
+    public SSClimber ssClimber;
     public Telemetry telemetry;
     public LinearOpMode opMode;
 
@@ -65,6 +67,7 @@ public class GamepadController {
                              SSBucket ssBucket,
                              SSIndicators ssIndicators,
                              SSRocketLauncher ssRocketLauncher,
+                             SSClimber ssClimber,
                              Telemetry telemetry,
                              LinearOpMode opMode
                             ) {
@@ -76,6 +79,7 @@ public class GamepadController {
         this.ssBucket = ssBucket;
         this.ssIndicators = ssIndicators;
         this.ssRocketLauncher = ssRocketLauncher;
+        this.ssClimber = ssClimber;
         this.telemetry = telemetry;
         this.opMode = opMode;
     }

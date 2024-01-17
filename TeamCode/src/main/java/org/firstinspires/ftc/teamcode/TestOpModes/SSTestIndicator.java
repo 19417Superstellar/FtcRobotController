@@ -30,7 +30,7 @@ public class SSTestIndicator extends LinearOpMode {
         indicators = new SSIndicators(hardwareMap, telemetry);
 
         gamepadController = new GamepadController(gamepad1, gamepad2, driveTrain, null, null,
-                null, indicators, null, telemetry, this);
+                null, indicators, null, null, telemetry, this);
 
 
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
