@@ -95,6 +95,7 @@ public class GamepadController {
         runSSBucket();
         runSSIndicators();
         runSSRocketLauncher();
+        runSSClimber();
       }
 
     /**
@@ -260,7 +261,15 @@ public class GamepadController {
         }
     }
 
-
+    public void runSSClimber() {
+        if (gp1GetRightBumperPress() && gp1GetStart()) {
+            if(ssClimber.climberMotorState != SSClimber.CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION) {
+                ssClimber.runClimberMotorDown();
+            } else {
+                ssClimber.runClimberMotorUp();
+            }
+        }
+    }
 
 
         //*********** KEY PAD MODIFIERS BELOW ***********
