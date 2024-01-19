@@ -92,7 +92,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
         telemetry.addData("Selected Starting Position", GameField.startPosition);
 
         // Initiate Camera on Init.
-        visionTfodFront.initTfod(visionModelAssetFile);
+        visionTfodFront.initTfod();
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -326,25 +326,25 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
             if(gamepad1.x){
                 GameField.startPosition = GameField.START_POSITION.BLUE_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
-                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET_BLUE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.y){
                 GameField.startPosition = GameField.START_POSITION.BLUE_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
-                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET_BLUE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.b){
                 GameField.startPosition = GameField.START_POSITION.RED_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
-                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET_RED;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.a){
                 GameField.startPosition = GameField.START_POSITION.RED_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
-                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET_RED;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             telemetry.update();

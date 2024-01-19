@@ -184,6 +184,7 @@ public class SSTeleOpMode extends LinearOpMode {
             ssRocketLauncher.printDebugMessages();
             //visionAprilTagFront.printdebugMessages();
             ssIndicators.printDebugMessages();
+            ssClimber.printDebugMessages();
         }
         telemetry.update();
     }
