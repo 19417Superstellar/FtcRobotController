@@ -25,18 +25,13 @@ public class VisionTfod {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
-
-    public static final String TFOD_MODEL_ASSET_RED = "redmodel_20240116_174429.tflite";
-    public static final String TFOD_MODEL_ASSET_BLUE = "bluemodel_20240116_174443.tflite";
-
+    public static final String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
-    private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
+    public static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
-    private static final String[] LABELS = {
-            "BlueTower",
-            "RedTower"
+    public static final String[] LABELS = {
+            "Pixel",
     };
 
     //Vision parameters
@@ -56,7 +51,7 @@ public class VisionTfod {
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
-    public void initTfod(String modelAssetName) {
+    public void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
@@ -66,16 +61,16 @@ public class VisionTfod {
                 // choose one of the following:
                 //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
                 //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                .setModelAssetName(modelAssetName)
+                //.setModelAssetName(TFOD_MODEL_ASSET)
                 //.setModelFileName(TFOD_MODEL_FILE)
 
                 // The following default settings are available to un-comment and edit as needed to
                 // set parameters for custom models.
-                .setModelLabels(LABELS)
-                .setIsModelTensorFlow2(true)
+                //.setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
                 //.setIsModelQuantized(true)
-                .setModelInputSize(300)
-                .setModelAspectRatio(16.0 / 9.0)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
 
                 .build();
 
@@ -146,7 +141,7 @@ public class VisionTfod {
             if (GameField.opModeRunning == GameField.OP_MODE_RUNNING.SUPERSTELLAR_AUTONOMOUS) {
                 if (GameField.startPosition == GameField.START_POSITION.RED_LEFT ||
                         GameField.startPosition == GameField.START_POSITION.BLUE_LEFT) {
-                    if (recognition.getLabel() == "BlueTower" || recognition.getLabel() == "RedTower" ) {
+                    if (recognition.getLabel() == "Pixel") {
                         if (x < 200) {
                             identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
                         } else {
@@ -154,7 +149,7 @@ public class VisionTfod {
                         }
                     }
                 } else { //RED_RIGHT or BLUE_RIGHT
-                    if (recognition.getLabel() == "BlueTower" || recognition.getLabel() == "RedTower" ) {
+                    if (recognition.getLabel() == "Pixel") {
                         if (x < 350) {
                             identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.MIDDLE;
                         } else {

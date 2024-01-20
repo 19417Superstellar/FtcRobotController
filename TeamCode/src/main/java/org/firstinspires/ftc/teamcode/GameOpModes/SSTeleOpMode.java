@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.SSRocketLauncher;
 /**
  * Ultimate Goal TeleOp mode <BR>
  *
- * This code defines the TeleOp mode is done by Hazmat Robot for Freight Frenzy<BR>
+ * This code defines the TeleOp mode is done by Superstellar for CenterStage<BR>
  *
  */
 @TeleOp(name = "SS TeleOp", group = "00-Teleop")
