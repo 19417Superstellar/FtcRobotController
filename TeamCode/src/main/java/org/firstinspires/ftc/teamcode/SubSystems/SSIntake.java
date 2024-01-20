@@ -43,7 +43,7 @@ public class SSIntake {
 
     public SSINTAKE_MOTOR_STATE ssIntakeMotorState = SSINTAKE_MOTOR_STATE.STOPPED;
 
-    public double ssIntakeMotorPower = 1.0;//0.9;
+    public double ssIntakeMotorPower = 0.85;//0.9;
     public Telemetry telemetry;
 
     public SSIntake(HardwareMap hardwareMap, Telemetry telemetry) {
