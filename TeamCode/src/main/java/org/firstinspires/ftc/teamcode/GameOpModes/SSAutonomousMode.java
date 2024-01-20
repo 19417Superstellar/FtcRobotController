@@ -73,6 +73,8 @@ public class SSAutonomousMode extends LinearOpMode {
     public ElapsedTime gameTimer = new ElapsedTime(MILLISECONDS);
     public ElapsedTime startTimer = new ElapsedTime(MILLISECONDS);
 
+    public String visionModelAssetFile;
+
     @Override
     public void runOpMode() throws InterruptedException {
         GameField.debugLevel = GameField.DEBUG_LEVEL.MAXIMUM;
@@ -304,21 +306,25 @@ public class SSAutonomousMode extends LinearOpMode {
             if(gamepad1.x){
                 GameField.startPosition = GameField.START_POSITION.BLUE_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.y){
                 GameField.startPosition = GameField.START_POSITION.BLUE_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.BLUE_ALLIANCE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.b){
                 GameField.startPosition = GameField.START_POSITION.RED_LEFT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             if(gamepad1.a){
                 GameField.startPosition = GameField.START_POSITION.RED_RIGHT;
                 GameField.playingAlliance = GameField.PLAYING_ALLIANCE.RED_ALLIANCE;
+                visionModelAssetFile = VisionTfod.TFOD_MODEL_ASSET;
                 break;
             }
             telemetry.update();

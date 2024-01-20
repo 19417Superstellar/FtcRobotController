@@ -14,7 +14,8 @@ control hub
 expansion hub
 	Motors
 		0 leftBack
-		2 elevator_motor_left
+		1 elevator_motor_left
+		2 climber_motor
 		3 leftFront
 	Servos
 	    0 intake_latch
