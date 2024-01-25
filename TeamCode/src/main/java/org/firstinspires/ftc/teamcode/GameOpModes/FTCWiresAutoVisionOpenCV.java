@@ -237,7 +237,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 //intakeStack = new Pose2d(52, 19,Math.toRadians(90));
                 midwayPose2 = new Pose2d(51, -64, Math.toRadians(180));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(50, -84, Math.toRadians(90));
+                parkPose = new Pose2d(50, -84, Math.toRadians(180));
                 break;
         }
 
@@ -278,6 +278,11 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         .strafeToLinearHeading(midwayPose1a.position, midwayPose1a.heading)
                         .build());
 
+       /* Actions.runBlocking(
+                drive.actionBuilder(drive.pose)
+                        .strafeToLinearHeading(midwayPose1b.position, midwayPose1b.heading)
+                        .build()); */
+
         Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
                         .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
@@ -294,7 +299,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
 
 
         //TODO : Code to drop Pixel on Backdrop
-        ssElevator.moveElevatorLevelHigh();
+        ssElevator.moveElevatorLevelMid();
         safeWaitSeconds(1);
         ssBucket.setBucketDropPosition();
         safeWaitSeconds(1);
