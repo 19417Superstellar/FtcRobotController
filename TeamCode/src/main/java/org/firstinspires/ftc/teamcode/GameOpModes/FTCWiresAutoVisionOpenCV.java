@@ -71,6 +71,8 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
     public SSElevator ssElevator;
     public SSBucket ssBucket;
 
+    private double timeToWait;
+
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
     //Vision parameters
@@ -94,6 +96,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //configureWaitTime();
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();
@@ -113,6 +116,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
         //waitForStart();
+
 
         while (!isStopRequested() && !opModeIsActive()) {
             telemetry.addData("Selected Starting Position", startPosition);
@@ -137,6 +141,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
         Pose2d midwayPose1 = new Pose2d(0,0,0);
         Pose2d midwayPose1a = new Pose2d(0,0,0);
         Pose2d midwayPose1b = new Pose2d(0,0,0);
+        Pose2d midwayPose1c = new Pose2d(0,0,0);
         Pose2d intakeStack = new Pose2d(0,0,0);
         Pose2d midwayPose2 = new Pose2d(0,0,0);
         Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
@@ -165,7 +170,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         break;
                 }
                 //midwayPose1 = new Pose2d(14, 13, Math.toRadians(-45));
-                waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
+                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(-27, -10, Math.toRadians(-90));
                 break;
 
@@ -186,7 +191,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         break;
                 }
                 //midwayPose1 = new Pose2d(14, -13, Math.toRadians(45));
-                waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
+                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(6, 3, Math.toRadians(90));
                 //triangle area park = -40 -5.5 90
                 break;
@@ -195,31 +200,33 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(5, -4, Math.toRadians(-47));
-                        dropYellowPixelPose = new Pose2d(36, 33, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(22.5, 5.5, Math.toRadians(52.5));
+                        dropYellowPixelPose = new Pose2d(23, 88, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(-5, -8.5, Math.toRadians(-90));
-                        dropYellowPixelPose = new Pose2d(44, 33, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(25, 88, Math.toRadians(-90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(4, -7, Math.toRadians(-68));
-                        dropYellowPixelPose = new Pose2d(50, 33, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(21.5, 0, Math.toRadians(-33));
+                        dropYellowPixelPose = new Pose2d(29, 88, Math.toRadians(-90));
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, -8, Math.toRadians(0));
-                midwayPose1a = new Pose2d(5, -11, Math.toRadians(-90));
+                midwayPose1a = new Pose2d(11, -16, Math.toRadians(0));
+                midwayPose1b = new Pose2d(50, -16, Math.toRadians(-90));
+                //midwayPose1c = new Pose2d(54, 0, Math.toRadians(-90));
                 //intakeStack = new Pose2d(52, -19,Math.toRadians(-90));
-                //midwayPose2 = new Pose2d(12, 26.5, Math.toRadians(-90));
-                waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(50, 84, Math.toRadians(-90));
+                midwayPose2 = new Pose2d(54, 68, Math.toRadians(-90));
+                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
+                parkPose = new Pose2d(46, 96, Math.toRadians(-90));
                 break;
 
             case RED_LEFT:
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(13, 2, Math.toRadians(16.5));
+                        dropPurplePixelPose = new Pose2d(13, 4, Math.toRadians(16.5));
                         dropYellowPixelPose = new Pose2d(-26.5, -44, Math.toRadians(0));
                         break;
                     case MIDDLE:
@@ -236,7 +243,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 midwayPose1b = new Pose2d(51, -13, Math.toRadians(180));
                 //intakeStack = new Pose2d(52, 19,Math.toRadians(90));
                 midwayPose2 = new Pose2d(51, -64, Math.toRadians(180));
-                waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
+                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
                 parkPose = new Pose2d(50, -84, Math.toRadians(180));
                 break;
         }
@@ -256,27 +263,20 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
         //Move robot to midwayPose2
 
         //For Blue Right and Red Left, intake pixel from stack
-       /* if (startPosition == START_POSITION.BLUE_RIGHT ||
+        if (startPosition == START_POSITION.BLUE_RIGHT ||
                 startPosition == START_POSITION.RED_LEFT) {
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
                             .strafeToLinearHeading(midwayPose1a.position, midwayPose1a.heading)
                             .build());
-
-            //TODO : Code to intake pixel from stack
             safeWaitSeconds(1);
-
-            //Move robot to midwayPose2 and to dropYellowPixelPose
             Actions.runBlocking(
                     drive.actionBuilder(drive.pose)
-                            .strafeToLinearHeading(midwayPose1a.position, midwayPose1a.heading)
+                            .strafeToLinearHeading(midwayPose1b.position, midwayPose1b.heading)
                             .build());
-        } */
 
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        .strafeToLinearHeading(midwayPose1a.position, midwayPose1a.heading)
-                        .build());
+        }
+
 
        /* Actions.runBlocking(
                 drive.actionBuilder(drive.pose)
@@ -304,8 +304,9 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
         ssBucket.setBucketDropPosition();
         safeWaitSeconds(1);
         ssBucket.setBucketPickPosition();
-        safeWaitSeconds(0.5);
+        safeWaitSeconds(1);
         ssElevator.moveElevatorLevelLow();
+        safeWaitSeconds(1);
 
         //Move robot to park in Backstage
         Actions.runBlocking(
@@ -313,6 +314,8 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         .strafeToLinearHeading(parkPose.position, parkPose.heading)
                         //.splineToLinearHeading(parkPose,0)
                         .build());
+        safeWaitSeconds(2);
+
     }
 
 
@@ -350,6 +353,44 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
             telemetry.update();
         }
         telemetry.clearAll();
+    }
+
+    public void configureWaitTime() {
+
+        while (!isStopRequested()) {
+
+            telemetry.clearAll();
+            telemetry.addData("Configure wait time (in seconds) using DPad on gamepad 1:", "");
+            telemetry.addData("Press DPad UP to increase", "");
+            telemetry.addData("Press DPad DOWN to decrease", "");
+            telemetry.addData("Press DPad LEFT to exit", "(X / ▢)");
+            telemetry.addData("---------------------------------------", "");
+            telemetry.addData("Wait Time: ", timeToWait);
+
+            telemetry.update();
+
+            if (gamepad1.dpad_up) {
+                timeToWait = timeToWait + 2.0;
+                if (timeToWait > 15.0) {
+                    timeToWait = 15.0;
+                }
+            }
+
+            if (gamepad1.dpad_down) {
+                timeToWait = timeToWait - 2.0;
+                if (timeToWait < 0.0) {
+                    timeToWait = 0.0;
+                }
+            }
+
+            if (gamepad1.dpad_left) {
+                break;
+            }
+
+            // Prevents accidental button presses or rapid fire button presses
+            // (debounce)
+            safeWaitSeconds(0.2);
+        }
     }
 
     //method to wait safely with stop button working if needed. Use this instead of sleep
