@@ -19,8 +19,10 @@ expansion hub
 		3 leftFront
 	Servos
 	    0 intake_latch
+	    1 launcher_servo
+
+	    \
 		2 bucket_servo
-		5 launcher_servo
 	I2C Bus 1
 		0 bottomSensor
     I2C Bus 3

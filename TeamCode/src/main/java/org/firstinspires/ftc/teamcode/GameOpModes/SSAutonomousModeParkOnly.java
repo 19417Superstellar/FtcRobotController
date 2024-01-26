@@ -145,7 +145,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
         //moveBeyondTrussPose = new Pose2d(15,0,0);
 
         switch (GameField.startPosition) {
-            case BLUE_LEFT:
+            case BLUE_RIGHT:
                 initPose = new Pose2d(0, 0, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                /* switch(visionTfodFront.identifiedSpikeMarkLocation){
@@ -162,9 +162,9 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                         dropYellowPixelPose = new Pose2d(32, 38, Math.toRadians(-90));
                         break;
                 } */
-                midwayPose1 = new Pose2d(2, 29, Math.toRadians(90));
+                midwayPose1 = new Pose2d(0, -4.5, Math.toRadians(0));
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(4, 35, Math.toRadians(-90));
+                parkPose = new Pose2d(91, -4.5, Math.toRadians(0));
                 break;
 
             case RED_LEFT:
@@ -189,7 +189,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                 parkPose = new Pose2d(88, 6, Math.toRadians(0));
                 break;
 
-            case BLUE_RIGHT: //bad only ever bad forever and ever and ever
+            case BLUE_LEFT: //bad only ever bad forever and ever and ever
                 initPose = new Pose2d(0, 0, Math.toRadians(0));
                 drive = new MecanumDrive(hardwareMap, initPose);
                 /*switch(visionTfodFront.identifiedSpikeMarkLocation){
@@ -206,12 +206,12 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                         dropYellowPixelPose = new Pose2d(91, -39, Math.toRadians(86));
                         break;
                 } */
-                midwayPose1 = new Pose2d(0, -1, Math.toRadians(0));
-                midwayPose1a = new Pose2d(18, -18, Math.toRadians(-90));
+                midwayPose1 = new Pose2d(0, -4, Math.toRadians(0));
+                /*midwayPose1a = new Pose2d(18, -18, Math.toRadians(-90));
                 intakeStack = new Pose2d(52, -19, Math.toRadians(-90));
-                midwayPose2 = new Pose2d(52, 62, Math.toRadians(-90));
+                midwayPose2 = new Pose2d(52, 62, Math.toRadians(-90)); */
                 waitSecondsBeforeDrop = 2; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(85, -11, Math.toRadians(0));
+                parkPose = new Pose2d(37, -4.5, Math.toRadians(0));
                 break;
 
             case RED_RIGHT:
@@ -231,7 +231,7 @@ public class SSAutonomousModeParkOnly extends LinearOpMode {
                         dropYellowPixelPose = new Pose2d(30, -46, Math.toRadians(93));
                         break; b
                 } */
-                midwayPose1 = new Pose2d(2, -27, Math.toRadians(90));
+                midwayPose1 = new Pose2d(2, -27, Math.toRadians(0));
                 midwayPose1a = new Pose2d(18, 18, Math.toRadians(90));
                 intakeStack = new Pose2d(52, 19, Math.toRadians(90));
                 midwayPose2 = new Pose2d(52, -62, Math.toRadians(90));

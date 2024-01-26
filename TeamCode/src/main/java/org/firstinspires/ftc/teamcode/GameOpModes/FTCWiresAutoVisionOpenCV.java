@@ -96,7 +96,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        //configureWaitTime();
+        configureWaitTime();
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();
@@ -157,46 +157,48 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(0, -4, Math.toRadians(-36));
-                        dropYellowPixelPose = new Pose2d(-11.5, -10, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(20, 0, Math.toRadians(41));
+                        dropYellowPixelPose = new Pose2d(17, 33, Math.toRadians(-90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(0, -9.5, Math.toRadians(-90));
-                        dropYellowPixelPose = new Pose2d(-5, -10,  Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(23, 33,  Math.toRadians(-90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(3.5, -5, Math.toRadians(-62));
-                        dropYellowPixelPose = new Pose2d(3, -10, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(20, -5, Math.toRadians(-45));
+                        dropYellowPixelPose = new Pose2d(30, 33, Math.toRadians(-90));
                         break;
                 }
-                //midwayPose1 = new Pose2d(14, 13, Math.toRadians(-45));
+                midwayPose1 = new Pose2d(14, 0, Math.toRadians(0));
+                midwayPose2 = new Pose2d(12.5, 0, Math.toRadians(-90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(-27, -10, Math.toRadians(-90));
+                parkPose = new Pose2d(47, 37, Math.toRadians(-90));
                 break;
 
             case RED_RIGHT:
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(3.5, -7.5, Math.toRadians(-65));
-                        dropYellowPixelPose = new Pose2d(-3, -13, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(21, 6, Math.toRadians(38));
+                        dropYellowPixelPose = new Pose2d(31, -36, Math.toRadians(90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(3, -10, Math.toRadians(-90));
-                        dropYellowPixelPose = new Pose2d(-8, -13,  Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(27, 3, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(24, -36,  Math.toRadians(90));
                         break;
                     case RIGHT:
-                        dropPurplePixelPose = new Pose2d(7, -10, Math.toRadians(-67));
-                        dropYellowPixelPose = new Pose2d(-15, -13, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(-33));
+                        dropYellowPixelPose = new Pose2d(18, -36, Math.toRadians(90));
                         break;
                 }
-                //midwayPose1 = new Pose2d(14, -13, Math.toRadians(45));
+                midwayPose1 = new Pose2d(15, 1, Math.toRadians(0));
+                midwayPose2 = new Pose2d(15, 0, Math.toRadians(90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(6, 3, Math.toRadians(90));
+                parkPose = new Pose2d(50, -37, Math.toRadians(90));
                 //triangle area park = -40 -5.5 90
                 break;
 
-            case BLUE_RIGHT:
+            case BLUE_RIGHT: // FINISHED
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
@@ -275,6 +277,21 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                             .strafeToLinearHeading(midwayPose1b.position, midwayPose1b.heading)
                             .build());
 
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
+                            .build());
+
+        } else {
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            .strafeToLinearHeading(midwayPose1.position, midwayPose1.heading)
+                            .build());
+
+            Actions.runBlocking(
+                    drive.actionBuilder(drive.pose)
+                            .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
+                            .build());
         }
 
 
@@ -283,10 +300,6 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         .strafeToLinearHeading(midwayPose1b.position, midwayPose1b.heading)
                         .build()); */
 
-        Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
-                        .build());
 
         safeWaitSeconds(waitSecondsBeforeDrop);
 
@@ -306,7 +319,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
         ssBucket.setBucketPickPosition();
         safeWaitSeconds(1);
         ssElevator.moveElevatorLevelLow();
-        safeWaitSeconds(1);
+        safeWaitSeconds(2);
 
         //Move robot to park in Backstage
         Actions.runBlocking(
