@@ -229,24 +229,24 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
                         dropPurplePixelPose = new Pose2d(19, 0, Math.toRadians(37));
-                        dropYellowPixelPose = new Pose2d(37.5, -90, Math.toRadians(90));
+                        dropYellowPixelPose = new Pose2d(41, -92, Math.toRadians(90));
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(28, 1.5, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(28, -90, Math.toRadians(90));
+                        dropPurplePixelPose = new Pose2d(24, 1.5, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(36, -92, Math.toRadians(90));
                         break;
                     case RIGHT:
                         dropPurplePixelPose = new Pose2d(22, -5, Math.toRadians(-43));
-                        dropYellowPixelPose = new Pose2d(22, -90, Math.toRadians(90));
+                        dropYellowPixelPose = new Pose2d(31 , -92, Math.toRadians(90));
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, 8, Math.toRadians(0));
-                midwayPose1a = new Pose2d(12, 0, Math.toRadians(0));
-                midwayPose1b = new Pose2d(57, 20, Math.toRadians(90));
+                midwayPose1a = new Pose2d(10, 22, Math.toRadians(0));
+                midwayPose1b = new Pose2d(53, 22, Math.toRadians(0));
                 //intakeStack = new Pose2d(52, 19,Math.toRadians(90));
-                midwayPose2 = new Pose2d(57, -71, Math.toRadians(90));
+                midwayPose2 = new Pose2d(48, -68, Math.toRadians(90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(53, -90, Math.toRadians(90));
+                parkPose = new Pose2d(48, -90, Math.toRadians(90));
                 break;
         }
 
