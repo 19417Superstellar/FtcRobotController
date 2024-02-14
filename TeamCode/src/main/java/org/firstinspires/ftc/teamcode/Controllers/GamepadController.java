@@ -232,6 +232,7 @@ public class GamepadController {
                     ssBucket.setBucketPickPosition();
                 }
             }
+
         }
 
     }
@@ -263,11 +264,13 @@ public class GamepadController {
 
     public void runSSClimber() {
         if (gp1GetRightBumperPress()) {
+
             if(ssClimber.climberMotorState != SSClimber.CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION) {
                 ssClimber.runClimberMotorUp();
             } else {
                 ssClimber.runClimberMotorDown();
             }
+
         }
     }
 

@@ -158,15 +158,15 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
                         dropPurplePixelPose = new Pose2d(20, 0, Math.toRadians(41));
-                        dropYellowPixelPose = new Pose2d(17, 33, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(21, 27, Math.toRadians(-90));
                         break;
                     case MIDDLE:
                         dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(23, 33,  Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(26, 27,  Math.toRadians(-90));
                         break;
                     case RIGHT:
                         dropPurplePixelPose = new Pose2d(20, -5, Math.toRadians(-45));
-                        dropYellowPixelPose = new Pose2d(30, 33, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(30, 27, Math.toRadians(-90));
                         break;
                 }
                 midwayPose1 = new Pose2d(14, 0, Math.toRadians(0));
@@ -202,16 +202,16 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(22.5, 5.5, Math.toRadians(52.5));
-                        dropYellowPixelPose = new Pose2d(23, 88, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(22.5, 3.5, Math.toRadians(52.5));
+                        dropYellowPixelPose = new Pose2d(25, 87, Math.toRadians(-90));
                         break;
                     case MIDDLE:
                         dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(25, 88, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(27, 87, Math.toRadians(-90));
                         break;
                     case RIGHT:
                         dropPurplePixelPose = new Pose2d(21.5, 0, Math.toRadians(-33));
-                        dropYellowPixelPose = new Pose2d(29, 88, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(29, 87, Math.toRadians(-90));
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, -8, Math.toRadians(0));
