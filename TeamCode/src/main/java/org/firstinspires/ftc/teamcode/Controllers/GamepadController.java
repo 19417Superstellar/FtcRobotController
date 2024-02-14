@@ -147,13 +147,13 @@ public class GamepadController {
             }
         }
 
-        if ((gp2GetRightTriggerPress())) {
-            if(!(ssIntake.bottomSensorDetectsIntake() && ssIntake.topSensorDetectsIntake())) {
-                if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
-                    ssIntake.startForwardSSIntakeMotor();
-                } else {
-                    ssIntake.stopSSIntakeMotor();
-                }
+        if ((gp2GetRightTriggerPress()) &&
+                !(ssIntake.bottomSensorDetectsIntake() && ssIntake.topSensorDetectsIntake())) {
+
+            if ((ssIntake.getSsIntakeMotorState() != SSIntake.SSINTAKE_MOTOR_STATE.RUNNING)) {
+                ssIntake.startForwardSSIntakeMotor();
+            } else {
+                ssIntake.stopSSIntakeMotor();
             }
         }
 
