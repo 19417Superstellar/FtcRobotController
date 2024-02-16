@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSClimber {
     public DcMotorEx climberMotor;
 
-    public final int CLIMBER_UP_POSITION_COUNT = 3000;// <-- temp value
+    public final int CLIMBER_UP_POSITION_COUNT = 3400;// <-- temp value | math number 3562.5
 
     public final int CLIMBER_DOWN_POSITION_COUNT = 300;
 
@@ -75,7 +75,7 @@ public class SSClimber {
     }
 
     public void initClimber() {
-        climberMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        climberMotor.setDirection(DcMotorEx.Direction.REVERSE);
         climberMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
        // runClimberMotorDown();
