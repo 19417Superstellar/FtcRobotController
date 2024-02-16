@@ -263,7 +263,7 @@ public class GamepadController {
     }
 
     public void runSSClimber() {
-        if (gp1GetRightBumperPress()) {
+        if (gp2GetLeftBumperPress()) {
 
             if(ssClimber.climberMotorState != SSClimber.CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION) {
                 ssClimber.runClimberMotorUp();
