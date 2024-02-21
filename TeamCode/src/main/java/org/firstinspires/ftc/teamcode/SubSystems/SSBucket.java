@@ -57,7 +57,7 @@ public class SSBucket {
     }
 
     public void setBucketPickPosition() {
-        bucketServo.setPosition(0.00);
+        bucketServo.setPosition(0.03);
         bucketServoState = BUCKET_SERVO_STATE.BUCKET_PICK;
     }
 

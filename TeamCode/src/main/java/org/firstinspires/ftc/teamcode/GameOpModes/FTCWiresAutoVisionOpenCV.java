@@ -202,26 +202,28 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                 drive = new MecanumDrive(hardwareMap, initPose);
                 switch(identifiedSpikeMarkLocation){
                     case LEFT:
-                        dropPurplePixelPose = new Pose2d(22.5, 3.5, Math.toRadians(52.5));
-                        dropYellowPixelPose = new Pose2d(25, 87, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(22, 5.5 , Math.toRadians(54));
+                        dropYellowPixelPose = new Pose2d(19.5, 92, Math.toRadians(-90));
+
                         break;
                     case MIDDLE:
-                        dropPurplePixelPose = new Pose2d(23, 0, Math.toRadians(0));
-                        dropYellowPixelPose = new Pose2d(27, 87, Math.toRadians(-90));
+                        dropPurplePixelPose = new Pose2d(25, 0, Math.toRadians(0));
+                        dropYellowPixelPose = new Pose2d(26.5, 92, Math.toRadians(-90));
+
                         break;
                     case RIGHT:
                         dropPurplePixelPose = new Pose2d(21.5, 0, Math.toRadians(-33));
-                        dropYellowPixelPose = new Pose2d(29, 87, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(29, 92, Math.toRadians(-90));
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, -8, Math.toRadians(0));
                 midwayPose1a = new Pose2d(11, -16, Math.toRadians(0));
-                midwayPose1b = new Pose2d(47, -16, Math.toRadians(0));
-                midwayPose1c = new Pose2d(47, -16, Math.toRadians(-90));
+                midwayPose1b = new Pose2d(51, -16, Math.toRadians(0));
+                midwayPose1c = new Pose2d(51, -16, Math.toRadians(-90));
                 //intakeStack = new Pose2d(52, -19,Math.toRadians(-90));1` v
-                midwayPose2 = new Pose2d(45, 68, Math.toRadians(-90));
-                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(46, 96, Math.toRadians(-90));
+                midwayPose2 = new Pose2d(55, 68, Math.toRadians(-90));
+                waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for allian  ce partner to move from board
+                parkPose = new Pose2d(49, 96, Math.toRadians(-90));
                 break;
 
             case RED_LEFT:
@@ -240,7 +242,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         dropYellowPixelPose = new Pose2d(29 , -91, Math.toRadians(90));
                         break;
                 }
-                //midwayPose1 = new Pose2d(8, 8, Math.toRadians(0))
+                //midwayPose1 = new Pose2d(8, 8, Math.toRadians(0));
                 midwayPose1a = new Pose2d(10, 20, Math.toRadians(0));
                 midwayPose1b = new Pose2d(50, 20, Math.toRadians(0));
                 midwayPose1c = new Pose2d(50, 20, Math.toRadians(90));
