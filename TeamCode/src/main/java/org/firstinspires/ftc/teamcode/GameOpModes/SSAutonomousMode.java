@@ -115,8 +115,6 @@ public class SSAutonomousMode extends LinearOpMode {
         if (opModeIsActive() && !isStopRequested()) {
             gameTimer.reset();
             startTimer.reset();
-            //Turn Lights Green
-            ssIndicators.setLightToGreen();
 
             //Build parking trajectory based on last detected target by vision
             runAutonoumousMode();

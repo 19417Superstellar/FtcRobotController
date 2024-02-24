@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -13,36 +14,68 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
 public class SSIndicators {
-    public RevBlinkinLedDriver light;
+    //public RevBlinkinLedDriver light;
+    public Servo colorWheel;
     public Telemetry telemetry;
 
     public enum SSINDICATORS_LIGHT_COLOR {
         PURPLE,
         GREEN,
         YELLOW,
-        RED,
         WHITE
     }
 
-    public enum SSINDICATORS_LIGHT_STATE {
+   /* public enum SSINDICATORS_LIGHT_STATE {
         ON,
         OFF
-    }
+    } */
 
-    public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
+    //public SSINDICATORS_LIGHT_STATE SSIndicatorLightState = SSINDICATORS_LIGHT_STATE.OFF;
     public SSINDICATORS_LIGHT_COLOR SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.WHITE;
+
+    public static double WHITE_POSITION = 0;
+    public static double GREEN_POSITION = 0.5;
+    public static double PURPLE_POSITION = 0.75;
+    public static double YELLOW_POSITION = 0.25;
 
     public SSIndicators(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
-        light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
+        //light = hardwareMap.get(RevBlinkinLedDriver.class, "indicator_light");
+        colorWheel = hardwareMap.get(Servo.class, "color_wheel");
         initIndicators();
     }
 
     public void initIndicators(){
-        turnLightOn();
-        light.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        //light.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        setColorToWhite();
+        colorWheel.setDirection(Servo.Direction.FORWARD);
     }
 
+    public SSINDICATORS_LIGHT_COLOR getWheelColor(){
+        return SSIndicatorLightColor;
+    }
+
+    public void setColorToGreen() {
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.GREEN;
+        colorWheel.setPosition(GREEN_POSITION);
+    }
+
+    public void setColorToPurple() {
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.PURPLE;
+        colorWheel.setPosition(PURPLE_POSITION);
+    }
+
+    public void setColorToYellow() {
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.YELLOW;
+        colorWheel.setPosition(YELLOW_POSITION);
+    }
+
+    public void setColorToWhite() {
+        SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.WHITE;
+        colorWheel.setPosition(WHITE_POSITION);
+    }
+
+    /*
     public void setLightToGreen() {
         if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
             turnLightOn();
@@ -51,6 +84,7 @@ public class SSIndicators {
         SSIndicatorLightColor = SSINDICATORS_LIGHT_COLOR.GREEN;
 
     }
+
 
     public void setLightToRed() {
         if(SSIndicatorLightState == SSINDICATORS_LIGHT_STATE.OFF) {
@@ -105,11 +139,16 @@ public class SSIndicators {
     public SSINDICATORS_LIGHT_STATE getLightState() {
         return SSIndicatorLightState;
     }
+
+
+    */
     public void printDebugMessages(){
-        telemetry.addData("Current Color: ", getLightColor());
-        telemetry.addData("LED on/off", getLightState());
+        telemetry.addData("Current Color: ", getWheelColor());
+        //telemetry.addData("LED on/off", getLightState());
         telemetry.addLine("=================");
     }
+
+
 
 }
 

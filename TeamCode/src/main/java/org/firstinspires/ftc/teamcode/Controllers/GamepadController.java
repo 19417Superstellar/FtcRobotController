@@ -246,31 +246,30 @@ public class GamepadController {
 
     public void runSSIndicators() {
         if (gp1GetButtonAPress()) {
-            ssIndicators.setLightToGreen();
+            ssIndicators.setColorToGreen();
         }
 
         if (gp1GetButtonBPress()) {
-            ssIndicators.setLightToWhite();
+            ssIndicators.setColorToWhite();
         }
 
         if (gp1GetButtonXPress()) {
-            ssIndicators.setLightToPurple();
+            ssIndicators.setColorToPurple();
         }
 
         if (gp1GetButtonYPress()) {
-            ssIndicators.setLightToYellow();
+            ssIndicators.setColorToYellow();
         }
     }
 
     public void runSSClimber() {
-        if (gp2GetLeftBumperPress()) {
+        if (gp1GetRightBumperPress()) {
 
             if(ssClimber.climberMotorState != SSClimber.CLIMBER_MOTOR_STATE.CLIMBER_UP_POSITION) {
                 ssClimber.runClimberMotorUp();
             } else {
                 ssClimber.runClimberMotorDown();
             }
-
         }
     }
 

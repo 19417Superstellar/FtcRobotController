@@ -271,7 +271,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
                             .build());
 
             //TODO : Code to intake pixel from stack
-            safeWaitSeconds(1);
+            safeWaitSeconds(1.5);
 
             //Move robot to midwayPose2 and to dropYellowPixelPose
             Actions.runBlocking(
@@ -292,7 +292,7 @@ public class SSAutonomousModeRev1 extends LinearOpMode {
 
         //TODO : Code to drop Pixel on Backdrop
         safeWaitSeconds(1);
-        ssElevator.moveElevatorLevelHigh();
+        ssElevator.moveElevatorLevelMid();
         safeWaitSeconds(2);
         ssBucket.setBucketDropPosition();
         safeWaitSeconds(2);
