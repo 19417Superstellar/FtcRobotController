@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class SSClimber {
     public DcMotorEx climberMotor;
 
-    public final int CLIMBER_UP_POSITION_COUNT = 3400;// <-- temp value | math number 3562.5
+    public final int CLIMBER_UP_POSITION_COUNT = 2500;// <-- temp value | math number 3562.5
 
     public final int CLIMBER_DOWN_POSITION_COUNT = 300;
 
