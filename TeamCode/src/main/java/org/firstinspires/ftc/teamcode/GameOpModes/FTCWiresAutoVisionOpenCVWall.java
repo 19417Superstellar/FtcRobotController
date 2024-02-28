@@ -60,8 +60,8 @@ import org.opencv.imgproc.Imgproc;
 /**
  * FTC WIRES Autonomous Example for only vision detection using tensorflow and park
  */
-@Autonomous(name = "CV Pick and Drop", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
-public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
+@Autonomous(name = "CV Pick and Drop Wall-Side", group = "00-Autonomous", preselectTeleOp = "SS TeleOp")
+public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
 
     public static String TEAM_NAME = "Superstellar"; //TODO: Enter team Name
     public static int TEAM_NUMBER = 19417; //TODO: Enter team Number
@@ -217,11 +217,11 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, -8, Math.toRadians(0));
-                midwayPose1a = new Pose2d(11, -16, Math.toRadians(0));
-                midwayPose1b = new Pose2d(51, -16, Math.toRadians(0));
-                midwayPose1c = new Pose2d(51, -16, Math.toRadians(-90));
+                midwayPose1a = new Pose2d(24, 3, Math.toRadians(0));
+                midwayPose1b = new Pose2d(12, 3, Math.toRadians(-90));
+                midwayPose1c = new Pose2d(1, 3, Math.toRadians(-90));
                 //intakeStack = new Pose2d(52, -19,Math.toRadians(-90));1` v
-                midwayPose2 = new Pose2d(55, 68, Math.toRadians(-90));
+                midwayPose2 = new Pose2d(5, 63, Math.toRadians(-90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for allian  ce partner to move from board
                 parkPose = new Pose2d(49, 96, Math.toRadians(-90));
                 break;
