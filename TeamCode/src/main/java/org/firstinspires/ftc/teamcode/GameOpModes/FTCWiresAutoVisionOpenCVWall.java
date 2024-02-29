@@ -172,7 +172,7 @@ public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
                 midwayPose1 = new Pose2d(14, 0, Math.toRadians(0));
                 midwayPose2 = new Pose2d(12.5, 0, Math.toRadians(-90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(47, 37, Math.toRadians(-90));
+                parkPose = new Pose2d(4, 37, Math.toRadians(-90));
                 break;
 
             case RED_RIGHT:
@@ -194,7 +194,7 @@ public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
                 midwayPose1 = new Pose2d(15, 1, Math.toRadians(0));
                 midwayPose2 = new Pose2d(15, 0, Math.toRadians(90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(50, -37, Math.toRadians(90));
+                parkPose = new Pose2d(4, -37, Math.toRadians(90));
                 //triangle area park = -40 -5.5 90
                 break;
 
@@ -223,7 +223,7 @@ public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
                 //intakeStack = new Pose2d(52, -19,Math.toRadians(-90));1` v
                 midwayPose2 = new Pose2d(5, 63, Math.toRadians(-90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for allian  ce partner to move from board
-                parkPose = new Pose2d(49, 96, Math.toRadians(-90));
+                parkPose = new Pose2d(3, 96, Math.toRadians(-90));
                 break;
 
             case RED_LEFT:
@@ -243,14 +243,14 @@ public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
                         break;
                 }
                 //midwayPose1 = new Pose2d(8, 8, Math.toRadians(0));
-                midwayPose1a = new Pose2d(10, 20, Math.toRadians(0));
-                midwayPose1b = new Pose2d(50, 20, Math.toRadians(0));
-                midwayPose1c = new Pose2d(50, 20, Math.toRadians(90));
+                midwayPose1a = new Pose2d(16, -3, Math.toRadians(0));
+                midwayPose1b = new Pose2d(3, -3, Math.toRadians(0));
+                midwayPose1c = new Pose2d(3, -3, Math.toRadians(90));
 
-                 intakeStack = new Pose2d(52, 19,Math.toRadians(90));
-                midwayPose2 = new Pose2d(50, -68, Math.toRadians(90));
+                //intakeStack = new Pose2d(52, 19,Math.toRadians(90));
+                midwayPose2 = new Pose2d(2.5, -62, Math.toRadians(90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(53, -90, Math.toRadians(90));
+                parkPose = new Pose2d(2, -90, Math.toRadians(90));
                 break;
         }
 
@@ -263,12 +263,12 @@ public class FTCWiresAutoVisionOpenCVWall extends LinearOpMode {
 
         //TODO : Code to drop Purple Pixel on Spike Mark
         ssIntake.startReverseSSIntakeMotor();
-        safeWaitSeconds(1);
+        safeWaitSeconds(2);
         ssIntake.stopSSIntakeMotor();
 
         //Move robot to midwayPose2
 
-        //For Blue Right and Red Left, intake pixel from stack
+        //For Blue Right and Red Left, go under truss
         if (startPosition == START_POSITION.BLUE_RIGHT ||
                 startPosition == START_POSITION.RED_LEFT) {
             Actions.runBlocking(

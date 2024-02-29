@@ -166,13 +166,13 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
                         break;
                     case RIGHT:
                         dropPurplePixelPose = new Pose2d(20, -5, Math.toRadians(-45));
-                        dropYellowPixelPose = new Pose2d(38, 28, Math.toRadians(-90));
+                        dropYellowPixelPose = new Pose2d(37, 28, Math.toRadians(-90));
                         break;
                 }
                 midwayPose1 = new Pose2d(14, 0, Math.toRadians(0));
                 midwayPose2 = new Pose2d(12.5, 0, Math.toRadians(-90));
                 waitSecondsBeforeDrop = timeToWait; //TODO: Adjust time to wait for alliance partner to move from board
-                parkPose = new Pose2d(47, 37, Math.toRadians(-90));
+                parkPose = new Pose2d(11, 37, Math.toRadians(-90));
                 break;
 
             case RED_RIGHT:
@@ -268,7 +268,7 @@ public class FTCWiresAutoVisionOpenCV extends LinearOpMode {
 
         //Move robot to midwayPose2
 
-        //For Blue Right and Red Left, intake pixel from stack
+        //For Blue Right and Red Left go under stage door
         if (startPosition == START_POSITION.BLUE_RIGHT ||
                 startPosition == START_POSITION.RED_LEFT) {
             Actions.runBlocking(
