@@ -11,7 +11,7 @@ public class SSClimber {
 
     public final int CLIMBER_UP_POSITION_COUNT = 2700;// <-- temp value | math number 3562.5
 
-    public final int CLIMBER_DOWN_POSITION_COUNT = 300;
+    public final int CLIMBER_DOWN_POSITION_COUNT = 0;
 
     public enum CLIMBER_MOTOR_STATE {
         CLIMBER_UP_POSITION,
@@ -75,10 +75,13 @@ public class SSClimber {
     }
 
     public void initClimber() {
-        climberMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        climberMotor.setDirection(DcMotorEx.Direction.FORWARD);
         climberMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-       // runClimberMotorDown();
+        climberMotorState = CLIMBER_MOTOR_STATE.CLIMBER_DOWN_POSITION;
+        climberPositionCount = CLIMBER_DOWN_POSITION_COUNT;
+
+        //runClimberMotorDown();
     }
 
     public void runClimberMotorUp() {

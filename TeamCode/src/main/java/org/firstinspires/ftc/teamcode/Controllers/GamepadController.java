@@ -271,6 +271,14 @@ public class GamepadController {
                 ssClimber.runClimberMotorDown();
             }
         }
+
+        if (gp1GetDpad_downPress()) {
+            ssClimber.moveClimberSlightlyDown();
+        }
+
+        if (gp1GetDpad_upPress()) {
+            ssClimber.moveClimberSlightlyUp();
+        }
     }
 
 
