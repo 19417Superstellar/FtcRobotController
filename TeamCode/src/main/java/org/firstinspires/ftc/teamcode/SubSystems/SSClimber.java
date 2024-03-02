@@ -11,7 +11,7 @@ public class SSClimber {
 
     public final int CLIMBER_UP_POSITION_COUNT = 2700;// <-- temp value | math number 3562.5
 
-    public final int CLIMBER_DOWN_POSITION_COUNT = 0;
+    public final int CLIMBER_DOWN_POSITION_COUNT = 300;
 
     public enum CLIMBER_MOTOR_STATE {
         CLIMBER_UP_POSITION,
